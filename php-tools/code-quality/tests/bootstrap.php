@@ -9,4 +9,4 @@ function esc_html( string $var ): string {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/TestCase.php';
-require_once __DIR__ . '/../../prosopo-procaptcha/autoloader.php';
+require_once __DIR__ . '/../../../prosopo-procaptcha/prefixed-vendors/vendor/scoper-autoload.php';

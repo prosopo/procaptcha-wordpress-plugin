@@ -1,3 +1,0 @@
-@if($var)
--item
-@endif

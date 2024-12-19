@@ -25,7 +25,7 @@ class Statistics extends Settings_Tab {
 	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface {
 		return $factory->createModel(
 			Settings_Statistics::class,
-			function (Settings_Statistics $statistics ) use ( $captcha ) {
+			function ( Settings_Statistics $statistics ) use ( $captcha ) {
 				$statistics->is_available = $captcha->is_available();
 			}
 		);

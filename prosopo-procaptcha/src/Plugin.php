@@ -64,16 +64,7 @@ class Plugin implements Hooks_Interface {
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
 			->setTemplatesRootPath( __DIR__ . '/views' )
-			->setTemplateFileExtension( '.blade.php' )
-			->setTemplateErrorHandler(
-				function ( array $eventDetails ) {
-					echo 'error';
-					echo '<pre>';
-					print_r( $eventDetails );
-					echo '</pre>';
-					exit;// fixme
-				}
-			);
+			->setTemplateFileExtension( '.blade.php' );
 
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );

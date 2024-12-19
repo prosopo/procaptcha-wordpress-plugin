@@ -1,1 +1,0 @@
-<?php use my\package; ?>

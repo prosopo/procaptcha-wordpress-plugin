@@ -1,1 +1,0 @@
-@class(['first', 'second' => $var])

@@ -1,1 +1,0 @@
-<?php switch($var): ?><?php case( 1 ): ?>

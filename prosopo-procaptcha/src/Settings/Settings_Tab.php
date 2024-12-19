@@ -119,7 +119,7 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 
 		return $factory->createModel(
 			Settings_Form::class,
-			function (Settings_Form $settings_form ) use ( $inputs, $checkboxes ) {
+			function ( Settings_Form $settings_form ) use ( $inputs, $checkboxes ) {
 				$settings_form->nonce            = wp_create_nonce( Settings_Page::FORM_NONCE );
 				$settings_form->tab_name         = $this->get_tab_name();
 				$settings_form->inputs           = $inputs;

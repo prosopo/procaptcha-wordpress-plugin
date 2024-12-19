@@ -109,7 +109,7 @@ class Settings_Page implements Hooks_Interface {
 
 		return $this->component_creator->createModel(
 			Settings::class,
-			function (Settings $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
+			function ( Settings $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
 				$js_file  = $tab->get_tab_js_file();
 				$css_file = $tab->get_tab_css_file();
 

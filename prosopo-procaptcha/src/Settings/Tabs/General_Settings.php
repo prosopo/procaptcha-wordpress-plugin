@@ -31,7 +31,7 @@ class General_Settings extends Settings_Tab {
 	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface {
 		return $factory->createModel(
 			Settings_General_Tab::class,
-			function (Settings_General_Tab $settings_general_tab ) use ( $factory, $captcha ) {
+			function ( Settings_General_Tab $settings_general_tab ) use ( $factory, $captcha ) {
 				$settings_general_tab->form = parent::make_tab_component( $factory, $captcha );
 
 				$settings_general_tab->preview = $captcha->print_form_field(

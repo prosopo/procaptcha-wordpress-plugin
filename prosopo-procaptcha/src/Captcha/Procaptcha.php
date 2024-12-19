@@ -190,7 +190,7 @@ class Procaptcha implements Captcha_Interface {
 
 		$form_field = $this->renderer->renderModel(
 			Widget::class,
-			function (Widget $widget ) use ( $is_field_stub, $settings ) {
+			function ( Widget $widget ) use ( $is_field_stub, $settings ) {
 				$widget->attributes           = $settings->get_sub_collection( Widget_Arguments::ELEMENT_ATTRIBUTES );
 				$widget->hidden_input_attrs   = $settings->get_sub_collection( Widget_Arguments::HIDDEN_INPUT_ATTRIBUTES );
 				$widget->is_stub              = $is_field_stub;

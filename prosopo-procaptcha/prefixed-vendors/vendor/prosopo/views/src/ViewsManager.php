@@ -44,7 +44,7 @@ final class ViewsManager implements ViewNamespaceManagerInterface, ModelFactoryI
         $this->namespaceModulesContainer->registerNamespaceModules($namespace, $viewNamespaceModules);
         return $viewNamespaceModules;
     }
-    public function createModel(string $modelClass)
+    public function createModel(string $modelClass, ?Closure $setupModelCallback = null)
     {
         if (\false === $this->isModel($modelClass)) {
             throw $this->makeWrongModelException($modelClass);
@@ -58,9 +58,9 @@ final class ViewsManager implements ViewNamespaceManagerInterface, ModelFactoryI
         if (null === $modelFactory) {
             throw $this->makeNamespaceNotResolvedException($modelNamespace);
         }
-        return $modelFactory->createModel($modelClass);
+        return $modelFactory->createModel($modelClass, $setupModelCallback);
     }
-    public function renderModel($modelOrClass, Closure $setupModelCallback = null): string
+    public function renderModel($modelOrClass, ?Closure $setupModelCallback = null): string
     {
         if (\false === $this->isModel($modelOrClass)) {
             throw $this->makeWrongModelException($modelOrClass);

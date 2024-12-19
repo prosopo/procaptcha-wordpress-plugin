@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model;
 
+use Closure;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Object\ObjectReaderInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Object\PropertyValueProviderInterface;
@@ -25,7 +26,7 @@ final class ModelFactory implements ModelFactoryInterface
         $this->modelTemplateResolver = $modelTemplateResolver;
         $this->templateRenderer = $templateRenderer;
     }
-    public function createModel(string $modelClass)
+    public function createModel(string $modelClass, ?Closure $setupModelCallback = null)
     {
         return new $modelClass($this->objectReader, $this->propertyValueProvider, $this->modelTemplateResolver, $this->templateRenderer);
     }

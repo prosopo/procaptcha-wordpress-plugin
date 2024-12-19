@@ -10,10 +10,10 @@ use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Factory_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Interface;
 use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Views\Settings\Settings_Form;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Form_Model;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use function Io\Prosopo\Procaptcha\make_collection;
 
 abstract class Settings_Tab implements Settings_Tab_Interface {
@@ -71,7 +71,10 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 		delete_option( $this->get_option_name() );
 	}
 
-	public function make_tab_component( View_Factory_Interface $creator, Captcha_Interface $captcha ): View_Interface {
+	public function make_tab_component(
+		ModelFactoryInterface $factory,
+		Captcha_Interface $captcha
+	): TemplateModelInterface {
 		$string_settings = $this->get_string_settings();
 		$bool_settings   = $this->get_bool_settings();
 		$select_inputs   = $this->get_select_inputs();
@@ -114,9 +117,9 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 			);
 		}
 
-		return $creator->make_view(
-			Settings_Form::class,
-			function ( Settings_Form $settings_form ) use ( $inputs, $checkboxes ) {
+		return $factory->createModel(
+			Settings_Form_Model::class,
+			function ( Settings_Form_Model $settings_form ) use ( $inputs, $checkboxes ) {
 				$settings_form->nonce            = wp_create_nonce( Settings_Page::FORM_NONCE );
 				$settings_form->tab_name         = $this->get_tab_name();
 				$settings_form->inputs           = $inputs;

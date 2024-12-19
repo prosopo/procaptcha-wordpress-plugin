@@ -69,9 +69,10 @@
         </properties>
     </rule>
 
-    <file>../prosopo-procaptcha</file>
-    <exclude-pattern>../prosopo-procaptcha/lang/*</exclude-pattern>
-    <exclude-pattern>../prosopo-procaptcha/src/views/*</exclude-pattern>
+    <file>../../prosopo-procaptcha</file>
+    <exclude-pattern>/prosopo-procaptcha/lang/*</exclude-pattern>
+    <exclude-pattern>/prosopo-procaptcha/prefixed-vendors/*</exclude-pattern>
+    <exclude-pattern>/prosopo-procaptcha/src/views/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
 </ruleset>

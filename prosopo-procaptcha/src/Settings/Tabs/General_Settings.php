@@ -8,10 +8,10 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Factory_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Interface;
 use Io\Prosopo\Procaptcha\Settings\Settings_Tab;
-use Io\Prosopo\Procaptcha\Views\Settings\Settings_General_Tab;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_General_Tab_Model;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
 class General_Settings extends Settings_Tab {
 	const SITE_KEY                  = 'site_key';
@@ -28,11 +28,11 @@ class General_Settings extends Settings_Tab {
 		return 'general';
 	}
 
-	public function make_tab_component( View_Factory_Interface $creator, Captcha_Interface $captcha ): View_Interface {
-		return $creator->make_view(
-			Settings_General_Tab::class,
-			function ( Settings_General_Tab $settings_general_tab ) use ( $creator, $captcha ) {
-				$settings_general_tab->form = parent::make_tab_component( $creator, $captcha );
+	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface {
+		return $factory->createModel(
+			Settings_General_Tab_Model::class,
+			function ( Settings_General_Tab_Model $settings_general_tab ) use ( $factory, $captcha ) {
+				$settings_general_tab->form = parent::make_tab_component( $factory, $captcha );
 
 				$settings_general_tab->preview = $captcha->print_form_field(
 					array(

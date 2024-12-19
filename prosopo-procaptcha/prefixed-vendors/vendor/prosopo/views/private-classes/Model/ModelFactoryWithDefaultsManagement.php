@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model;
 
+use Closure;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelWithDefaultsInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Object\ObjectPropertyWriterInterface;
@@ -22,7 +23,7 @@ final class ModelFactoryWithDefaultsManagement implements ModelFactoryInterface
         $this->objectPropertyReader = $objectReader;
         $this->objectPropertyWriter = $objectPropertyWriter;
     }
-    public function createModel(string $modelClass)
+    public function createModel(string $modelClass, ?Closure $setupModelCallback = null)
     {
         $model = $this->modelFactory->createModel($modelClass);
         if (\true === $model instanceof TemplateModelWithDefaultsInterface) {

@@ -2,15 +2,15 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Views;
+namespace Io\Prosopo\Procaptcha\Template_Models;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Collection;
-use Io\Prosopo\Procaptcha\View\View;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 use function Io\Prosopo\Procaptcha\make_collection;
 
-class Widget extends View {
+class Widget_Model extends BaseTemplateModel {
 	public Collection $attributes;
 	public Collection $hidden_input_attrs;
 	public bool $is_stub;
@@ -24,9 +24,7 @@ class Widget extends View {
 			'hidden';
 	}
 
-	protected function set_custom_defaults(): void {
-		parent::set_custom_defaults();
-
+	protected function setCustomDefaults(): void {
 		$this->attributes         = make_collection( array() );
 		$this->hidden_input_attrs = make_collection( array() );
 	}

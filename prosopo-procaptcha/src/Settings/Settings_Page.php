@@ -10,12 +10,12 @@ use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Factory_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Renderer_Interface;
 use Io\Prosopo\Procaptcha\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Views\Settings\Settings;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Model;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use function Io\Prosopo\Procaptcha\make_collection;
 
 class Settings_Page implements Hooks_Interface {
@@ -28,8 +28,8 @@ class Settings_Page implements Hooks_Interface {
 	private Settings_Storage $settings_storage;
 	private Captcha_Interface $captcha;
 	private Query_Arguments $query_arguments;
-	private View_Factory_Interface $component_creator;
-	private View_Renderer_Interface $renderer;
+	private ModelFactoryInterface $component_creator;
+	private ModelRendererInterface $renderer;
 	private Assets_Manager_Interface $assets_manager;
 	/**
 	 * @var array<string,Settings_Tab_Interface>
@@ -41,8 +41,8 @@ class Settings_Page implements Hooks_Interface {
 		Settings_Storage $settings_storage,
 		Captcha_Interface $captcha,
 		Query_Arguments $query_arguments,
-		View_Factory_Interface $component_creator,
-		View_Renderer_Interface $component_renderer,
+		ModelFactoryInterface $component_creator,
+		ModelRendererInterface $component_renderer,
 		Assets_Manager_Interface $assets_manager
 	) {
 		$this->plugin            = $plugin;
@@ -75,7 +75,7 @@ class Settings_Page implements Hooks_Interface {
 		);
 	}
 
-	public function make_component(): ?View_Interface {
+	public function make_component(): ?TemplateModelInterface {
 		$current_tab   = $this->maybe_process_form();
 		$is_just_saved = '' !== $current_tab;
 
@@ -107,9 +107,9 @@ class Settings_Page implements Hooks_Interface {
 
 		$tab = $this->setting_tabs[ $current_tab ];
 
-		return $this->component_creator->make_view(
-			Settings::class,
-			function ( Settings $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
+		return $this->component_creator->createModel(
+			Settings_Model::class,
+			function ( Settings_Model $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
 				$js_file  = $tab->get_tab_js_file();
 				$css_file = $tab->get_tab_css_file();
 
@@ -143,7 +143,8 @@ class Settings_Page implements Hooks_Interface {
 				$component = $this->make_component();
 
 				if ( null !== $component ) {
-					$this->renderer->render_view( $component, null, true );
+                    // @phpcs:ignore
+					echo $this->renderer->renderModel( $component );
 				}
 			}
 		);

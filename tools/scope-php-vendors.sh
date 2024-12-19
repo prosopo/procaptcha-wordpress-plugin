@@ -1,34 +1,49 @@
 #!/bin/bash
 
-function scopePhpVendors(){
-   local parentPath=$(
+exitWhenFailed(){
+  local exitCode="$1"
+
+  if [ "$exitCode" -ne 0 ]; then
+    echo -e "\n> Failed to scope php vendors\n"
+    exit "$exitCode"
+  fi
+}
+
+scopePhpVendors(){
+  local parentPath
+
+  parentPath=$(
       cd "$(dirname "${BASH_SOURCE[0]}")" || exit
       pwd -P
-    )
+  )
 
+  local pathToOriginVendors="$parentPath"/../php-tools/origin-vendors
   local pathToPrefixedVendorsDir="$parentPath"/../prosopo-procaptcha/prefixed-vendors
+  local pathToScoperDir="$parentPath"/../php-tools/scoper
+  local pathToScoperConfig="$pathToScoperDir"/scoper.inc.php
 
+  # 1. remove the current folder (if present)
   if [ -d "$pathToPrefixedVendorsDir" ]; then
         rm -rf "$pathToPrefixedVendorsDir"
   fi
 
-  cd "$parentPath"/../php-tools/scoper || {
-        echo "php-tools/scoper not found"
-        return 1
+ # 2. cd to the origin vendors folder (we must launch scoper from it)
+  cd "$pathToOriginVendors" || {
+     echo "Failed to change directory to originVendors"
+     return 1
   }
+  exitWhenFailed $?
 
-  ./vendor/bin/php-scoper add-prefix --config ./scoper.inc.php --output-dir "$pathToPrefixedVendorsDir"
+  # 3. launch scoper
+  "$pathToScoperDir"/vendor/bin/php-scoper add-prefix --config "$pathToScoperConfig" --output-dir "$pathToPrefixedVendorsDir"
+  exitWhenFailed $?
 
-   cd "$parentPath"/../php-tools/origin-vendors || {
-          echo "php-tools/origin-vendors not found"
-          return 1
-  }
+  # 4. generate autoload
+  # note: the optimize flag generates a class list, and significantly speeds up by avoiding unnecessary I/O operations
+  composer dump-autoload --optimize --working-dir "$pathToPrefixedVendorsDir"
+  exitWhenFailed $?
 
-    # the optimize flag generates a class list, and significantly speeds up by avoiding unnecessary I/O operations
-   composer dump-autoload --optimize --working-dir "$pathToPrefixedVendorsDir"
-
-   echo "Successfully scoped!"
+  echo "Successfully scoped!"
 }
 
 scopePhpVendors
-

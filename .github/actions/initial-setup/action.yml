@@ -1,0 +1,43 @@
+name: Initial Setup
+
+runs:
+  using: "composite"
+  steps:
+    - name: Print initial state
+      run: |
+        echo -e "GitHub workspace:${{ github.workspace }}"
+        echo "Current directory:"
+        pwd
+        echo "Contents of /etc/hosts:"
+        cat /etc/hosts
+        echo "Owner of /etc/hosts:"
+        ls -l /etc/hosts
+        echo "Current user:"
+        whoami
+      shell: bash
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    # 8.2+ is expected for php-code-quality-tests
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, opcache
+
+    - name: Install Composer
+      run: |
+        curl -sS https://getcomposer.org/installer | php
+        sudo mv composer.phar /usr/local/bin/composer
+      shell: bash
+
+    - name: Run install-tools.sh
+      run: bash ${{ github.workspace }}/tools/install-tools.sh
+      shell: bash
+
+    - name: Build assets
+      run: cd ${{ github.workspace }}/assets && yarn build:all
+      shell: bash

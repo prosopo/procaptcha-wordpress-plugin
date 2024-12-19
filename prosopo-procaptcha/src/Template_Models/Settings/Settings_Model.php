@@ -2,15 +2,15 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Views\Settings;
+namespace Io\Prosopo\Procaptcha\Template_Models\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Collection;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Interface;
-use Io\Prosopo\Procaptcha\View\View;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
-class Settings extends View {
+class Settings_Model extends BaseTemplateModel {
 	public string $css;
 	public string $js_file;
 	/**
@@ -23,5 +23,5 @@ class Settings extends View {
 	 */
 	public array $tabs;
 	public string $current_tab;
-	public View_Interface $tab_content;
+	public TemplateModelInterface $tab_content;
 }

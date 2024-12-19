@@ -11,12 +11,14 @@ return [
     'php-version' => '7.4',      // string|null
     'output-dir' => null,       // string|null
     'finders' => [  // list<Finder>
-        Finder::create()->files()->in('../origin-vendors')
+        Finder::create()->files()->in('./../origin-vendors')
     ],
     'patchers' => [],           // list<callable(string $filePath, string $prefix, string $contents): string>
 
     'exclude-files' => [],      // list<string>
-    'exclude-namespaces' => [], // list<string|regex>
+    'exclude-namespaces' => [
+        'Io\\Prosopo\\Procaptcha'
+    ], // list<string|regex>
     'exclude-constants' => [],  // list<string|regex>
     'exclude-classes' => [],    // list<string|regex>
     'exclude-functions' => [],  // list<string|regex>

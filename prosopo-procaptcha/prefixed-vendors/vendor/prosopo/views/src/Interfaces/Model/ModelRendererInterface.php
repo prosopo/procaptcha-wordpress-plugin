@@ -15,5 +15,5 @@ interface ModelRendererInterface
      *
      * @throws Exception
      */
-    public function renderModel($modelOrClass, Closure $setupModelCallback = null): string;
+    public function renderModel($modelOrClass, ?Closure $setupModelCallback = null): string;
 }

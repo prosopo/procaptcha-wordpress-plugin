@@ -8,9 +8,9 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Factory_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Interface;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
 interface Settings_Tab_Interface {
 	public function get_settings(): Collection;
@@ -21,7 +21,7 @@ interface Settings_Tab_Interface {
 
 	public function get_tab_title(): string;
 
-	public function make_tab_component( View_Factory_Interface $creator, Captcha_Interface $captcha ): View_Interface;
+	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface;
 
 	public function get_tab_js_file(): string;
 

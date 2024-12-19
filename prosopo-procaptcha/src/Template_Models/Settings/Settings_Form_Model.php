@@ -2,14 +2,14 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Views\Settings;
+namespace Io\Prosopo\Procaptcha\Template_Models\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Collection;
-use Io\Prosopo\Procaptcha\View\View;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 
-class Settings_Form extends View {
+class Settings_Form_Model extends BaseTemplateModel {
 	public string $nonce;
 	public string $tab_name;
 	/**

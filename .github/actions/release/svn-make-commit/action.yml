@@ -1,0 +1,42 @@
+name: SVN Make Commit
+
+inputs:
+  username:
+    description: "SVN account username to make a commit"
+    required: true
+  password:
+    description: "SVN account password to make a commit"
+    required: true
+  tag:
+    description: "Current release tag"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Handle removed items in the trunk folder
+      run: |
+        # Check for removed files and handle them
+        REMOVED_FILES=$(svn status | awk '/^\!/ {print $2}')
+        if [ -n "$REMOVED_FILES" ]; then
+          echo "Found removed files:"
+          echo "$REMOVED_FILES"
+          echo "$REMOVED_FILES" | sort -r | xargs -r svn delete
+        else
+          echo "No removed files to handle."
+        fi
+      working-directory: ${{ github.workspace }}/release/trunk
+      shell: bash
+
+    - name: Add new folders and files
+      run: |
+        svn add --force ${{ github.workspace }}/release/trunk
+        svn add --force ${{ github.workspace }}/release/assets/*
+        svn add ${{ github.workspace }}/release/tags/${{ inputs.tag }}
+      shell: bash
+
+    - name: Commit changes
+      run: |
+        cd ${{ github.workspace }}/release
+        svn ci -m "v ${{ inputs.tag }}" --config-option=servers:global:http-timeout=900 --non-interactive --no-auth-cache --username ${{ inputs.username }} --password ${{ inputs.password }}
+      shell: bash

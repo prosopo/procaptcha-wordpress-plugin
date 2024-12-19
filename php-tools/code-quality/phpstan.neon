@@ -1,8 +1,10 @@
 parameters:
     level: 9
     paths:
-        - ../prosopo-procaptcha
+        - ../../prosopo-procaptcha
     scanDirectories:
         - ./stubs
     excludePaths:
-        - ../prosopo-procaptcha/lang
+        - ../../prosopo-procaptcha/lang
+        analyse:
+        - ../../prosopo-procaptcha/prefixed-vendors

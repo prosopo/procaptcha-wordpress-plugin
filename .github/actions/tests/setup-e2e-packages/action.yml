@@ -1,0 +1,46 @@
+name: Setup E2E Packages
+
+runs:
+  using: "composite"
+  steps:
+    # note when using act, it uses copy of your '/etc/hosts', so it's important to override it instead of appending
+    - name: Override /etc/hosts
+      run: echo "127.0.0.1 localhost procaptcha.local" | sudo tee /etc/hosts
+      shell: bash
+
+    - name: Configure Nginx
+      run: |
+        sudo bash -c 'cat > /etc/nginx/sites-available/default <<EOF
+        server {
+            listen 80;
+            server_name localhost procaptcha.local;
+        
+            root /var/www/procaptcha;
+            index index.php index.html index.htm;
+        
+            location / {
+                try_files \$uri \$uri/ /index.php?\$args;
+            }
+        
+            location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+                fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+                include fastcgi_params;
+            }
+        }
+        EOF'
+      shell: bash
+
+    # it's necessary step, as www-data from nginx has no access to the /home/runner/work/* folder
+    - name: Create procaptcha web directory
+      run: sudo mkdir /var/www/procaptcha && sudo chown -R www-data:www-data /var/www/procaptcha
+      shell: bash
+
+    - name: Start Nginx
+      run: sudo service nginx start
+      shell: bash
+
+    - name: Start PHP-FPM
+      run: sudo service php7.4-fpm start
+      shell: bash

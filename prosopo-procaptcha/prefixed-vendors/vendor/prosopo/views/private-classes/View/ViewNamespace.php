@@ -14,6 +14,7 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Object\PropertyVa
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Object\PropertyValueProviderForNullable;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelFactory;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelFactoryWithDefaultsManagement;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelFactoryWithSetupCallback;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelNameResolver;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelNamespaceResolver;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelRenderer;
@@ -76,6 +77,7 @@ final class ViewNamespace
             $objectReader,
             $objectPropertyWriter
         );
+        $realModelFactory = new ModelFactoryWithSetupCallback($realModelFactory);
         $realModelRenderer = $modules->getModelRenderer();
         $realModelRenderer = null === $realModelRenderer ? new ModelRenderer($templateRenderer, $modelFactoryWithNamespaces, $modelTemplateResolver) : $realModelRenderer;
         $realModelRenderer = new ModelRendererWithEventDetails($realModelRenderer, $eventDispatcher, $templateErrorEventName);

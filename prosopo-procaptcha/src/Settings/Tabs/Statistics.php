@@ -8,10 +8,10 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Factory_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Interface;
 use Io\Prosopo\Procaptcha\Settings\Settings_Tab;
-use Io\Prosopo\Procaptcha\Views\Settings\Settings_Statistics;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Statistics_Model;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
 class Statistics extends Settings_Tab {
 	public function get_tab_title(): string {
@@ -22,10 +22,10 @@ class Statistics extends Settings_Tab {
 		return 'statistics';
 	}
 
-	public function make_tab_component( View_Factory_Interface $creator, Captcha_Interface $captcha ): View_Interface {
-		return $creator->make_view(
-			Settings_Statistics::class,
-			function ( Settings_Statistics $statistics ) use ( $captcha ) {
+	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface {
+		return $factory->createModel(
+			Settings_Statistics_Model::class,
+			function ( Settings_Statistics_Model $statistics ) use ( $captcha ) {
 				$statistics->is_available = $captcha->is_available();
 			}
 		);

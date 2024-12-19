@@ -30,12 +30,9 @@ use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration_Inter
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrator;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
-use Io\Prosopo\Procaptcha\View\Blade_Compiler;
-use Io\Prosopo\Procaptcha\View\View_Factory;
-use Io\Prosopo\Procaptcha\View\View_Renderer;
-use Io\Prosopo\Procaptcha\View\Template_Provider;
-use Io\Prosopo\Procaptcha\View\Object_Property_Manager;
-use Io\Prosopo\Procaptcha\View\Template_Renderer;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
 use Io\Prosopo\Procaptcha\Settings\{Settings_Page,
 	Settings_Storage,
 	Tabs\Account_Forms_Settings,
@@ -63,18 +60,16 @@ class Plugin implements Hooks_Interface {
 		$this->plugin_file = $plugin_file;
 		$wp_filesystem     = $this->get_wp_filesystem();
 
-		$template_provider       = new Template_Provider(
-			__DIR__ . '/blade-templates',
-			'Io\\Prosopo\\Procaptcha\\Views'
-		);
-		$object_property_manager = new Object_Property_Manager();
-		$view_factory            = new View_Factory( $object_property_manager, $template_provider );
-		$view_renderer           = new View_Renderer(
-			new Template_Renderer( new Blade_Compiler() ),
-			$view_factory,
-			$object_property_manager
-		);
-		$assets_manager          = new Assets_Manager( $plugin_file, $this->version, $wp_filesystem );
+		$view_template_renderer = new ViewTemplateRenderer();
+
+		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
+			->setTemplatesRootPath( __DIR__ . './views' )
+			->setTemplateFileExtension( '.blade.php' );
+
+		$views_manager = new ViewsManager();
+		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
+
+		$assets_manager = new Assets_Manager( $plugin_file, $this->version, $wp_filesystem );
 
 		$this->settings_storage       = new Settings_Storage();
 		$this->captcha_assets_manager = new Captcha_Assets_Manager(
@@ -91,15 +86,15 @@ class Plugin implements Hooks_Interface {
 			$this->settings_storage,
 			$this->captcha_assets_manager,
 			$this->query_arguments,
-			$view_renderer
+			$views_manager
 		);
 		$this->settings_page = new Settings_Page(
 			$this,
 			$this->settings_storage,
 			$this->captcha,
 			$this->query_arguments,
-			$view_factory,
-			$view_renderer,
+			$views_manager,
+			$views_manager,
 			$assets_manager
 		);
 

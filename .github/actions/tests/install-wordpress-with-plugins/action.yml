@@ -1,0 +1,42 @@
+name: Install WordPress with Plugins
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download and setup WordPress
+      run: |
+        cd ${{ github.workspace }}
+        curl -O https://wordpress.org/latest.tar.gz
+        tar -xzf latest.tar.gz
+        mv wordpress/* ${{ github.workspace }}
+        cp wp-config-sample.php wp-config.php
+        sed -i "s/database_name_here/wordpress/" wp-config.php
+        sed -i "s/username_here/root/" wp-config.php
+        sed -i "s/password_here/wordpress/" wp-config.php
+        sed -i "s/localhost/127.0.0.1/" wp-config.php
+        sed -i "s/define( 'WP_DEBUG', false );/define( 'WP_DEBUG', true );\ndefine( 'WP_DEBUG_DISPLAY', false );\ndefine( 'WP_DEBUG_LOG', true );error_reporting( E_ALL );/" wp-config.php
+        cp -r ${{ github.workspace }}/prosopo-procaptcha ${{ github.workspace }}/wp-content/plugins/
+        mkdir -p ${{ github.workspace }}/wp-content/mu-plugins
+        cp ${{ github.workspace }}/data-for-tests/mu-plugin.php ${{ github.workspace }}/wp-content/mu-plugins/mu-plugin.php
+      shell: bash
+
+    - name: Install WordPress plugins
+      run: |
+        cd ${{ github.workspace }}/tests/cypress/e2e/${{ matrix.cypress-target }}
+        plugins=$(cat ./installation-list.json | jq -r '.plugins[]')
+        for plugin in $plugins; do
+          echo "Installing $plugin plugin"
+        
+          paid_plugin_path="${{ github.workspace }}/data-for-tests/paid-plugins/$plugin.zip"
+        
+          if [[ -f "$paid_plugin_path" ]]; then
+            echo "Found local ZIP for $plugin, using paid plugin file."
+            unzip "$paid_plugin_path" -d ${{ github.workspace }}/wp-content/plugins/
+          else
+            echo "No local ZIP for $plugin, downloading from WordPress repository."
+            curl -L -o "$plugin.zip" "https://downloads.wordpress.org/plugin/$plugin.latest-stable.zip"
+            unzip "$plugin.zip" -d ${{ github.workspace }}/wp-content/plugins/
+            rm "$plugin.zip"
+          fi
+        done
+      shell: bash

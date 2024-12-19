@@ -2,23 +2,23 @@
     "packages": [
         {
             "name": "prosopo\/views",
-            "version": "1.0.1",
-            "version_normalized": "1.0.1.0",
+            "version": "1.0.2",
+            "version_normalized": "1.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/prosopo\/php-views.git",
-                "reference": "9fd52c27083f6f66ccf5e2e2640493539fc564d1"
+                "reference": "4315d2a390ed0b0741bcc3b4a579747b7d5f5483"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/prosopo\/php-views\/zipball\/9fd52c27083f6f66ccf5e2e2640493539fc564d1",
-                "reference": "9fd52c27083f6f66ccf5e2e2640493539fc564d1",
+                "url": "https:\/\/api.github.com\/repos\/prosopo\/php-views\/zipball\/4315d2a390ed0b0741bcc3b4a579747b7d5f5483",
+                "reference": "4315d2a390ed0b0741bcc3b4a579747b7d5f5483",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0"
             },
-            "time": "2024-12-18T12:05:04+00:00",
+            "time": "2024-12-19T15:16:03+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -37,7 +37,7 @@
                     "homepage": "https:\/\/github.com\/light-source\/"
                 }
             ],
-            "description": "Blazing fast Views with model-driven approach, multi-namespace support and custom Blade implementation as a default template engine.",
+            "description": "Blazing fast Views with model-driven approach, Blade and multi-namespace support.",
             "homepage": "https:\/\/github.com\/prosopo\/php-views",
             "keywords": [
                 "blade",
@@ -48,7 +48,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/prosopo\/php-views\/issues",
-                "source": "https:\/\/github.com\/prosopo\/php-views\/tree\/1.0.1"
+                "source": "https:\/\/github.com\/prosopo\/php-views\/tree\/1.0.2"
             },
             "install-path": "..\/prosopo\/views"
         }

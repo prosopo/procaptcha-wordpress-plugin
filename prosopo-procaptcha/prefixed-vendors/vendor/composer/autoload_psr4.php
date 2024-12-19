@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Io\\Prosopo\\Procaptcha\\Vendors\\Prosopo\\Views\\PrivateClasses\\' => array($vendorDir . '/prosopo/views/private-classes'),
     'Io\\Prosopo\\Procaptcha\\Vendors\\Prosopo\\Views\\' => array($vendorDir . '/prosopo/views/src'),
+    'Io\\Prosopo\\Procaptcha\\' => array($baseDir . '/../src'),
 );

@@ -1,0 +1,43 @@
+name: Install E2E Packages
+
+runs:
+  using: "composite"
+  steps:
+    # we need to install PHP 7.4 separately from php 8.2 in the initial-setup,
+    # cause WordPress is compatible with PHP 7.4
+    - name: Install PHP 7.4
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        extensions: mbstring, mysqli, opcache
+
+    - name: Install Nginx
+      run: sudo apt-get update && sudo apt-get install -y nginx
+      shell: bash
+
+    - name: Install MySQL client
+      run: sudo apt-get update && sudo apt-get install -y mysql-client
+      shell: bash
+
+    # cypress dependencies https://docs.cypress.io/guides/getting-started/installing-cypress#Linux-Prerequisites
+    - name: Install cypress dependencies
+      run: sudo apt-get update && sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      shell: bash
+
+    - name: Install Chrome
+      run: |
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+      shell: bash
+
+    # used in the tasks/install-wordpress-with-plugins.yml
+    - name: Install JSON parser
+      run: sudo apt-get update && sudo apt-get install -y jq
+      shell: bash
+
+    # used in the /tests.yml
+    - name: Install wait-on
+      run: npm install -g wait-on
+      shell: bash

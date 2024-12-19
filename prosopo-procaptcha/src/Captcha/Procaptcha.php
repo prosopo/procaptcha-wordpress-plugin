@@ -1,6 +1,6 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Captcha;
 
@@ -8,15 +8,16 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Assets_Manager_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Renderer_Interface;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Settings;
-use Io\Prosopo\Procaptcha\Views\Widget;
+use Io\Prosopo\Procaptcha\Template_Models\Widget_Model;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\make_collection;
 
 class Procaptcha implements Captcha_Interface {
+
 	const API_URL                    = 'https://api.prosopo.io/siteverify';
 	const FORM_FIELD_NAME            = 'procaptcha-response';
 	const ALLOW_BYPASS_CONSTANT_NAME = 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS';
@@ -24,13 +25,13 @@ class Procaptcha implements Captcha_Interface {
 	private Settings_Storage $settings_storage;
 	private Captcha_Assets_Manager_Interface $captcha_assets_manager;
 	private Query_Arguments $query_arguments;
-	private View_Renderer_Interface $renderer;
+	private ModelRendererInterface $renderer;
 
 	public function __construct(
 		Settings_Storage $settings_storage,
 		Captcha_Assets_Manager_Interface $captcha_assets_manager,
 		Query_Arguments $query_arguments,
-		View_Renderer_Interface $renderer
+		ModelRendererInterface $renderer
 	) {
 		$this->settings_storage       = $settings_storage;
 		$this->captcha_assets_manager = $captcha_assets_manager;
@@ -156,7 +157,7 @@ class Procaptcha implements Captcha_Interface {
 		$is_enabled_for_authorized = true === $general_settings->get_bool( General_Settings::IS_ENABLED_FOR_AUTHORIZED );
 
 		$is_present = false === $is_user_authorized ||
-						true === $is_enabled_for_authorized;
+			true === $is_enabled_for_authorized;
 
 		return apply_filters( 'prosopo/procaptcha/is_captcha_present', $is_present );
 	}
@@ -165,7 +166,7 @@ class Procaptcha implements Captcha_Interface {
 		$general_settings = $this->settings_storage->get( General_Settings::class )->get_settings();
 
 		return '' !== $general_settings->get_string( General_Settings::SECRET_KEY ) &&
-				'' !== $general_settings->get_string( General_Settings::SITE_KEY );
+			'' !== $general_settings->get_string( General_Settings::SITE_KEY );
 	}
 
 	public function add_integration_js( string $integration_name ): void {
@@ -180,16 +181,16 @@ class Procaptcha implements Captcha_Interface {
 		$settings = make_collection( $settings );
 
 		$is_field_stub = true === $settings->get_bool( Widget_Arguments::IS_DESIRED_ON_GUESTS ) &&
-						false === $this->is_present();
+			false === $this->is_present();
 
 		if ( false === $is_field_stub ) {
 			// automatically mark as in use.
 			$this->captcha_assets_manager->add_widget();
 		}
 
-		$form_field = $this->renderer->render_view(
-			Widget::class,
-			function ( Widget $widget ) use ( $is_field_stub, $settings ) {
+		$form_field = $this->renderer->renderModel(
+			Widget_Model::class,
+			function ( Widget_Model $widget ) use ( $is_field_stub, $settings ) {
 				$widget->attributes           = $settings->get_sub_collection( Widget_Arguments::ELEMENT_ATTRIBUTES );
 				$widget->hidden_input_attrs   = $settings->get_sub_collection( Widget_Arguments::HIDDEN_INPUT_ATTRIBUTES );
 				$widget->is_stub              = $is_field_stub;
@@ -200,7 +201,7 @@ class Procaptcha implements Captcha_Interface {
 		);
 
 		if ( false === $settings->get_bool( Widget_Arguments::IS_RETURN_ONLY ) ) {
-			// @phpcs:ignore WordPress.Security.EscapeOutput
+            // @phpcs:ignore WordPress.Security.EscapeOutput
 			echo $form_field;
 			$form_field = '';
 		}

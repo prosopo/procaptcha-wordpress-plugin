@@ -1,0 +1,27 @@
+name: Prepare E2E Workflow
+
+runs:
+  using: "composite"
+  steps:
+    - name: Move website files to /var/www/procaptcha
+      run: sudo mv ${{ github.workspace }}/* /var/www/procaptcha
+      shell: bash
+
+    # it's necessary, as cypress was installed under the 'runner' user, so these folders should left.
+    - name: Back tests and tools folders
+      run: |
+        sudo mv /var/www/procaptcha/tests ${{ github.workspace }}
+        sudo mv /var/www/procaptcha/tools ${{ github.workspace }}
+      shell: bash
+
+    - name: Set ownership of website files to www-data
+      run: sudo chown -R www-data:www-data /var/www/procaptcha
+      shell: bash
+
+    - name: Wait for WordPress to start
+      run: npx wait-on http://procaptcha.local --timeout 10000
+      shell: bash
+
+    - name: Check domain resolution
+      run: curl -I http://procaptcha.local
+      shell: bash

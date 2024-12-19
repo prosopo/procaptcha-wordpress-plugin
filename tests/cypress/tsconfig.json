@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "es5",
+      "dom"
+    ],
+    "types": [
+      "cypress",
+      "node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@support/*": [
+        "support/*"
+      ],
+      "@wordpress/*": [
+        "e2e/wordpress/classes/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}

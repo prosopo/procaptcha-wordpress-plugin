@@ -1,0 +1,9 @@
+{
+	"plugins": [
+		"branda-white-labeling",
+		"colorlib-login-customizer",
+		"custom-login",
+		"login-customizer",
+		"login-designer"
+	]
+}

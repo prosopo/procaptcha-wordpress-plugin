@@ -1,0 +1,96 @@
+<?php
+
+declare( strict_types=1 );
+
+namespace Io\Prosopo\Procaptcha\Integrations\Ninja_Forms;
+
+defined( 'ABSPATH' ) || exit;
+
+use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
+use NF_Abstracts_Input;
+use function Io\Prosopo\Procaptcha\make_collection;
+
+// todo: find a way to make the field required by default.
+class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_Interface {
+	use Form_Integration;
+
+	public function __construct() {
+		parent::__construct();
+
+		$field_name = self::get_form_helper()->get_captcha()->get_field_name();
+
+		$this->_name      = $field_name;
+		$this->_nicename  = self::get_form_helper()->get_captcha()->get_field_label();
+		$this->_type      = $field_name;
+		$this->_templates = array( $field_name );
+		$this->_section   = 'misc';
+		$this->_icon      = 'filter';
+
+		add_filter( sprintf( 'ninja_forms_localize_field_%s', $field_name ), array( $this, 'render_field' ) );
+	}
+
+	/**
+	 * @param array<string,mixed> $field
+	 *
+	 * @return array<int|string,mixed>
+	 */
+	public function render_field( array $field ): array {
+		$captcha = self::get_form_helper()->get_captcha();
+
+		$element = $captcha->print_form_field(
+			array(
+				Widget_Arguments::ELEMENT_ATTRIBUTES   => array(
+					// Without this class, the border around field won't appear when its validation is failed.
+					'class' => 'ninja-forms-field',
+					'style' => 'padding:0',
+				),
+				Widget_Arguments::IS_DESIRED_ON_GUESTS => true,
+				Widget_Arguments::IS_RETURN_ONLY       => true,
+				Widget_Arguments::IS_WITHOUT_CLIENT_VALIDATION => true,
+			)
+		);
+
+		$element .= '<prosopo-procaptcha-ninja-forms-integration></prosopo-procaptcha-ninja-forms-integration>';
+		$captcha->add_integration_js( 'ninja-forms' );
+
+		$field_data = make_collection( $field );
+		$field_data->get_sub_collection( 'settings' )
+			->merge(
+				array(
+					'label_pos'  => 'hidden', // Hide the label.
+					'procaptcha' => $element,
+				)
+			);
+
+		return $field_data->to_array();
+	}
+
+	/**
+	 * Validate
+	 *
+	 * @param mixed $field
+	 * @param mixed $data
+	 * @return mixed[] $errors
+	 */
+	public function validate( $field, $data ) {
+		$captcha = self::get_form_helper()->get_captcha();
+
+		if ( false === is_array( $field ) ||
+		false === is_array( $data ) ||
+		false === $captcha->is_present() ) {
+			return array();
+		}
+
+		$token = make_collection( $field )
+			->get_string( 'value' );
+
+		if ( false === $captcha->is_human_made_request( $token ) ) {
+			// For some reason it doesn't display error if array is returned...
+			return $captcha->get_validation_error_message(); // @phpstan-ignore-line.
+		}
+
+		return array();
+	}
+}

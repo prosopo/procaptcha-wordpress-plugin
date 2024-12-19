@@ -1,0 +1,293 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Prosopo ProCaptcha 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prosopo-procaptcha\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-10-09T12:21:23+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: \n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: prosopo-procaptcha\n"
+
+#. Description of the plugin
+#: prosopo-procaptcha.php
+#: src/views/settings/settings.blade.php:34
+msgid "GDPR compliant, privacy friendly and better value captcha."
+msgstr "Conforme au RGPD, respectueux de la vie privée et captcha meilleur rapport qualité-prix."
+
+#. Author of the plugin
+#: prosopo-procaptcha.php
+msgid "Prosopo Team"
+msgstr "Équipe Prosopo"
+
+#. Author URI of the plugin
+#: prosopo-procaptcha.php
+msgid "https://prosopo.io/"
+msgstr "https://prosopo.io/"
+
+#: src/Captcha/Procaptcha.php:40
+msgid "Please verify that you are human."
+msgstr "Veuillez vérifier que vous êtes un humain."
+
+#: src/Settings/Settings_Page.php:131
+msgid "Settings"
+msgstr "Paramètres"
+
+#: src/views/settings/settings_form.blade.php:71
+msgid "Save"
+msgstr "Enregistrer"
+
+#: src/views/settings/settings_widget_preview.blade.php:3
+msgid "Preview: if the credentials are valid, you should be able to complete the captcha below:"
+msgstr "Aperçu : Si les identifiants sont valides, vous devriez pouvoir compléter le captcha ci-dessous :"
+
+#. Plugin Name of the plugin
+#: prosopo-procaptcha.php
+#: src/Captcha/Procaptcha.php:72
+#: src/views/settings/settings.blade.php:11
+msgid "Prosopo Procaptcha"
+msgstr "Prosopo Procaptcha"
+
+#: src/Settings/Settings_Page.php:114
+msgid "Procaptcha Settings"
+msgstr "Paramètres de Procaptcha"
+
+#: src/Settings/Settings_Page.php:115
+msgid "Procaptcha"
+msgstr "Procaptcha"
+
+#: src/Captcha/Procaptcha.php:51
+#: src/Settings/Tabs/General_Settings.php:80
+msgid "Light"
+msgstr "Clair"
+
+#: src/Captcha/Procaptcha.php:50
+#: src/Settings/Tabs/General_Settings.php:79
+msgid "Dark"
+msgstr "Sombre"
+
+#: src/Captcha/Procaptcha.php:60
+#: src/Settings/Tabs/General_Settings.php:83
+#: src/Settings/Tabs/Statistics.php:64
+msgid "Frictionless"
+msgstr "Sans friction"
+
+#: src/Captcha/Procaptcha.php:62
+#: src/Settings/Tabs/General_Settings.php:85
+msgid "Pow"
+msgstr "Pow"
+
+#: src/Captcha/Procaptcha.php:61
+#: src/Settings/Tabs/General_Settings.php:84
+#: src/Settings/Tabs/Statistics.php:65
+msgid "Image"
+msgstr "Image"
+
+#: src/views/settings/settings.blade.php:58
+msgid "Settings successfully saved."
+msgstr "Paramètres enregistrés avec succès."
+
+#: src/Integrations/BBPress/BBPress_Forum.php:48
+msgid "Enable form protection for this forum (new topic, reply)"
+msgstr "Activer la protection de formulaire pour ce forum (nouveau sujet, réponse)"
+
+#: src/Settings/Tabs/General_Settings.php:95
+msgid "Behavior"
+msgstr "Comportement"
+
+#: src/views/settings/settings.blade.php:22
+msgid "Open Docs"
+msgstr "Ouvrir la documentation"
+
+#: src/Settings/Tabs/Account_Forms_Settings.php:19
+msgid "Account Forms"
+msgstr "Formulaires de compte"
+
+#: src/Settings/Tabs/General_Settings.php:24
+msgid "General"
+msgstr "Général"
+
+#: src/Settings/Tabs/Statistics.php:18
+msgid "Statistics"
+msgstr "Statistiques"
+
+#: src/Settings/Tabs/Woo_Commerce_Settings.php:29
+msgid "Protect the checkout form"
+msgstr "Protéger le formulaire de paiement"
+
+#: src/Settings/Tabs/Woo_Commerce_Settings.php:30
+msgid "Protect the order tracking form"
+msgstr "Protéger le formulaire de suivi de commande"
+
+#: src/Settings/Tabs/Woo_Commerce_Settings.php:16
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: src/Settings/Tabs/Account_Forms_Settings.php:33
+msgid "Protect the comment form:"
+msgstr "Protéger le formulaire de commentaire :"
+
+#: src/Settings/Tabs/Account_Forms_Settings.php:34
+msgid "Protect the login form:"
+msgstr "Protéger le formulaire de connexion :"
+
+#: src/Settings/Tabs/Account_Forms_Settings.php:35
+msgid "Protect the lost password form:"
+msgstr "Protéger le formulaire de mot de passe oublié :"
+
+#: src/Settings/Tabs/Account_Forms_Settings.php:36
+msgid "Protect the post/page password form:"
+msgstr "Protéger le formulaire de mot de passe des articles/pages :"
+
+#: src/Settings/Tabs/Account_Forms_Settings.php:37
+msgid "Protect the register form:"
+msgstr "Protéger le formulaire d'inscription :"
+
+#: src/Settings/Tabs/General_Settings.php:56
+msgid "Your Secret Key:"
+msgstr "Votre clé secrète :"
+
+#: src/Settings/Tabs/General_Settings.php:57
+msgid "Your Site Key:"
+msgstr "Votre clé de site :"
+
+#: src/Settings/Tabs/General_Settings.php:58
+msgid "Theme:"
+msgstr "Thème :"
+
+#: src/Settings/Tabs/General_Settings.php:59
+#: src/Settings/Tabs/Statistics.php:62
+msgid "Type:"
+msgstr "Type :"
+
+#: src/Settings/Tabs/General_Settings.php:65
+msgid "Require from authorized users:"
+msgstr "Exiger des utilisateurs autorisés :"
+
+#: src/Settings/Tabs/Statistics.php:48
+msgid "Email:"
+msgstr "E-mail :"
+
+#: src/Settings/Tabs/Statistics.php:49
+msgid "Name:"
+msgstr "Nom :"
+
+#: src/Settings/Tabs/Statistics.php:50
+msgid "Tier:"
+msgstr "Niveau :"
+
+#: src/Settings/Tabs/Statistics.php:51
+msgid "Account Information"
+msgstr "Informations du compte"
+
+#: src/Settings/Tabs/Statistics.php:54
+msgid "Frictionless Threshold:"
+msgstr "Seuil sans friction :"
+
+#: src/Settings/Tabs/Statistics.php:56
+msgid "High"
+msgstr "Élevé"
+
+#: src/Settings/Tabs/Statistics.php:57
+msgid "Low"
+msgstr "Faible"
+
+#: src/Settings/Tabs/Statistics.php:58
+msgid "Normal"
+msgstr "Normal"
+
+#: src/Settings/Tabs/Statistics.php:60
+msgid "Proof of Work Difficulty:"
+msgstr "Difficulté de la preuve de travail :"
+
+#: src/Settings/Tabs/Statistics.php:61
+msgid "Captcha Settings"
+msgstr "Paramètres du Captcha"
+
+#: src/Settings/Tabs/Statistics.php:66
+msgid "Proof of Work"
+msgstr "Preuve de travail"
+
+#: src/Settings/Tabs/Statistics.php:70
+msgid "Whitelisted Domains"
+msgstr "Domaines en liste blanche"
+
+#: src/Settings/Tabs/Statistics.php:76
+msgid "Failed to load. Please try again later."
+msgstr "Échec du chargement. Veuillez réessayer plus tard."
+
+#: src/Settings/Tabs/Statistics.php:77
+msgid "Successfully loaded at"
+msgstr "Chargé avec succès à"
+
+#: src/Settings/Tabs/Statistics.php:78
+msgid "Loading, please wait."
+msgstr "Chargement en cours, veuillez patienter."
+
+#: src/Settings/Tabs/Statistics.php:79
+msgid "Refresh now"
+msgstr "Actualiser maintenant"
+
+#: src/Settings/Tabs/Statistics.php:80
+msgid "Change settings"
+msgstr "Modifier les paramètres"
+
+#: src/Settings/Tabs/Statistics.php:83
+msgid "Traffic Data Over Time"
+msgstr "Données de trafic au fil du temps"
+
+#: src/Settings/Tabs/Statistics.php:84
+msgid "Image Submissions"
+msgstr "Soumissions d'images"
+
+#: src/Settings/Tabs/Statistics.php:85
+msgid "Proof of Work Submissions"
+msgstr "Soumissions de preuves de travail"
+
+#: src/Settings/Tabs/Statistics.php:86
+msgid "Submissions Count"
+msgstr "Nombre de soumissions"
+
+#: src/Settings/Tabs/Statistics.php:87
+msgid "Time"
+msgstr "Temps"
+
+#: src/Settings/Tabs/Statistics.php:88
+msgid "Traffic Analytics"
+msgstr "Analyse du trafic"
+
+#: src/Settings/Tabs/Statistics.php:89
+msgid "Upgrade your tier to access traffic analytics."
+msgstr "Mettez à niveau votre niveau pour accéder à l'analyse du trafic."
+
+#: src/Settings/Tabs/Statistics.php:92
+msgid "Image:"
+msgstr "Image :"
+
+#: src/Settings/Tabs/Statistics.php:93
+msgid "Proof of Work:"
+msgstr "Preuve de travail :"
+
+#: src/Settings/Tabs/Statistics.php:94
+msgid "Monthly Usage"
+msgstr "Utilisation mensuelle"
+
+#: src/Settings/Tabs/Statistics.php:95
+msgid "Total Verification Requests:"
+msgstr "Total des demandes de vérification :"
+
+#: src/views/settings/settings.blade.php:16
+msgid "Visit Website"
+msgstr "Visiter le site web"
+
+#: src/views/settings/settings.blade.php:28
+msgid "Visit Portal"
+msgstr "Visiter le portail"
+
+#: src/views/settings/settings_statistics.blade.php:34
+msgid "Please setup your keys to see the statistics."
+msgstr "Veuillez configurer vos clés pour voir les statistiques."

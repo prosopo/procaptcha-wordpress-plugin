@@ -1,0 +1,13 @@
+{
+	"plugins": [
+		"contact-form-7",
+		"everest-forms",
+		"fluentform",
+		"formidable",
+		"gravityforms",
+		"jetpack",
+		"ninja-forms",
+		"user-registration",
+		"wpforms-lite"
+	]
+}

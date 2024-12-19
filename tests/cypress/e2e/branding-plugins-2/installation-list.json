@@ -1,0 +1,9 @@
+{
+	"plugins": [
+		"theme-my-login",
+		"loginpress",
+		"ultimate-dashboard",
+		"white-label",
+		"yith-custom-login"
+	]
+}

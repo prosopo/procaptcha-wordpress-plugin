@@ -1,0 +1,11 @@
+{
+	"plugins": [
+		"all-in-one-wp-security-and-firewall",
+		"change-wp-admin-login",
+		"better-wp-security",
+		"login-with-ajax",
+		"lws-hide-login",
+		"sg-security",
+		"wps-hide-login"
+	]
+}

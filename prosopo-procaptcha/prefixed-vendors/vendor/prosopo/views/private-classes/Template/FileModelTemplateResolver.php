@@ -36,7 +36,6 @@ final class FileModelTemplateResolver implements ModelTemplateResolverInterface
         $modelName = $this->modelNameProvider->resolveModelName($model);
         $relativeTemplatePath = $this->getRelativeTemplatePath($relativeModelNamespace, $modelName);
         $absoluteTemplatePath = $this->getAbsoluteTemplatePath($relativeTemplatePath);
-
         return \true === $this->isFileBasedTemplate ? $absoluteTemplatePath : $this->getFileContent($absoluteTemplatePath);
     }
     protected function getFileContent(string $file): string

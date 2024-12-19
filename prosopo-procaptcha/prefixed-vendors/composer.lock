@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "prosopo/views",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/prosopo/php-views.git",
-                "reference": "4315d2a390ed0b0741bcc3b4a579747b7d5f5483"
+                "reference": "7fbc426521a94700f48358e877a1b51fab850247"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/prosopo/php-views/zipball/4315d2a390ed0b0741bcc3b4a579747b7d5f5483",
-                "reference": "4315d2a390ed0b0741bcc3b4a579747b7d5f5483",
+                "url": "https://api.github.com/repos/prosopo/php-views/zipball/7fbc426521a94700f48358e877a1b51fab850247",
+                "reference": "7fbc426521a94700f48358e877a1b51fab850247",
                 "shasum": ""
             },
             "require": {
@@ -51,9 +51,9 @@
             ],
             "support": {
                 "issues": "https://github.com/prosopo/php-views/issues",
-                "source": "https://github.com/prosopo/php-views/tree/1.0.2"
+                "source": "https://github.com/prosopo/php-views/tree/1.0.3"
             },
-            "time": "2024-12-19T15:16:03+00:00"
+            "time": "2024-12-19T16:01:27+00:00"
         }
     ],
     "packages-dev": [],

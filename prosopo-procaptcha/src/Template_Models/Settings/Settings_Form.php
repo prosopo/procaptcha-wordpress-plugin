@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 
-class Settings_Form_Model extends BaseTemplateModel {
+class Settings_Form extends BaseTemplateModel {
 	public string $nonce;
 	public string $tab_name;
 	/**

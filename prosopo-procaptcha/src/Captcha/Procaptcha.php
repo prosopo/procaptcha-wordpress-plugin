@@ -11,7 +11,7 @@ use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Settings;
-use Io\Prosopo\Procaptcha\Template_Models\Widget_Model;
+use Io\Prosopo\Procaptcha\Template_Models\Widget;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\make_collection;
@@ -189,8 +189,8 @@ class Procaptcha implements Captcha_Interface {
 		}
 
 		$form_field = $this->renderer->renderModel(
-			Widget_Model::class,
-			function ( Widget_Model $widget ) use ( $is_field_stub, $settings ) {
+			Widget::class,
+			function (Widget $widget ) use ( $is_field_stub, $settings ) {
 				$widget->attributes           = $settings->get_sub_collection( Widget_Arguments::ELEMENT_ATTRIBUTES );
 				$widget->hidden_input_attrs   = $settings->get_sub_collection( Widget_Arguments::HIDDEN_INPUT_ATTRIBUTES );
 				$widget->is_stub              = $is_field_stub;

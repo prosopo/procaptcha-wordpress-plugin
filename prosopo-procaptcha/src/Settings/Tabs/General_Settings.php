@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
 use Io\Prosopo\Procaptcha\Settings\Settings_Tab;
-use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_General_Tab_Model;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_General_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
@@ -30,8 +30,8 @@ class General_Settings extends Settings_Tab {
 
 	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface {
 		return $factory->createModel(
-			Settings_General_Tab_Model::class,
-			function ( Settings_General_Tab_Model $settings_general_tab ) use ( $factory, $captcha ) {
+			Settings_General_Tab::class,
+			function (Settings_General_Tab $settings_general_tab ) use ( $factory, $captcha ) {
 				$settings_general_tab->form = parent::make_tab_component( $factory, $captcha );
 
 				$settings_general_tab->preview = $captcha->print_form_field(

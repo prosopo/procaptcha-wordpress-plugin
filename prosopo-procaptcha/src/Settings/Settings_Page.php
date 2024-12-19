@@ -12,7 +12,7 @@ use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
 use Io\Prosopo\Procaptcha\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Model;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
@@ -108,8 +108,8 @@ class Settings_Page implements Hooks_Interface {
 		$tab = $this->setting_tabs[ $current_tab ];
 
 		return $this->component_creator->createModel(
-			Settings_Model::class,
-			function ( Settings_Model $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
+			Settings::class,
+			function (Settings $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
 				$js_file  = $tab->get_tab_js_file();
 				$css_file = $tab->get_tab_css_file();
 

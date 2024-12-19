@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
 use Io\Prosopo\Procaptcha\Settings\Settings_Tab;
-use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Statistics_Model;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Statistics;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
@@ -24,8 +24,8 @@ class Statistics extends Settings_Tab {
 
 	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface {
 		return $factory->createModel(
-			Settings_Statistics_Model::class,
-			function ( Settings_Statistics_Model $statistics ) use ( $captcha ) {
+			Settings_Statistics::class,
+			function (Settings_Statistics $statistics ) use ( $captcha ) {
 				$statistics->is_available = $captcha->is_available();
 			}
 		);

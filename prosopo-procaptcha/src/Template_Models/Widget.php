@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 use function Io\Prosopo\Procaptcha\make_collection;
 
-class Widget_Model extends BaseTemplateModel {
+class Widget extends BaseTemplateModel {
 	public Collection $attributes;
 	public Collection $hidden_input_attrs;
 	public bool $is_stub;

@@ -39,8 +39,7 @@ scopePhpVendors(){
   exitWhenFailed $?
 
   # 4. generate autoload
-  # note: the optimize flag generates a class list, and significantly speeds up by avoiding unnecessary I/O operations
-  composer dump-autoload --optimize --working-dir "$pathToPrefixedVendorsDir"
+  composer dump-autoload --working-dir "$pathToPrefixedVendorsDir"
   exitWhenFailed $?
 
   echo "Successfully scoped!"

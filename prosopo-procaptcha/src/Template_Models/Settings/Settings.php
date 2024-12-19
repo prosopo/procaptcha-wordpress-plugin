@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
-class Settings_Model extends BaseTemplateModel {
+class Settings extends BaseTemplateModel {
 	public string $css;
 	public string $js_file;
 	/**

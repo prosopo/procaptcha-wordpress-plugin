@@ -13,8 +13,9 @@
 
 namespace Io\Prosopo\Procaptcha;
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 require_once __DIR__ . '/autoloader.php';
+require_once __DIR__ . '/prefixed-vendors/autoload.php';
 
-( new Plugin( __FILE__ ) )->set_hooks( is_admin() );
+(new Plugin(__FILE__))->set_hooks(is_admin());

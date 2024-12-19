@@ -3,8 +3,34 @@
 installPhpCodeQuality(){
   local parentPath="$1"
 
-    cd "$parentPath"/../php-code-quality-tools || {
-        echo "php-code-quality-tools not found"
+    cd "$parentPath"/../php-tools/code-quality || {
+        echo "php-tools/code-quality not found"
+        return 1
+    }
+
+    composer install
+
+    return $?
+}
+
+installPhpScoper(){
+  local parentPath="$1"
+
+    cd "$parentPath"/../php-tools/scoper || {
+        echo "php-tools/scoper not found"
+        return 1
+    }
+
+    composer install
+
+    return $?
+}
+
+installPhpOriginVendors(){
+  local parentPath="$1"
+
+    cd "$parentPath"/../php-tools/origin-vendors || {
+        echo "php-tools/origin-vendors not found"
         return 1
     }
 
@@ -60,6 +86,12 @@ installAll(){
   exitWhenFailed $?
 
   installPhpCodeQuality "$parentPath"
+  exitWhenFailed $?
+
+  installPhpOriginVendors "$parentPath"
+  exitWhenFailed $?
+
+  installPhpScoper "$parentPath"
   exitWhenFailed $?
 
   installAssets "$parentPath"

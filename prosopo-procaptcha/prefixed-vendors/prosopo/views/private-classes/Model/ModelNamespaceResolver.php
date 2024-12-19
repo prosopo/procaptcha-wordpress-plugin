@@ -1,0 +1,29 @@
+<?php
+
+declare (strict_types=1);
+namespace Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model;
+
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelNamespaceResolverInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Object\ObjectClassReader;
+/**
+ * This class is marked as a final and placed under the 'Private' namespace to prevent anyone from using it directly.
+ * We reserve the right to change its name and implementation.
+ */
+final class ModelNamespaceResolver implements ModelNamespaceResolverInterface
+{
+    private ObjectClassReader $objectClassReader;
+    public function __construct(ObjectClassReader $objectClassReader)
+    {
+        $this->objectClassReader = $objectClassReader;
+    }
+    public function resolveModelNamespace($modelOrClass): string
+    {
+        $modelNamespaceWithClassName = \false === is_string($modelOrClass) ? $this->objectClassReader->getObjectClass($modelOrClass) : $modelOrClass;
+        $lastDelimiterPosition = strrpos($modelNamespaceWithClassName, '\\');
+        if (\false === $lastDelimiterPosition) {
+            return '';
+        }
+        $className = substr($modelNamespaceWithClassName, $lastDelimiterPosition);
+        return substr($modelNamespaceWithClassName, 0, -strlen($className));
+    }
+}

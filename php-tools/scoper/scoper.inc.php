@@ -8,10 +8,10 @@ use Isolated\Symfony\Component\Finder\Finder;
 
 return [
     'prefix' => 'Io\\Prosopo\\Procaptcha\\Vendors',  // string|null
-    'php-version' => null,      // string|null
-    'output-dir' => '../../prosopo-procaptcha/prefixed-vendors',       // string|null
+    'php-version' => '7.4',      // string|null
+    'output-dir' => null,       // string|null
     'finders' => [  // list<Finder>
-        Finder::create()->files()->in('../origin-vendors/vendor')
+        Finder::create()->files()->in('../origin-vendors')
     ],
     'patchers' => [],           // list<callable(string $filePath, string $prefix, string $contents): string>
 

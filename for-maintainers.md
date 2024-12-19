@@ -57,10 +57,10 @@ different versions.
 
 To handle this, we use a powerful PHP tool called [Humbug PHP-Scoper](https://github.com/humbug/php-scoper).
 
-Steps to Update the scoped packages:
+Steps to update the scoped packages:
 
 1. `cd php-tools/origin-vendors; composer install/update`
-2. `cd php-tools/scoper; composer install; composer scope`
+2. `bash tools/scope-php-vendors.sh`
 
 ## 5. Local End-to-End tests
 

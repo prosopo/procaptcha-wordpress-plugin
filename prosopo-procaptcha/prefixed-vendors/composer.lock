@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b6438ce79171b3871f1a17aebdd383e5",
+    "packages": [
+        {
+            "name": "prosopo/views",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prosopo/php-views.git",
+                "reference": "9fd52c27083f6f66ccf5e2e2640493539fc564d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prosopo/php-views/zipball/9fd52c27083f6f66ccf5e2e2640493539fc564d1",
+                "reference": "9fd52c27083f6f66ccf5e2e2640493539fc564d1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Prosopo\\Views\\": "src/",
+                    "Prosopo\\Views\\PrivateClasses\\": "private-classes"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Maxim Akimov",
+                    "homepage": "https://github.com/light-source/"
+                }
+            ],
+            "description": "Blazing fast Views with model-driven approach, multi-namespace support and custom Blade implementation as a default template engine.",
+            "homepage": "https://github.com/prosopo/php-views",
+            "keywords": [
+                "blade",
+                "models",
+                "templates",
+                "twig",
+                "views"
+            ],
+            "support": {
+                "issues": "https://github.com/prosopo/php-views/issues",
+                "source": "https://github.com/prosopo/php-views/tree/1.0.1"
+            },
+            "time": "2024-12-18T12:05:04+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

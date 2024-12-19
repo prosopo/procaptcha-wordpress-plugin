@@ -6,8 +6,5 @@
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true
         }
-    },
-    "scripts": {
-        "scope": "./vendor/bin/php-scoper add-prefix --config scoper.inc.php"
     }
 }

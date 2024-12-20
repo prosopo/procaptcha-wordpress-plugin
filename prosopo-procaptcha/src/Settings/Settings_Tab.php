@@ -13,7 +13,8 @@ use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Form;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
-use Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 abstract class Settings_Tab implements Settings_Tab_Interface {
 	const OPTION_BASE   = 'prosopo-procaptcha__settings';
@@ -94,7 +95,7 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 				'label' => $field_label,
 				'name'  => $field_name,
 				'type'  => 'text',
-				'value' => Typed::string( $this->validated_fields, $field_name ),
+				'value' => string( $this->validated_fields, $field_name ),
 			);
 
 			if ( true === key_exists( $field_name, $select_inputs ) ) {
@@ -114,7 +115,7 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 				'label' => $field_label,
 				'name'  => $field_name,
 				'type'  => 'checkbox',
-				'value' => Typed::bool( $this->validated_fields, $field_name ),
+				'value' => bool( $this->validated_fields, $field_name ),
 			);
 		}
 
@@ -224,13 +225,13 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 		$settings = $this->get_settings();
 
 		foreach ( array_keys( $this->get_bool_settings() ) as $bool_setting_name ) {
-			$bool_setting_value = Typed::bool( $settings, $bool_setting_name );
+			$bool_setting_value = bool( $settings, $bool_setting_name );
 
 			$this->validated_fields[ $bool_setting_name ] = $bool_setting_value;
 		}
 
 		foreach ( array_keys( $this->get_string_settings() ) as $string_setting_name ) {
-			$string_setting_value = Typed::string( $settings, $string_setting_name );
+			$string_setting_value = string( $settings, $string_setting_name );
 
 			$this->validated_fields[ $string_setting_name ] = $string_setting_value;
 		}

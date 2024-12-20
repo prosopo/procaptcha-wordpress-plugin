@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha;
 
-use Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -35,11 +35,11 @@ class Html_Attributes_Collection {
 			}
 
 			$is_present   = true === key_exists( $origin_key, $this->items );
-			$origin_value = Typed::string( $origin_collection->get_items(), $origin_key );
+			$origin_value = string( $origin_collection->get_items(), $origin_key );
 
 			if ( 'class' === $origin_key &&
 			true === $is_present ) {
-				$current_classes = explode( ' ', Typed::string( $this->items, $origin_key ) );
+				$current_classes = explode( ' ', string( $this->items, $origin_key ) );
 				$new_classes     = explode( ' ', $origin_value );
 
 				$origin_value = array_unique( array_merge( $current_classes, $new_classes ) );
@@ -50,7 +50,7 @@ class Html_Attributes_Collection {
 
 			if ( 'style' === $origin_key &&
 			true === $is_present ) {
-				$current_styles = explode( ';', Typed::string( $this->items, $origin_key ) );
+				$current_styles = explode( ';', string( $this->items, $origin_key ) );
 				$new_styles     = explode( ';', $origin_value );
 
 				$origin_value = array_unique( array_merge( $current_styles, $new_styles ) );
@@ -110,7 +110,7 @@ class Html_Attributes_Collection {
 
 		foreach ( $this->items as $item_key => $item_value ) {
 			$item_key   = (string) $item_key;
-			$item_value = Typed::string( $this->items, $item_key );
+			$item_value = string( $this->items, $item_key );
 
 			$attributes[] = sprintf( '%s="%s"', esc_html( $item_key ), esc_html( $item_value ) );
 		}

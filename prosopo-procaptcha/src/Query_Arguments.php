@@ -4,7 +4,9 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha;
 
-use Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\int;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -16,19 +18,19 @@ class Query_Arguments {
 	public function get_string_for_non_action( string $arg_name, string $from = self::GET ): string {
 		$source = $this->get_source( $from );
 
-		return $this->sanitize_string( Typed::string( $source, $arg_name ) );
+		return $this->sanitize_string( string( $source, $arg_name ) );
 	}
 
 	public function get_int_for_non_action( string $arg_name, string $from = self::GET ): int {
 		$source = $this->get_source( $from );
 
-		return Typed::int( $source, $arg_name );
+		return int( $source, $arg_name );
 	}
 
 	public function get_bool_for_non_action( string $arg_name, string $from = self::GET ): bool {
 		$source = $this->get_source( $from );
 
-		return Typed::bool( $source, $arg_name );
+		return bool( $source, $arg_name );
 	}
 
 	public function get_string_for_admin_action(

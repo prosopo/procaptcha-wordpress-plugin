@@ -1,5 +1,7 @@
 @use('Io\Prosopo\Procaptcha\Settings\Settings_Page')
-@use('Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed')
+@use('function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string')
+@use('function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr')
+@use('function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool')
 
 <form action="" method="post" class="flex flex-col gap-5 max-w-sm w-full" autocomplete="off">
     <input type="hidden" name="_wpnonce" value="{{ $nonce }}">
@@ -13,22 +15,22 @@
 
     @foreach ($inputs as $input)
         <div class="flex items-center justify-between gap-5">
-            <p class="text-sm">{{ Typed::string($input, 'label') }}</p>
+            <p class="text-sm">{{ string($input, 'label') }}</p>
 
-            @switch(Typed::string($input, 'type'))
+            @switch(Tstring($input, 'type'))
                 @case('text')
                 @case('password')
-                    <input name="{{ Typed::string($input, 'name') }}" type="{{ Typed::string($input, 'type') }}" required
+                    <input name="{{ string($input, 'name') }}" type="{{ string($input, 'type') }}" required
                            class="bg-white w-64 py-1.5 px-3 border border-gray rounded transition shadow-none outline-none
                            focus:border-blue"
-                           placeholder="{{ Typed::string($input, 'label') }}" value="{{ Typed::string($input, 'value') }}">
+                           placeholder="{{ string($input, 'label') }}" value="{{ string($input, 'value') }}">
                     @break
                 @case('select')
-                    <select name="{{ Typed::string($input,'name') }}"
+                    <select name="{{ string($input,'name') }}"
                             class="bg-white w-64 py-1.5 px-3 border border-gray rounded shadow-none outline-none
                             focus:border-blue">
-                        @foreach(Typed::array($input, 'options') as $value => $label)
-                            <option value="{{ $value }}" @selected($value === Typed::string($input,'value'))>
+                        @foreach(arr($input, 'options') as $value => $label)
+                            <option value="{{ $value }}" @selected($value === string($input,'value'))>
                                 {{ $label }}
                             </option>
                         @endforeach
@@ -46,12 +48,12 @@
 
     @foreach ($checkboxes as $checkbox)
         <label class="flex items-center justify-between gap-5">
-            <span class="text-sm">{{ Typed::string($checkbox, 'label') }}</span>
+            <span class="text-sm">{{ string($checkbox, 'label') }}</span>
             <div class="relative inline-block w-14 h-8">
-                <input name="{{ Typed::string($checkbox, 'name') }}"
+                <input name="{{ string($checkbox, 'name') }}"
                        type="checkbox"
                        class="peer opacity-0 w-0 h-0"
-                        @checked(Typed::bool($checkbox, 'value'))>
+                        @checked(bool($checkbox, 'value'))>
                 <div class="absolute cursor-pointer inset-0 bg-[#ccc] transition-all duration-500 rounded-3xl peer-checked:bg-[#2196F3]
                 before:absolute before:h-5 before:w-5 before:left-1.5 before:bottom-1.5 before:bg-white before:transition-all before:transition-500 before:rounded-full peer-checked:before:translate-x-6">
 

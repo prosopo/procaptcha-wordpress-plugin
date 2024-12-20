@@ -1,4 +1,5 @@
-@use('Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed')
+@use('function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string')
+@use('function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool')
 
 <prosopo-procaptha-wp-settings style="display:block;margin-left:-18px;">
     <template shadowrootmode="open">
@@ -35,13 +36,13 @@
             <ul class="flex leading-none my-5 -mx-5 bg-white">
                 @foreach ($tabs as $tab)
                     <li class="m-0 border-r border-[#dde8f2] last:border-r-0">
-                        <a href="{{ Typed::string($tab, 'url') }}"
+                        <a href="{{ string($tab, 'url') }}"
                                 @class([
                                     'block font-medium tracking-wide py-5 px-8 transition hover:text-black',
-                                    'text-black' => Typed::bool($tab, 'is_active'),
-                                    'text-blue'=> false === Typed::bool($tab, 'is_active'),
+                                    'text-black' => bool($tab, 'is_active'),
+                                    'text-blue'=> false === bool($tab, 'is_active'),
                                 ])>
-                            {{ Typed::string($tab, 'title') }}
+                            {{ string($tab, 'title') }}
                         </a>
                     </li>
                 @endforeach

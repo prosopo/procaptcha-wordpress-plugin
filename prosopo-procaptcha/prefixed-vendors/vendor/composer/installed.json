@@ -54,17 +54,17 @@
         },
         {
             "name": "wplake\/typed",
-            "version": "1.1.0",
-            "version_normalized": "1.1.0.0",
+            "version": "1.1.1",
+            "version_normalized": "1.1.1.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/WPLake\/PHP-Typed.git",
-                "reference": "a8be8dd7359dc6d3635fa464b26fc18f17db3c5b"
+                "reference": "c0477d58d4530dba4471a5e64c5523018b2d01d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/WPLake\/PHP-Typed\/zipball\/a8be8dd7359dc6d3635fa464b26fc18f17db3c5b",
-                "reference": "a8be8dd7359dc6d3635fa464b26fc18f17db3c5b",
+                "url": "https:\/\/api.github.com\/repos\/WPLake\/PHP-Typed\/zipball\/c0477d58d4530dba4471a5e64c5523018b2d01d8",
+                "reference": "c0477d58d4530dba4471a5e64c5523018b2d01d8",
                 "shasum": ""
             },
             "require": {
@@ -77,7 +77,7 @@
                 "slevomat\/coding-standard": "^8.15",
                 "squizlabs\/php_codesniffer": "^3.11"
             },
-            "time": "2024-12-20T21:11:49+00:00",
+            "time": "2024-12-20T22:14:10+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -106,7 +106,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/WPLake\/PHP-Typed\/issues",
-                "source": "https:\/\/github.com\/WPLake\/PHP-Typed\/tree\/1.1.0"
+                "source": "https:\/\/github.com\/WPLake\/PHP-Typed\/tree\/1.1.1"
             },
             "install-path": "..\/wplake\/typed"
         }

@@ -12,7 +12,7 @@ use Io\Prosopo\Procaptcha\Settings\Settings_Tab;
 use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Statistics;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
-use Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Statistics extends Settings_Tab {
 	public function get_tab_title(): string {
@@ -70,8 +70,8 @@ class Statistics extends Settings_Tab {
 				'title' => __( 'Whitelisted Domains', 'prosopo-procaptcha' ),
 			),
 			'isDebugMode'           => false, // todo move into settings as 'debug mode' option.
-			'secretKey'             => Typed::string( $general_settings, General_Settings::SECRET_KEY ),
-			'siteKey'               => Typed::string( $general_settings, General_Settings::SITE_KEY ),
+			'secretKey'             => string( $general_settings, General_Settings::SECRET_KEY ),
+			'siteKey'               => string( $general_settings, General_Settings::SITE_KEY ),
 			'stateLabels'           => array(
 				'failedToLoad'        => __( 'Failed to load. Please try again later.', 'prosopo-procaptcha' ),
 				'lastRefreshedAt'     => __( 'Successfully loaded at', 'prosopo-procaptcha' ),

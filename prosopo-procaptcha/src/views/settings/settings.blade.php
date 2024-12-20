@@ -1,3 +1,5 @@
+@use('Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed')
+
 <prosopo-procaptha-wp-settings style="display:block;margin-left:-18px;">
     <template shadowrootmode="open">
         <style>
@@ -33,13 +35,13 @@
             <ul class="flex leading-none my-5 -mx-5 bg-white">
                 @foreach ($tabs as $tab)
                     <li class="m-0 border-r border-[#dde8f2] last:border-r-0">
-                        <a href="{{ $tab->get_string('url') }}"
+                        <a href="{{ Typed::string($tab, 'url') }}"
                                 @class([
                                     'block font-medium tracking-wide py-5 px-8 transition hover:text-black',
-                                    'text-black' => $tab->get_bool('is_active'),
-                                    'text-blue'=> false === $tab->get_bool('is_active'),
+                                    'text-black' => Typed::bool($tab, 'is_active'),
+                                    'text-blue'=> false === Typed::bool($tab, 'is_active'),
                                 ])>
-                            {{ $tab->get_string('title') }}
+                            {{ Typed::string($tab, 'title') }}
                         </a>
                     </li>
                 @endforeach

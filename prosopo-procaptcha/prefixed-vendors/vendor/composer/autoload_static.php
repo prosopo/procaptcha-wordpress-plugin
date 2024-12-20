@@ -9,6 +9,7 @@ class ComposerStaticInit043dd16cfbc09f98741d61dc32af3bc2
     public static $prefixLengthsPsr4 = array (
         'I' => 
         array (
+            'Io\\Prosopo\\Procaptcha\\Vendors\\WPLake\\Typed\\' => 43,
             'Io\\Prosopo\\Procaptcha\\Vendors\\Prosopo\\Views\\PrivateClasses\\' => 59,
             'Io\\Prosopo\\Procaptcha\\Vendors\\Prosopo\\Views\\' => 44,
             'Io\\Prosopo\\Procaptcha\\' => 22,
@@ -16,6 +17,10 @@ class ComposerStaticInit043dd16cfbc09f98741d61dc32af3bc2
     );
 
     public static $prefixDirsPsr4 = array (
+        'Io\\Prosopo\\Procaptcha\\Vendors\\WPLake\\Typed\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wplake/typed/src',
+        ),
         'Io\\Prosopo\\Procaptcha\\Vendors\\Prosopo\\Views\\PrivateClasses\\' => 
         array (
             0 => __DIR__ . '/..' . '/prosopo/views/private-classes',

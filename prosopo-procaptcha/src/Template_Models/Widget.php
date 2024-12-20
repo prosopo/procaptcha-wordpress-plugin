@@ -6,13 +6,13 @@ namespace Io\Prosopo\Procaptcha\Template_Models;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Collection;
+use Io\Prosopo\Procaptcha\Html_Attributes_Collection;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
-use function Io\Prosopo\Procaptcha\make_collection;
+use function Io\Prosopo\Procaptcha\html_attrs_collection;
 
 class Widget extends BaseTemplateModel {
-	public Collection $attributes;
-	public Collection $hidden_input_attrs;
+	public Html_Attributes_Collection $attributes;
+	public Html_Attributes_Collection $hidden_input_attrs;
 	public bool $is_stub;
 	public bool $no_client_validation;
 	public bool $is_error_visible;
@@ -25,7 +25,7 @@ class Widget extends BaseTemplateModel {
 	}
 
 	protected function setCustomDefaults(): void {
-		$this->attributes         = make_collection( array() );
-		$this->hidden_input_attrs = make_collection( array() );
+		$this->attributes         = html_attrs_collection( array() );
+		$this->hidden_input_attrs = html_attrs_collection( array() );
 	}
 }

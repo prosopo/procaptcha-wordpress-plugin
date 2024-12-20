@@ -16,7 +16,6 @@ use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
-use function Io\Prosopo\Procaptcha\make_collection;
 
 class Settings_Page implements Hooks_Interface {
 	const FORM_NONCE  = 'prosopo-captcha__settings';
@@ -96,12 +95,10 @@ class Settings_Page implements Hooks_Interface {
 
 		$tabs = array();
 		foreach ( $this->setting_tabs as $settings_tab ) {
-			$tabs[] = make_collection(
-				array(
-					'is_active' => $settings_tab->get_tab_name() === $current_tab,
-					'title'     => $settings_tab->get_tab_title(),
-					'url'       => $this->get_tab_url( $settings_tab->get_tab_name() ),
-				)
+			$tabs[] = array(
+				'is_active' => $settings_tab->get_tab_name() === $current_tab,
+				'title'     => $settings_tab->get_tab_title(),
+				'url'       => $this->get_tab_url( $settings_tab->get_tab_name() ),
 			);
 		}
 

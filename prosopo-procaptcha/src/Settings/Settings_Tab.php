@@ -6,7 +6,6 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
@@ -14,18 +13,24 @@ use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Form;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
-use function Io\Prosopo\Procaptcha\make_collection;
+use Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed;
 
 abstract class Settings_Tab implements Settings_Tab_Interface {
 	const OPTION_BASE   = 'prosopo-procaptcha__settings';
 	const OPTION_PREFIX = self::OPTION_BASE . '__';
 
-	protected Collection $validated_fields;
-	protected ?Collection $settings;
+	/**
+	 * @var array<string,mixed>
+	 */
+	protected array $validated_fields;
+	/**
+	 * @var array<string,mixed>|null
+	 */
+	protected ?array $settings;
 
 	public function __construct() {
 		$this->settings         = null;
-		$this->validated_fields = make_collection( array() );
+		$this->validated_fields = array();
 	}
 
 	abstract public function get_tab_title(): string;
@@ -35,10 +40,10 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 		$this->update_settings();
 	}
 
-	public function get_settings(): Collection {
+	public function get_settings(): array {
 		if ( null !== $this->settings ) {
 			// Return a separate instance to avoid out-of-the-class modifications.
-			return make_collection( $this->settings->to_array() );
+			return $this->settings;
 		}
 
 		$option_name = $this->get_option_name();
@@ -52,10 +57,10 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 			$current :
 			array();
 
-		$this->settings = make_collection( $current );
+		$this->settings = $current;
 
 		// Setup defaults.
-		$this->settings->merge( $this->get_default_values(), true );
+		$this->settings = array_merge( $this->get_default_values(), $this->settings );
 
 		return $this->settings;
 	}
@@ -85,35 +90,31 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 		$this->load_field_values_from_settings();
 
 		foreach ( $string_settings as $field_name => $field_label ) {
-			$input = make_collection(
-				array(
-					'label' => $field_label,
-					'name'  => $field_name,
-					'type'  => 'text',
-					'value' => $this->validated_fields->get_string( $field_name ),
-				)
+			$input = array(
+				'label' => $field_label,
+				'name'  => $field_name,
+				'type'  => 'text',
+				'value' => Typed::string( $this->validated_fields, $field_name ),
 			);
 
 			if ( true === key_exists( $field_name, $select_inputs ) ) {
-				$input->add( 'options', $select_inputs[ $field_name ] );
-				$input->add( 'type', 'select' );
+				$input['options'] = $select_inputs[ $field_name ];
+				$input['type']    = 'select';
 			}
 
 			if ( true === in_array( $field_name, $password_inputs, true ) ) {
-				$input->add( 'type', 'password' );
+				$input['type'] = 'password';
 			}
 
 			$inputs[] = $input;
 		}
 
 		foreach ( $bool_settings as $field_name => $field_label ) {
-			$checkboxes[] = make_collection(
-				array(
-					'label' => $field_label,
-					'name'  => $field_name,
-					'type'  => 'checkbox',
-					'value' => $this->validated_fields->get_bool( $field_name ),
-				)
+			$checkboxes[] = array(
+				'label' => $field_label,
+				'name'  => $field_name,
+				'type'  => 'checkbox',
+				'value' => Typed::bool( $this->validated_fields, $field_name ),
 			);
 		}
 
@@ -195,10 +196,10 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 				Query_Arguments::POST
 			);
 
-			$this->validated_fields->add( $bool_setting_name, $bool_setting_value );
+			$this->validated_fields[ $bool_setting_name ] = $bool_setting_value;
 		}
 
-		$select_inputs = make_collection( $this->get_select_inputs() );
+		$select_inputs = $this->get_select_inputs();
 
 		foreach ( array_keys( $this->get_string_settings() ) as $string_setting_name ) {
 			$string_setting_value = $query_arguments->get_string_for_admin_action(
@@ -207,15 +208,15 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 				Query_Arguments::POST
 			);
 
-			if ( true === $select_inputs->exists( $string_setting_name ) ) {
-				$options = $select_inputs->get_sub_collection( $string_setting_name );
+			if ( true === key_exists( $string_setting_name, $select_inputs ) ) {
+				$options = $select_inputs[ $string_setting_name ];
 
-				if ( false === $options->exists( $string_setting_value ) ) {
+				if ( false === key_exists( $string_setting_value, $options ) ) {
 					continue;
 				}
 			}
 
-			$this->validated_fields->add( $string_setting_name, $string_setting_value );
+			$this->validated_fields[ $string_setting_name ] = $string_setting_value;
 		}
 	}
 
@@ -223,15 +224,15 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 		$settings = $this->get_settings();
 
 		foreach ( array_keys( $this->get_bool_settings() ) as $bool_setting_name ) {
-			$bool_setting_value = $settings->get_bool( $bool_setting_name );
+			$bool_setting_value = Typed::bool( $settings, $bool_setting_name );
 
-			$this->validated_fields->add( $bool_setting_name, $bool_setting_value );
+			$this->validated_fields[ $bool_setting_name ] = $bool_setting_value;
 		}
 
 		foreach ( array_keys( $this->get_string_settings() ) as $string_setting_name ) {
-			$string_setting_value = $settings->get_string( $string_setting_name );
+			$string_setting_value = Typed::string( $settings, $string_setting_name );
 
-			$this->validated_fields->add( $string_setting_name, $string_setting_value );
+			$this->validated_fields[ $string_setting_name ] = $string_setting_value;
 		}
 	}
 
@@ -239,7 +240,7 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 		$settings = $this->get_settings();
 
 		// Merge instead of overwrite, as it may contain other settings as well.
-		$settings->merge( $this->validated_fields );
+		$settings = array_merge( $settings, $this->validated_fields );
 
 		// Update our settings cache to reflect the merge changes.
 		$this->settings = $settings;
@@ -251,6 +252,6 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 			return;
 		}
 
-		update_option( $option_name, $settings->to_array() );
+		update_option( $option_name, $settings );
 	}
 }

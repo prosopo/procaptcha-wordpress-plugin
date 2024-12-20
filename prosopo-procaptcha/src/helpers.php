@@ -9,6 +9,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * @param array<string|int, mixed> $items
  */
-function make_collection( array $items ): Collection {
-	return new Collection( $items );
+function html_attrs_collection( array $items ): Html_Attributes_Collection {
+	return new Html_Attributes_Collection( $items );
 }

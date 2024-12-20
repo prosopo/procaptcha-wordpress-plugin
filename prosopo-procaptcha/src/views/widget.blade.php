@@ -9,7 +9,7 @@
 @endphp
 
 @if (false === $is_stub)
-    <div {!! $attributes->merge_html_attrs(['class' => 'prosopo-procaptcha-wp__wrapper',]) !!}>
+    <div {!! $attributes->merge(['class' => 'prosopo-procaptcha-wp__wrapper',]) !!}>
         <prosopo-procaptcha-wp-widget class="prosopo-procaptcha-wp-widget" style="display: block;">
             <div class="prosopo-procaptcha"></div>
         </prosopo-procaptcha-wp-widget>
@@ -24,11 +24,11 @@
         @endif
 
         @if (false === $hidden_input_attrs->empty())
-            <input {!! $hidden_input_attrs->merge_html_attrs($hidden_input_defaults, true) !!}>
+            <input {!! $hidden_input_attrs->merge($hidden_input_defaults, true) !!}>
         @endif
 
     </div>
 @else
-    <input {!! $hidden_input_attrs->merge_html_attrs($hidden_input_defaults, true)
-->merge_html_attrs(['value'=> 'authorized_user',], true) !!}>
+    <input {!! $hidden_input_attrs->merge($hidden_input_defaults, true)
+->merge(['value'=> 'authorized_user',], true) !!}>
 @endif

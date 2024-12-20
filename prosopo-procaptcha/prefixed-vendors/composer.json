@@ -1,6 +1,7 @@
 {
     "require": {
-        "prosopo\/views": "^1.0"
+        "prosopo\/views": "^1.0",
+        "wplake\/typed": "^1.0"
     },
     "autoload": {
         "psr-4": {

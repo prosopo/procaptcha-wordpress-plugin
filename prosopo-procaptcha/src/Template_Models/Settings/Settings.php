@@ -6,7 +6,6 @@ namespace Io\Prosopo\Procaptcha\Template_Models\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
@@ -19,7 +18,7 @@ class Settings extends BaseTemplateModel {
 	public array $js_data;
 	public bool $is_just_saved;
 	/**
-	 * @var Collection[]
+	 * @var array<int,mixed>
 	 */
 	public array $tabs;
 	public string $current_tab;

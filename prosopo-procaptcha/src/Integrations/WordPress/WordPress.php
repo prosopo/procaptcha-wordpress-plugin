@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Settings;
+use Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\Typed;
 
 class WordPress extends Plugin_Integration {
 	public function get_form_integrations( Settings_Storage_Interface $settings_storage ): array {
@@ -28,11 +29,11 @@ class WordPress extends Plugin_Integration {
 		$account_forms = $settings_storage->get( Account_Forms_Settings::class )->get_settings();
 
 		return array(
-			Comment_Form::class            => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_COMMENT_FORM ),
-			Login_Form::class              => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
-			Lost_Password_Form::class      => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
-			Password_Protected_Form::class => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_POST_FORM ),
-			Register_Form::class           => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_REGISTER_FORM ),
+			Comment_Form::class            => Typed::bool( $account_forms, Account_Forms_Settings::IS_ON_WP_COMMENT_FORM ),
+			Login_Form::class              => Typed::bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
+			Lost_Password_Form::class      => Typed::bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
+			Password_Protected_Form::class => Typed::bool( $account_forms, Account_Forms_Settings::IS_ON_WP_POST_FORM ),
+			Register_Form::class           => Typed::bool( $account_forms, Account_Forms_Settings::IS_ON_WP_REGISTER_FORM ),
 		);
 	}
 }

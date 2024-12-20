@@ -16,41 +16,37 @@ final class Typed
 {
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      * @param mixed $default
      *
      * @return mixed
      */
-    public static function any($source, $key = null, $default = null)
+    public static function any($source, $keys = null, $default = null)
     {
-        if (null === $key) {
+        if (null === $keys) {
             return $source;
         }
-        $stringKey = (string) $key;
-        $isInnerKey = \false !== strpos($stringKey, '.');
-        if (\false === $isInnerKey) {
-            $value = null;
-            return \true === self::resolveKey($source, $key, $value) ? $value : $default;
+        if (\false === is_array($keys)) {
+            $keys = explode('.', (string) $keys);
         }
-        $keys = explode('.', $stringKey);
         return self::resolveKeys($source, $keys, $default);
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function string($source, $key = null, string $default = ''): string
+    public static function string($source, $keys = null, string $default = ''): string
     {
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         return \true === is_string($value) || \true === is_numeric($value) ? (string) $value : $default;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function stringExtended($source, $key = null, string $default = ''): string
+    public static function stringExtended($source, $keys = null, string $default = ''): string
     {
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         if (\true === is_string($value) || \true === is_numeric($value)) {
             return (string) $value;
         }
@@ -61,20 +57,20 @@ final class Typed
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function stringOrNull($source, $key = null): ?string
+    public static function stringOrNull($source, $keys = null): ?string
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         return \true === is_string($value) || \true === is_numeric($value) ? (string) $value : null;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function stringExtendedOrNull($source, $key = null): ?string
+    public static function stringExtendedOrNull($source, $keys = null): ?string
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         if (\true === is_string($value) || \true === is_numeric($value)) {
             return (string) $value;
         }
@@ -85,67 +81,67 @@ final class Typed
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function int($source, $key = null, int $default = 0): int
+    public static function int($source, $keys = null, int $default = 0): int
     {
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         return \true === is_numeric($value) ? (int) $value : $default;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function intOrNull($source, $key = null): ?int
+    public static function intOrNull($source, $keys = null): ?int
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         return \true === is_numeric($value) ? (int) $value : null;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function float($source, $key = null, float $default = 0.0): float
+    public static function float($source, $keys = null, float $default = 0.0): float
     {
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         return \true === is_numeric($value) ? (float) $value : $default;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function floatOrNull($source, $key = null): ?float
+    public static function floatOrNull($source, $keys = null): ?float
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         return \true === is_numeric($value) ? (float) $value : null;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function bool($source, $key = null, bool $default = \false): bool
+    public static function bool($source, $keys = null, bool $default = \false): bool
     {
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         return \true === is_bool($value) ? $value : $default;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function boolOrNull($source, $key = null): ?bool
+    public static function boolOrNull($source, $keys = null): ?bool
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         return \true === is_bool($value) ? $value : null;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
-     * @param array<int|string,mixed> $positive
-     * @param array<int|string,mixed> $negative
+     * @param int|string|array<int,int|string>|null $keys
+     * @param array<int,mixed> $positive
+     * @param array<int,mixed> $negative
      */
-    public static function boolExtended($source, $key = null, bool $default = \false, array $positive = [\true, 1, '1', 'on'], array $negative = [\false, 0, '0', 'off']): bool
+    public static function boolExtended($source, $keys = null, bool $default = \false, array $positive = [\true, 1, '1', 'on'], array $negative = [\false, 0, '0', 'off']): bool
     {
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         if (\true === in_array($value, $positive, \true)) {
             return \true;
         }
@@ -156,13 +152,13 @@ final class Typed
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
-     * @param array<int|string,mixed> $positive
-     * @param array<int|string,mixed> $negative
+     * @param int|string|array<int,int|string>|null $keys
+     * @param array<int,mixed> $positive
+     * @param array<int,mixed> $negative
      */
-    public static function boolExtendedOrNull($source, $key = null, array $positive = [\true, 1, '1', 'on'], array $negative = [\false, 0, '0', 'off']): ?bool
+    public static function boolExtendedOrNull($source, $keys = null, array $positive = [\true, 1, '1', 'on'], array $negative = [\false, 0, '0', 'off']): ?bool
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         if (\true === in_array($value, $positive, \true)) {
             return \true;
         }
@@ -173,63 +169,63 @@ final class Typed
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      * @param array<int|string,mixed> $default
      *
      * @return array<int|string,mixed>
      */
-    public static function array($source, $key = null, array $default = []): array
+    public static function array($source, $keys = null, array $default = []): array
     {
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         return \true === is_array($value) ? $value : $default;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      *
      * @return array<int|string,mixed>|null
      */
-    public static function arrayOrNull($source, $key = null): ?array
+    public static function arrayOrNull($source, $keys = null): ?array
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         return \true === is_array($value) ? $value : null;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function object($source, $key = null, ?object $default = null): object
+    public static function object($source, $keys = null, ?object $default = null): object
     {
         $default = null === $default ? new stdClass() : $default;
-        $value = self::any($source, $key, $default);
+        $value = self::any($source, $keys, $default);
         return \true === is_object($value) ? $value : $default;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function objectOrNull($source, $key = null): ?object
+    public static function objectOrNull($source, $keys = null): ?object
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         return \true === is_object($value) ? $value : null;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function dateTime($source, $key = null, ?DateTime $default = null): DateTime
+    public static function dateTime($source, $keys = null, ?DateTime $default = null): DateTime
     {
         $default = null === $default ? new DateTime() : $default;
-        $value = self::object($source, $key, $default);
+        $value = self::object($source, $keys, $default);
         return \true === $value instanceof DateTime ? $value : $default;
     }
     /**
      * @param mixed $source
-     * @param int|string|null $key
+     * @param int|string|array<int,int|string>|null $keys
      */
-    public static function dateTimeOrNull($source, $key = null): ?DateTime
+    public static function dateTimeOrNull($source, $keys = null): ?DateTime
     {
-        $value = self::any($source, $key);
+        $value = self::any($source, $keys);
         return \true === $value instanceof DateTime ? $value : null;
     }
     /**

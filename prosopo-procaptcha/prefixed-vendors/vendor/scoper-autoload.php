@@ -31,4 +31,26 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
 }
 humbug_phpscoper_expose_class('ComposerAutoloaderInit043dd16cfbc09f98741d61dc32af3bc2', 'Io\Prosopo\Procaptcha\Vendors\ComposerAutoloaderInit043dd16cfbc09f98741d61dc32af3bc2');
 
+// Function aliases. For more information see:
+// https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
+if (!function_exists('any')) { function any() { return \Io\Prosopo\Procaptcha\Vendors\any(...func_get_args()); } }
+if (!function_exists('arr')) { function arr() { return \Io\Prosopo\Procaptcha\Vendors\arr(...func_get_args()); } }
+if (!function_exists('arrayOrNull')) { function arrayOrNull() { return \Io\Prosopo\Procaptcha\Vendors\arrayOrNull(...func_get_args()); } }
+if (!function_exists('bool')) { function bool() { return \Io\Prosopo\Procaptcha\Vendors\bool(...func_get_args()); } }
+if (!function_exists('boolExtended')) { function boolExtended() { return \Io\Prosopo\Procaptcha\Vendors\boolExtended(...func_get_args()); } }
+if (!function_exists('boolExtendedOrNull')) { function boolExtendedOrNull() { return \Io\Prosopo\Procaptcha\Vendors\boolExtendedOrNull(...func_get_args()); } }
+if (!function_exists('boolOrNull')) { function boolOrNull() { return \Io\Prosopo\Procaptcha\Vendors\boolOrNull(...func_get_args()); } }
+if (!function_exists('dateTime')) { function dateTime() { return \Io\Prosopo\Procaptcha\Vendors\dateTime(...func_get_args()); } }
+if (!function_exists('dateTimeOrNull')) { function dateTimeOrNull() { return \Io\Prosopo\Procaptcha\Vendors\dateTimeOrNull(...func_get_args()); } }
+if (!function_exists('float')) { function float() { return \Io\Prosopo\Procaptcha\Vendors\float(...func_get_args()); } }
+if (!function_exists('floatOrNull')) { function floatOrNull() { return \Io\Prosopo\Procaptcha\Vendors\floatOrNull(...func_get_args()); } }
+if (!function_exists('int')) { function int() { return \Io\Prosopo\Procaptcha\Vendors\int(...func_get_args()); } }
+if (!function_exists('intOrNull')) { function intOrNull() { return \Io\Prosopo\Procaptcha\Vendors\intOrNull(...func_get_args()); } }
+if (!function_exists('object')) { function object() { return \Io\Prosopo\Procaptcha\Vendors\object(...func_get_args()); } }
+if (!function_exists('objectOrNull')) { function objectOrNull() { return \Io\Prosopo\Procaptcha\Vendors\objectOrNull(...func_get_args()); } }
+if (!function_exists('string')) { function string() { return \Io\Prosopo\Procaptcha\Vendors\string(...func_get_args()); } }
+if (!function_exists('stringExtended')) { function stringExtended() { return \Io\Prosopo\Procaptcha\Vendors\stringExtended(...func_get_args()); } }
+if (!function_exists('stringExtendedOrNull')) { function stringExtendedOrNull() { return \Io\Prosopo\Procaptcha\Vendors\stringExtendedOrNull(...func_get_args()); } }
+if (!function_exists('stringOrNull')) { function stringOrNull() { return \Io\Prosopo\Procaptcha\Vendors\stringOrNull(...func_get_args()); } }
+
 return $loader;

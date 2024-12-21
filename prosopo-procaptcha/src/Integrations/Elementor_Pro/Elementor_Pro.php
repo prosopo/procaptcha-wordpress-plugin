@@ -11,6 +11,7 @@ use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Settings;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 class Elementor_Pro extends Plugin_Integration implements Hooks_Interface {
 	public function get_target_plugin_classes(): array {
@@ -46,7 +47,7 @@ class Elementor_Pro extends Plugin_Integration implements Hooks_Interface {
 		return array(
 			// Login Widget submits to wp-login.php, so validation happens there,
 			// therefore that option should be active.
-			Elementor_Login_Widget::class => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
+			Elementor_Login_Widget::class => bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
 		);
 	}
 }

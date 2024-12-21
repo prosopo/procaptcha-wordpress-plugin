@@ -10,6 +10,7 @@ use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Settings;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Woo_Commerce_Settings;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 class WooCommerce extends Plugin_Integration {
 	public function get_target_plugin_classes(): array {
@@ -31,11 +32,11 @@ class WooCommerce extends Plugin_Integration {
 		$woo_settings  = $settings_storage->get( Woo_Commerce_Settings::class )->get_settings();
 
 		return array(
-			Woo_Checkout_Form::class       => $woo_settings->get_bool( Woo_Commerce_Settings::IS_ON_CHECKOUT ),
-			Woo_Login_Form::class          => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
-			Woo_Lost_Password_Form::class  => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
-			Woo_Order_Tracking_Form::class => $woo_settings->get_bool( Woo_Commerce_Settings::IS_ON_ORDER_TRACKING ),
-			Woo_Register_Form::class       => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_REGISTER_FORM ),
+			Woo_Checkout_Form::class       => bool( $woo_settings, Woo_Commerce_Settings::IS_ON_CHECKOUT ),
+			Woo_Login_Form::class          => bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
+			Woo_Lost_Password_Form::class  => bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
+			Woo_Order_Tracking_Form::class => bool( $woo_settings, Woo_Commerce_Settings::IS_ON_ORDER_TRACKING ),
+			Woo_Register_Form::class       => bool( $account_forms, Account_Forms_Settings::IS_ON_WP_REGISTER_FORM ),
 		);
 	}
 }

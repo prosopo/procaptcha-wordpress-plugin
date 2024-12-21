@@ -11,6 +11,7 @@ use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
 use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Settings;
 use UR_Form_Field_Prosopo_Procaptcha;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 class User_Registration extends Plugin_Integration implements Hooks_Interface {
 	public function get_target_plugin_classes(): array {
@@ -72,8 +73,8 @@ class User_Registration extends Plugin_Integration implements Hooks_Interface {
 		$account_forms = $settings_storage->get( Account_Forms_Settings::class )->get_settings();
 
 		return array(
-			UR_Login_Form::class         => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
-			UR_Lost_Password_Form::class => $account_forms->get_bool( Account_Forms_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
+			UR_Login_Form::class         => bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
+			UR_Lost_Password_Form::class => bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
 		);
 	}
 }

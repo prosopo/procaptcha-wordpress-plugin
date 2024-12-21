@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Hookable_Form_Integration_Interface;
-use function Io\Prosopo\Procaptcha\make_collection;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // Class name must match the UR_Form_Field_{field_type} format.
 class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable_Form_Integration_Interface {
@@ -75,9 +75,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	public function validation( $single_form_field, $form_data, $filter_hook, $form_id ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		$form_data = get_object_vars( $form_data );
-		$token     = make_collection( $form_data )
-			->get_string( 'value' );
+		$token = string( $form_data, 'value' );
 
 		if ( false === $captcha->is_present() ||
 		true === $captcha->is_human_made_request( $token ) ) {

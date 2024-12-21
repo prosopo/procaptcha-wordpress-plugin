@@ -6,9 +6,9 @@ namespace Io\Prosopo\Procaptcha\Captcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Collection;
 use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager_Interface;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Settings;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Captcha_Assets {
 
@@ -26,11 +26,14 @@ class Captcha_Assets {
 		return str_replace( 'src', 'type="module" src', $tag );
 	}
 
-	public function enqueue_widget_js( string $handle, Assets_Manager_Interface $assets_manager, Collection $general_settings ): void {
+	/**
+	 * @param array<string,mixed> $general_settings
+	 */
+	public function enqueue_widget_js( string $handle, Assets_Manager_Interface $assets_manager, array $general_settings ): void {
 		$captcha_attributes = array(
-			'captchaType' => $general_settings->get_string( General_Settings::TYPE ),
-			'siteKey'     => $general_settings->get_string( General_Settings::SITE_KEY ),
-			'theme'       => $general_settings->get_string( General_Settings::THEME ),
+			'captchaType' => string( $general_settings, General_Settings::TYPE ),
+			'siteKey'     => string( $general_settings, General_Settings::SITE_KEY ),
+			'theme'       => string( $general_settings, General_Settings::THEME ),
 		);
 
 		$captcha_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $captcha_attributes );

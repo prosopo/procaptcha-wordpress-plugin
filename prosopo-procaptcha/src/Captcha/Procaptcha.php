@@ -14,7 +14,10 @@ use Io\Prosopo\Procaptcha\Settings\Tabs\General_Settings;
 use Io\Prosopo\Procaptcha\Template_Models\Widget;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use WP_Error;
-use function Io\Prosopo\Procaptcha\make_collection;
+use function Io\Prosopo\Procaptcha\html_attrs_collection;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Procaptcha implements Captcha_Interface {
 
@@ -95,7 +98,7 @@ class Procaptcha implements Captcha_Interface {
 		}
 
 		$general_settings = $this->settings_storage->get( General_Settings::class )->get_settings();
-		$secret_key       = $general_settings->get_string( General_Settings::SECRET_KEY );
+		$secret_key       = string( $general_settings, General_Settings::SECRET_KEY );
 
 		$response = wp_remote_post(
 			self::API_URL,
@@ -130,9 +133,7 @@ class Procaptcha implements Captcha_Interface {
 			$body :
 			array();
 
-		$body = make_collection( $body );
-
-		return true === $body->get_bool( 'verified' );
+		return true === bool( $body, 'verified' );
 	}
 
 	public function add_validation_error( WP_Error $error = null ): WP_Error {
@@ -154,7 +155,7 @@ class Procaptcha implements Captcha_Interface {
 		$is_user_authorized = wp_get_current_user()->exists();
 
 		$general_settings          = $this->settings_storage->get( General_Settings::class )->get_settings();
-		$is_enabled_for_authorized = true === $general_settings->get_bool( General_Settings::IS_ENABLED_FOR_AUTHORIZED );
+		$is_enabled_for_authorized = true === bool( $general_settings, General_Settings::IS_ENABLED_FOR_AUTHORIZED );
 
 		$is_present = false === $is_user_authorized ||
 			true === $is_enabled_for_authorized;
@@ -165,8 +166,8 @@ class Procaptcha implements Captcha_Interface {
 	public function is_available(): bool {
 		$general_settings = $this->settings_storage->get( General_Settings::class )->get_settings();
 
-		return '' !== $general_settings->get_string( General_Settings::SECRET_KEY ) &&
-			'' !== $general_settings->get_string( General_Settings::SITE_KEY );
+		return '' !== string( $general_settings, General_Settings::SECRET_KEY ) &&
+			'' !== string( $general_settings, General_Settings::SITE_KEY );
 	}
 
 	public function add_integration_js( string $integration_name ): void {
@@ -178,9 +179,8 @@ class Procaptcha implements Captcha_Interface {
 	}
 
 	public function print_form_field( array $settings = array() ): string {
-		$settings = make_collection( $settings );
 
-		$is_field_stub = true === $settings->get_bool( Widget_Arguments::IS_DESIRED_ON_GUESTS ) &&
+		$is_field_stub = true === bool( $settings, Widget_Arguments::IS_DESIRED_ON_GUESTS ) &&
 			false === $this->is_present();
 
 		if ( false === $is_field_stub ) {
@@ -191,16 +191,19 @@ class Procaptcha implements Captcha_Interface {
 		$form_field = $this->renderer->renderModel(
 			Widget::class,
 			function ( Widget $widget ) use ( $is_field_stub, $settings ) {
-				$widget->attributes           = $settings->get_sub_collection( Widget_Arguments::ELEMENT_ATTRIBUTES );
-				$widget->hidden_input_attrs   = $settings->get_sub_collection( Widget_Arguments::HIDDEN_INPUT_ATTRIBUTES );
+				$attributes         = arr( $settings, Widget_Arguments::ELEMENT_ATTRIBUTES );
+				$hidden_input_attrs = arr( $settings, Widget_Arguments::HIDDEN_INPUT_ATTRIBUTES );
+
+				$widget->attributes           = html_attrs_collection( $attributes );
+				$widget->hidden_input_attrs   = html_attrs_collection( $hidden_input_attrs );
 				$widget->is_stub              = $is_field_stub;
-				$widget->no_client_validation = $settings->get_bool( Widget_Arguments::IS_WITHOUT_CLIENT_VALIDATION );
-				$widget->is_error_visible     = $settings->get_bool( Widget_Arguments::IS_ERROR_ACTIVE );
+				$widget->no_client_validation = bool( $settings, Widget_Arguments::IS_WITHOUT_CLIENT_VALIDATION );
+				$widget->is_error_visible     = bool( $settings, Widget_Arguments::IS_ERROR_ACTIVE );
 				$widget->error_message        = $this->get_validation_error_message();
 			}
 		);
 
-		if ( false === $settings->get_bool( Widget_Arguments::IS_RETURN_ONLY ) ) {
+		if ( false === bool( $settings, Widget_Arguments::IS_RETURN_ONLY ) ) {
             // @phpcs:ignore WordPress.Security.EscapeOutput
 			echo $form_field;
 			$form_field = '';

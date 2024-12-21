@@ -4,13 +4,13 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha\Integrations\Fluent_Forms;
 
+defined( 'ABSPATH' ) || exit;
+
 use FluentForm\App\Services\FormBuilder\BaseFieldManager;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
-use function Io\Prosopo\Procaptcha\make_collection;
-
-defined( 'ABSPATH' ) || exit;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Fluent_Forms_Field extends BaseFieldManager implements Form_Integration_Interface {
 	use Form_Integration;
@@ -101,8 +101,7 @@ class Fluent_Forms_Field extends BaseFieldManager implements Form_Integration_In
 	 * @return string|string[]
 	 */
 	public function validate( $error_message, array $field, $form_data, $fields, $form ) {
-		$token = make_collection( $form_data )
-			->get_string( $this->key );
+		$token = string( $form_data, $this->key );
 
 		$captcha = self::get_form_helper()->get_captcha();
 

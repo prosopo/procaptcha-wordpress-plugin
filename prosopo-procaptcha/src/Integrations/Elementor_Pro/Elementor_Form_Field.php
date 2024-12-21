@@ -4,14 +4,14 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha\Integrations\Elementor_Pro;
 
+defined( 'ABSPATH' ) || exit;
+
 use ElementorPro\Modules\Forms\Classes;
 use ElementorPro\Modules\Forms\Fields\Field_Base;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
-use function Io\Prosopo\Procaptcha\make_collection;
-
-defined( 'ABSPATH' ) || exit;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Elementor_Form_Field extends Field_Base implements Form_Integration_Interface {
 	use Form_Integration;
@@ -73,14 +73,11 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 	 * @param mixed $form
 	 */
 	public function render( $item, $item_index, $form ): void {
-		$item_data = true === is_array( $item ) ?
-			$item :
-			array();
-		$item_info = make_collection( $item_data );
+		$item_id = string( $item, '_id' );
 
 		// Without an element with the target id, the built-in Elementor validation will not add the error message after failed validation,
 		// while we can't get this field id during the real widget rendering.
-		$hidden_input = sprintf( '<input type="hidden" id="form-field-field_%s" name="%1$s" value="1">', $item_info->get_string( '_id' ) );
+		$hidden_input = sprintf( '<input type="hidden" id="form-field-field_%s" name="%1$s" value="1">', $item_id );
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->get_field_stub() . $hidden_input;
@@ -99,13 +96,10 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 			return;
 		}
 
-		$field_data = true === is_array( $field ) ?
-			$field :
-			array();
-		$field_info = make_collection( $field_data );
+		$field_id = string( $field, 'id' );
 
 		$ajax_handler->add_error(
-			$field_info->get_string( 'id' ),
+			$field_id,
 			$captcha->get_validation_error_message()
 		);
 	}

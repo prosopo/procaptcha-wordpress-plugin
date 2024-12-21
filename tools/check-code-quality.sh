@@ -33,6 +33,16 @@ checkPhpStan() {
   return $?
 }
 
+checkPhpPest(){
+  local parentPath="$1"
+
+  cd "$parentPath"/../php-tools/code-quality || { echo "Failed to change directory to php-tools/code-quality"; return 1; }
+
+  php vendor/bin/pest
+
+  return $?
+}
+
 checkJsEslint(){
   local parentPath="$1"
 
@@ -91,6 +101,7 @@ runChecks(){
  declare -A checksList=(
    ["codesniffer"]="checkPhpCodeSniffer"
    ["phpstan"]="checkPhpStan"
+   ["pest"]="checkPhpPest"
    ["eslint"]="checkJsEslint"
    ["prettier"]="checkJsPrettier"
  )

@@ -4,11 +4,11 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha\Integrations\JetPack;
 
+defined( 'ABSPATH' ) || exit;
+
 use Automattic\Jetpack\Forms\ContactForm\Contact_Form;
 use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration;
-use function Io\Prosopo\Procaptcha\make_collection;
-
-defined( 'ABSPATH' ) || exit;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class JetPack_Form_Field extends Hookable_Form_Integration {
 	public function set_hooks( bool $is_admin_area ): void {
@@ -32,9 +32,7 @@ class JetPack_Form_Field extends Hookable_Form_Integration {
 	}
 
 	protected function is_form_submitted( Contact_Form $form ): bool {
-		// @phpstan-ignore-next-line
-		$form_id = make_collection( $form->attributes )
-			->get_string( 'id' );
+		$form_id = string( $form, 'attributes.id' );
 
 		$query_arguments = self::get_form_helper()->get_query_arguments();
 

@@ -4,13 +4,13 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha\Integrations\Everest_Forms;
 
+defined( 'ABSPATH' ) || exit;
+
 use EVF_Form_Fields;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
-use function Io\Prosopo\Procaptcha\make_collection;
-
-defined( 'ABSPATH' ) || exit;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Everest_Forms_Field extends EVF_Form_Fields implements Form_Integration_Interface {
 	use Form_Integration;
@@ -56,10 +56,8 @@ class Everest_Forms_Field extends EVF_Form_Fields implements Form_Integration_In
 	public function field_display( $field, $field_atts, $form_data ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		$field_id = make_collection( $field )
-			->get_string( 'id' );
-		$form_id  = make_collection( $form_data )
-			->get_string( 'id' );
+		$field_id = string( $field, 'id' );
+		$form_id  = string( $form_data, 'id' );
 
 		$captcha->print_form_field(
 			array(
@@ -94,8 +92,7 @@ class Everest_Forms_Field extends EVF_Form_Fields implements Form_Integration_In
 			return;
 		}
 
-		$form_id = make_collection( $form_data )
-			->get_string( 'id' );
+		$form_id = string( $form_data, 'id' );
 
 		/**
 		 * @var \EVF_Form_Task $task

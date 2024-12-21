@@ -10,7 +10,8 @@ use FrmFieldType;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
-use function Io\Prosopo\Procaptcha\make_collection;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Interface {
 	use Form_Integration;
@@ -67,12 +68,11 @@ class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Int
 	public function front_field_input( $args, $shortcode_atts ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		$arguments = make_collection( $args );
+		$field_id = string( $args, 'field_id' );
 
-		$field_id  = $arguments->get_string( 'field_id' );
 		$field_key = $this->get_field_key( $field_id );
 
-		$form_errors = $arguments->get_array( 'errors' );
+		$form_errors = arr( $args, 'errors' );
 		$is_error    = true === key_exists( $field_key, $form_errors );
 
 		return $captcha->print_form_field(
@@ -94,18 +94,17 @@ class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Int
 	 */
 	// @phpstan-ignore-next-line
 	public function validate( $args ) {
-		$errors    = array();
-		$captcha   = self::get_form_helper()->get_captcha();
-		$arguments = make_collection( $args );
+		$errors  = array();
+		$captcha = self::get_form_helper()->get_captcha();
 
-		$token = $arguments->get_string( 'value' );
+		$token = string( $args, 'value' );
 
 		if ( false === $captcha->is_present() ||
 		true === $captcha->is_human_made_request( $token ) ) {
 			return $errors;
 		}
 
-		$field_id  = $arguments->get_string( 'id' );
+		$field_id  = string( $args, 'id' );
 		$field_key = $this->get_field_key( $field_id );
 
 		$error_message = $captcha->get_validation_error_message();

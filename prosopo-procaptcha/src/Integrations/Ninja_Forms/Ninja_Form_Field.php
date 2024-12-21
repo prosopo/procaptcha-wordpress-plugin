@@ -10,7 +10,8 @@ use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
 use NF_Abstracts_Input;
-use function Io\Prosopo\Procaptcha\make_collection;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // todo: find a way to make the field required by default.
 class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_Interface {
@@ -55,16 +56,15 @@ class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_In
 		$element .= '<prosopo-procaptcha-ninja-forms-integration></prosopo-procaptcha-ninja-forms-integration>';
 		$captcha->add_integration_js( 'ninja-forms' );
 
-		$field_data = make_collection( $field );
-		$field_data->get_sub_collection( 'settings' )
-			->merge(
-				array(
-					'label_pos'  => 'hidden', // Hide the label.
-					'procaptcha' => $element,
-				)
-			);
+		$field['settings'] = array_merge(
+			arr( $field, 'settings' ),
+			array(
+				'label_pos'  => 'hidden', // Hide the label.
+				'procaptcha' => $element,
+			)
+		);
 
-		return $field_data->to_array();
+		return $field;
 	}
 
 	/**
@@ -83,8 +83,7 @@ class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_In
 			return array();
 		}
 
-		$token = make_collection( $field )
-			->get_string( 'value' );
+		$token = string( $field, 'value' );
 
 		if ( false === $captcha->is_human_made_request( $token ) ) {
 			// For some reason it doesn't display error if array is returned...

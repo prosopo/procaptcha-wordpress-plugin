@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha;
 
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\int;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
@@ -30,7 +30,7 @@ class Query_Arguments {
 	public function get_bool_for_non_action( string $arg_name, string $from = self::GET ): bool {
 		$source = $this->get_source( $from );
 
-		return bool( $source, $arg_name );
+		return boolExtended( $source, $arg_name );
 	}
 
 	public function get_string_for_admin_action(

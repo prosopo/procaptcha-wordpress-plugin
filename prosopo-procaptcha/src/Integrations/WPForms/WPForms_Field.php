@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
-use function Io\Prosopo\Procaptcha\make_collection;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class WPForms_Field extends \WPForms_Field implements Form_Integration_Interface {
 	use Form_Integration;
@@ -60,14 +60,8 @@ class WPForms_Field extends \WPForms_Field implements Form_Integration_Interface
 	 */
 	// @phpstan-ignore-next-line
 	public function field_display( $field, $field_atts, $form_data ) {
-		$input_data = make_collection( $field )
-			->get_sub_collection( 'properties' )
-			->get_sub_collection( 'inputs' )
-			->get_sub_collection( 'primary' );
-
-		$id   = $input_data->get_string( 'id' );
-		$name = $input_data->get_sub_collection( 'attr' )
-									->get_string( 'name' );
+		$id   = string( $field, 'properties.inputs.primary.id' );
+		$name = string( $field, 'properties.inputs.primary.attr.name' );
 
 		self::get_form_helper()->get_captcha()->print_form_field(
 			array(

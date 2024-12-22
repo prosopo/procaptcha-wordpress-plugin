@@ -77,15 +77,15 @@ class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_In
 	public function validate( $field, $data ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === is_array( $field ) ||
-		false === is_array( $data ) ||
-		false === $captcha->is_present() ) {
+		if ( ! is_array( $field ) ||
+		! is_array( $data ) ||
+		! $captcha->present() ) {
 			return array();
 		}
 
 		$token = string( $field, 'value' );
 
-		if ( false === $captcha->is_human_made_request( $token ) ) {
+		if ( ! $captcha->human_made_request( $token ) ) {
 			// For some reason it doesn't display error if array is returned...
 			return $captcha->get_validation_error_message(); // @phpstan-ignore-line.
 		}

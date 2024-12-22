@@ -42,8 +42,8 @@ class Elementor_Login_Widget extends Hookable_Form_Integration {
 	}
 
 	public function inject_captcha_into_target_widget( string $content, Widget_Base $widget ): string {
-		if ( false === $this->is_target_widget( $widget ) ||
-		false === $this->is_active_widget( $widget ) ) {
+		if ( ! $this->is_target_widget( $widget ) ||
+		! $this->is_active_widget( $widget ) ) {
 			return $content;
 		}
 

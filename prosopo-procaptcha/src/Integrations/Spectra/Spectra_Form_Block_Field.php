@@ -33,7 +33,7 @@ class Spectra_Form_Block_Field extends Hookable_Form_Integration {
 		$captcha    = self::get_form_helper()->get_captcha();
 		$input_name = $captcha->get_field_name();
 
-		if ( false === $this->is_input_present( $input_name, $content ) ) {
+		if ( ! $this->is_input_present( $input_name, $content ) ) {
 			return $content;
 		}
 
@@ -68,25 +68,25 @@ class Spectra_Form_Block_Field extends Hookable_Form_Integration {
 		$post_id  = $query_arguments->get_int_for_non_action( 'post_id', Query_Arguments::POST );
 		$block_id = $query_arguments->get_string_for_non_action( 'block_id', Query_Arguments::POST );
 
-		if ( false === $captcha->is_present() ||
-			false === $this->is_valid_post_id( $post_id ) ||
+		if ( ! $captcha->present() ||
+			! $this->is_valid_post_id( $post_id ) ||
 		'' === $block_id ) {
 			return;
 		}
 
 		$field_name = $captcha->get_field_name();
 
-		if ( false === $this->form_block_has_hidden_field( $post_id, $block_id, $field_name ) ) {
+		if ( ! $this->form_block_has_hidden_field( $post_id, $block_id, $field_name ) ) {
 			return;
 		}
 
 		$form_data   = $query_arguments->get_string_for_non_action( 'form_data', Query_Arguments::POST );
 		$token_value = $this->get_value_from_json_string( $field_name, $form_data );
-		$token       = true === is_string( $token_value ) ?
+		$token       = is_string( $token_value ) ?
 			$token_value :
 			'';
 
-		if ( true === $captcha->is_human_made_request( $token ) ) {
+		if ( $captcha->human_made_request( $token ) ) {
 			return;
 		}
 
@@ -99,8 +99,8 @@ class Spectra_Form_Block_Field extends Hookable_Form_Integration {
 	 */
 	protected function get_value_from_json_string( string $field_name, string $json_string ) {
 		$form_data = json_decode( $json_string, true );
-		return true === is_array( $form_data ) &&
-				true === key_exists( $field_name, $form_data ) ?
+		return is_array( $form_data ) &&
+			key_exists( $field_name, $form_data ) ?
 			$form_data[ $field_name ] :
 			'';
 	}
@@ -128,8 +128,8 @@ class Spectra_Form_Block_Field extends Hookable_Form_Integration {
 	 * @return array<string,mixed>
 	 */
 	protected function find_inner_block( array $parent_block, string $block_name, string $attr_name, string $attr_value ): array {
-		$form_inner_blocks = true === key_exists( 'innerBlocks', $parent_block ) &&
-								true === is_array( $parent_block['innerBlocks'] ) ?
+		$form_inner_blocks = key_exists( 'innerBlocks', $parent_block ) &&
+								is_array( $parent_block['innerBlocks'] ) ?
 			$parent_block['innerBlocks'] :
 			array();
 
@@ -150,8 +150,8 @@ class Spectra_Form_Block_Field extends Hookable_Form_Integration {
 		$target_blocks = array_filter(
 			$blocks,
 			function ( $block ) use ( $block_name, $attr_name, $attr_value ) {
-				return true === isset( $block['blockName'], $block['attrs'] ) &&
-						true === is_array( $block['attrs'] ) &&
+				return isset( $block['blockName'], $block['attrs'] ) &&
+						is_array( $block['attrs'] ) &&
 						$block_name === $block['blockName'] &&
 						$attr_value === $block['attrs'][ $attr_name ];
 			}
@@ -159,7 +159,7 @@ class Spectra_Form_Block_Field extends Hookable_Form_Integration {
 
 		$target_block = array_pop( $target_blocks );
 
-		return true === is_array( $target_block ) ?
+		return is_array( $target_block ) ?
 			$target_block :
 			array();
 	}

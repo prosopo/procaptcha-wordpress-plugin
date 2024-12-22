@@ -25,42 +25,42 @@ class Html_Attributes_Collection {
 	 * @param self|array<string|int, mixed> $origin
 	 */
 	public function merge( $origin, bool $use_as_defaults = false ): self {
-		$origin_collection = false === is_array( $origin ) ?
-			$origin :
-			new self( $origin );
+		$origin_collection = is_array( $origin ) ?
+			new self( $origin ) :
+			$origin;
 
 		foreach ( $origin_collection->keys() as $origin_key ) {
-			if ( false === is_string( $origin_key ) ) {
+			if ( ! is_string( $origin_key ) ) {
 				continue;
 			}
 
-			$is_present   = true === key_exists( $origin_key, $this->items );
+			$present      = key_exists( $origin_key, $this->items );
 			$origin_value = string( $origin_collection->get_items(), $origin_key );
 
 			if ( 'class' === $origin_key &&
-			true === $is_present ) {
+			$present ) {
 				$current_classes = explode( ' ', string( $this->items, $origin_key ) );
 				$new_classes     = explode( ' ', $origin_value );
 
 				$origin_value = array_unique( array_merge( $current_classes, $new_classes ) );
 				$origin_value = join( ' ', $origin_value );
 
-				$is_present = false;
+				$present = false;
 			}
 
 			if ( 'style' === $origin_key &&
-			true === $is_present ) {
+			$present ) {
 				$current_styles = explode( ';', string( $this->items, $origin_key ) );
 				$new_styles     = explode( ';', $origin_value );
 
 				$origin_value = array_unique( array_merge( $current_styles, $new_styles ) );
 				$origin_value = join( ';', $origin_value );
 
-				$is_present = false;
+				$present = false;
 			}
 
-			if ( true === $is_present &&
-			true === $use_as_defaults ) {
+			if ( $present &&
+			$use_as_defaults ) {
 				continue;
 			}
 
@@ -98,7 +98,7 @@ class Html_Attributes_Collection {
 	}
 
 	protected function remove( string $item_name ): self {
-		if ( true === key_exists( $item_name, $this->items ) ) {
+		if ( key_exists( $item_name, $this->items ) ) {
 			unset( $this->items[ $item_name ] );
 		}
 

@@ -81,7 +81,7 @@ class Procaptcha implements Captcha_Interface {
 	/**
 	 * @param string|null $token Allows to define the token value for JS-based custom forms (like NinjaForms).
 	 */
-	public function is_human_made_request( ?string $token = null ): bool {
+	public function human_made_request( ?string $token = null ): bool {
 		$token = null === $token ?
 			$this->query_arguments->get_string_for_non_action( self::FORM_FIELD_NAME, Query_Arguments::POST ) :
 			$token;
@@ -91,8 +91,10 @@ class Procaptcha implements Captcha_Interface {
 			return false;
 		}
 
-		if ( defined( self::ALLOW_BYPASS_CONSTANT_NAME ) &&
-			true === constant( self::ALLOW_BYPASS_CONSTANT_NAME ) &&
+		$allow_bypass = defined( self::ALLOW_BYPASS_CONSTANT_NAME ) &&
+			true === constant( self::ALLOW_BYPASS_CONSTANT_NAME );
+
+		if ( $allow_bypass &&
 			'bypass' === $token ) {
 			return true;
 		}
@@ -118,7 +120,7 @@ class Procaptcha implements Captcha_Interface {
 			)
 		);
 
-		if ( true === is_wp_error( $response ) ||
+		if ( is_wp_error( $response ) ||
 			200 !== wp_remote_retrieve_response_code( $response ) ) {
 			// something went wrong, maybe connection issue, but we still shouldn't allow the request.
 			// todo log.
@@ -129,11 +131,11 @@ class Procaptcha implements Captcha_Interface {
 
 		$body = json_decode( $body, true );
 
-		$body = true === is_array( $body ) ?
+		$body = is_array( $body ) ?
 			$body :
 			array();
 
-		return true === bool( $body, 'verified' );
+		return bool( $body, 'verified' );
 	}
 
 	public function add_validation_error( WP_Error $error = null ): WP_Error {
@@ -151,16 +153,16 @@ class Procaptcha implements Captcha_Interface {
 	}
 
 	// Note: this function is available only after the 'set_current_user' hook.
-	public function is_present(): bool {
-		$is_user_authorized = wp_get_current_user()->exists();
+	public function present(): bool {
+		$user_authorized = wp_get_current_user()->exists();
 
-		$general_settings          = $this->settings_storage->get( General_Settings::class )->get_settings();
-		$is_enabled_for_authorized = true === bool( $general_settings, General_Settings::IS_ENABLED_FOR_AUTHORIZED );
+		$general_settings       = $this->settings_storage->get( General_Settings::class )->get_settings();
+		$enabled_for_authorized = bool( $general_settings, General_Settings::IS_ENABLED_FOR_AUTHORIZED );
 
-		$is_present = false === $is_user_authorized ||
-			true === $is_enabled_for_authorized;
+		$present = ! $user_authorized ||
+			$enabled_for_authorized;
 
-		return apply_filters( 'prosopo/procaptcha/is_captcha_present', $is_present );
+		return apply_filters( 'prosopo/procaptcha/is_captcha_present', $present );
 	}
 
 	public function is_available(): bool {
@@ -179,11 +181,12 @@ class Procaptcha implements Captcha_Interface {
 	}
 
 	public function print_form_field( array $settings = array() ): string {
+		$desired_on_guests = bool( $settings, Widget_Arguments::IS_DESIRED_ON_GUESTS );
 
-		$is_field_stub = true === bool( $settings, Widget_Arguments::IS_DESIRED_ON_GUESTS ) &&
-			false === $this->is_present();
+		$is_field_stub = $desired_on_guests &&
+			! $this->present();
 
-		if ( false === $is_field_stub ) {
+		if ( ! $is_field_stub ) {
 			// automatically mark as in use.
 			$this->captcha_assets_manager->add_widget();
 		}
@@ -203,7 +206,9 @@ class Procaptcha implements Captcha_Interface {
 			}
 		);
 
-		if ( false === bool( $settings, Widget_Arguments::IS_RETURN_ONLY ) ) {
+		$return_only = bool( $settings, Widget_Arguments::IS_RETURN_ONLY );
+
+		if ( ! $return_only ) {
             // @phpcs:ignore WordPress.Security.EscapeOutput
 			echo $form_field;
 			$form_field = '';

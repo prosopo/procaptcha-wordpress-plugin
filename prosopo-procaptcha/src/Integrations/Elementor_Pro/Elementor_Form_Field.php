@@ -40,7 +40,7 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 		$captcha = self::get_form_helper()->get_captcha();
 
 		// Remove the stub if the captcha is not present.
-		if ( false === $captcha->is_present() ) {
+		if ( ! $captcha->present() ) {
 			return str_replace( $stub, '', $content );
 		}
 
@@ -91,8 +91,8 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request() ) {
+		if ( ! $captcha->present() ||
+		$captcha->human_made_request() ) {
 			return;
 		}
 

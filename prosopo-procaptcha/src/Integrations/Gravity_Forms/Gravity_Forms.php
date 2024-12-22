@@ -25,8 +25,8 @@ class Gravity_Forms extends Plugin_Integration implements Hooks_Interface {
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
-		if ( true === class_exists( 'GF_Fields' ) &&
-		true === is_callable( array( 'GF_Fields', 'register' ) ) ) {
+		if ( class_exists( 'GF_Fields' ) &&
+		is_callable( array( 'GF_Fields', 'register' ) ) ) {
 			// While we create the object ourselves, don't pass objects directly, as GravityForms will save its class,
 			// and then create instances itself on the fly.
 			GF_Fields::register( new Gravity_Form_Field() );

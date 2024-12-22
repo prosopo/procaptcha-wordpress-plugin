@@ -25,7 +25,7 @@ class Settings_Storage implements Settings_Storage_Interface {
 	 * @return Settings_Tab_Interface
 	 */
 	public function get( string $item_class ): Settings_Tab_Interface {
-		if ( true === key_exists( $item_class, $this->settings_tabs ) ) {
+		if ( key_exists( $item_class, $this->settings_tabs ) ) {
 			return $this->settings_tabs[ $item_class ];
 		}
 

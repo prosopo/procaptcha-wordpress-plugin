@@ -8,13 +8,13 @@
     ];
 @endphp
 
-@if (false === $is_stub)
+@if (! $is_stub)
     <div {!! $attributes->merge(['class' => 'prosopo-procaptcha-wp__wrapper',]) !!}>
         <prosopo-procaptcha-wp-widget class="prosopo-procaptcha-wp-widget" style="display: block;">
             <div class="prosopo-procaptcha"></div>
         </prosopo-procaptcha-wp-widget>
 
-        @if(false === $no_client_validation)
+        @if(! $no_client_validation)
             <prosopo-procaptcha-wp-form class="prosopo-procaptcha-wp-form" style="display: block;line-height: 1;">
 	            <span class="prosopo-procaptcha-wp-form__error"
                       style="display:block;visibility: {{ $get_error_visibility() }};color:red;line-height:1;font-size: 12px;padding:3px 0 0 10px;">
@@ -23,7 +23,7 @@
             </prosopo-procaptcha-wp-form>
         @endif
 
-        @if (false === $hidden_input_attrs->empty())
+        @if (! $hidden_input_attrs->empty())
             <input {!! $hidden_input_attrs->merge($hidden_input_defaults, true) !!}>
         @endif
 

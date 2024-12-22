@@ -59,13 +59,13 @@ class Plugin_Integrations {
 		$std_plugin_integrations  = array_filter(
 			$plugin_integrations,
 			function ( $plugin_integration ) {
-				return false === $plugin_integration->requires_late_hooking();
+				return ! $plugin_integration->requires_late_hooking();
 			}
 		);
 		$late_plugin_integrations = array_filter(
 			$plugin_integrations,
 			function ( $plugin_integration ) {
-				return true === $plugin_integration->requires_late_hooking();
+				return $plugin_integration->requires_late_hooking();
 			}
 		);
 
@@ -101,7 +101,7 @@ class Plugin_Integrations {
 	 */
 	protected function initialize_integrations_with_priority( array $plugin_integrations, int $hook_priority ): void {
 		$item_init = function ( Plugin_Integration_Interface $plugin_integration ) {
-			if ( false === $this->plugin_integrator->is_integration_active( $plugin_integration ) ) {
+			if ( ! $this->plugin_integrator->integration_active( $plugin_integration ) ) {
 				return;
 			}
 
@@ -128,7 +128,7 @@ class Plugin_Integrations {
 		$hookable_form_integrations = $this->plugin_integrator->create_hookable_form_integrations( $form_integrations );
 		$this->plugin_integrator->set_hooks_for_hookable_form_instances( $hookable_form_integrations, $this->is_admin_area );
 
-		if ( true === ( $plugin_integration instanceof Hooks_Interface ) ) {
+		if ( $plugin_integration instanceof Hooks_Interface ) {
 			$plugin_integration->set_hooks( $this->is_admin_area );
 		}
 

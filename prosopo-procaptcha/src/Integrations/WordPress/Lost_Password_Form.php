@@ -17,7 +17,7 @@ class Lost_Password_Form extends WordPress_Form {
 	public function verify_submission( WP_Error $errors, $user_data ): void {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( true === $captcha->is_human_made_request() ) {
+		if ( $captcha->human_made_request() ) {
 			return;
 		}
 

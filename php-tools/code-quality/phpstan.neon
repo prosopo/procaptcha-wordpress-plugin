@@ -8,3 +8,6 @@ parameters:
         - ../../prosopo-procaptcha/lang
         analyse:
         - ../../prosopo-procaptcha/prefixed-vendors
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon

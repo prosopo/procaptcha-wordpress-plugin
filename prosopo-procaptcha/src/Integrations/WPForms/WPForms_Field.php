@@ -85,17 +85,17 @@ class WPForms_Field extends \WPForms_Field implements Form_Integration_Interface
 	 */
 	// @phpstan-ignore-next-line
 	public function validate( $field_id, $field_submit, $form_data ) {
-		$token   = true === is_string( $field_submit ) ?
+		$token   = is_string( $field_submit ) ?
 			$field_submit :
 			'';
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ||
-			true === $captcha->is_human_made_request( $token ) ) {
+		if ( ! $captcha->present() ||
+			$captcha->human_made_request( $token ) ) {
 			return;
 		}
 
-		if ( false === function_exists( 'wpforms' ) ) {
+		if ( ! function_exists( 'wpforms' ) ) {
 			return;
 		}
 

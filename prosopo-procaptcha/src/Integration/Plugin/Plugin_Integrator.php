@@ -12,12 +12,12 @@ use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\{Form_Helper_Interface,
 use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration_Interface;
 
 class Plugin_Integrator {
-	public function is_integration_active( Plugin_Integration_Interface $plugin_integration ): bool {
+	public function integration_active( Plugin_Integration_Interface $plugin_integration ): bool {
 		$plugin_classes = $plugin_integration->get_target_plugin_classes();
 
 		// No target classes means core WP integration.
 		return array() === $plugin_classes ||
-				true === $this->is_one_of_classes_is_loaded( $plugin_classes );
+			$this->is_one_of_classes_is_loaded( $plugin_classes );
 	}
 
 	/**
@@ -51,11 +51,11 @@ class Plugin_Integrator {
 			$form_integrations,
 			function ( string $form_integration ) {
 				$class_implements = class_implements( $form_integration );
-				$class_implements = true === is_array( $class_implements ) ?
+				$class_implements = is_array( $class_implements ) ?
 				$class_implements :
 				array();
 
-				return true === in_array( Hookable_Form_Integration_Interface::class, $class_implements, true );
+				return in_array( Hookable_Form_Integration_Interface::class, $class_implements, true );
 			}
 		);
 
@@ -86,7 +86,7 @@ class Plugin_Integrator {
 	 */
 	protected function is_one_of_classes_is_loaded( array $classes ): bool {
 		foreach ( $classes as $class ) {
-			if ( false === class_exists( $class, false ) ) {
+			if ( ! class_exists( $class, false ) ) {
 				continue;
 			}
 

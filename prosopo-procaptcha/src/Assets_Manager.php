@@ -27,7 +27,7 @@ class Assets_Manager implements Assets_Manager_Interface {
 	public function get_asset_content( string $asset ): string {
 		$file = plugin_dir_path( $this->plugin_file ) . 'dist/' . $asset;
 
-		if ( false === $this->wp_filesystem->exists( $file ) ) {
+		if ( ! $this->wp_filesystem->exists( $file ) ) {
 			return '';
 		}
 
@@ -36,15 +36,5 @@ class Assets_Manager implements Assets_Manager_Interface {
 
 	public function get_assets_version(): string {
 		return $this->version;
-	}
-
-	protected function get_wp_filesystem(): WP_Filesystem_Base {
-		global $wp_filesystem;
-
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-
-		WP_Filesystem();
-
-		return $wp_filesystem;
 	}
 }

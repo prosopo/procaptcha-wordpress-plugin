@@ -12,7 +12,7 @@ class Register_Form extends WordPress_Form {
 	public function verify_submission( WP_Error $errors ): WP_Error {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_human_made_request() ) {
+		if ( ! $captcha->human_made_request() ) {
 			$captcha->add_validation_error( $errors );
 		}
 

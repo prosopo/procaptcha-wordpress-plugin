@@ -19,10 +19,10 @@ class JetPack_Form_Field extends Hookable_Form_Integration {
 		$captcha = self::get_form_helper()->get_captcha();
 
 		if ( $captcha->get_field_name() !== $tag ||
-			false === $captcha->is_present() ||
+			! $captcha->present() ||
 			null === Contact_Form::$current_form ||
-			false === $this->is_form_submitted( Contact_Form::$current_form ) ||
-			true === $captcha->is_human_made_request() ) {
+			! $this->is_form_submitted( Contact_Form::$current_form ) ||
+			$captcha->human_made_request() ) {
 			return $output;
 		}
 

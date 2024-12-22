@@ -77,8 +77,8 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 
 		$token = string( $form_data, 'value' );
 
-		if ( false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request( $token ) ) {
+		if ( ! $captcha->present() ||
+		$captcha->human_made_request( $token ) ) {
 			return;
 		}
 

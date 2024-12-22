@@ -41,7 +41,7 @@ class Query_Arguments {
 		$source = $this->get_source( $from );
 
 		// separately check for presence, otherwise check_admin_referer will fail the request.
-		if ( false === key_exists( $arg_name, $source ) ||
+		if ( ! key_exists( $arg_name, $source ) ||
 			false === check_admin_referer( $nonce_action_name ) ) {
 			return '';
 		}
@@ -57,7 +57,7 @@ class Query_Arguments {
 		$source = $this->get_source( $from );
 
 		// separately check for presence, otherwise check_admin_referer will fail the request.
-		if ( false === key_exists( $arg_name, $source ) ||
+		if ( ! key_exists( $arg_name, $source ) ||
 			false === check_admin_referer( $nonce_action_name ) ) {
 			return false;
 		}

@@ -33,8 +33,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 	public function print_metabox(): void {
 		$forum_id = (int) get_the_ID();
 
-		$value                = $this->is_enabled( $forum_id );
-		$enabled_checked_attr = true === $value ?
+		$enabled_checked_attr = $this->is_enabled( $forum_id ) ?
 			' checked' :
 			'';
 
@@ -64,7 +63,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 	public function maybe_print_captcha(): void {
 		$forum_id = $this->get_current_forum_id();
 
-		if ( false === $this->is_enabled( $forum_id ) ) {
+		if ( ! $this->is_enabled( $forum_id ) ) {
 			return;
 		}
 
@@ -82,13 +81,13 @@ class BBPress_Forum extends Hookable_Form_Integration {
 
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $this->is_enabled( $forum_id ) ||
-			false === $captcha->is_present() ||
-			true === $captcha->is_human_made_request() ) {
+		if ( ! $this->is_enabled( $forum_id ) ||
+			! $captcha->present() ||
+			$captcha->human_made_request() ) {
 			return;
 		}
 
-		if ( true === function_exists( 'bbp_add_error' ) ) {
+		if ( function_exists( 'bbp_add_error' ) ) {
 			bbp_add_error( $captcha->get_field_name(), $captcha->get_validation_error_message() );
 		}
 	}
@@ -104,7 +103,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 	}
 
 	protected function get_current_forum_id(): int {
-		return true === function_exists( 'bbp_get_forum_id' ) ?
+		return function_exists( 'bbp_get_forum_id' ) ?
 			bbp_get_forum_id() :
 			0;
 	}

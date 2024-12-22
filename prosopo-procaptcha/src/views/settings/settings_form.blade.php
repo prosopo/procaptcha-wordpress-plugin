@@ -17,7 +17,7 @@
         <div class="flex items-center justify-between gap-5">
             <p class="text-sm">{{ string($input, 'label') }}</p>
 
-            @switch(Tstring($input, 'type'))
+            @switch(string($input, 'type'))
                 @case('text')
                 @case('password')
                     <input name="{{ string($input, 'name') }}" type="{{ string($input, 'type') }}" required

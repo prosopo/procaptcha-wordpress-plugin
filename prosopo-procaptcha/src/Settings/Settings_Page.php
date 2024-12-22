@@ -55,7 +55,7 @@ class Settings_Page implements Hooks_Interface {
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
-		if ( false === $is_admin_area ) {
+		if ( ! $is_admin_area ) {
 			return;
 		}
 
@@ -89,7 +89,7 @@ class Settings_Page implements Hooks_Interface {
 			$current_tab = self::DEFAULT_TAB;
 		}
 
-		if ( false === key_exists( $current_tab, $this->setting_tabs ) ) {
+		if ( ! key_exists( $current_tab, $this->setting_tabs ) ) {
 			return null;
 		}
 
@@ -176,14 +176,14 @@ class Settings_Page implements Hooks_Interface {
 	}
 
 	protected function maybe_process_form(): string {
-		if ( false === current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return '';
 		}
 
 		$tab_name = $this->get_active_tab( Query_Arguments::POST );
 
 		if ( '' === $tab_name ||
-				false === key_exists( $tab_name, $this->setting_tabs ) ) {
+				! key_exists( $tab_name, $this->setting_tabs ) ) {
 			return '';
 		}
 

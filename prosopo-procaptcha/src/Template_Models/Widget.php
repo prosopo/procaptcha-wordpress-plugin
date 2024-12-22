@@ -19,7 +19,7 @@ class Widget extends BaseTemplateModel {
 	public string $error_message;
 
 	public function get_error_visibility(): string {
-		return true === $this->is_error_visible ?
+		return $this->is_error_visible ?
 			'visible' :
 			'hidden';
 	}

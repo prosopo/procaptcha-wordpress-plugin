@@ -18,8 +18,8 @@ class Login_Form extends WordPress_Form {
 	public function verify_submission( $user_or_error ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_human_made_request() ) {
-			$error_instance = true === ( $user_or_error instanceof WP_Error ) ?
+		if ( ! $captcha->human_made_request() ) {
+			$error_instance = $user_or_error instanceof WP_Error ?
 				$user_or_error :
 				null;
 

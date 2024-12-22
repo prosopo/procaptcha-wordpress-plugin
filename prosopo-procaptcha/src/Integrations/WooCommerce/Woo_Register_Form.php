@@ -24,7 +24,7 @@ class Woo_Register_Form extends Hookable_Form_Integration {
 	public function verify_submission( WP_Error $error ): WP_Error {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_human_made_request() ) {
+		if ( ! $captcha->human_made_request() ) {
 			$captcha->add_validation_error( $error );
 		}
 

@@ -16,7 +16,7 @@ class Woo_Order_Tracking_Form extends Hookable_Form_Integration {
 	public function print_field(): void {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ) {
+		if ( ! $captcha->present() ) {
 			return;
 		}
 
@@ -45,8 +45,8 @@ class Woo_Order_Tracking_Form extends Hookable_Form_Integration {
 		$captcha  = self::get_form_helper()->get_captcha();
 
 		if ( '' === $order_id ||
-		false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request() ) {
+		! $captcha->present() ||
+		$captcha->human_made_request() ) {
 			return $output;
 		}
 
@@ -60,13 +60,13 @@ class Woo_Order_Tracking_Form extends Hookable_Form_Integration {
 
 	public function maybe_add_error( string $output, string $tag ): string {
 		if ( 'woocommerce_order_tracking' !== $tag ||
-			false === $this->is_invalid ) {
+			! $this->is_invalid ) {
 			return $output;
 		}
 
 		$prefix = '';
 
-		if ( true === function_exists( 'wc_print_notice' ) ) {
+		if ( function_exists( 'wc_print_notice' ) ) {
 			$validation_error_message = self::get_form_helper()->get_captcha()->get_validation_error_message();
 			$prefix                   = wc_print_notice( $validation_error_message, 'error', array(), true );
 		}

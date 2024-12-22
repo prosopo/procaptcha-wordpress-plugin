@@ -73,7 +73,7 @@ class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Int
 		$field_key = $this->get_field_key( $field_id );
 
 		$form_errors = arr( $args, 'errors' );
-		$is_error    = true === key_exists( $field_key, $form_errors );
+		$is_error    = key_exists( $field_key, $form_errors );
 
 		return $captcha->print_form_field(
 			array(
@@ -99,8 +99,8 @@ class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Int
 
 		$token = string( $args, 'value' );
 
-		if ( false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request( $token ) ) {
+		if ( ! $captcha->present() ||
+		$captcha->human_made_request( $token ) ) {
 			return $errors;
 		}
 

@@ -105,8 +105,8 @@ class Fluent_Forms_Field extends BaseFieldManager implements Form_Integration_In
 
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request( $token ) ) {
+		if ( ! $captcha->present() ||
+		$captcha->human_made_request( $token ) ) {
 			return $error_message;
 		}
 

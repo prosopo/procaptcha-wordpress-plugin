@@ -53,7 +53,7 @@ class Captcha_Assets_Manager implements Hooks_Interface, Captcha_Assets_Manager_
 	public function set_hooks( bool $is_admin_area ): void {
 		add_filter( 'script_loader_tag', array( $this, 'add_module_attrs_for_target' ), 10, 2 );
 
-		$hook = true === $is_admin_area ?
+		$hook = $is_admin_area ?
 			'admin_print_footer_scripts' :
 			'wp_print_footer_scripts';
 
@@ -74,7 +74,7 @@ class Captcha_Assets_Manager implements Hooks_Interface, Captcha_Assets_Manager_
 	}
 
 	public function enqueue_assets_when_in_use(): void {
-		if ( false === $this->is_in_use ) {
+		if ( ! $this->is_in_use ) {
 			return;
 		}
 
@@ -102,7 +102,7 @@ class Captcha_Assets_Manager implements Hooks_Interface, Captcha_Assets_Manager_
 	// We have to manually add the module attribute for our scripts,
 	// as wp_enqueue_script_module() doesn't work on the login screens.
 	public function add_module_attrs_for_target( string $tag, string $handle ): string {
-		if ( false === $this->is_target_script( $handle ) ) {
+		if ( ! $this->is_target_script( $handle ) ) {
 			return $tag;
 		}
 
@@ -110,7 +110,7 @@ class Captcha_Assets_Manager implements Hooks_Interface, Captcha_Assets_Manager_
 	}
 
 	protected function is_target_script( string $handle ): bool {
-		return true === in_array( $handle, array( $this->service_script_handle, self::WIDGET_JS_HANDLE ), true ) ||
+		return in_array( $handle, array( $this->service_script_handle, self::WIDGET_JS_HANDLE ), true ) ||
 				0 === strpos( $handle, self::INTEGRATION_JS_HANDLE_PREFIX );
 	}
 }

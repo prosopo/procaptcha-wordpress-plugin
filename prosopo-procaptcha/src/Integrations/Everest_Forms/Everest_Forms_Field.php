@@ -81,14 +81,14 @@ class Everest_Forms_Field extends EVF_Form_Fields implements Form_Integration_In
 	 */
 	// @phpstan-ignore-next-line
 	public function validate( $field_id, $field_submit, $form_data ) {
-		$field_submit = true === is_string( $field_submit ) ?
+		$field_submit = is_string( $field_submit ) ?
 			$field_submit :
 			'';
 
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request( $field_submit ) ) {
+		if ( ! $captcha->present() ||
+		$captcha->human_made_request( $field_submit ) ) {
 			return;
 		}
 
@@ -99,8 +99,8 @@ class Everest_Forms_Field extends EVF_Form_Fields implements Form_Integration_In
 		 */
 		$task = evf()->task; // @phpstan-ignore-line
 
-		if ( false === key_exists( $form_id, $task->errors ) ||
-		false === is_array( $task->errors[ $form_id ] ) ) {
+		if ( ! key_exists( $form_id, $task->errors ) ||
+		! is_array( $task->errors[ $form_id ] ) ) {
 			$task->errors[ $form_id ] = array();
 		}
 

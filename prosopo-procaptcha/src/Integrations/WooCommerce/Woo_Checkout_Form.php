@@ -15,7 +15,7 @@ class Woo_Checkout_Form extends Hookable_Form_Integration {
 	public function print_classic_field(): void {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ) {
+		if ( ! $captcha->present() ) {
 			return;
 		}
 
@@ -32,8 +32,8 @@ class Woo_Checkout_Form extends Hookable_Form_Integration {
 	public function verify( array $data, WP_Error $errors ): void {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request() ) {
+		if ( ! $captcha->present() ||
+		$captcha->human_made_request() ) {
 			return;
 		}
 
@@ -49,12 +49,12 @@ class Woo_Checkout_Form extends Hookable_Form_Integration {
 	public function verify_block_field( $value, array $field ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		$token = true === is_string( $value ) ?
+		$token = is_string( $value ) ?
 			$value :
 			'';
 
 		// Without checking ->is_present() because this Woo Rest API doesn't pass the Auth cookie.
-		if ( true === $captcha->is_human_made_request( $token ) ) {
+		if ( $captcha->human_made_request( $token ) ) {
 			return;
 		}
 
@@ -97,7 +97,7 @@ class Woo_Checkout_Form extends Hookable_Form_Integration {
 		// It's necessary to use priority, otherwise for some reason Woo prints this block multiple times.
 		add_filter( 'render_block', array( $this, 'print_blocks_checkout_field' ), 999, 2 );
 
-		if ( true === function_exists( 'woocommerce_register_additional_checkout_field' ) ) {
+		if ( function_exists( 'woocommerce_register_additional_checkout_field' ) ) {
 			woocommerce_register_additional_checkout_field(
 				array(
 					'id'                         => Plugin::SLUG . '/' . self::get_form_helper()->get_captcha()->get_field_name(),

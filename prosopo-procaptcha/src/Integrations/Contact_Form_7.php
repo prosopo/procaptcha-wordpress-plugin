@@ -35,7 +35,7 @@ class Contact_Form_7 extends Plugin_Integration implements Hooks_Interface {
 	}
 
 	public function add_field(): void {
-		if ( false === function_exists( 'wpcf7_add_form_tag' ) ) {
+		if ( ! function_exists( 'wpcf7_add_form_tag' ) ) {
 			return;
 		}
 
@@ -79,16 +79,16 @@ class Contact_Form_7 extends Plugin_Integration implements Hooks_Interface {
 	public function validate( $result, $tag ) {
 		$captcha = $this->get_captcha();
 
-		if ( true === property_exists( $tag, 'name' ) &&
+		if ( property_exists( $tag, 'name' ) &&
 			'' === $tag->name ) {
 			$tag->name = $captcha->get_field_name();
 		}
 
-		if ( true === $captcha->is_human_made_request() ) {
+		if ( $captcha->human_made_request() ) {
 			return $result;
 		}
 
-		if ( true === method_exists( $result, 'invalidate' ) ) {
+		if ( method_exists( $result, 'invalidate' ) ) {
 			$result->invalidate( $tag, $captcha->get_validation_error_message() );
 		}
 

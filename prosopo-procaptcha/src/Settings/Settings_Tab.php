@@ -54,7 +54,7 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 			get_option( $this->get_option_name(), array() ) :
 		array();
 
-		$current = true === is_array( $current ) ?
+		$current = is_array( $current ) ?
 			$current :
 			array();
 
@@ -98,12 +98,12 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 				'value' => string( $this->validated_fields, $field_name ),
 			);
 
-			if ( true === key_exists( $field_name, $select_inputs ) ) {
+			if ( key_exists( $field_name, $select_inputs ) ) {
 				$input['options'] = $select_inputs[ $field_name ];
 				$input['type']    = 'select';
 			}
 
-			if ( true === in_array( $field_name, $password_inputs, true ) ) {
+			if ( in_array( $field_name, $password_inputs, true ) ) {
 				$input['type'] = 'password';
 			}
 
@@ -209,10 +209,10 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 				Query_Arguments::POST
 			);
 
-			if ( true === key_exists( $string_setting_name, $select_inputs ) ) {
+			if ( key_exists( $string_setting_name, $select_inputs ) ) {
 				$options = $select_inputs[ $string_setting_name ];
 
-				if ( false === key_exists( $string_setting_value, $options ) ) {
+				if ( ! key_exists( $string_setting_value, $options ) ) {
 					continue;
 				}
 			}

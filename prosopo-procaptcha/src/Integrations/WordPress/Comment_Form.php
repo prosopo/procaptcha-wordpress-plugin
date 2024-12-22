@@ -34,9 +34,9 @@ class Comment_Form extends WordPress_Form {
 	public function verify_submission( $approved, array $comment_data ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( true === $captcha->is_present() &&
-			false === $captcha->is_human_made_request() ) {
-			$error = true === ( $approved instanceof WP_Error ) ?
+		if ( $captcha->present() &&
+			! $captcha->human_made_request() ) {
+			$error = $approved instanceof WP_Error ?
 				$approved :
 				null;
 

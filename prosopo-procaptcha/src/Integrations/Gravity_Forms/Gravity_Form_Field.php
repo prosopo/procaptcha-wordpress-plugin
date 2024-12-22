@@ -109,7 +109,7 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 	 */
 	// @phpstan-ignore-next-line
 	public function get_field_content( $value, $force_frontend_label, $form ) {
-		if ( true === $this->is_form_editor() ) {
+		if ( $this->is_form_editor() ) {
 			return parent::get_field_content( $value, $force_frontend_label, $form );
 		}
 
@@ -117,7 +117,7 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 		$validation_message_id = 'validation_message_' . $form_id . '_' . $this->id;
 
 		$validation_message = true === $this->failed_validation &&
-		true === is_string( $this->validation_message ) &&
+		is_string( $this->validation_message ) &&
 		'' !== $this->validation_message ?
 			sprintf(
 				"<div id='%s' class='gfield_description validation_message gfield_validation_message'>%s</div>",
@@ -156,12 +156,12 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 	public function validate( $value, $form ) {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		$token = true === is_string( $value ) ?
+		$token = is_string( $value ) ?
 			$value :
 			'';
 
-		if ( false === $captcha->is_present() ||
-			true === $captcha->is_human_made_request( $token ) ) {
+		if ( ! $captcha->present() ||
+			$captcha->human_made_request( $token ) ) {
 			return;
 		}
 

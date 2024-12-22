@@ -24,8 +24,8 @@ class Password_Protected_Form extends WordPress_Form {
 	public function verify_submission(): void {
 		$captcha = self::get_form_helper()->get_captcha();
 
-		if ( false === $captcha->is_present() ||
-		true === $captcha->is_human_made_request() ) {
+		if ( ! $captcha->present() ||
+		$captcha->human_made_request() ) {
 			return;
 		}
 

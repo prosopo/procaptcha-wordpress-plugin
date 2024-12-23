@@ -52,6 +52,7 @@ class Plugin implements Hooks_Interface {
 	private Settings_Storage $settings_storage;
 	private Settings_Page $settings_page;
 	private Plugin_Integrations $plugin_integrations;
+	private Assets_Manager $assets_manager;
 
 	/**
 	 * @param string $plugin_file Optional, empty if called from the uninstall.php
@@ -69,13 +70,13 @@ class Plugin implements Hooks_Interface {
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
 
-		$assets_manager = new Assets_Manager( $plugin_file, $this->version, $wp_filesystem );
+		$this->assets_manager = new Assets_Manager( $plugin_file, $this->version, $wp_filesystem );
 
 		$this->settings_storage       = new Settings_Storage();
 		$this->captcha_assets_manager = new Captcha_Assets_Manager(
 			self::SERVICE_SCRIPT_URL,
 			'prosopo-procaptcha',
-			$assets_manager,
+			$this->assets_manager,
 			$this->settings_storage->get( General_Settings::class ),
 			new Captcha_Assets()
 		);
@@ -95,7 +96,7 @@ class Plugin implements Hooks_Interface {
 			$this->query_arguments,
 			$views_manager,
 			$views_manager,
-			$assets_manager
+			$this->assets_manager
 		);
 
 		$this->plugin_integrations = new Plugin_Integrations(
@@ -117,6 +118,8 @@ class Plugin implements Hooks_Interface {
 		$this->plugin_integrations->initialize_integrations( $plugin_integrations );
 
 		$this->settings_page->add_setting_tabs( $this->get_independent_setting_tabs() );
+
+		$this->assets_manager->set_hooks( $is_admin_area );
 	}
 
 	public function clear_data(): void {

@@ -25,7 +25,7 @@ interface Settings_Tab_Interface {
 
 	public function make_tab_component( ModelFactoryInterface $factory, Captcha_Interface $captcha ): TemplateModelInterface;
 
-	public function get_tab_js_file(): string;
+	public function get_tab_js_asset(): string;
 
 	public function get_tab_css_file(): string;
 

@@ -58,12 +58,5 @@
                 {!! $tab_content !!}
             </div>
         </div>
-
-        @if ($js_file)
-            <script type="module">
-				window.prosopoProcaptchaWpSettings = {!! json_encode($js_data) !!};
-            </script>
-            <script type="module" async src="{{ $js_file }}"></script>
-        @endif
     </template>
 </prosopo-procaptha-wp-settings>

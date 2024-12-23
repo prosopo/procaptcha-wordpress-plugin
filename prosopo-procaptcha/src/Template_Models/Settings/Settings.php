@@ -11,11 +11,6 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelIn
 
 class Settings extends BaseTemplateModel {
 	public string $css;
-	public string $js_file;
-	/**
-	 * @var array<string,mixed>
-	 */
-	public array $js_data;
 	public bool $is_just_saved;
 	/**
 	 * @var array<int,mixed>

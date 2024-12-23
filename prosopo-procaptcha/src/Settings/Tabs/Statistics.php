@@ -32,7 +32,7 @@ class Statistics extends Settings_Tab {
 		);
 	}
 
-	public function get_tab_js_file(): string {
+	public function get_tab_js_asset(): string {
 		return 'statistics.min.js';
 	}
 

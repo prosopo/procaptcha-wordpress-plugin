@@ -132,7 +132,7 @@ abstract class Settings_Tab implements Settings_Tab_Interface {
 		);
 	}
 
-	public function get_tab_js_file(): string {
+	public function get_tab_js_asset(): string {
 		return '';
 	}
 

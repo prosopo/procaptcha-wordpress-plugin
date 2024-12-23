@@ -71,7 +71,7 @@ into GitHub Actions but can also be run locally.
 
 * WordPress should be setup on `http://procaptcha.local`
 * The expected WordPress installation location is `$HOME/Local Sites/procaptcha/app/public`.
-* The ready DB for tests should be imported from the private storage.
+* The ready DB for tests should be imported from the [private repository](https://github.com/prosopo/procaptcha-wordpress-plugin-private/).
 
 Launching:
 

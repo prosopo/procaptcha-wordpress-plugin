@@ -1,6 +1,6 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Settings;
 
@@ -18,6 +18,7 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererIn
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
 class Settings_Page implements Hooks_Interface {
+
 	const FORM_NONCE  = 'prosopo-captcha__settings';
 	const TAB_NAME    = 'tab';
 	const MENU_SLUG   = 'prosopo-procaptcha';
@@ -79,10 +80,7 @@ class Settings_Page implements Hooks_Interface {
 		$is_just_saved = '' !== $current_tab;
 
 		if ( '' === $current_tab ) {
-			$current_tab = $this->query_arguments->get_string_for_non_action(
-				self::TAB_NAME,
-				Query_Arguments::GET
-			);
+			$current_tab = $this->query_arguments->get_string_for_non_action( self::TAB_NAME );
 		}
 
 		if ( '' === $current_tab ) {
@@ -104,10 +102,11 @@ class Settings_Page implements Hooks_Interface {
 
 		$tab = $this->setting_tabs[ $current_tab ];
 
+		$this->enqueue_tab_assets( $tab );
+
 		return $this->component_creator->createModel(
 			Settings::class,
 			function ( Settings $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
-				$js_file  = $tab->get_tab_js_file();
 				$css_file = $tab->get_tab_css_file();
 
 				// Manually, instead of WP assets, because the settings page is a WebComponenet with Shadow DOM,
@@ -117,11 +116,6 @@ class Settings_Page implements Hooks_Interface {
 					$this->assets_manager->get_asset_content( $css_file ) :
 					'';
 
-				$settings->js_file = '' !== $js_file ?
-					$this->assets_manager->get_asset_url( $js_file ) :
-					'';
-
-				$settings->js_data       = $tab->get_tab_js_data( $this->settings_storage );
 				$settings->is_just_saved = $is_just_saved;
 				$settings->tabs          = $tabs;
 				$settings->current_tab   = $current_tab;
@@ -141,7 +135,7 @@ class Settings_Page implements Hooks_Interface {
 
 				if ( null !== $component ) {
                     // @phpcs:ignore
-					echo $this->renderer->renderModel( $component );
+                    echo $this->renderer->renderModel($component);
 				}
 			}
 		);
@@ -175,6 +169,20 @@ class Settings_Page implements Hooks_Interface {
 		}
 	}
 
+	protected function enqueue_tab_assets( Settings_Tab_Interface $tab ): void {
+		$tab_js_asset = $tab->get_tab_js_asset();
+		$tab_has_js   = '' !== $tab_js_asset;
+
+		if ( $tab_has_js ) {
+			$this->assets_manager->enqueue_module_js_asset(
+				$tab_js_asset,
+				array(),
+				'prosopoProcaptchaWpSettings',
+				$tab->get_tab_js_data( $this->settings_storage )
+			);
+		}
+	}
+
 	protected function maybe_process_form(): string {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return '';
@@ -183,7 +191,7 @@ class Settings_Page implements Hooks_Interface {
 		$tab_name = $this->get_active_tab( Query_Arguments::POST );
 
 		if ( '' === $tab_name ||
-				! key_exists( $tab_name, $this->setting_tabs ) ) {
+			! key_exists( $tab_name, $this->setting_tabs ) ) {
 			return '';
 		}
 

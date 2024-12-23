@@ -21,9 +21,9 @@ runs:
         
         # Setup SSH Key for Private Repo Access
         mkdir -p ~/.ssh
-        echo "${{ inputs.private_key }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+        echo "${{ inputs.private_key }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts
         
         # Clone the Private Repository
         git clone git@github.com:${{ inputs.private_repo }} .

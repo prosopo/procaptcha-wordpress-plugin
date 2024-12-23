@@ -58,11 +58,21 @@ jobs:
       - name: Setup e2e packages
         uses: ./.github/actions/tests/setup-e2e-packages
 
+      - name: Clone private repository
+        uses: ./.github/actions/tests/clone-private-repository
+        with:
+          private_folder: ${{ github.workspace }}/private-data
+          private_repo: prosopo/procaptcha-wordpress-plugin-private
+          private_key: ${{ secrets.PRIVATE_KEY_FOR_PRIVATE_REPO }}
+
       - name: Install WordPress with plugins
         uses: ./.github/actions/tests/install-wordpress-with-plugins
+        with:
+          paid_plugins_dir: ${{ github.workspace }}/private-data/data-for-tests/paid-plugins
 
       - name: Import database
-        run: mysql -h 127.0.0.1 -u root -pwordpress wordpress < data-for-tests/db.sql
+        run: mysql -h 127.0.0.1 -u root -pwordpress wordpress < ${{ github.workspace }}/private-data/data-for-tests/db.sql
+        shell: bash
 
       - name: Prepare E2E workflow
         uses: ./.github/actions/tests/prepare-e2e-workflow

@@ -1,0 +1,30 @@
+name: Clone Private Repository
+
+inputs:
+  private_folder:
+    description: "Target folder the private repo should be extract to"
+    required: true
+  private_repo:
+    description: "Repo with paid plugin archives"
+    required: true
+  private_key:
+    description: "Private SSH key to access the private repository"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Clone Private Plugin Repository
+      run: |
+        mkdir -p ${{ inputs.private_folder }}
+        cd ${{ inputs.private_folder }}
+        
+        # Setup SSH Key for Private Repo Access
+        mkdir -p ~/.ssh
+        echo "${{ inputs.private_key }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+        
+        # Clone the Private Repository
+        git clone git@github.com:${{ inputs.private_repo }} .
+      shell: bash

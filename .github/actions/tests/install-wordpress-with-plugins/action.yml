@@ -1,5 +1,10 @@
 name: Install WordPress with Plugins
 
+inputs:
+  paid_plugins_dir:
+    description: "Folder with archives for the paid plugins"
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -27,10 +32,10 @@ runs:
         for plugin in $plugins; do
           echo "Installing $plugin plugin"
         
-          paid_plugin_path="${{ github.workspace }}/data-for-tests/paid-plugins/$plugin.zip"
+          paid_plugin_path="${{ inputs.paid_plugins_dir }}/$plugin.zip"
         
           if [[ -f "$paid_plugin_path" ]]; then
-            echo "Found local ZIP for $plugin, using paid plugin file."
+            echo "Found paid plugin ZIP for $plugin in the paid plugins directory."
             unzip "$paid_plugin_path" -d ${{ github.workspace }}/wp-content/plugins/
           else
             echo "No local ZIP for $plugin, downloading from WordPress repository."

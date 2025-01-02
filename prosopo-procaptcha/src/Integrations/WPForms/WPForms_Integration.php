@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Definition\Hookable;
 use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 
-class WPForms extends Captcha_Plugin_Integration implements Hookable {
+class WPForms_Integration extends Captcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'WPForms\WPForms',

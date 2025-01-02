@@ -11,7 +11,7 @@ use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Captcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
-class WordPress extends Captcha_Plugin_Integration {
+class WordPress_Integration extends Captcha_Plugin_Integration {
 	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array_merge(
 			array(

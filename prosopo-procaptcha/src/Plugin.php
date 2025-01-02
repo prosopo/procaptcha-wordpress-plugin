@@ -10,20 +10,20 @@ use Io\Prosopo\Procaptcha\Captcha\Procaptcha_Assets_Manager;
 use Io\Prosopo\Procaptcha\Captcha\Procaptcha;
 use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
 use Io\Prosopo\Procaptcha\Captcha\Captcha_Assets;
-use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress,
-	Contact_Form_7,
-	Elementor_Pro\Elementor_Pro,
-	Everest_Forms\Everest_Forms,
-	Fluent_Forms\Fluent_Forms,
-	Formidable_Forms\Formidable_Forms,
-	Gravity_Forms\Gravity_Forms,
-	JetPack\JetPack,
-	Ninja_Forms\Ninja_Forms,
-	Spectra\Spectra,
-	User_Registration\User_Registration,
-	WooCommerce\WooCommerce,
-	WordPress\WordPress,
-	WPForms\WPForms};
+use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
+	Contact_Form_7_Integration,
+	Elementor_Pro\Elementor_Pro_Integration,
+	Everest_Forms\Everest_Forms_Integration,
+	Fluent_Forms\Fluent_Forms_Integration,
+	Formidable_Forms\Formidable_Forms_Integration,
+	Gravity_Forms\Gravity_Forms_Integration,
+	JetPack\JetPack_Integration,
+	Ninja_Forms\Ninja_Forms_Integration,
+	Spectra\Spectra_Integration,
+	User_Registration\User_Registration_Integration,
+	WooCommerce\WooCommerce_Integration,
+	WordPress\WordPress_Integration,
+	WPForms\WPForms_Integration};
 use Io\Prosopo\Procaptcha\Integration\Form\Captcha_Form_Integration_Helpers;
 use Io\Prosopo\Procaptcha\Definition\Hookable;
 use Io\Prosopo\Procaptcha\Definition\Integration\Plugin\Plugin_Integration;
@@ -160,20 +160,20 @@ class Plugin implements Hookable {
 	 */
 	protected function get_integration_classes(): array {
 		return array(
-			BBPress::class,
-			Contact_Form_7::class,
-			Elementor_Pro::class,
-			Everest_Forms::class,
-			Fluent_Forms::class,
-			Formidable_Forms::class,
-			Gravity_Forms::class,
-			JetPack::class,
-			Ninja_Forms::class,
-			Spectra::class,
-			User_Registration::class,
-			WPForms::class,
-			WooCommerce::class,
-			WordPress::class,
+			BBPress_Integration::class,
+			Contact_Form_7_Integration::class,
+			Elementor_Pro_Integration::class,
+			Everest_Forms_Integration::class,
+			Fluent_Forms_Integration::class,
+			Formidable_Forms_Integration::class,
+			Gravity_Forms_Integration::class,
+			JetPack_Integration::class,
+			Ninja_Forms_Integration::class,
+			Spectra_Integration::class,
+			User_Registration_Integration::class,
+			WPForms_Integration::class,
+			WooCommerce_Integration::class,
+			WordPress_Integration::class,
 		);
 	}
 

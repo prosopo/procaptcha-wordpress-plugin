@@ -9,7 +9,7 @@ use WP_User;
 
 defined( 'ABSPATH' ) || exit;
 
-class Login_Form extends WordPress_FormBase {
+class Login_Form extends WordPress_Form_Base {
 	/**
 	 * @param WP_User|WP_Error|null $user_or_error
 	 *

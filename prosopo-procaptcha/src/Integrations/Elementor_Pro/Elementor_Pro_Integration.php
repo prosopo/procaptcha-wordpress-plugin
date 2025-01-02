@@ -13,7 +13,7 @@ use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Captcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
-class Elementor_Pro extends Captcha_Plugin_Integration implements Hookable {
+class Elementor_Pro_Integration extends Captcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'ElementorPro\Plugin',

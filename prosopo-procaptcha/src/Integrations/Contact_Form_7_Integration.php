@@ -12,7 +12,7 @@ use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 
 // Note: CF7 v5.9.8 calls the RestAPI without the nonce, so we can't omit captcha for authorized users.
-class Contact_Form_7 extends Captcha_Plugin_Integration implements Hookable {
+class Contact_Form_7_Integration extends Captcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'WPCF7',

@@ -11,7 +11,7 @@ use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin;
 use WP_Error;
 
-class Woo_Checkout_FormBase extends Hookable_Form_Integration_Base {
+class Woo_Checkout_Form extends Hookable_Form_Integration_Base {
 	public function print_classic_field(): void {
 		$captcha = self::get_form_helpers()->get_captcha();
 

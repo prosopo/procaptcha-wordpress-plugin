@@ -9,7 +9,7 @@ use WP_User;
 
 defined( 'ABSPATH' ) || exit;
 
-class Lost_Password_Form extends WordPress_FormBase {
+class Lost_Password_Form extends WordPress_Form_Base {
 	/**
 	 * @param WP_Error $errors
 	 * @param WP_User|false $user_data

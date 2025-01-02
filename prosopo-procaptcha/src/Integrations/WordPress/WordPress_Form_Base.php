@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration_Base;
 
-abstract class WordPress_FormBase extends Hookable_Form_Integration_Base {
+abstract class WordPress_Form_Base extends Hookable_Form_Integration_Base {
 	public function print_form_field(): void {
 		self::get_form_helpers()->get_captcha()->print_form_field(
 			array(

@@ -13,7 +13,7 @@ use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Captcha_Settings;
 use UR_Form_Field_Prosopo_Procaptcha;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
-class User_Registration extends Captcha_Plugin_Integration implements Hookable {
+class User_Registration_Integration extends Captcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'UserRegistration',
@@ -73,8 +73,8 @@ class User_Registration extends Captcha_Plugin_Integration implements Hookable {
 		$account_forms = $settings_storage->get( Account_Forms_Captcha_Settings::class )->get_settings();
 
 		return array(
-			UR_Login_FormBase::class         => bool( $account_forms, Account_Forms_Captcha_Settings::IS_ON_WP_LOGIN_FORM ),
-			UR_Lost_Password_FormBase::class => bool( $account_forms, Account_Forms_Captcha_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
+			UR_Login_Form::class         => bool( $account_forms, Account_Forms_Captcha_Settings::IS_ON_WP_LOGIN_FORM ),
+			UR_Lost_Password_Form::class => bool( $account_forms, Account_Forms_Captcha_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
 		);
 	}
 }

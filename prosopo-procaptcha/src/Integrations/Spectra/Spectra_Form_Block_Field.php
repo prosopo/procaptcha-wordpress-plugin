@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 
-class Spectra_Form_Block_FieldBase extends Hookable_Form_Integration_Base {
+class Spectra_Form_Block_Field extends Hookable_Form_Integration_Base {
 	public function set_hooks( bool $is_admin_area ): void {
 		add_filter(
 			'render_block_uagb/forms',

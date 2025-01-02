@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use WP_Error;
 
-class Register_Form extends WordPress_FormBase {
+class Register_Form extends WordPress_Form_Base {
 	public function verify_submission( WP_Error $errors ): WP_Error {
 		$captcha = self::get_form_helpers()->get_captcha();
 

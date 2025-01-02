@@ -9,7 +9,7 @@ use WP_Error;
 
 defined( 'ABSPATH' ) || exit;
 
-class Comment_Form extends WordPress_FormBase {
+class Comment_Form extends WordPress_Form_Base {
 	/**
 	 * @param string $submit_field
 	 * @param array<string,mixed> $args

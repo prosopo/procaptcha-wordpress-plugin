@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 
-class Woo_Order_Tracking_FormBase extends Hookable_Form_Integration_Base {
+class Woo_Order_Tracking_Form extends Hookable_Form_Integration_Base {
 	private bool $is_invalid = false;
 
 	public function print_field(): void {

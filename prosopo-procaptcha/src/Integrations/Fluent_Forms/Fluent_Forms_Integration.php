@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Integrations\Everest_Forms;
+namespace Io\Prosopo\Procaptcha\Integrations\Fluent_Forms;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,34 +10,28 @@ use Io\Prosopo\Procaptcha\Definition\Hookable;
 use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 
-class Everest_Forms extends Captcha_Plugin_Integration implements Hookable {
-	/**
-	 * @param string[] $fields
-	 *
-	 * @return string[]
-	 */
-	public function register_field( array $fields ): array {
-		return array_merge(
-			$fields,
-			array(
-				Everest_Forms_Field::class,
-			)
-		);
-	}
-
+class Fluent_Forms_Integration extends Captcha_Plugin_Integration implements Hookable {
 	public function set_hooks( bool $is_admin_area ): void {
-		add_filter( 'everest_forms_fields', array( $this, 'register_field' ) );
+		add_action(
+			'fluentform/loaded',
+			function () {
+				new Fluent_Forms_Field();
+			}
+		);
 	}
 
 	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
-			Everest_Forms_Field::class,
+			Fluent_Forms_Field::class,
 		);
 	}
 
+	/**
+	 * @return string[]
+	 */
 	public function get_target_plugin_classes(): array {
 		return array(
-			'EverestForms',
+			'\FluentForm\App\Services\FormBuilder\BaseFieldManager',
 		);
 	}
 }

@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Definition\Hookable;
 use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 
-class Ninja_Forms extends Captcha_Plugin_Integration implements Hookable {
+class Ninja_Forms_Integration extends Captcha_Plugin_Integration implements Hookable {
 	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
 			Ninja_Form_Field::class,

@@ -7,23 +7,23 @@ namespace Io\Prosopo\Procaptcha\Integrations\Ninja_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
+use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
 use NF_Abstracts_Input;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // todo: find a way to make the field required by default.
-class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_Interface {
-	use Form_Integration;
+class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration {
+	use Form_Integration_Helpers_Container;
 
 	public function __construct() {
 		parent::__construct();
 
-		$field_name = self::get_form_helper()->get_captcha()->get_field_name();
+		$field_name = self::get_form_helpers()->get_captcha()->get_field_name();
 
 		$this->_name      = $field_name;
-		$this->_nicename  = self::get_form_helper()->get_captcha()->get_field_label();
+		$this->_nicename  = self::get_form_helpers()->get_captcha()->get_field_label();
 		$this->_type      = $field_name;
 		$this->_templates = array( $field_name );
 		$this->_section   = 'misc';
@@ -38,7 +38,7 @@ class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_In
 	 * @return array<int|string,mixed>
 	 */
 	public function render_field( array $field ): array {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$element = $captcha->print_form_field(
 			array(
@@ -75,7 +75,7 @@ class Ninja_Form_Field extends NF_Abstracts_Input implements Form_Integration_In
 	 * @return mixed[] $errors
 	 */
 	public function validate( $field, $data ) {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		if ( ! is_array( $field ) ||
 		! is_array( $data ) ||

@@ -6,18 +6,18 @@ namespace Io\Prosopo\Procaptcha\Integrations\WPForms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
+use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 
-class WPForms extends Plugin_Integration implements Hooks_Interface {
+class WPForms extends Captcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'WPForms\WPForms',
 		);
 	}
 
-	public function get_form_integrations( Settings_Storage_Interface $settings_storage ): array {
+	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
 			WPForms_Field::class,
 		);

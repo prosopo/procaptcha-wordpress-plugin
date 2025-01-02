@@ -9,13 +9,13 @@ use WP_User;
 
 defined( 'ABSPATH' ) || exit;
 
-class Lost_Password_Form extends WordPress_Form {
+class Lost_Password_Form extends WordPress_FormBase {
 	/**
 	 * @param WP_Error $errors
 	 * @param WP_User|false $user_data
 	 */
 	public function verify_submission( WP_Error $errors, $user_data ): void {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		if ( $captcha->human_made_request() ) {
 			return;

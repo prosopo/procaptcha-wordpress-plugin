@@ -6,13 +6,13 @@ namespace Io\Prosopo\Procaptcha\Integration\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\{Form_Helper_Interface,
-	Form_Integration_Interface,
-	Hookable_Form_Integration_Interface};
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration_Interface;
+use Io\Prosopo\Procaptcha\Definition\Integration\Form\{Form_Integration_Helpers,
+	Form_Integration,
+	Hookable_Form_Integration};
+use Io\Prosopo\Procaptcha\Definition\Integration\Plugin\Plugin_Integration;
 
 class Plugin_Integrator {
-	public function integration_active( Plugin_Integration_Interface $plugin_integration ): bool {
+	public function integration_active( Plugin_Integration $plugin_integration ): bool {
 		$plugin_classes = $plugin_integration->get_target_plugin_classes();
 
 		// No target classes means core WP integration.
@@ -21,31 +21,31 @@ class Plugin_Integrator {
 	}
 
 	/**
-	 * @param class-string<Form_Integration_Interface>[] $form_integrations
+	 * @param class-string<Form_Integration>[] $form_integrations
 	 */
 	public function inject_form_helper(
 		array $form_integrations,
-		Form_Helper_Interface $form_helper
+		Form_Integration_Helpers $form_helper
 	): void {
 		array_map(
 		/**
-		 * @param class-string<Form_Integration_Interface> $form_integration
+		 * @param class-string<Form_Integration> $form_integration
 		 */
 			function ( string $form_integration ) use ( $form_helper ) {
-				$form_integration::set_form_helper( $form_helper );
+				$form_integration::set_form_helpers( $form_helper );
 			},
 			$form_integrations
 		);
 	}
 
 	/**
-	 * @param class-string<Form_Integration_Interface>[] $form_integrations
+	 * @param class-string<Form_Integration>[] $form_integrations
 	 *
-	 * @return Hookable_Form_Integration_Interface[]
+	 * @return Hookable_Form_Integration[]
 	 */
 	public function create_hookable_form_integrations( array $form_integrations ): array {
 		/**
-		 * @var class-string<Hookable_Form_Integration_Interface>[] $hookable_classes
+		 * @var class-string<Hookable_Form_Integration>[] $hookable_classes
 		 */
 		$hookable_classes = array_filter(
 			$form_integrations,
@@ -55,7 +55,7 @@ class Plugin_Integrator {
 				$class_implements :
 				array();
 
-				return in_array( Hookable_Form_Integration_Interface::class, $class_implements, true );
+				return in_array( Hookable_Form_Integration::class, $class_implements, true );
 			}
 		);
 
@@ -70,11 +70,11 @@ class Plugin_Integrator {
 	}
 
 	/**
-	 * @param Hookable_Form_Integration_Interface[] $hookable_form_instances
+	 * @param Hookable_Form_Integration[] $hookable_form_instances
 	 */
 	public function set_hooks_for_hookable_form_instances( array $hookable_form_instances, bool $is_admin_area ): void {
 		array_map(
-			function ( Hookable_Form_Integration_Interface $hookable_form_instance ) use ( $is_admin_area ) {
+			function ( Hookable_Form_Integration $hookable_form_instance ) use ( $is_admin_area ) {
 				$hookable_form_instance->set_hooks( $is_admin_area );
 			},
 			$hookable_form_instances

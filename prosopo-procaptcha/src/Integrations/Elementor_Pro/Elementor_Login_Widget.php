@@ -10,11 +10,11 @@ use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
+use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration_Base;
 
-class Elementor_Login_Widget extends Hookable_Form_Integration {
-	use Form_Integration;
+class Elementor_Login_Widget extends Hookable_Form_Integration_Base {
+	use Form_Integration_Helpers_Container;
 
 	private string $widget_name = 'login';
 
@@ -29,7 +29,7 @@ class Elementor_Login_Widget extends Hookable_Form_Integration {
 	}
 
 	public function register_widget_setting( Controls_Stack $element ): void {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$element->add_control(
 			$captcha->get_field_name(),
@@ -55,14 +55,14 @@ class Elementor_Login_Widget extends Hookable_Form_Integration {
 	}
 
 	protected function is_active_widget( Widget_Base $widget ): bool {
-		$captcha    = self::get_form_helper()->get_captcha();
+		$captcha    = self::get_form_helpers()->get_captcha();
 		$field_name = $captcha->get_field_name();
 
 		return 'yes' === $widget->get_settings( $field_name );
 	}
 
 	protected function inject_captcha_into_form( string $content ): string {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$captcha_field = $captcha->print_form_field(
 			array(

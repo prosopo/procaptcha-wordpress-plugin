@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Integrations\Ninja_Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
+use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 
-class Ninja_Forms extends Plugin_Integration implements Hooks_Interface {
-	public function get_form_integrations( Settings_Storage_Interface $settings_storage ): array {
+class Ninja_Forms extends Captcha_Plugin_Integration implements Hookable {
+	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
 			Ninja_Form_Field::class,
 		);

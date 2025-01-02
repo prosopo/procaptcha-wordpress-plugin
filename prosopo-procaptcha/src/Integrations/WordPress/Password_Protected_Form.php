@@ -9,9 +9,9 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
 use WP_Post;
 
-class Password_Protected_Form extends WordPress_Form {
+class Password_Protected_Form extends WordPress_FormBase {
 	public function add_form_field( string $output, WP_Post $post ): string {
-		$form_field = self::get_form_helper()->get_captcha()->print_form_field(
+		$form_field = self::get_form_helpers()->get_captcha()->print_form_field(
 			array(
 				Widget_Arguments::IS_DESIRED_ON_GUESTS => true,
 				Widget_Arguments::IS_RETURN_ONLY       => true,
@@ -22,7 +22,7 @@ class Password_Protected_Form extends WordPress_Form {
 	}
 
 	public function verify_submission(): void {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		if ( ! $captcha->present() ||
 		$captcha->human_made_request() ) {

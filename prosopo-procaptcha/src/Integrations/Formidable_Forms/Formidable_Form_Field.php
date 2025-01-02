@@ -8,13 +8,13 @@ defined( 'ABSPATH' ) || exit;
 
 use FrmFieldType;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
+use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Interface {
-	use Form_Integration;
+class Formidable_Form_Field extends FrmFieldType implements Form_Integration {
+	use Form_Integration_Helpers_Container;
 
 	/**
 	 * @var bool
@@ -30,7 +30,7 @@ class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Int
 	 * @param string           $type
 	 */
 	public function __construct( $field = 0, $type = '' ) {
-		$this->type = self::get_form_helper()->get_captcha()->get_field_name();
+		$this->type = self::get_form_helpers()->get_captcha()->get_field_name();
 
 		parent::__construct( $field, $type );
 	}
@@ -66,7 +66,7 @@ class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Int
 	 */
 	// @phpstan-ignore-next-line
 	public function front_field_input( $args, $shortcode_atts ) {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$field_id = string( $args, 'field_id' );
 
@@ -95,7 +95,7 @@ class Formidable_Form_Field extends FrmFieldType implements Form_Integration_Int
 	// @phpstan-ignore-next-line
 	public function validate( $args ) {
 		$errors  = array();
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$token = string( $args, 'value' );
 

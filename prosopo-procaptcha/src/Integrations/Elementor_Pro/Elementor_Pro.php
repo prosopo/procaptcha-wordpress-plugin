@@ -7,13 +7,13 @@ namespace Io\Prosopo\Procaptcha\Integrations\Elementor_Pro;
 defined( 'ABSPATH' ) || exit;
 
 use ElementorPro\Modules\Forms\Registrars\Form_Fields_Registrar;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
-use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Settings;
+use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Captcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
-class Elementor_Pro extends Plugin_Integration implements Hooks_Interface {
+class Elementor_Pro extends Captcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'ElementorPro\Plugin',
@@ -24,7 +24,7 @@ class Elementor_Pro extends Plugin_Integration implements Hooks_Interface {
 		return true;
 	}
 
-	public function get_form_integrations( Settings_Storage_Interface $settings_storage ): array {
+	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array_merge(
 			array(
 				Elementor_Form_Field::class,
@@ -41,13 +41,13 @@ class Elementor_Pro extends Plugin_Integration implements Hooks_Interface {
 		$fields_manager->register( new Elementor_Form_Field() );
 	}
 
-	protected function get_conditional_integrations( Settings_Storage_Interface $settings_storage ): array {
-		$account_forms = $settings_storage->get( Account_Forms_Settings::class )->get_settings();
+	protected function get_conditional_integrations( Settings_Storage $settings_storage ): array {
+		$account_forms = $settings_storage->get( Account_Forms_Captcha_Settings::class )->get_settings();
 
 		return array(
 			// Login Widget submits to wp-login.php, so validation happens there,
 			// therefore that option should be active.
-			Elementor_Login_Widget::class => bool( $account_forms, Account_Forms_Settings::IS_ON_WP_LOGIN_FORM ),
+			Elementor_Login_Widget::class => bool( $account_forms, Account_Forms_Captcha_Settings::IS_ON_WP_LOGIN_FORM ),
 		);
 	}
 }

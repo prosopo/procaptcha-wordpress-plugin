@@ -8,14 +8,14 @@ defined( 'ABSPATH' ) || exit;
 
 use GF_Field;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
+use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\int;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface {
+class Gravity_Form_Field extends GF_Field implements Form_Integration {
 
-	use Form_Integration;
+	use Form_Integration_Helpers_Container;
 
 	public string $type;
     public bool $isRequired; // @phpcs:ignore
@@ -26,7 +26,7 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 	public function __construct( $data = array() ) {
 		parent::__construct( $data );
 
-		$this->type       = self::get_form_helper()->get_captcha()->get_field_name();
+		$this->type       = self::get_form_helpers()->get_captcha()->get_field_name();
         $this->isRequired = true; // @phpcs:ignore
 	}
 
@@ -36,7 +36,7 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 	 * @return string
 	 */
 	public function get_form_editor_field_title() {
-		return self::get_form_helper()->get_captcha()->get_field_label();
+		return self::get_form_helpers()->get_captcha()->get_field_label();
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 	 * @since unknown
 	 */
 	public function get_field_label( $force_frontend_label, $value ) {
-		return self::get_form_helper()->get_captcha()->get_field_label();
+		return self::get_form_helpers()->get_captcha()->get_field_label();
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 
 		$field_id = string( $this->id );
 
-		return self::get_form_helper()->get_captcha()->print_form_field(
+		return self::get_form_helpers()->get_captcha()->print_form_field(
 			array(
 				Widget_Arguments::HIDDEN_INPUT_ATTRIBUTES => array(
 					'name' => sprintf( 'input_%s', $field_id ),
@@ -154,7 +154,7 @@ class Gravity_Form_Field extends GF_Field implements Form_Integration_Interface 
 	 */
 	// @phpstan-ignore-next-line
 	public function validate( $value, $form ) {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$token = is_string( $value ) ?
 			$value :

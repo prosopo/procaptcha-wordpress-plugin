@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Captcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager_Interface;
-use Io\Prosopo\Procaptcha\Settings\Tabs\General_Settings;
+use Io\Prosopo\Procaptcha\Definition\Assets_Manager;
+use Io\Prosopo\Procaptcha\Settings\Tabs\General_Captcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Captcha_Assets {
@@ -29,11 +29,11 @@ class Captcha_Assets {
 	/**
 	 * @param array<string,mixed> $general_settings
 	 */
-	public function enqueue_widget_js( string $handle, Assets_Manager_Interface $assets_manager, array $general_settings ): void {
+	public function enqueue_widget_js( string $handle, Assets_Manager $assets_manager, array $general_settings ): void {
 		$captcha_attributes = array(
-			'captchaType' => string( $general_settings, General_Settings::TYPE ),
-			'siteKey'     => string( $general_settings, General_Settings::SITE_KEY ),
-			'theme'       => string( $general_settings, General_Settings::THEME ),
+			'captchaType' => string( $general_settings, General_Captcha_Settings::TYPE ),
+			'siteKey'     => string( $general_settings, General_Captcha_Settings::SITE_KEY ),
+			'theme'       => string( $general_settings, General_Captcha_Settings::THEME ),
 		);
 
 		$captcha_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $captcha_attributes );
@@ -56,7 +56,7 @@ class Captcha_Assets {
 	/**
 	 * @param string[] $integration_names
 	 */
-	public function enqueue_integration_js_files( string $handle_prefix, Assets_Manager_Interface $assets_manager, array $integration_names ): void {
+	public function enqueue_integration_js_files( string $handle_prefix, Assets_Manager $assets_manager, array $integration_names ): void {
 		array_map(
 			function ( $integration_name ) use ( $handle_prefix, $assets_manager ) {
 				// do not use wp_enqueue_module() because it doesn't work on the login screens.

@@ -6,11 +6,11 @@ namespace Io\Prosopo\Procaptcha\Captcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Assets_Manager_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
+use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha_Assets_Manager;
 use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Settings\Tabs\General_Settings;
+use Io\Prosopo\Procaptcha\Settings\Captcha_Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Tabs\General_Captcha_Settings;
 use Io\Prosopo\Procaptcha\Template_Models\Widget;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use WP_Error;
@@ -19,20 +19,20 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Procaptcha implements Captcha_Interface {
+class Procaptcha implements Captcha {
 
 	const API_URL                    = 'https://api.prosopo.io/siteverify';
 	const FORM_FIELD_NAME            = 'procaptcha-response';
 	const ALLOW_BYPASS_CONSTANT_NAME = 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS';
 
-	private Settings_Storage $settings_storage;
-	private Captcha_Assets_Manager_Interface $captcha_assets_manager;
+	private Captcha_Settings_Storage $settings_storage;
+	private Captcha_Assets_Manager $captcha_assets_manager;
 	private Query_Arguments $query_arguments;
 	private ModelRendererInterface $renderer;
 
 	public function __construct(
-		Settings_Storage $settings_storage,
-		Captcha_Assets_Manager_Interface $captcha_assets_manager,
+		Captcha_Settings_Storage $settings_storage,
+		Captcha_Assets_Manager $captcha_assets_manager,
 		Query_Arguments $query_arguments,
 		ModelRendererInterface $renderer
 	) {
@@ -99,8 +99,8 @@ class Procaptcha implements Captcha_Interface {
 			return true;
 		}
 
-		$general_settings = $this->settings_storage->get( General_Settings::class )->get_settings();
-		$secret_key       = string( $general_settings, General_Settings::SECRET_KEY );
+		$general_settings = $this->settings_storage->get( General_Captcha_Settings::class )->get_settings();
+		$secret_key       = string( $general_settings, General_Captcha_Settings::SECRET_KEY );
 
 		$response = wp_remote_post(
 			self::API_URL,
@@ -156,8 +156,8 @@ class Procaptcha implements Captcha_Interface {
 	public function present(): bool {
 		$user_authorized = wp_get_current_user()->exists();
 
-		$general_settings       = $this->settings_storage->get( General_Settings::class )->get_settings();
-		$enabled_for_authorized = bool( $general_settings, General_Settings::IS_ENABLED_FOR_AUTHORIZED );
+		$general_settings       = $this->settings_storage->get( General_Captcha_Settings::class )->get_settings();
+		$enabled_for_authorized = bool( $general_settings, General_Captcha_Settings::IS_ENABLED_FOR_AUTHORIZED );
 
 		$present = ! $user_authorized ||
 			$enabled_for_authorized;
@@ -166,10 +166,10 @@ class Procaptcha implements Captcha_Interface {
 	}
 
 	public function is_available(): bool {
-		$general_settings = $this->settings_storage->get( General_Settings::class )->get_settings();
+		$general_settings = $this->settings_storage->get( General_Captcha_Settings::class )->get_settings();
 
-		return '' !== string( $general_settings, General_Settings::SECRET_KEY ) &&
-			'' !== string( $general_settings, General_Settings::SITE_KEY );
+		return '' !== string( $general_settings, General_Captcha_Settings::SECRET_KEY ) &&
+			'' !== string( $general_settings, General_Captcha_Settings::SITE_KEY );
 	}
 
 	public function add_integration_js( string $integration_name ): void {

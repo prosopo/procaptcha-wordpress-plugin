@@ -6,25 +6,25 @@ namespace Io\Prosopo\Procaptcha\Integration\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Helper_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
+use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration_Helpers;
+use Io\Prosopo\Procaptcha\Definition\Integration\Plugin\Plugin_Integration;
+use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 
 class Plugin_Integrations {
 	private Plugin_Integrator $plugin_integrator;
-	private Settings_Storage_Interface $settings_storage;
-	private Form_Helper_Interface $form_helper;
+	private Settings_Storage $settings_storage;
+	private Form_Integration_Helpers $form_helper;
 	private Settings_Page $settings_page;
 	private bool $is_admin_area;
 
 	public function __construct(
 		Plugin_Integrator $plugin_integrator,
-		Settings_Storage_Interface $settings_storage,
-		Form_Helper_Interface $form_helper,
+		Settings_Storage $settings_storage,
+		Form_Integration_Helpers $form_helper,
 		Settings_Page $settings_page,
 		bool $is_admin_area
 	) {
@@ -36,14 +36,14 @@ class Plugin_Integrations {
 	}
 
 	/**
-	 * @param class-string<Plugin_Integration_Interface>[] $plugin_integration_classes
+	 * @param class-string<Plugin_Integration>[] $plugin_integration_classes
 	 *
-	 * @return Plugin_Integration_Interface[]
+	 * @return Plugin_Integration[]
 	 */
-	public function make_plugin_integrations( array $plugin_integration_classes, Captcha_Interface $captcha ): array {
+	public function make_plugin_integrations( array $plugin_integration_classes, Captcha $captcha ): array {
 		return array_map(
 		/**
-		 * @param class-string<Plugin_Integration_Interface> $plugin_integration_class
+		 * @param class-string<Plugin_Integration> $plugin_integration_class
 		 */
 			function ( string $plugin_integration_class ) use ( $captcha ) {
 				return $plugin_integration_class::make_instance( $captcha );
@@ -53,7 +53,7 @@ class Plugin_Integrations {
 	}
 
 	/**
-	 * @param Plugin_Integration_Interface[] $plugin_integrations
+	 * @param Plugin_Integration[] $plugin_integrations
 	 */
 	public function initialize_integrations( array $plugin_integrations ): void {
 		$std_plugin_integrations  = array_filter(
@@ -81,13 +81,13 @@ class Plugin_Integrations {
 	}
 
 	/**
-	 * @param Plugin_Integration_Interface[] $plugin_integrations
+	 * @param Plugin_Integration[] $plugin_integrations
 	 *
-	 * @return class-string<Settings_Tab_Interface>[]
+	 * @return class-string<Settings_Tab>[]
 	 */
 	public function get_setting_tabs( array $plugin_integrations ): array {
 		$setting_tab_classes = array_map(
-			function ( Plugin_Integration_Interface $plugin_integration ) {
+			function ( Plugin_Integration $plugin_integration ) {
 				return $plugin_integration->get_setting_tab_classes();
 			},
 			$plugin_integrations
@@ -97,10 +97,10 @@ class Plugin_Integrations {
 	}
 
 	/**
-	 * @param Plugin_Integration_Interface[] $plugin_integrations
+	 * @param Plugin_Integration[] $plugin_integrations
 	 */
 	protected function initialize_integrations_with_priority( array $plugin_integrations, int $hook_priority ): void {
-		$item_init = function ( Plugin_Integration_Interface $plugin_integration ) {
+		$item_init = function ( Plugin_Integration $plugin_integration ) {
 			if ( ! $this->plugin_integrator->integration_active( $plugin_integration ) ) {
 				return;
 			}
@@ -118,7 +118,7 @@ class Plugin_Integrations {
 		);
 	}
 
-	protected function initialize_integration( Plugin_Integration_Interface $plugin_integration ): void {
+	protected function initialize_integration( Plugin_Integration $plugin_integration ): void {
 		$plugin_integration->include_form_integrations();
 
 		$form_integrations = $plugin_integration->get_form_integrations( $this->settings_storage );
@@ -128,7 +128,7 @@ class Plugin_Integrations {
 		$hookable_form_integrations = $this->plugin_integrator->create_hookable_form_integrations( $form_integrations );
 		$this->plugin_integrator->set_hooks_for_hookable_form_instances( $hookable_form_integrations, $this->is_admin_area );
 
-		if ( $plugin_integration instanceof Hooks_Interface ) {
+		if ( $plugin_integration instanceof Hookable ) {
 			$plugin_integration->set_hooks( $this->is_admin_area );
 		}
 

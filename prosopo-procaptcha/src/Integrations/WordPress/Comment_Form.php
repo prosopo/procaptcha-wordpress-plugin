@@ -9,7 +9,7 @@ use WP_Error;
 
 defined( 'ABSPATH' ) || exit;
 
-class Comment_Form extends WordPress_Form {
+class Comment_Form extends WordPress_FormBase {
 	/**
 	 * @param string $submit_field
 	 * @param array<string,mixed> $args
@@ -17,7 +17,7 @@ class Comment_Form extends WordPress_Form {
 	 * @return string
 	 */
 	public function include_captcha_field( string $submit_field, array $args ): string {
-		return self::get_form_helper()->get_captcha()->print_form_field(
+		return self::get_form_helpers()->get_captcha()->print_form_field(
 			array(
 				Widget_Arguments::IS_DESIRED_ON_GUESTS => true,
 				Widget_Arguments::IS_RETURN_ONLY       => true,
@@ -32,7 +32,7 @@ class Comment_Form extends WordPress_Form {
 	 * @return int|string|WP_Error
 	 */
 	public function verify_submission( $approved, array $comment_data ) {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		if ( $captcha->present() &&
 			! $captcha->human_made_request() ) {

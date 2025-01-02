@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
+use Io\Prosopo\Procaptcha\Definition\Assets_Manager;
+use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
 use Io\Prosopo\Procaptcha\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings;
@@ -17,7 +17,7 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInt
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
-class Settings_Page implements Hooks_Interface {
+class Settings_Page implements Hookable {
 
 	const FORM_NONCE  = 'prosopo-captcha__settings';
 	const TAB_NAME    = 'tab';
@@ -25,25 +25,25 @@ class Settings_Page implements Hooks_Interface {
 	const DEFAULT_TAB = 'general';
 
 	private Plugin $plugin;
-	private Settings_Storage $settings_storage;
-	private Captcha_Interface $captcha;
+	private Captcha_Settings_Storage $settings_storage;
+	private Captcha $captcha;
 	private Query_Arguments $query_arguments;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
-	private Assets_Manager_Interface $assets_manager;
+	private Assets_Manager $assets_manager;
 	/**
-	 * @var array<string,Settings_Tab_Interface>
+	 * @var array<string,Settings_Tab>
 	 */
 	private array $setting_tabs;
 
 	public function __construct(
 		Plugin $plugin,
-		Settings_Storage $settings_storage,
-		Captcha_Interface $captcha,
+		Captcha_Settings_Storage $settings_storage,
+		Captcha $captcha,
 		Query_Arguments $query_arguments,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
-		Assets_Manager_Interface $assets_manager
+		Assets_Manager $assets_manager
 	) {
 		$this->plugin            = $plugin;
 		$this->settings_storage  = $settings_storage;
@@ -159,7 +159,7 @@ class Settings_Page implements Hooks_Interface {
 	}
 
 	/**
-	 * @param array<class-string<Settings_Tab_Interface>> $classes
+	 * @param array<class-string<Settings_Tab>> $classes
 	 */
 	public function add_setting_tabs( array $classes ): void {
 		foreach ( $classes as $tab_class ) {
@@ -169,7 +169,7 @@ class Settings_Page implements Hooks_Interface {
 		}
 	}
 
-	protected function enqueue_tab_assets( Settings_Tab_Interface $tab ): void {
+	protected function enqueue_tab_assets( Settings_Tab $tab ): void {
 		$tab_js_asset = $tab->get_tab_js_asset();
 		$tab_has_js   = '' !== $tab_js_asset;
 

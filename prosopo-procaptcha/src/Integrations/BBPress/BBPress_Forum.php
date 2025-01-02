@@ -7,10 +7,10 @@ namespace Io\Prosopo\Procaptcha\Integrations\BBPress;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Integration\Form\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 
-class BBPress_Forum extends Hookable_Form_Integration {
+class BBPress_Forum extends Hookable_Form_Integration_Base {
 	public function set_hooks( bool $is_admin_area ): void {
 		add_action( 'add_meta_boxes', array( $this, 'add_settings_metabox' ) );
 		add_action( 'save_post_forum', array( $this, 'update_option' ) );
@@ -23,7 +23,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 	}
 
 	public function update_option( int $post_id ): void {
-		$query_arguments = self::get_form_helper()->get_query_arguments();
+		$query_arguments = self::get_form_helpers()->get_query_arguments();
 
 		$value = $query_arguments->get_bool_for_non_action( $this->get_meta_key(), Query_Arguments::POST );
 
@@ -50,7 +50,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 	}
 
 	public function add_settings_metabox(): void {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		add_meta_box(
 			$captcha->get_field_name() . '_bbpress_forum',
@@ -67,7 +67,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 			return;
 		}
 
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$captcha->print_form_field(
 			array(
@@ -79,7 +79,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 	public function maybe_validate_captcha(): void {
 		$forum_id = $this->get_current_forum_id();
 
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		if ( ! $this->is_enabled( $forum_id ) ||
 			! $captcha->present() ||
@@ -93,7 +93,7 @@ class BBPress_Forum extends Hookable_Form_Integration {
 	}
 
 	protected function get_meta_key(): string {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		return $captcha->get_field_name() . '_bbpress_forum_protection';
 	}

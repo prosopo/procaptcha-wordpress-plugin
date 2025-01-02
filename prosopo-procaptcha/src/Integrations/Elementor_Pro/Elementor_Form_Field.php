@@ -9,12 +9,12 @@ defined( 'ABSPATH' ) || exit;
 use ElementorPro\Modules\Forms\Classes;
 use ElementorPro\Modules\Forms\Fields\Field_Base;
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
+use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Elementor_Form_Field extends Field_Base implements Form_Integration_Interface {
-	use Form_Integration;
+class Elementor_Form_Field extends Field_Base implements Form_Integration {
+	use Form_Integration_Helpers_Container;
 
 	public function __construct() {
 		parent::__construct();
@@ -23,11 +23,11 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 	}
 
 	public function get_type(): string {
-		return self::get_form_helper()->get_captcha()->get_field_name();
+		return self::get_form_helpers()->get_captcha()->get_field_name();
 	}
 
 	public function get_name(): string {
-		return self::get_form_helper()->get_captcha()->get_field_label();
+		return self::get_form_helpers()->get_captcha()->get_field_label();
 	}
 
 	public function maybe_replace_field_stub( string $content ): string {
@@ -37,7 +37,7 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 			return $content;
 		}
 
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		// Remove the stub if the captcha is not present.
 		if ( ! $captcha->present() ) {
@@ -89,7 +89,7 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 	public function validation( $field, Classes\Form_Record $record, Classes\Ajax_Handler $ajax_handler ): void {
 		parent::validation( $field, $record, $ajax_handler );
 
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		if ( ! $captcha->present() ||
 		$captcha->human_made_request() ) {
@@ -105,6 +105,6 @@ class Elementor_Form_Field extends Field_Base implements Form_Integration_Interf
 	}
 
 	protected function get_field_stub(): string {
-		return '{' . self::get_form_helper()->get_captcha()->get_field_name() . '}';
+		return '{' . self::get_form_helpers()->get_captcha()->get_field_name() . '}';
 	}
 }

@@ -6,9 +6,9 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Captcha\Captcha_Assets_Manager;
+use Io\Prosopo\Procaptcha\Captcha\Procaptcha_Assets_Manager;
 use Io\Prosopo\Procaptcha\Captcha\Procaptcha;
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
+use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
 use Io\Prosopo\Procaptcha\Captcha\Captcha_Assets;
 use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress,
 	Contact_Form_7,
@@ -24,35 +24,35 @@ use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress,
 	WooCommerce\WooCommerce,
 	WordPress\WordPress,
 	WPForms\WPForms};
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Helper;
-use Io\Prosopo\Procaptcha\Interfaces\Hooks_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration_Interface;
+use Io\Prosopo\Procaptcha\Integration\Form\Captcha_Form_Integration_Helpers;
+use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Definition\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrator;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab_Interface;
+use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
 use Io\Prosopo\Procaptcha\Settings\{Settings_Page,
-	Settings_Storage,
-	Tabs\Account_Forms_Settings,
-	Tabs\General_Settings,
+	Captcha_Settings_Storage,
+	Tabs\Account_Forms_Captcha_Settings,
+	Tabs\General_Captcha_Settings,
 	Tabs\Statistics};
 use WP_Filesystem_Base;
 
-class Plugin implements Hooks_Interface {
+class Plugin implements Hookable {
 	const SLUG               = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 
 	private string $version = '1.9.0';
 	private string $plugin_file;
-	private Captcha_Interface $captcha;
-	private Captcha_Assets_Manager $captcha_assets_manager;
+	private Captcha $captcha;
+	private Procaptcha_Assets_Manager $captcha_assets_manager;
 	private Query_Arguments $query_arguments;
-	private Settings_Storage $settings_storage;
+	private Captcha_Settings_Storage $settings_storage;
 	private Settings_Page $settings_page;
 	private Plugin_Integrations $plugin_integrations;
-	private Assets_Manager $assets_manager;
+	private Plugin_Assets_Manager $assets_manager;
 
 	/**
 	 * @param string $plugin_file Optional, empty if called from the uninstall.php
@@ -70,14 +70,14 @@ class Plugin implements Hooks_Interface {
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
 
-		$this->assets_manager = new Assets_Manager( $plugin_file, $this->version, $wp_filesystem );
+		$this->assets_manager = new Plugin_Assets_Manager( $plugin_file, $this->version, $wp_filesystem );
 
-		$this->settings_storage       = new Settings_Storage();
-		$this->captcha_assets_manager = new Captcha_Assets_Manager(
+		$this->settings_storage       = new Captcha_Settings_Storage();
+		$this->captcha_assets_manager = new Procaptcha_Assets_Manager(
 			self::SERVICE_SCRIPT_URL,
 			'prosopo-procaptcha',
 			$this->assets_manager,
-			$this->settings_storage->get( General_Settings::class ),
+			$this->settings_storage->get( General_Captcha_Settings::class ),
 			new Captcha_Assets()
 		);
 
@@ -102,7 +102,7 @@ class Plugin implements Hooks_Interface {
 		$this->plugin_integrations = new Plugin_Integrations(
 			new Plugin_Integrator(),
 			$this->settings_storage,
-			new Form_Helper( $this->captcha, $this->query_arguments ),
+			new Captcha_Form_Integration_Helpers( $this->captcha, $this->query_arguments ),
 			$this->settings_page,
 			is_admin()
 		);
@@ -156,7 +156,7 @@ class Plugin implements Hooks_Interface {
 	}
 
 	/**
-	 * @return class-string<Plugin_Integration_Interface>[]
+	 * @return class-string<Plugin_Integration>[]
 	 */
 	protected function get_integration_classes(): array {
 		return array(
@@ -178,19 +178,19 @@ class Plugin implements Hooks_Interface {
 	}
 
 	/**
-	 * @return Plugin_Integration_Interface[]
+	 * @return Plugin_Integration[]
 	 */
 	protected function make_plugin_integrations(): array {
 		return $this->plugin_integrations->make_plugin_integrations( $this->get_integration_classes(), $this->captcha );
 	}
 
 	/**
-	 * @return class-string<Settings_Tab_Interface>[]
+	 * @return class-string<Settings_Tab>[]
 	 */
 	protected function get_independent_setting_tabs(): array {
 		return array(
-			General_Settings::class,
-			Account_Forms_Settings::class,
+			General_Captcha_Settings::class,
+			Account_Forms_Captcha_Settings::class,
 			Statistics::class,
 		);
 	}

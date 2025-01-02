@@ -7,19 +7,19 @@ declare( strict_types=1 );
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Hookable_Form_Integration_Interface;
+use Io\Prosopo\Procaptcha\Definition\Integration\Form\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // Class name must match the UR_Form_Field_{field_type} format.
-class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable_Form_Integration_Interface {
-	use Form_Integration;
+class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable_Form_Integration {
+	use Form_Integration_Helpers_Container;
 
 	const NAME_PREFIX = 'user_registration_';
 
 	private static ?self $instance = null;
 
-	public static function make_instance(): Hookable_Form_Integration_Interface {
+	public static function make_instance(): Hookable_Form_Integration {
 		return self::get_instance();
 	}
 
@@ -32,7 +32,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	}
 
 	private function __construct() {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		// @phpstan-ignore-next-line
 		$this->id                       = self::NAME_PREFIX . $captcha->get_field_name();
@@ -73,7 +73,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	 * @return void
 	 */
 	public function validation( $single_form_field, $form_data, $filter_hook, $form_id ) {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		$token = string( $form_data, 'value' );
 
@@ -95,7 +95,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	 * @param mixed $value
 	 */
 	public function render_field( string $field, string $key, array $args, $value ): string {
-		$captcha = self::get_form_helper()->get_captcha();
+		$captcha = self::get_form_helpers()->get_captcha();
 
 		return $captcha->print_form_field(
 			array(
@@ -115,7 +115,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 
 	public function set_hooks( bool $is_admin_area ): void {
 		add_filter(
-			sprintf( 'user_registration_form_field_%s', self::get_form_helper()->get_captcha()->get_field_name() ),
+			sprintf( 'user_registration_form_field_%s', self::get_form_helpers()->get_captcha()->get_field_name() ),
 			array( $this, 'render_field' ),
 			10,
 			4

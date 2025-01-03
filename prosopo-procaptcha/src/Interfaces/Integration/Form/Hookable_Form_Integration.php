@@ -2,9 +2,9 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Definition\Integration\Form;
+namespace Io\Prosopo\Procaptcha\Interfaces\Integration\Form;
 
-use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Interfaces\Hookable;
 
 defined( 'ABSPATH' ) || exit;
 

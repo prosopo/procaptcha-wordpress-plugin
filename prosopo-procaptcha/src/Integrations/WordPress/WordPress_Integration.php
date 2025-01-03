@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Captcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;

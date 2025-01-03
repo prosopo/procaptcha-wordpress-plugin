@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Captcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Assets_Manager;
+use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Captcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 

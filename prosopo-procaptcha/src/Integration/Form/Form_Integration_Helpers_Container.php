@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integration\Form;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration_Helpers;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Helpers;
 
 /**
  * Trait, instead of the abstract class,

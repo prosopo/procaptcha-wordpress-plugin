@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Integration\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Integration\Form\{Form_Integration_Helpers,
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\{Form_Integration_Helpers,
 	Form_Integration,
 	Hookable_Form_Integration};
-use Io\Prosopo\Procaptcha\Definition\Integration\Plugin\Plugin_Integration;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration;
 
 class Plugin_Integrator {
 	public function integration_active( Plugin_Integration $plugin_integration ): bool {

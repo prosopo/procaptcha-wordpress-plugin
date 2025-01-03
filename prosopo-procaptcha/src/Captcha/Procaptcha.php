@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Captcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha_Assets_Manager;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Assets_Manager;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Captcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Captcha_Settings;

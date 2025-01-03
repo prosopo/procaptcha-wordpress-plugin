@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Definition\Captcha;
+namespace Io\Prosopo\Procaptcha\Interfaces\Captcha;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -2,11 +2,11 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Definition\Settings;
+namespace Io\Prosopo\Procaptcha\Interfaces\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;

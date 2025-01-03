@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Captcha\Procaptcha_Assets_Manager;
 use Io\Prosopo\Procaptcha\Captcha\Procaptcha;
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
 use Io\Prosopo\Procaptcha\Captcha\Captcha_Assets;
 use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
 	Contact_Form_7_Integration,
@@ -25,11 +25,11 @@ use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
 	WordPress\WordPress_Integration,
 	WPForms\WPForms_Integration};
 use Io\Prosopo\Procaptcha\Integration\Form\Captcha_Form_Integration_Helpers;
-use Io\Prosopo\Procaptcha\Definition\Hookable;
-use Io\Prosopo\Procaptcha\Definition\Integration\Plugin\Plugin_Integration;
+use Io\Prosopo\Procaptcha\Interfaces\Hookable;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrator;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;

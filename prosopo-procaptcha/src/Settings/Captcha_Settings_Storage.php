@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab;
 
 class Captcha_Settings_Storage implements Settings_Storage {
 	/**

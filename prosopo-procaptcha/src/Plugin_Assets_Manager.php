@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Assets_Manager;
-use Io\Prosopo\Procaptcha\Definition\Hookable;
+use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager;
+use Io\Prosopo\Procaptcha\Interfaces\Hookable;
 use WP_Filesystem_Base;
 
 class Plugin_Assets_Manager implements Assets_Manager, Hookable {

@@ -7,7 +7,7 @@ declare( strict_types=1 );
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Definition\Integration\Form\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Hookable_Form_Integration;
 use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 

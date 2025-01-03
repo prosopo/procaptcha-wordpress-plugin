@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Captcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Assets_Manager;
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha_Assets_Manager;
-use Io\Prosopo\Procaptcha\Definition\Hookable;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
+use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Assets_Manager;
+use Io\Prosopo\Procaptcha\Interfaces\Hookable;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab;
 
 class Procaptcha_Assets_Manager implements Hookable, Captcha_Assets_Manager {
 	const WIDGET_JS_HANDLE             = 'prosopo-procaptcha-widget';

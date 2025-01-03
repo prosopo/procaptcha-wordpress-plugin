@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integration\Form;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Integration\Form\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Hookable_Form_Integration;
 
 abstract class Hookable_Form_Integration_Base implements Hookable_Form_Integration {
 	use Form_Integration_Helpers_Container;

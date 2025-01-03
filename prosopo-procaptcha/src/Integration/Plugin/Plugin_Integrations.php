@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Integration\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
-use Io\Prosopo\Procaptcha\Definition\Hookable;
-use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration_Helpers;
-use Io\Prosopo\Procaptcha\Definition\Integration\Plugin\Plugin_Integration;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Interfaces\Hookable;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Helpers;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 
 class Plugin_Integrations {

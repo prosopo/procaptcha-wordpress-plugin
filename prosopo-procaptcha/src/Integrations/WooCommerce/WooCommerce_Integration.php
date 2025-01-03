@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WooCommerce;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Captcha_Settings;
 use Io\Prosopo\Procaptcha\Settings\Tabs\Woo_Commerce_Captcha_Settings;

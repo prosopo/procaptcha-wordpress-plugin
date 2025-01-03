@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\JetPack;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
 
 class JetPack_Integration extends Captcha_Plugin_Integration {

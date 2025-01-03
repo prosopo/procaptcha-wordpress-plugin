@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Assets_Manager;
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
-use Io\Prosopo\Procaptcha\Definition\Hookable;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
+use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Interfaces\Hookable;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab;
 use Io\Prosopo\Procaptcha\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings;

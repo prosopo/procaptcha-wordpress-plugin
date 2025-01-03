@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Integration\Form;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
-use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration_Helpers;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Helpers;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 
 class Captcha_Form_Integration_Helpers implements Form_Integration_Helpers {

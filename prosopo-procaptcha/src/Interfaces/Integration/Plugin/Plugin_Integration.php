@@ -2,14 +2,14 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Definition\Integration\Plugin;
+namespace Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Definition\Captcha\Captcha;
-use Io\Prosopo\Procaptcha\Definition\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Definition\Settings\Settings_Tab;
+use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
+use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
+use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab;
 
 interface Plugin_Integration {
 	public static function make_instance( Captcha $captcha ): self;

@@ -8,15 +8,8 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 
 class Ninja_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
-		return array(
-			Ninja_Forms_Form_Integration::class,
-		);
-	}
-
 	public function get_target_plugin_classes(): array {
 		return array(
 			'Ninja_Forms',
@@ -54,5 +47,11 @@ class Ninja_Forms_Integration extends Procaptcha_Plugin_Integration implements H
 		$paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
 
 		return $paths;
+	}
+
+	protected function get_form_integrations(): array {
+		return array(
+			Ninja_Forms_Form_Integration::class,
+		);
 	}
 }

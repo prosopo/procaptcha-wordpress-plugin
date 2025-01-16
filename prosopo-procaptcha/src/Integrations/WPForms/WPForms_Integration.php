@@ -8,7 +8,6 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 
 class WPForms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
@@ -17,13 +16,13 @@ class WPForms_Integration extends Procaptcha_Plugin_Integration implements Hooka
 		);
 	}
 
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
+	public function set_hooks( bool $is_admin_area ): void {
+		new WPForms_Form_Integration();
+	}
+
+	protected function get_form_integrations(): array {
 		return array(
 			WPForms_Form_Integration::class,
 		);
-	}
-
-	public function set_hooks( bool $is_admin_area ): void {
-		new WPForms_Form_Integration();
 	}
 }

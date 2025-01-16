@@ -27,7 +27,7 @@ interface Plugin_Integration {
 	/**
 	 * @return class-string<Form_Integration>[]
 	 */
-	public function get_form_integrations( Settings_Storage $settings_storage ): array;
+	public function get_active_form_integrations( Settings_Storage $settings_storage ): array;
 
 	/**
 	 * @return class-string<Settings_Tab>[]

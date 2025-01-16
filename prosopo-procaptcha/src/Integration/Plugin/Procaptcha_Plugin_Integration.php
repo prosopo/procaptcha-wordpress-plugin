@@ -32,6 +32,13 @@ abstract class Procaptcha_Plugin_Integration implements Plugin_Integration {
 	public function include_form_integrations(): void {
 	}
 
+	public function get_active_form_integrations( Settings_Storage $settings_storage ): array {
+		return array_merge(
+			$this->get_form_integrations(),
+			$this->get_active_conditional_integrations( $settings_storage )
+		);
+	}
+
 	protected function get_widget(): Widget {
 		return $this->widget;
 	}
@@ -39,7 +46,14 @@ abstract class Procaptcha_Plugin_Integration implements Plugin_Integration {
 	/**
 	 * @return array<class-string<Form_Integration>, bool>
 	 */
-	protected function get_conditional_integrations( Settings_Storage $settings_storage ): array {
+	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
+		return array();
+	}
+
+	/**
+	 * @return class-string<Form_Integration>[]
+	 */
+	protected function get_form_integrations(): array {
 		return array();
 	}
 
@@ -47,7 +61,7 @@ abstract class Procaptcha_Plugin_Integration implements Plugin_Integration {
 	 * @return class-string<Form_Integration>[]
 	 */
 	protected function get_active_conditional_integrations( Settings_Storage $settings_storage ): array {
-		$active_integrations = array_filter( $this->get_conditional_integrations( $settings_storage ) );
+		$active_integrations = array_filter( $this->get_conditional_form_integrations( $settings_storage ) );
 
 		return array_keys( $active_integrations );
 	}

@@ -120,7 +120,7 @@ class Plugin_Integrations {
 	protected function initialize_integration( Plugin_Integration $plugin_integration ): void {
 		$plugin_integration->include_form_integrations();
 
-		$form_integrations = $plugin_integration->get_form_integrations( $this->settings_storage );
+		$form_integrations = $plugin_integration->get_active_form_integrations( $this->settings_storage );
 
 		$this->plugin_integrator->inject_form_helper( $form_integrations, $this->form_helper );
 

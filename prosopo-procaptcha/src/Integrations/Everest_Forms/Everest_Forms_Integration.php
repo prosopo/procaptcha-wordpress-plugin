@@ -8,7 +8,6 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 
 class Everest_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	/**
@@ -29,15 +28,15 @@ class Everest_Forms_Integration extends Procaptcha_Plugin_Integration implements
 		add_filter( 'everest_forms_fields', array( $this, 'register_field' ) );
 	}
 
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
-		return array(
-			Everest_Forms_Form_Integration::class,
-		);
-	}
-
 	public function get_target_plugin_classes(): array {
 		return array(
 			'EverestForms',
+		);
+	}
+
+	protected function get_form_integrations(): array {
+		return array(
+			Everest_Forms_Form_Integration::class,
 		);
 	}
 }

@@ -27,13 +27,6 @@ class User_Registration_Integration extends Procaptcha_Plugin_Integration implem
 		require_once __DIR__ . '/UR_Form_Field_Prosopo_Procaptcha.php';
 	}
 
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
-		return array_merge(
-			array( UR_Form_Field_Prosopo_Procaptcha::class ),
-			$this->get_active_conditional_integrations( $settings_storage ),
-		);
-	}
-
 	public function set_hooks( bool $is_admin_area ): void {
 		add_filter( 'user_registration_registered_form_fields', array( $this, 'register_field_type' ) );
 		add_filter(
@@ -71,7 +64,11 @@ class User_Registration_Integration extends Procaptcha_Plugin_Integration implem
 		return __DIR__ . '/admin_template.php';
 	}
 
-	protected function get_conditional_integrations( Settings_Storage $settings_storage ): array {
+	protected function get_form_integrations(): array {
+		return array( UR_Form_Field_Prosopo_Procaptcha::class );
+	}
+
+	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
 		$account_forms = $settings_storage->get( Account_Forms_Procaptcha_Settings::class )->get_settings();
 
 		return array(

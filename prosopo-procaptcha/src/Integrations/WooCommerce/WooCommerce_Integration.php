@@ -22,17 +22,13 @@ class WooCommerce_Integration extends Procaptcha_Plugin_Integration {
 		return array( 'WooCommerce' );
 	}
 
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
-		return $this->get_active_conditional_integrations( $settings_storage );
-	}
-
 	public function get_setting_tab_classes(): array {
 		return array(
 			Woo_Commerce_Procaptcha_Settings::class,
 		);
 	}
 
-	protected function get_conditional_integrations( Settings_Storage $settings_storage ): array {
+	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
 		$account_forms = $settings_storage->get( Account_Forms_Procaptcha_Settings::class )->get_settings();
 		$woo_settings  = $settings_storage->get( Woo_Commerce_Procaptcha_Settings::class )->get_settings();
 

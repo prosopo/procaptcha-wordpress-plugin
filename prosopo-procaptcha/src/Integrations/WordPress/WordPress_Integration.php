@@ -18,20 +18,17 @@ use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Procaptcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 class WordPress_Integration extends Procaptcha_Plugin_Integration {
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
-		return array_merge(
-			array(
-				WP_Shortcode_Integration::class,
-			),
-			$this->get_active_conditional_integrations( $settings_storage )
-		);
-	}
-
 	public function get_target_plugin_classes(): array {
 		return array();
 	}
 
-	protected function get_conditional_integrations( Settings_Storage $settings_storage ): array {
+	protected function get_form_integrations(): array {
+		return array(
+			WP_Shortcode_Integration::class,
+		);
+	}
+
+	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
 		$account_forms = $settings_storage->get( Account_Forms_Procaptcha_Settings::class )->get_settings();
 
 		return array(

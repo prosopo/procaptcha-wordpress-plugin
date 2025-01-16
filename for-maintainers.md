@@ -76,3 +76,7 @@ into GitHub Actions but can also be run locally.
 Launching:
 
 `bash tools/run-tests.sh [all|wordpress|form-plugins] [local]`
+
+Manual debugging:
+
+`cd tests; yarn cy:open`

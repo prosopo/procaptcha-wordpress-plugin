@@ -24,15 +24,6 @@ class Elementor_Pro_Integration extends Procaptcha_Plugin_Integration implements
 		return true;
 	}
 
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
-		return array_merge(
-			array(
-				Elementor_Form_Integration::class,
-			),
-			$this->get_active_conditional_integrations( $settings_storage )
-		);
-	}
-
 	public function set_hooks( bool $is_admin_area ): void {
 		add_action( 'elementor_pro/forms/fields/register', array( $this, 'register_field' ) );
 	}
@@ -41,7 +32,13 @@ class Elementor_Pro_Integration extends Procaptcha_Plugin_Integration implements
 		$fields_manager->register( new Elementor_Form_Integration() );
 	}
 
-	protected function get_conditional_integrations( Settings_Storage $settings_storage ): array {
+	protected function get_form_integrations(): array {
+		return array(
+			Elementor_Form_Integration::class,
+		);
+	}
+
+	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
 		$account_forms = $settings_storage->get( Account_Forms_Procaptcha_Settings::class )->get_settings();
 
 		return array(

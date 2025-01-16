@@ -8,7 +8,6 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 // Note: CF7 v5.9.8 calls the RestAPI without the nonce, so we can't omit captcha for authorized users.
@@ -17,10 +16,6 @@ class Contact_Form_7_Integration extends Procaptcha_Plugin_Integration implement
 		return array(
 			'WPCF7',
 		);
-	}
-
-	public function get_form_integrations( Settings_Storage $settings_storage ): array {
-		return array();
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {

@@ -16,7 +16,7 @@ class GravityForms extends FormTest {
 			captchaInput: FormSelector.CUSTOM_CAPTCHA_INPUT,
 		};
 		this.submitValues = {
-			input_1: "John Doe",
+			"input[name=input_1][type=text]": "John Doe",
 		};
 		this.messages = {
 			success:

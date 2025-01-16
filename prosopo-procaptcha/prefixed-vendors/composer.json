@@ -1,0 +1,11 @@
+{
+    "require": {
+        "prosopo\/views": "^1.0",
+        "wplake\/typed": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Io\\Prosopo\\Procaptcha\\": "..\/src"
+        }
+    }
+}

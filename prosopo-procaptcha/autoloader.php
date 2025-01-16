@@ -1,11 +1,7 @@
 <?php
 
-namespace Io\Prosopo\Procaptcha;
-
 defined( 'ABSPATH' ) || exit;
 
-require_once join( DIRECTORY_SEPARATOR, array( __DIR__, 'src', 'Autoloader.php' ) );
-
-new Autoloader( __NAMESPACE__, __DIR__ . DIRECTORY_SEPARATOR . 'src' );
-
+// the scoper-autoloader includes autoloader for this namespace as well.
+require_once __DIR__ . '/prefixed-vendors/vendor/scoper-autoload.php';
 require_once __DIR__ . '/src/helpers.php';

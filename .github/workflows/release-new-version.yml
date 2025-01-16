@@ -1,0 +1,43 @@
+name: Release New Version
+
+on:
+  push:
+    tags:
+      # 1.0.0
+      - '[0-9]+\.[0-9]+\.[0-9]+'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initial setup
+        uses: ./.github/actions/initial-setup
+
+      - name: Make sure SVN_USERNAME and SVN_PASSWORD are present
+        run: |
+          if [ -z "${{ secrets.SVN_USERNAME }}" ]; then
+            echo "Set the SVN_USERNAME secret"
+            exit 1
+          fi
+          if [ -z "${{ secrets.SVN_PASSWORD }}" ]; then
+            echo "Set the SVN_PASSWORD secret"
+            exit 1
+          fi
+
+      - name: Install Subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
+
+      - name: SVN prepare commit
+        id: svn_commit_preparation
+        uses: ./.github/actions/release/svn-prepare-commit
+
+      - name: SVN make commit
+        uses: ./.github/actions/release/svn-make-commit
+        with:
+          username: ${{ secrets.SVN_USERNAME }}
+          password: ${{ secrets.SVN_PASSWORD }}
+          tag: ${{ steps.svn_commit_preparation.outputs.release_tag }}

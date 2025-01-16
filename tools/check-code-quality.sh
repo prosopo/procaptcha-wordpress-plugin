@@ -1,19 +1,8 @@
 #!/bin/bash
-runPhpCodeBeautifer() {
-  local parentPath="$1"
-
-  cd "$parentPath"/../php-code-quality-tools || { echo "Failed to change directory to php-code-quality-tools"; return 1; }
-
-  # 'phpcbf' is used to fix, while 'phpcs' to check
-  bash -c "php ./vendor/bin/phpcbf --standard=./wp-ruleset.xml"
-
-  return $?
-}
-
 checkPhpCodeSniffer() {
   local parentPath="$1"
 
-  cd "$parentPath"/../php-code-quality-tools || { echo "Failed to change directory to php-code-quality-tools"; return 1; }
+  cd "$parentPath"/../php-tools/code-quality || { echo "Failed to change directory to php-tools/code-quality"; return 1; }
 
   # 'phpcbf' is used to fix, while 'phpcs' to check
   bash -c "php ./vendor/bin/phpcs --standard=./wp-ruleset.xml"
@@ -24,7 +13,7 @@ checkPhpCodeSniffer() {
 checkPhpStan() {
   local parentPath="$1"
 
-  cd "$parentPath"/../php-code-quality-tools || { echo "Failed to change directory to php-code-quality-tools"; return 1; }
+  cd "$parentPath"/../php-tools/code-quality || { echo "Failed to change directory to php-tools/code-quality"; return 1; }
 
   config="phpstan.neon"
 
@@ -36,7 +25,7 @@ checkPhpStan() {
 checkPhpPest(){
   local parentPath="$1"
 
-  cd "$parentPath"/../php-code-quality-tools || { echo "Failed to change directory to php-code-quality-tools"; return 1; }
+  cd "$parentPath"/../php-tools/code-quality || { echo "Failed to change directory to php-tools/code-quality"; return 1; }
 
   php vendor/bin/pest
 
@@ -112,12 +101,6 @@ runChecks(){
      exitWhenFailed $?
    fi
  done
-
- # separately, as it shouldn't be run when the type is 'all'.
- if [ "$type" == "codebeautifier" ]; then
-      runPhpCodeBeautifer "$parentPath"
-      exitWhenFailed $?
- fi
 
   echo -e "\n> Everything looks good\n"
 

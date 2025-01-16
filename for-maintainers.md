@@ -46,7 +46,23 @@ Commands:
 1. `bash tools/refresh-translations.sh` - updates the `.pot` and `.po` files based on the plugin codebase.
 2. `bash tools/compile-translations.sh` - compiles the `.po` files to `.mo` and `.l10n.php` files.
 
-## 4. End-to-End tests
+## 4. Updating scoped Composer packages
+
+WordPress does not natively support Composer, which means plugin authors must scope their Composer packages to avoid
+conflicts.
+
+Each original namespace, such as `Some/Package`, needs to be transformed into a unique namespace like
+`CurrentPluginNamespace/Some/Package`. This prevents conflicts when other plugins include the same package but with
+different versions.
+
+To handle this, we use a powerful PHP tool called [Humbug PHP-Scoper](https://github.com/humbug/php-scoper).
+
+Steps to update the scoped packages:
+
+1. `cd php-tools/origin-vendors; composer install/update`
+2. `bash tools/scope-php-vendors.sh`
+
+## 5. Local End-to-End tests
 
 The integrations are covered by [Cypress](https://www.cypress.io/) e2e tests. These tests are integrated
 into GitHub Actions but can also be run locally.
@@ -55,8 +71,12 @@ into GitHub Actions but can also be run locally.
 
 * WordPress should be setup on `http://procaptcha.local`
 * The expected WordPress installation location is `$HOME/Local Sites/procaptcha/app/public`.
-* The ready DB for tests should be imported from the private storage.
+* The ready DB for tests should be imported from the [private repository](https://github.com/prosopo/procaptcha-wordpress-plugin-private/).
 
 Launching:
 
 `bash tools/run-tests.sh [all|wordpress|form-plugins] [local]`
+
+To open the Cypress App:
+
+`cd tests; yarn cy:open`

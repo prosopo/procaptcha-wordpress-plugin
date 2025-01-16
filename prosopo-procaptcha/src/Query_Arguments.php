@@ -4,6 +4,10 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha;
 
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\int;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
+
 defined( 'ABSPATH' ) || exit;
 
 class Query_Arguments {
@@ -11,32 +15,22 @@ class Query_Arguments {
 	const POST   = 'post';
 	const SERVER = 'server';
 
-	private ?Collection $post;
-	private ?Collection $get;
-	private ?Collection $server;
-
-	public function __construct() {
-		$this->post   = null;
-		$this->get    = null;
-		$this->server = null;
-	}
-
 	public function get_string_for_non_action( string $arg_name, string $from = self::GET ): string {
 		$source = $this->get_source( $from );
 
-		return $this->sanitize_string( $source->get_string( $arg_name ) );
+		return $this->sanitize_string( string( $source, $arg_name ) );
 	}
 
 	public function get_int_for_non_action( string $arg_name, string $from = self::GET ): int {
 		$source = $this->get_source( $from );
 
-		return $source->get_int( $arg_name );
+		return int( $source, $arg_name );
 	}
 
 	public function get_bool_for_non_action( string $arg_name, string $from = self::GET ): bool {
 		$source = $this->get_source( $from );
 
-		return $source->get_bool( $arg_name );
+		return boolExtended( $source, $arg_name );
 	}
 
 	public function get_string_for_admin_action(
@@ -47,7 +41,7 @@ class Query_Arguments {
 		$source = $this->get_source( $from );
 
 		// separately check for presence, otherwise check_admin_referer will fail the request.
-		if ( false === $source->exists( $arg_name ) ||
+		if ( ! key_exists( $arg_name, $source ) ||
 			false === check_admin_referer( $nonce_action_name ) ) {
 			return '';
 		}
@@ -63,7 +57,7 @@ class Query_Arguments {
 		$source = $this->get_source( $from );
 
 		// separately check for presence, otherwise check_admin_referer will fail the request.
-		if ( false === $source->exists( $arg_name ) ||
+		if ( ! key_exists( $arg_name, $source ) ||
 			false === check_admin_referer( $nonce_action_name ) ) {
 			return false;
 		}
@@ -71,31 +65,22 @@ class Query_Arguments {
 		return $this->get_bool_for_non_action( $arg_name, $from );
 	}
 
-	protected function get_source( string $from ): Collection {
+	/**
+	 * @return array<string,mixed>
+	 */
+	protected function get_source( string $from ): array {
 		switch ( $from ) {
 			case self::GET:
-				if ( null === $this->get ) {
 					// phpcs:ignore WordPress.Security.NonceVerification
-					$this->get = make_collection( $_GET );
-				}
-
-				return $this->get;
+				return $_GET;
 			case self::POST:
-				if ( null === $this->post ) {
 					// phpcs:ignore WordPress.Security.NonceVerification
-					$this->post = make_collection( $_POST );
-				}
-
-				return $this->post;
+				return $_POST;
 			case self::SERVER:
-				if ( null === $this->server ) {
 					// phpcs:ignore WordPress.Security.NonceVerification
-					$this->server = make_collection( $_SERVER );
-				}
-
-				return $this->server;
+				return $_SERVER;
 			default:
-				return make_collection( array() );
+				return array();
 		}
 	}
 

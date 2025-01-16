@@ -6,50 +6,35 @@ namespace Io\Prosopo\Procaptcha\Integration\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Form_Integration_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Plugin\Plugin_Integration_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
+use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 
-abstract class Plugin_Integration implements Plugin_Integration_Interface {
-	private Captcha_Interface $captcha;
-
-	public static function make_instance( Captcha_Interface $captcha ): Plugin_Integration_Interface {
-		return new static( $captcha );
-	}
-
-	final public function __construct( Captcha_Interface $captcha ) {
-		$this->captcha = $captcha;
-	}
-
-	public function requires_late_hooking(): bool {
-		return false;
-	}
-
-	public function get_setting_tab_classes(): array {
-		return array();
-	}
-
-	public function include_form_integrations(): void {
-	}
-
-	protected function get_captcha(): Captcha_Interface {
-		return $this->captcha;
-	}
+interface Plugin_Integration {
+	public static function make_instance( Widget $widget ): self;
 
 	/**
-	 * @return array<class-string<Form_Integration_Interface>, bool>
+	 * 1. Using classes instead of plugin names, since is_active_plugin doesn't work on the front.
+	 * 2. Support multiple, since one plugin can have both Lite and Pro versions.
+	 *
+	 * @return string[]
 	 */
-	protected function get_conditional_integrations( Settings_Storage_Interface $settings_storage ): array {
-		return array();
-	}
+	public function get_target_plugin_classes(): array;
+
+	public function requires_late_hooking(): bool;
 
 	/**
-	 * @return class-string<Form_Integration_Interface>[]
+	 * @return class-string<Form_Integration>[]
 	 */
-	protected function get_active_conditional_integrations( Settings_Storage_Interface $settings_storage ): array {
-		$active_integrations = array_filter( $this->get_conditional_integrations( $settings_storage ) );
+	public function get_active_form_integrations( Settings_Storage $settings_storage ): array;
 
-		return array_keys( $active_integrations );
-	}
+	/**
+	 * @return class-string<Settings_Tab>[]
+	 */
+	public function get_setting_tab_classes(): array;
+
+	// Only for exceptional cases, when we have to put classes into the global namespace,
+	// see the User_Registration integration for example.
+	public function include_form_integrations(): void;
 }

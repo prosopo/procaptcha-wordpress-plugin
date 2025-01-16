@@ -1,0 +1,13 @@
+parameters:
+    level: 9
+    paths:
+        - ../../prosopo-procaptcha
+    scanDirectories:
+        - ./stubs
+    excludePaths:
+        - ../../prosopo-procaptcha/lang
+        analyse:
+        - ../../prosopo-procaptcha/prefixed-vendors
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon

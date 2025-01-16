@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    "bbp-style-pack",
+    "bbpress",
+    "simple-membership",
+    "user-registration",
+    "woocommerce"
+  ]
+}

@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.9.0
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,11 +80,14 @@ Branding:
 6. [Loginpress](https://wordpress.org/plugins/loginpress/)
 7. [Theme My Login](https://wordpress.org/plugins/theme-my-login/)
 8. [Ultimate Dashboard](https://wordpress.org/plugins/ultimate-dashboard/)
-9. [User Registration](https://wordpress.org/plugins/user-registration/) (custom login/reset forms)
-10. [White label](https://wordpress.org/plugins/white-label/)
-11. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - My Account forms (Register/Login/Lost Password)
-12. [YITH Custom Login](https://wordpress.org/plugins/yith-custom-login/)
-13. [bbPress](https://wordpress.org/plugins/bbpress/) (account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/))
+9. [White label](https://wordpress.org/plugins/white-label/)
+10. [YITH Custom Login](https://wordpress.org/plugins/yith-custom-login/)
+
+Account-related:
+1. [Simple Membership](https://wordpress.org/plugins/simple-membership/)
+2. [User Registration](https://wordpress.org/plugins/user-registration/)
+3. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - My Account forms
+4. [bbPress](https://wordpress.org/plugins/bbpress/) (account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/))
 
 While only the items above are tested, overall, the Procaptcha plugin supports all the plugins with custom account forms that use the native WordPress account hooks.
 
@@ -130,6 +133,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.10.0 (2024-01-16) =
+- Added support for [Simple Membership](https://wordpress.org/plugins/simple-membership/) register, login and reset password forms
 
 = 1.9.0 (2024-12-10) =
 - Removed the local Shadow DOM from the widget (in favor of the global one)

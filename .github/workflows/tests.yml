@@ -1,0 +1,92 @@
+name: Tests (Code Quality & E2E Cypress)
+
+on:
+  pull_request:
+    branches:
+      - release
+
+jobs:
+  check-code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initial setup
+        uses: ./.github/actions/initial-setup
+
+      - name: Check code quality
+        run: bash tools/check-code-quality.sh
+
+  run-e2e-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: wordpress
+          MYSQL_DATABASE: wordpress
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    strategy:
+      matrix:
+        # names of the test folders: /tests/cypress/e2e/*
+        cypress-target: [ account-related-plugins, branding-plugins-1, branding-plugins-2, form-plugins, others, security-plugins, wordpress ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Clear Cypress cache to avoid session-related issues
+        run: rm -rf ~/.cache/Cypress
+        shell: bash
+
+      - name: Initial setup
+        uses: ./.github/actions/initial-setup
+
+      - name: Install e2e packages
+        uses: ./.github/actions/tests/install-e2e-packages
+
+      - name: Setup e2e packages
+        uses: ./.github/actions/tests/setup-e2e-packages
+
+      - name: Clone private repository
+        uses: ./.github/actions/tests/clone-private-repository
+        with:
+          private_folder: ${{ github.workspace }}/private-data
+          private_repo: prosopo/procaptcha-wordpress-plugin-private
+          private_key: ${{ secrets.PRIVATE_KEY_FOR_PRIVATE_REPO }}
+
+      - name: Install WordPress with plugins
+        uses: ./.github/actions/tests/install-wordpress-with-plugins
+        with:
+          paid_plugins_dir: ${{ github.workspace }}/private-data/data-for-tests/paid-plugins
+
+      - name: Import database
+        run: mysql -h 127.0.0.1 -u root -pwordpress wordpress < ${{ github.workspace }}/private-data/data-for-tests/db.sql
+        shell: bash
+
+      - name: Prepare E2E workflow
+        uses: ./.github/actions/tests/prepare-e2e-workflow
+
+      - name: Run Cypress tests
+        run: bash ${{ github.workspace }}/tools/run-tests.sh ${{ matrix.cypress-target }}
+
+      - name: Upload Cypress screenshots and WP debug log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-and-wp-debug-log-for-${{ matrix.cypress-target }}
+          path: |
+            ${{ github.workspace }}/tests/cypress/screenshots
+            ${{ github.workspace }}/tests/cypress/logs
+            /var/www/procaptcha/wp-content/debug.log
+          if-no-files-found: ignore

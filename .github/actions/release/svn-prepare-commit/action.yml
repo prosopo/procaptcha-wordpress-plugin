@@ -1,0 +1,63 @@
+name: SVN Prepare Commit
+
+outputs:
+  release_tag:
+    description: "Current release tag"
+    value: ${{ steps.get_tag.outputs.version }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get tag
+      id: get_tag
+      run: |
+        VERSION="${GITHUB_REF#refs/tags/}"
+        VERSION="${VERSION#v}"
+        echo "::set-output name=version::$VERSION"
+      shell: bash
+
+    - name: Print tag
+      run: |
+        echo "Tag: ${{ steps.get_tag.outputs.version }}"
+      shell: bash
+
+    - name: Make release folder
+      run: mkdir ${{ github.workspace }}/release
+      shell: bash
+
+    - name: Init SVN
+      run: svn co https://plugins.svn.wordpress.org/prosopo-procaptcha ${{ github.workspace }}/release
+      shell: bash
+
+    - name: Make sure the tag does not exist
+      run: |
+        set -e  # Exit immediately if a command exits with a non-zero status
+        cd ${{ github.workspace }}/release
+        # Check if the tag already exists
+        if svn ls tags | grep -q ${{ steps.get_tag.outputs.version }}; then
+          echo "Tag ${{ steps.get_tag.outputs.version }} already exists."
+          exit 1
+        else
+          echo "Tag ${{ steps.get_tag.outputs.version }} does not exist."
+        fi
+      shell: bash
+
+    - name: Copy assets
+      run: cp ${{ github.workspace }}/wordpress-org-assets/* ${{ github.workspace }}/release/assets
+      shell: bash
+
+    - name: Create the target Tag folder
+      run: mkdir ${{ github.workspace }}/release/tags/${{ steps.get_tag.outputs.version }}
+      shell: bash
+
+    - name: Copy files to the new Tag folder
+      run: cp -r ${{ github.workspace }}/prosopo-procaptcha/* ${{ github.workspace }}/release/tags/${{ steps.get_tag.outputs.version }}
+      shell: bash
+
+    - name: Empty Trunk folder
+      run: rm ${{ github.workspace }}/release/trunk/* -rf
+      shell: bash
+
+    - name: Copy files and folders to the Trunk folder
+      run: cp -r ${{ github.workspace }}/prosopo-procaptcha/* ${{ github.workspace }}/release/trunk
+      shell: bash

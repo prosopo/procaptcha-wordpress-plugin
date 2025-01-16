@@ -1,0 +1,5 @@
+<?php
+
+namespace Io\Prosopo\Procaptcha\Vendors;
+
+return array('root' => array('name' => '__root__', 'pretty_version' => 'dev-main', 'version' => 'dev-main', 'reference' => 'ba586d508bcda7eea75893de51889fee1fe346d2', 'type' => 'library', 'install_path' => __DIR__ . '/../../', 'aliases' => array(), 'dev' => \true), 'versions' => array('__root__' => array('pretty_version' => 'dev-main', 'version' => 'dev-main', 'reference' => 'ba586d508bcda7eea75893de51889fee1fe346d2', 'type' => 'library', 'install_path' => __DIR__ . '/../../', 'aliases' => array(), 'dev_requirement' => \false), 'prosopo/views' => array('pretty_version' => '1.0.3', 'version' => '1.0.3.0', 'reference' => '7fbc426521a94700f48358e877a1b51fab850247', 'type' => 'library', 'install_path' => __DIR__ . '/../prosopo/views', 'aliases' => array(), 'dev_requirement' => \false), 'wplake/typed' => array('pretty_version' => '1.1.1', 'version' => '1.1.1.0', 'reference' => 'c0477d58d4530dba4471a5e64c5523018b2d01d8', 'type' => 'library', 'install_path' => __DIR__ . '/../wplake/typed', 'aliases' => array(), 'dev_requirement' => \false)));

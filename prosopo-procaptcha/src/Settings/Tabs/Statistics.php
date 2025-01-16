@@ -6,14 +6,15 @@ namespace Io\Prosopo\Procaptcha\Settings\Tabs;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Factory_Interface;
-use Io\Prosopo\Procaptcha\Interfaces\View\View_Interface;
-use Io\Prosopo\Procaptcha\Settings\Settings_Tab;
-use Io\Prosopo\Procaptcha\Views\Settings\Settings_Statistics;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
+use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Statistics;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
+use Io\Prosopo\Procaptcha\Widget\Widget;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Statistics extends Settings_Tab {
+class Statistics extends Procaptcha_Settings_Tab {
 	public function get_tab_title(): string {
 		return __( 'Statistics', 'prosopo-procaptcha' );
 	}
@@ -22,16 +23,16 @@ class Statistics extends Settings_Tab {
 		return 'statistics';
 	}
 
-	public function make_tab_component( View_Factory_Interface $creator, Captcha_Interface $captcha ): View_Interface {
-		return $creator->make_view(
+	public function make_tab_component( ModelFactoryInterface $factory, Widget $widget ): TemplateModelInterface {
+		return $factory->createModel(
 			Settings_Statistics::class,
-			function ( Settings_Statistics $statistics ) use ( $captcha ) {
-				$statistics->is_available = $captcha->is_available();
+			function ( Settings_Statistics $statistics ) use ( $widget ) {
+				$statistics->is_available = $widget->is_available();
 			}
 		);
 	}
 
-	public function get_tab_js_file(): string {
+	public function get_tab_js_asset(): string {
 		return 'statistics.min.js';
 	}
 
@@ -39,8 +40,8 @@ class Statistics extends Settings_Tab {
 		return 'statistics.min.css';
 	}
 
-	public function get_tab_js_data( Settings_Storage_Interface $settings_storage ): array {
-		$general_settings = $settings_storage->get( General_Settings::class )->get_settings();
+	public function get_tab_js_data( Settings_Storage $settings_storage ): array {
+		$general_settings = $settings_storage->get( General_Procaptcha_Settings::class )->get_settings();
 
 		return array(
 			'accountLabels'         => array(
@@ -69,8 +70,8 @@ class Statistics extends Settings_Tab {
 				'title' => __( 'Whitelisted Domains', 'prosopo-procaptcha' ),
 			),
 			'isDebugMode'           => false, // todo move into settings as 'debug mode' option.
-			'secretKey'             => $general_settings->get_string( General_Settings::SECRET_KEY ),
-			'siteKey'               => $general_settings->get_string( General_Settings::SITE_KEY ),
+			'secretKey'             => string( $general_settings, General_Procaptcha_Settings::SECRET_KEY ),
+			'siteKey'               => string( $general_settings, General_Procaptcha_Settings::SITE_KEY ),
 			'stateLabels'           => array(
 				'failedToLoad'        => __( 'Failed to load. Please try again later.', 'prosopo-procaptcha' ),
 				'lastRefreshedAt'     => __( 'Successfully loaded at', 'prosopo-procaptcha' ),

@@ -21,10 +21,10 @@ The project follows
 the [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/).
 
 Configure your IDE to use the [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) and use the
-`php-code-quality-tools/wp-ruleset.xml` config, or run the following
+`php-tools/code-quality/wp-ruleset.xml` config, or run the following
 command to automatically fix style issues:
 
-`cd php-code-quality-tools; composer install; composer phpcbf`
+`cd php-tools/code-quality; composer install; composer phpcbf`
 
 ### 2.2) JavaScript
 
@@ -38,7 +38,7 @@ run the following command to automatically fix style issues:
 ### 3.1) PHP
 
 The project uses [PHPStan](https://phpstan.org/) for static analysis. Configure your IDE with the
-`php-code-quality-tools/phpstan.neon` config or run the analysis using the following command:
+`php-tools/code-quality/phpstan.neon` config or run the analysis using the following command:
 
 `cd code-quality-tools; composer install; composer phpstan`
 

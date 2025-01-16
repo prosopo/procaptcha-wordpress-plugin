@@ -7,7 +7,7 @@ class GravityFormsWithAjax extends GravityForms {
 
 			cy.visit("/wp-admin/post.php?post=126&action=edit");
 
-			cy.get("#blocks-shortcode-input-0").then(($input) => {
+			cy.get("#blocks-shortcode-input-1").then(($input) => {
 				true === isActivation
 					? cy.safeType(
 							$input,

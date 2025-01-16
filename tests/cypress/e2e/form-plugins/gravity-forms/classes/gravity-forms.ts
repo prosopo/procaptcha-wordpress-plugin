@@ -7,8 +7,8 @@ class GravityForms extends FormTest {
 		this.url = "/gravity-forms/";
 		this.isAuthSupportedByVendor = true;
 		this.selectors = {
-			formWithCaptcha: "#gform_wrapper_2",
-			formWithoutCaptcha: "#gform_wrapper_1",
+			formWithCaptcha: "#form-with-captcha",
+			formWithoutCaptcha: "#form-without-captcha",
 			successMessage: ".gform_confirmation_message",
 			errorMessage: ".gform_validation_errors",
 			errorFieldMessage:
@@ -16,7 +16,7 @@ class GravityForms extends FormTest {
 			captchaInput: FormSelector.CUSTOM_CAPTCHA_INPUT,
 		};
 		this.submitValues = {
-			"input[name=input_1][type=text]": "John Doe",
+			"input_1": "John Doe",
 		};
 		this.messages = {
 			success:

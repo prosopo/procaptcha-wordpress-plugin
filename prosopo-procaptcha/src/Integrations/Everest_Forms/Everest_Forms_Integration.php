@@ -6,11 +6,11 @@ namespace Io\Prosopo\Procaptcha\Integrations\Everest_Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Hookable;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 
-class Everest_Forms_Integration extends Captcha_Plugin_Integration implements Hookable {
+class Everest_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	/**
 	 * @param string[] $fields
 	 *
@@ -20,7 +20,7 @@ class Everest_Forms_Integration extends Captcha_Plugin_Integration implements Ho
 		return array_merge(
 			$fields,
 			array(
-				Everest_Forms_Field::class,
+				Everest_Forms_Form_Integration::class,
 			)
 		);
 	}
@@ -31,7 +31,7 @@ class Everest_Forms_Integration extends Captcha_Plugin_Integration implements Ho
 
 	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
-			Everest_Forms_Field::class,
+			Everest_Forms_Form_Integration::class,
 		);
 	}
 

@@ -6,16 +6,17 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Assets_Manager;
-use Io\Prosopo\Procaptcha\Interfaces\Captcha\Captcha;
-use Io\Prosopo\Procaptcha\Interfaces\Hookable;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Tab;
-use Io\Prosopo\Procaptcha\Plugin;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Plugin\Assets\Plugin_Assets_Manager;
+use Io\Prosopo\Procaptcha\Plugin\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 
 class Settings_Page implements Hookable {
 
@@ -25,12 +26,12 @@ class Settings_Page implements Hookable {
 	const DEFAULT_TAB = 'general';
 
 	private Plugin $plugin;
-	private Captcha_Settings_Storage $settings_storage;
-	private Captcha $captcha;
+	private Procaptcha_Settings_Storage $settings_storage;
+	private Widget $widget;
 	private Query_Arguments $query_arguments;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
-	private Assets_Manager $assets_manager;
+	private Plugin_Assets_Manager $assets_manager;
 	/**
 	 * @var array<string,Settings_Tab>
 	 */
@@ -38,16 +39,16 @@ class Settings_Page implements Hookable {
 
 	public function __construct(
 		Plugin $plugin,
-		Captcha_Settings_Storage $settings_storage,
-		Captcha $captcha,
+		Procaptcha_Settings_Storage $settings_storage,
+		Widget $widget,
 		Query_Arguments $query_arguments,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
-		Assets_Manager $assets_manager
+		Plugin_Assets_Manager $assets_manager
 	) {
 		$this->plugin            = $plugin;
 		$this->settings_storage  = $settings_storage;
-		$this->captcha           = $captcha;
+		$this->widget            = $widget;
 		$this->query_arguments   = $query_arguments;
 		$this->component_creator = $component_creator;
 		$this->renderer          = $component_renderer;
@@ -119,7 +120,7 @@ class Settings_Page implements Hookable {
 				$settings->is_just_saved = $is_just_saved;
 				$settings->tabs          = $tabs;
 				$settings->current_tab   = $current_tab;
-				$settings->tab_content   = $tab->make_tab_component( $this->component_creator, $this->captcha );
+				$settings->tab_content   = $tab->make_tab_component( $this->component_creator, $this->widget );
 			}
 		);
 	}

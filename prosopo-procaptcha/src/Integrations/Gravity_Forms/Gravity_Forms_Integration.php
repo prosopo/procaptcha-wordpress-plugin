@@ -7,11 +7,11 @@ namespace Io\Prosopo\Procaptcha\Integrations\Gravity_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use GF_Fields;
-use Io\Prosopo\Procaptcha\Interfaces\Hookable;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 
-class Gravity_Forms_Integration extends Captcha_Plugin_Integration implements Hookable {
+class Gravity_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'GF_Fields',
@@ -20,7 +20,7 @@ class Gravity_Forms_Integration extends Captcha_Plugin_Integration implements Ho
 
 	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
-			Gravity_Form_Field::class,
+			Gravity_Forms_Form_Integration::class,
 		);
 	}
 
@@ -29,7 +29,7 @@ class Gravity_Forms_Integration extends Captcha_Plugin_Integration implements Ho
 		is_callable( array( 'GF_Fields', 'register' ) ) ) {
 			// While we create the object ourselves, don't pass objects directly, as GravityForms will save its class,
 			// and then create instances itself on the fly.
-			GF_Fields::register( new Gravity_Form_Field() );
+			GF_Fields::register( new Gravity_Forms_Form_Integration() );
 		}
 	}
 }

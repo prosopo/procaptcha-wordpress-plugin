@@ -6,18 +6,18 @@ namespace Io\Prosopo\Procaptcha\Integrations\Formidable_Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Hookable;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 
-class Formidable_Forms_Integration extends Captcha_Plugin_Integration implements Hookable {
+class Formidable_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array( 'FrmAppHelper' );
 	}
 
 	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
-			Formidable_Form_Field::class,
+			Formidable_Forms_Form_Integration::class,
 		);
 	}
 
@@ -27,11 +27,11 @@ class Formidable_Forms_Integration extends Captcha_Plugin_Integration implements
 	}
 
 	public function get_field_class( string $class_name, string $field_type ): string {
-		if ( $this->get_captcha()->get_field_name() !== $field_type ) {
+		if ( $this->get_widget()->get_field_name() !== $field_type ) {
 			return $class_name;
 		}
 
-		return Formidable_Form_Field::class;
+		return Formidable_Forms_Form_Integration::class;
 	}
 
 	/**
@@ -40,14 +40,14 @@ class Formidable_Forms_Integration extends Captcha_Plugin_Integration implements
 	 * @return array<string,mixed>
 	 */
 	public function sign_up_field_type( array $fields ): array {
-		$captcha = $this->get_captcha();
+		$widget = $this->get_widget();
 
 		return array_merge(
 			$fields,
 			array(
-				$captcha->get_field_name() => array(
+				$widget->get_field_name() => array(
 					'icon' => 'frm_icon_font frm_shield_check_icon',
-					'name' => $captcha->get_field_label(),
+					'name' => $widget->get_field_label(),
 				),
 			)
 		);

@@ -6,14 +6,16 @@ namespace Io\Prosopo\Procaptcha\Integrations\User_Registration;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Hookable;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Captcha_Settings;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integrations\User_Registration\Forms\UR_Login_Form_Integration;
+use Io\Prosopo\Procaptcha\Integrations\User_Registration\Forms\UR_Lost_Password_Form_Integration;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Tabs\Account_Forms_Procaptcha_Settings;
 use UR_Form_Field_Prosopo_Procaptcha;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
-class User_Registration_Integration extends Captcha_Plugin_Integration implements Hookable {
+class User_Registration_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'UserRegistration',
@@ -35,7 +37,7 @@ class User_Registration_Integration extends Captcha_Plugin_Integration implement
 	public function set_hooks( bool $is_admin_area ): void {
 		add_filter( 'user_registration_registered_form_fields', array( $this, 'register_field_type' ) );
 		add_filter(
-			sprintf( '%s_admin_template', UR_Form_Field_Prosopo_Procaptcha::NAME_PREFIX . $this->get_captcha()->get_field_name() ),
+			sprintf( '%s_admin_template', UR_Form_Field_Prosopo_Procaptcha::NAME_PREFIX . $this->get_widget()->get_field_name() ),
 			array( $this, 'register_admin_field_view' )
 		);
 		add_filter( 'user_registration_field_keys', array( $this, 'get_field_type' ), 10, 2 );
@@ -50,19 +52,19 @@ class User_Registration_Integration extends Captcha_Plugin_Integration implement
 		return array_merge(
 			$field_types,
 			array(
-				$this->get_captcha()->get_field_name(),
+				$this->get_widget()->get_field_name(),
 			)
 		);
 	}
 
 	public function get_field_type( string $field_type, string $field_key ): string {
-		$captcha = $this->get_captcha();
+		$widget = $this->get_widget();
 
-		if ( $captcha->get_field_name() !== $field_key ) {
+		if ( $widget->get_field_name() !== $field_key ) {
 			return $field_type;
 		}
 
-		return $captcha->get_field_name();
+		return $widget->get_field_name();
 	}
 
 	public function register_admin_field_view( string $path ): string {
@@ -70,11 +72,11 @@ class User_Registration_Integration extends Captcha_Plugin_Integration implement
 	}
 
 	protected function get_conditional_integrations( Settings_Storage $settings_storage ): array {
-		$account_forms = $settings_storage->get( Account_Forms_Captcha_Settings::class )->get_settings();
+		$account_forms = $settings_storage->get( Account_Forms_Procaptcha_Settings::class )->get_settings();
 
 		return array(
-			UR_Login_Form::class         => bool( $account_forms, Account_Forms_Captcha_Settings::IS_ON_WP_LOGIN_FORM ),
-			UR_Lost_Password_Form::class => bool( $account_forms, Account_Forms_Captcha_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
+			UR_Login_Form_Integration::class         => bool( $account_forms, Account_Forms_Procaptcha_Settings::IS_ON_WP_LOGIN_FORM ),
+			UR_Lost_Password_Form_Integration::class => bool( $account_forms, Account_Forms_Procaptcha_Settings::IS_ON_WP_LOST_PASSWORD_FORM ),
 		);
 	}
 }

@@ -6,13 +6,13 @@ namespace Io\Prosopo\Procaptcha\Integrations;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Interfaces\Hookable;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 // Note: CF7 v5.9.8 calls the RestAPI without the nonce, so we can't omit captcha for authorized users.
-class Contact_Form_7_Integration extends Captcha_Plugin_Integration implements Hookable {
+class Contact_Form_7_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
 			'WPCF7',
@@ -27,7 +27,7 @@ class Contact_Form_7_Integration extends Captcha_Plugin_Integration implements H
 		add_action( 'wpcf7_init', array( $this, 'add_field' ) );
 
 		add_filter(
-			sprintf( 'wpcf7_validate_%s', $this->get_captcha()->get_field_name() ),
+			sprintf( 'wpcf7_validate_%s', $this->get_widget()->get_field_name() ),
 			array( $this, 'validate' ),
 			10,
 			2
@@ -40,7 +40,7 @@ class Contact_Form_7_Integration extends Captcha_Plugin_Integration implements H
 		}
 
 		wpcf7_add_form_tag(
-			$this->get_captcha()->get_field_name(),
+			$this->get_widget()->get_field_name(),
 			array( $this, 'print_field' ),
 			array(
 				'display-block' => true,
@@ -53,15 +53,15 @@ class Contact_Form_7_Integration extends Captcha_Plugin_Integration implements H
 
 		printf(
 			'<div class="wpcf7-form-control-wrap" data-name="%s">',
-			esc_attr( $this->get_captcha()->get_field_name() ),
+			esc_attr( $this->get_widget()->get_field_name() ),
 		);
 
-		$this->get_captcha()->print_form_field(
+		$this->get_widget()->print_form_field(
 			array(
-				Widget_Arguments::ELEMENT_ATTRIBUTES => array(
+				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'class' => 'wpcf7-form-control',
 				),
-				Widget_Arguments::IS_WITHOUT_CLIENT_VALIDATION => true,
+				Widget_Settings::IS_WITHOUT_CLIENT_VALIDATION => true,
 			)
 		);
 
@@ -77,19 +77,19 @@ class Contact_Form_7_Integration extends Captcha_Plugin_Integration implements H
 	 * @return object
 	 */
 	public function validate( $result, $tag ) {
-		$captcha = $this->get_captcha();
+		$widget = $this->get_widget();
 
 		if ( property_exists( $tag, 'name' ) &&
 			'' === $tag->name ) {
-			$tag->name = $captcha->get_field_name();
+			$tag->name = $widget->get_field_name();
 		}
 
-		if ( $captcha->human_made_request() ) {
+		if ( $widget->is_human_made_request() ) {
 			return $result;
 		}
 
 		if ( method_exists( $result, 'invalidate' ) ) {
-			$result->invalidate( $tag, $captcha->get_validation_error_message() );
+			$result->invalidate( $tag, $widget->get_validation_error_message() );
 		}
 
 		return $result;

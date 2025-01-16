@@ -6,14 +6,14 @@ declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Captcha\Widget_Arguments;
-use Io\Prosopo\Procaptcha\Interfaces\Integration\Form\Hookable_Form_Integration;
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration_Helpers_Container;
+use Io\Prosopo\Procaptcha\Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // Class name must match the UR_Form_Field_{field_type} format.
 class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable_Form_Integration {
-	use Form_Integration_Helpers_Container;
+	use Form_Integration_Helper_Container;
 
 	const NAME_PREFIX = 'user_registration_';
 
@@ -32,19 +32,19 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	}
 
 	private function __construct() {
-		$captcha = self::get_form_helpers()->get_captcha();
+		$widget = self::get_form_helper()->get_widget();
 
 		// @phpstan-ignore-next-line
-		$this->id                       = self::NAME_PREFIX . $captcha->get_field_name();
+		$this->id                       = self::NAME_PREFIX . $widget->get_field_name();
 		$this->form_id                  = 1;
 		$this->registered_fields_config = array(
 			'icon'  => 'ur-icon ur-icon-input-checkbox',
-			'label' => $captcha->get_field_label(),
+			'label' => $widget->get_field_label(),
 		);
 
 		$this->field_defaults = array(
-			'default_field_name' => $captcha->get_field_name(),
-			'default_label'      => $captcha->get_field_label(),
+			'default_field_name' => $widget->get_field_name(),
+			'default_label'      => $widget->get_field_label(),
 			// Mark as required, otherwise the form can be submitted without the field, and the validation callback won't be called.
 			'default_required'   => true,
 		);
@@ -73,19 +73,19 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	 * @return void
 	 */
 	public function validation( $single_form_field, $form_data, $filter_hook, $form_id ) {
-		$captcha = self::get_form_helpers()->get_captcha();
+		$widget = self::get_form_helper()->get_widget();
 
 		$token = string( $form_data, 'value' );
 
-		if ( ! $captcha->present() ||
-		$captcha->human_made_request( $token ) ) {
+		if ( ! $widget->is_present() ||
+		$widget->is_human_made_request( $token ) ) {
 			return;
 		}
 
 		add_filter(
 			$filter_hook,
-			function () use ( $captcha ): string {
-				return $captcha->get_validation_error_message();
+			function () use ( $widget ): string {
+				return $widget->get_validation_error_message();
 			}
 		);
 	}
@@ -95,27 +95,27 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	 * @param mixed $value
 	 */
 	public function render_field( string $field, string $key, array $args, $value ): string {
-		$captcha = self::get_form_helpers()->get_captcha();
+		$widget = self::get_form_helper()->get_widget();
 
-		return $captcha->print_form_field(
+		return $widget->print_form_field(
 			array(
-				Widget_Arguments::HIDDEN_INPUT_ATTRIBUTES => array(
+				Widget_Settings::HIDDEN_INPUT_ATTRIBUTES => array(
 					'class'    => 'ur-frontend-field',
-					'data-id'  => $captcha->get_field_name(),
-					'name'     => $captcha->get_field_name(),
+					'data-id'  => $widget->get_field_name(),
+					'name'     => $widget->get_field_name(),
 					// It doesn't affect the browser, as the field is hidden, but it's picked up by the inner form validation.
 					'required' => '',
 				),
-				Widget_Arguments::IS_DESIRED_ON_GUESTS    => true,
-				Widget_Arguments::IS_RETURN_ONLY          => true,
-				Widget_Arguments::IS_WITHOUT_CLIENT_VALIDATION => true,
+				Widget_Settings::IS_DESIRED_ON_GUESTS    => true,
+				Widget_Settings::IS_RETURN_ONLY          => true,
+				Widget_Settings::IS_WITHOUT_CLIENT_VALIDATION => true,
 			)
 		);
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
 		add_filter(
-			sprintf( 'user_registration_form_field_%s', self::get_form_helpers()->get_captcha()->get_field_name() ),
+			sprintf( 'user_registration_form_field_%s', self::get_form_helper()->get_widget()->get_field_name() ),
 			array( $this, 'render_field' ),
 			10,
 			4

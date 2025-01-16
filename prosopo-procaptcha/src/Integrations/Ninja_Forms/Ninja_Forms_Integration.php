@@ -6,14 +6,14 @@ namespace Io\Prosopo\Procaptcha\Integrations\Ninja_Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Interfaces\Hookable;
-use Io\Prosopo\Procaptcha\Interfaces\Settings\Settings_Storage;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Captcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 
-class Ninja_Forms_Integration extends Captcha_Plugin_Integration implements Hookable {
+class Ninja_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_form_integrations( Settings_Storage $settings_storage ): array {
 		return array(
-			Ninja_Form_Field::class,
+			Ninja_Forms_Form_Integration::class,
 		);
 	}
 
@@ -40,7 +40,7 @@ class Ninja_Forms_Integration extends Captcha_Plugin_Integration implements Hook
 		return array_merge(
 			$fields,
 			array(
-				$this->get_captcha()->get_field_name() => new Ninja_Form_Field(),
+				$this->get_widget()->get_field_name() => new Ninja_Forms_Form_Integration(),
 			)
 		);
 	}

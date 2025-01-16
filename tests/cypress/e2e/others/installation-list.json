@@ -1,9 +1,6 @@
 {
   "plugins": [
-    "bbp-style-pack",
-    "bbpress",
     "elementor",
-    "elementor-pro",
-    "woocommerce"
+    "elementor-pro"
   ]
 }

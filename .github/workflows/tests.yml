@@ -80,7 +80,7 @@ jobs:
       - name: Run Cypress tests
         run: bash ${{ github.workspace }}/tools/run-tests.sh ${{ matrix.cypress-target }}
 
-      - name: Upload Cypress screenshots and WP debug log
+      - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:

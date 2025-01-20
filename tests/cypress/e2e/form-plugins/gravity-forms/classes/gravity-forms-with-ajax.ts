@@ -16,8 +16,8 @@ class GravityFormsWithAjax extends GravityForms {
                 cy.writeFile('cypress/downloads/gravity-forms-with-ajax.html', bodyHtml);
             });
 
-            this.replaceShortcode('#blocks-shortcode-input-1', `[gravityform id="2" title="true" ${ajaxArgument}]`);
-            this.replaceShortcode('#blocks-shortcode-input-3', `[gravityform id="1" title="true" ${ajaxArgument}]`);
+            this.replaceShortcode(0, `[gravityform id="2" title="true" ${ajaxArgument}]`);
+            this.replaceShortcode(1, `[gravityform id="1" title="true" ${ajaxArgument}]`);
 
             cy.get(".editor-post-publish-button").click();
 
@@ -25,10 +25,12 @@ class GravityFormsWithAjax extends GravityForms {
         });
     }
 
-    protected replaceShortcode(shortocodeSelector: string, shortcode: string): void {
-        cy.get(shortocodeSelector).then(($input) => {
-            cy.safeType($input, shortcode);
-        });
+    protected replaceShortcode(shortcodeNumber: number, shortcode: string): void {
+        cy.get('#editor .blocks-shortcode__textarea')
+            .eq(shortcodeNumber)
+            .then(($input) => {
+                cy.safeType($input, shortcode);
+            });
     }
 
     protected beforeScenario() {

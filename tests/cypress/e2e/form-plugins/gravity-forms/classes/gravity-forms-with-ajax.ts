@@ -12,6 +12,12 @@ class GravityFormsWithAjax extends GravityForms {
             this.replaceShortcode('#blocks-shortcode-input-1', `[gravityform id="2" title="true" ${ajaxArgument}]`);
             this.replaceShortcode('#blocks-shortcode-input-3', `[gravityform id="1" title="true" ${ajaxArgument}]`);
 
+            // fixme
+            cy.document().then((doc) => {
+                const bodyHtml = doc.body.innerHTML;
+                cy.writeFile('cypress/downloads/gravity-forms-with-ajax.html', bodyHtml);
+            });
+
             cy.get(".editor-post-publish-button").click();
 
             cy.get(".components-snackbar__content").should("exist");

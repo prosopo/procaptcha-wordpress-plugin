@@ -27,7 +27,7 @@ module.exports = defineConfig({
                         return;
                     }
 
-                    // fixme fs.unlinkSync(results.video);
+                    fs.unlinkSync(results.video);
                 }
             )
         },

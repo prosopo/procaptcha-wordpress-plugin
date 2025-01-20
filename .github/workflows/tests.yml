@@ -84,10 +84,11 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-and-wp-debug-log-for-${{ matrix.cypress-target }}
+          name: ${{ matrix.cypress-target }}-logs
           path: |
             ${{ github.workspace }}/tests/cypress/videos
             ${{ github.workspace }}/tests/cypress/screenshots
             ${{ github.workspace }}/tests/cypress/logs
+            ${{ github.workspace }}/tests/cypress/downloads
             /var/www/procaptcha/wp-content/debug.log
           if-no-files-found: ignore

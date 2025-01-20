@@ -86,4 +86,4 @@ Assets compilation:
 
 If you're a package maintainer, read
 the [for-maintainers.md](https://github.com/prosopo/procaptcha-wordpress-plugin/blob/main/for-maintainers.md) file
-to learn additional information about the project. 
+to get additional information about the project. 

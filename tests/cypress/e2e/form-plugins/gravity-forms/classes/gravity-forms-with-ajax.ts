@@ -10,6 +10,7 @@ class GravityFormsWithAjax extends GravityForms {
             const ajaxArgument = isActivation ? 'ajax="true"' : '';
 
             // fixme
+            cy.wait(10000);
             cy.document().then((doc) => {
                 const bodyHtml = doc.body.innerHTML;
                 cy.writeFile('cypress/downloads/gravity-forms-with-ajax.html', bodyHtml);

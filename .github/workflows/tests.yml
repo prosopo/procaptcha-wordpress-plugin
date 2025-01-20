@@ -86,6 +86,7 @@ jobs:
         with:
           name: screenshots-and-wp-debug-log-for-${{ matrix.cypress-target }}
           path: |
+            ${{ github.workspace }}/tests/cypress/videos
             ${{ github.workspace }}/tests/cypress/screenshots
             ${{ github.workspace }}/tests/cypress/logs
             /var/www/procaptcha/wp-content/debug.log

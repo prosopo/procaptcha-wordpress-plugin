@@ -81,31 +81,14 @@ Cypress.Commands.add(
     (formElementSelector: string): Chainable<JQuery> => {
         return cy.get(formElementSelector).then(($formElement) => {
             if ("form" === $formElement.prop("tagName").toLowerCase()) {
-
-                cy.log(':getForm:1', {
-                    formElementSelector: formElementSelector,
-                    $formElement: $formElement.attr('class'),
-                });
-
                 return cy.wrap($formElement);
             }
 
             let $form = $formElement.find("form");
 
             if ($form.length > 0) {
-                cy.log(':getForm:2', {
-                    formElementSelector: formElementSelector,
-                    $form: $form.attr('class'),
-                    length: $form.length,
-                });
-
                 return cy.wrap($form);
             }
-
-            cy.log(':getForm:3', {
-                formElementSelector: formElementSelector,
-                $formElement: $formElement.attr('class'),
-            });
 
             return cy.wrap($formElement);
         });

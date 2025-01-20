@@ -1,38 +1,40 @@
 import GravityForms from "./gravity-forms";
 
 class GravityFormsWithAjax extends GravityForms {
-	protected toggleAjaxSubmissionSetting(isActivation: boolean): void {
-		it("toggleAjaxSubmissionSetting", () => {
-			this.integrationTest.login();
+    protected toggleAjaxSubmissionSetting(isActivation: boolean): void {
+        it("toggleAjaxSubmissionSetting", () => {
+            this.integrationTest.login();
 
-			cy.visit("/wp-admin/post.php?post=126&action=edit");
+            cy.visit("/wp-admin/post.php?post=126&action=edit");
 
-			cy.get("#blocks-shortcode-input-1").then(($input) => {
-				true === isActivation
-					? cy.safeType(
-							$input,
-							'[gravityform id="2" title="true" ajax="true"]',
-						)
-					: cy.safeType($input, '[gravityform id="2" title="true"]');
-			});
+            const ajaxArgument = isActivation ? 'ajax="true"' : '';
 
-			cy.get(".editor-post-publish-button").click();
+            this.replaceShortcode('#blocks-shortcode-input-1', `[gravityform id="2" title="true" ${ajaxArgument}]`);
+            this.replaceShortcode('#blocks-shortcode-input-3', `[gravityform id="1" title="true" ${ajaxArgument}]`);
 
-			cy.get(".components-snackbar__content").should("exist");
-		});
-	}
+            cy.get(".editor-post-publish-button").click();
 
-	protected beforeScenario() {
-		super.beforeScenario();
+            cy.get(".components-snackbar__content").should("exist");
+        });
+    }
 
-		this.toggleAjaxSubmissionSetting(true);
-	}
+    protected replaceShortcode(shortocodeSelector: string, shortcode: string): void {
+        cy.get(shortocodeSelector).then(($input) => {
+            cy.safeType($input, shortcode);
+        });
+    }
 
-	protected afterScenario() {
-		super.afterScenario();
+    protected beforeScenario() {
+        super.beforeScenario();
 
-		this.toggleAjaxSubmissionSetting(false);
-	}
+        this.toggleAjaxSubmissionSetting(true);
+    }
+
+    protected afterScenario() {
+        super.afterScenario();
+
+        this.toggleAjaxSubmissionSetting(false);
+    }
 }
 
 export default GravityFormsWithAjax;

@@ -4,6 +4,7 @@ class Jetpack extends FormTest {
 	protected defineSettings() {
 		super.defineSettings();
 
+		// fixme it doesn't work properly when 2 forms on the same page
 		this.url = "/jetpack/";
 		this.isAuthSupportedByVendor = true;
 		this.selectors = {
@@ -15,7 +16,7 @@ class Jetpack extends FormTest {
 			captchaInput: "",
 		};
 		this.submitValues = {
-			"g304-name": "John Doe",
+			"input.name.grunion-field": "John Doe",
 		};
 		this.messages = {
 			success: "Your message has been sent",

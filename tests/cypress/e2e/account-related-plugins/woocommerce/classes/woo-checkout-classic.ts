@@ -25,7 +25,6 @@ class WooCheckoutClassic extends FormTest {
 			billing_city: "City",
 			billing_state: "UA23",
 			billing_postcode: "69104",
-			billing_phone: "111",
 			billing_email: "test@gmail.com",
 		};
 		this.messages = {

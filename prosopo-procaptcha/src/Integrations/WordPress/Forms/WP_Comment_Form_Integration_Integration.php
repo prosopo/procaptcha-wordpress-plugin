@@ -42,7 +42,7 @@ class WP_Comment_Form_Integration_Integration extends WP_Form_Integration_Base {
 				$approved :
 				null;
 
-			$approved = $widget->add_validation_error( $error );
+			$approved = $widget->get_validation_error( $error );
 		}
 
 		return $approved;

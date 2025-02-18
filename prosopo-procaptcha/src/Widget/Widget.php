@@ -20,7 +20,7 @@ interface Widget {
 
 	public function is_human_made_request( ?string $token = null ): bool;
 
-	public function add_validation_error( WP_Error $error = null ): WP_Error;
+	public function get_validation_error( WP_Error $base_error = null ): WP_Error;
 
 	public function get_validation_error_message(): string;
 

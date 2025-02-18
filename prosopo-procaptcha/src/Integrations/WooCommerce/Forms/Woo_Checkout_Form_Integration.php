@@ -37,7 +37,7 @@ class Woo_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 			return;
 		}
 
-		$widget->add_validation_error( $errors );
+		$widget->get_validation_error( $errors );
 	}
 
 	/**
@@ -58,7 +58,7 @@ class Woo_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 			return;
 		}
 
-		return $widget->add_validation_error();
+		return $widget->get_validation_error();
 	}
 
 	/**

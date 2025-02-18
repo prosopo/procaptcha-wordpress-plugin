@@ -77,6 +77,6 @@ Launching:
 
 `bash tools/run-tests.sh [all|wordpress|form-plugins] [local]`
 
-To open the Cypress App:
+To open the Cypress app:
 
 `cd tests; yarn cy:open`

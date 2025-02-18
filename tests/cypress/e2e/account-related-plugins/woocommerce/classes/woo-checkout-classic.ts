@@ -25,7 +25,6 @@ class WooCheckoutClassic extends FormTest {
 			billing_city: "City",
 			billing_state: "UA23",
 			billing_postcode: "69104",
-			billing_phone: "111",
 			billing_email: "test@gmail.com",
 		};
 		this.messages = {
@@ -52,7 +51,7 @@ class WooCheckoutClassic extends FormTest {
 		// Do not add "?add-to-card" directly to the primary url,
 		// as it causes the "Sorry, your session has expired" issue:
 		// https://github.com/woocommerce/woocommerce-gateway-stripe/issues/551
-		cy.visit("/shop/?add-to-cart=591");
+		cy.visit("/cart/?add-to-cart=591");
 
 		super.visitTargetPage();
 	}

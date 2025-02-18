@@ -21,7 +21,7 @@ class WP_Lost_Password_Form_Integration_Integration extends WP_Form_Integration_
 			return;
 		}
 
-		$widget->add_validation_error( $errors );
+		$widget->get_validation_error( $errors );
 	}
 
 	/**

@@ -23,7 +23,7 @@ class WP_Login_Form_Integration_Integration extends WP_Form_Integration_Base {
 				$user_or_error :
 				null;
 
-			$user_or_error = $widget->add_validation_error( $error_instance );
+			$user_or_error = $widget->get_validation_error( $error_instance );
 		}
 
 		return $user_or_error;

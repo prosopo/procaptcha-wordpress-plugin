@@ -47,7 +47,7 @@ class Plugin implements Hookable {
 	const SLUG               = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 
-	private string $version = '1.10.0';
+	private string $version = '1.11.0';
 	private string $plugin_file;
 	private Widget $widget;
 	private Widget_Assets_Manager $widget_assets_manager;

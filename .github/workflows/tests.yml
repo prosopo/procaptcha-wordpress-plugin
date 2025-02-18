@@ -38,8 +38,8 @@ jobs:
 
     strategy:
       matrix:
-        # names of the test folders: /tests/cypress/e2e/*
-        cypress-target: [ account-related-plugins, branding-plugins-1, branding-plugins-2, form-plugins, others, security-plugins, wordpress ]
+        # names of the test folders: /tests/cypress/e2e/*.\\
+        cypress-target: [ account-related-plugins, branding-plugins-1, branding-plugins-2, form-plugins, others, security-plugins, wordpress, ]
 
     steps:
       - name: Checkout code
@@ -80,13 +80,15 @@ jobs:
       - name: Run Cypress tests
         run: bash ${{ github.workspace }}/tools/run-tests.sh ${{ matrix.cypress-target }}
 
-      - name: Upload Cypress screenshots and WP debug log
+      - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-and-wp-debug-log-for-${{ matrix.cypress-target }}
+          name: ${{ matrix.cypress-target }}-logs
           path: |
+            ${{ github.workspace }}/tests/cypress/videos
             ${{ github.workspace }}/tests/cypress/screenshots
             ${{ github.workspace }}/tests/cypress/logs
+            ${{ github.workspace }}/tests/cypress/downloads
             /var/www/procaptcha/wp-content/debug.log
           if-no-files-found: ignore

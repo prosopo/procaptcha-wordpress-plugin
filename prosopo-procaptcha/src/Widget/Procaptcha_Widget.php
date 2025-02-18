@@ -20,6 +20,7 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Procaptcha_Widget implements Widget {
 
+
 	const API_URL                    = 'https://api.prosopo.io/siteverify';
 	const FORM_FIELD_NAME            = 'procaptcha-response';
 	const ALLOW_BYPASS_CONSTANT_NAME = 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS';
@@ -144,7 +145,10 @@ class Procaptcha_Widget implements Widget {
 
 		if ( null === $error ) {
 			$error = new WP_Error( $error_code, $error_message, $error_data );
-		} else {
+		}
+
+		// make sure we add the error only once if the method is called multiple times for the same error instance.
+		if ( false === in_array( $error_code, $error->get_error_codes(), true ) ) {
 			$error->add( $error_code, $error_message, $error_data );
 		}
 

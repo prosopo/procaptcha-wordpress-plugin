@@ -4,7 +4,7 @@ class Jetpack extends FormTest {
 	protected defineSettings() {
 		super.defineSettings();
 
-		// fixme it doesn't work properly when 2 forms on the same page
+		// fixme it doesn't work properly when 2 forms are on the same page
 		this.url = "/jetpack/";
 		this.isAuthSupportedByVendor = true;
 		this.selectors = {

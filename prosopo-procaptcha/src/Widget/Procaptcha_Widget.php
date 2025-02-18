@@ -29,6 +29,12 @@ class Procaptcha_Widget implements Widget {
 	private Widget_Assets_Manager $widget_assets_manager;
 	private Query_Arguments $query_arguments;
 	private ModelRendererInterface $renderer;
+	/**
+	 * @var array<string,bool> token => result
+	 * Used to avoid multiple HTTP requests when verification is called several times for the same token.
+	 * (e.g. JetPack calls verification in several different hooks per same token).
+	 */
+	private array $token_verification_results;
 
 	public function __construct(
 		Procaptcha_Settings_Storage $settings_storage,
@@ -36,10 +42,11 @@ class Procaptcha_Widget implements Widget {
 		Query_Arguments $query_arguments,
 		ModelRendererInterface $renderer
 	) {
-		$this->settings_storage      = $settings_storage;
-		$this->widget_assets_manager = $widget_assets_manager;
-		$this->query_arguments       = $query_arguments;
-		$this->renderer              = $renderer;
+		$this->settings_storage           = $settings_storage;
+		$this->widget_assets_manager      = $widget_assets_manager;
+		$this->query_arguments            = $query_arguments;
+		$this->renderer                   = $renderer;
+		$this->token_verification_results = array();
 	}
 
 	public function get_validation_error_message(): string {
@@ -99,60 +106,28 @@ class Procaptcha_Widget implements Widget {
 			return true;
 		}
 
-		$general_settings = $this->settings_storage->get( General_Procaptcha_Settings::class )->get_settings();
-		$secret_key       = string( $general_settings, General_Procaptcha_Settings::SECRET_KEY );
-
-		$response = wp_remote_post(
-			self::API_URL,
-			array(
-				'body'    => (string) wp_json_encode(
-					array(
-						'secret' => $secret_key,
-						'token'  => $token,
-					)
-				),
-				'headers' => array(
-					'Content-Type' => 'application/json',
-				),
-				'method'  => 'POST',
-				// limit waiting time to 20 seconds.
-				'timeout' => 20,
-			)
-		);
-
-		if ( is_wp_error( $response ) ||
-			200 !== wp_remote_retrieve_response_code( $response ) ) {
-			// something went wrong, maybe connection issue, but we still shouldn't allow the request.
-			// todo log.
-			return false;
+		if ( false === key_exists( $token, $this->token_verification_results ) ) {
+			$this->token_verification_results[ $token ] = $this->verify_token( $token );
 		}
 
-		$body = wp_remote_retrieve_body( $response );
-
-		$body = json_decode( $body, true );
-
-		$body = is_array( $body ) ?
-			$body :
-			array();
-
-		return bool( $body, 'verified' );
+		return $this->token_verification_results[ $token ];
 	}
 
-	public function add_validation_error( WP_Error $error = null ): WP_Error {
+	public function get_validation_error( WP_Error $base_error = null ): WP_Error {
 		$error_code    = 'procaptcha-failed';
 		$error_data    = 400; // must be numeric, e.g. for the WP comment form, likely HTTP code.
 		$error_message = $this->get_validation_error_message();
 
-		if ( null === $error ) {
-			$error = new WP_Error( $error_code, $error_message, $error_data );
+		if ( null === $base_error ) {
+			$base_error = new WP_Error( $error_code, $error_message, $error_data );
 		}
 
 		// make sure we add the error only once if the method is called multiple times for the same error instance.
-		if ( false === in_array( $error_code, $error->get_error_codes(), true ) ) {
-			$error->add( $error_code, $error_message, $error_data );
+		if ( false === in_array( $error_code, $base_error->get_error_codes(), true ) ) {
+			$base_error->add( $error_code, $error_message, $error_data );
 		}
 
-		return $error;
+		return $base_error;
 	}
 
 	// Note: this function is available only after the 'set_current_user' hook.
@@ -218,5 +193,45 @@ class Procaptcha_Widget implements Widget {
 		}
 
 		return $form_field;
+	}
+
+	protected function verify_token( string $token ): bool {
+		$general_settings = $this->settings_storage->get( General_Procaptcha_Settings::class )->get_settings();
+		$secret_key       = string( $general_settings, General_Procaptcha_Settings::SECRET_KEY );
+
+		$response = wp_remote_post(
+			self::API_URL,
+			array(
+				'body'    => (string) wp_json_encode(
+					array(
+						'secret' => $secret_key,
+						'token'  => $token,
+					)
+				),
+				'headers' => array(
+					'Content-Type' => 'application/json',
+				),
+				'method'  => 'POST',
+				// limit waiting time to 20 seconds.
+				'timeout' => 20,
+			)
+		);
+
+		if ( is_wp_error( $response ) ||
+			200 !== wp_remote_retrieve_response_code( $response ) ) {
+			// something went wrong, maybe connection issue, but we still shouldn't allow the request.
+			// todo log.
+			return false;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+
+		$body = json_decode( $body, true );
+
+		$body = is_array( $body ) ?
+			$body :
+			array();
+
+		return bool( $body, 'verified' );
 	}
 }

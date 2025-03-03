@@ -6,28 +6,29 @@ namespace Io\Prosopo\Procaptcha\Plugin\Assets;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Frontend_Assets;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin\Assets\Plugin_Assets_Manager;
+use Io\Prosopo\Procaptcha\Plugin\Assets\Plugin_Frontend_Assets;
 use WP_Filesystem_Base;
 
-class Procaptcha_Plugin_Assets_Manager implements Plugin_Assets_Manager, Hookable {
+class Procaptcha_Plugin_Frontend_Assets extends Frontend_Assets implements Plugin_Frontend_Assets, Hookable {
 	private string $plugin_file;
 	private string $version;
 	private WP_Filesystem_Base $wp_filesystem;
 	/**
 	 * @var string[]
 	 */
-	private array $module_handles;
+	private array $integration_javascript_tag_handles;
 
 	public function __construct( string $plugin_file, string $version, WP_Filesystem_Base $wp_filesystem ) {
-		$this->plugin_file    = $plugin_file;
-		$this->version        = $version;
-		$this->wp_filesystem  = $wp_filesystem;
-		$this->module_handles = array();
+		$this->plugin_file                        = $plugin_file;
+		$this->version                            = $version;
+		$this->wp_filesystem                      = $wp_filesystem;
+		$this->integration_javascript_tag_handles = array();
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
-		add_filter( 'script_loader_tag', array( $this, 'add_module_attr_for_modules' ), 10, 2 );
+		add_filter( 'script_loader_tag', array( $this, 'add_module_tag_attribute_to_integration_script' ), 10, 2 );
 	}
 
 	public function get_asset_url( string $asset ): string {
@@ -48,7 +49,7 @@ class Procaptcha_Plugin_Assets_Manager implements Plugin_Assets_Manager, Hookabl
 		return $this->version;
 	}
 
-	public function enqueue_module_js_asset(
+	public function enqueue_plugin_javascript_file(
 		string $asset,
 		array $dependency_assets = array(),
 		string $data_object_name = '',
@@ -73,7 +74,7 @@ class Procaptcha_Plugin_Assets_Manager implements Plugin_Assets_Manager, Hookabl
 			$dependency_assets
 		);
 
-		$this->module_handles[] = $asset_handle;
+		$this->integration_javascript_tag_handles[] = $asset_handle;
 
 		// wp_enqueue_module doesn't have 'in_footer' setting.
 		wp_enqueue_script(
@@ -89,26 +90,13 @@ class Procaptcha_Plugin_Assets_Manager implements Plugin_Assets_Manager, Hookabl
 		}
 	}
 
-	public function add_module_attr_for_modules( string $tag, string $handle ): string {
-		if ( ! in_array( $handle, $this->module_handles, true ) ) {
+	public function add_module_tag_attribute_to_integration_script( string $tag, string $handle ): string {
+		if ( ! in_array( $handle, $this->integration_javascript_tag_handles, true ) ||
+		$this->is_script_tag_with_module_attribute( $tag ) ) {
 			return $tag;
 		}
 
-		return $this->add_module_attr_when_missing( $tag );
-	}
-
-	public function add_module_attr_when_missing( string $tag ): string {
-		if (
-			// make sure we don't make it twice if other Procaptcha integrations are present.
-			false !== strpos( 'type="module"', $tag )
-		) {
-			return $tag;
-		}
-
-		// for old WP versions.
-		$tag = str_replace( ' type="text/javascript"', '', $tag );
-
-		return str_replace( 'src', 'type="module" src', $tag );
+		return $this->add_module_script_tag_attribute( $tag );
 	}
 
 	protected function get_asset_handle( string $asset ): string {

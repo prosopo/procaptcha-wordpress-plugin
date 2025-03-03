@@ -11,7 +11,7 @@ use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Procaptcha_Settings;
 use Io\Prosopo\Procaptcha\Template_Models\Widget_Model;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
-use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets_Manager;
+use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Frontend_Assets;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\html_attrs_collection;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
@@ -26,7 +26,7 @@ class Procaptcha_Widget implements Widget {
 	const ALLOW_BYPASS_CONSTANT_NAME = 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS';
 
 	private Procaptcha_Settings_Storage $settings_storage;
-	private Widget_Assets_Manager $widget_assets_manager;
+	private Widget_Frontend_Assets $widget_assets_manager;
 	private Query_Arguments $query_arguments;
 	private ModelRendererInterface $renderer;
 	/**
@@ -38,7 +38,7 @@ class Procaptcha_Widget implements Widget {
 
 	public function __construct(
 		Procaptcha_Settings_Storage $settings_storage,
-		Widget_Assets_Manager $widget_assets_manager,
+		Widget_Frontend_Assets $widget_assets_manager,
 		Query_Arguments $query_arguments,
 		ModelRendererInterface $renderer
 	) {

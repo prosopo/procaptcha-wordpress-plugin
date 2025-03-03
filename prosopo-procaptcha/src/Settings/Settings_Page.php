@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Settings;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin\Assets\Plugin_Assets_Manager;
+use Io\Prosopo\Procaptcha\Plugin\Assets\Plugin_Frontend_Assets;
 use Io\Prosopo\Procaptcha\Plugin\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
@@ -31,7 +31,7 @@ class Settings_Page implements Hookable {
 	private Query_Arguments $query_arguments;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
-	private Plugin_Assets_Manager $assets_manager;
+	private Plugin_Frontend_Assets $assets_manager;
 	/**
 	 * @var array<string,Settings_Tab>
 	 */
@@ -44,7 +44,7 @@ class Settings_Page implements Hookable {
 		Query_Arguments $query_arguments,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
-		Plugin_Assets_Manager $assets_manager
+		Plugin_Frontend_Assets $assets_manager
 	) {
 		$this->plugin            = $plugin;
 		$this->settings_storage  = $settings_storage;
@@ -175,7 +175,7 @@ class Settings_Page implements Hookable {
 		$tab_has_js   = '' !== $tab_js_asset;
 
 		if ( $tab_has_js ) {
-			$this->assets_manager->enqueue_module_js_asset(
+			$this->assets_manager->enqueue_plugin_javascript_file(
 				$tab_js_asset,
 				array(),
 				'prosopoProcaptchaWpSettings',

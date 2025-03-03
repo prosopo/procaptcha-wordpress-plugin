@@ -7,10 +7,10 @@ namespace Io\Prosopo\Procaptcha\Plugin;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin\Assets\Procaptcha_Plugin_Assets_Manager;
+use Io\Prosopo\Procaptcha\Plugin\Assets\Procaptcha_Plugin_Frontend_Assets;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets;
-use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets_Manager;
+use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Frontend_Assets;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
@@ -50,12 +50,12 @@ class Plugin implements Hookable {
 	private string $version = '1.11.0';
 	private string $plugin_file;
 	private Widget $widget;
-	private Widget_Assets_Manager $widget_assets_manager;
+	private Widget_Frontend_Assets $widget_assets_manager;
 	private Query_Arguments $query_arguments;
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Settings_Page $settings_page;
 	private Plugin_Integrations $plugin_integrations;
-	private Procaptcha_Plugin_Assets_Manager $plugin_assets_manager;
+	private Procaptcha_Plugin_Frontend_Assets $plugin_assets_manager;
 
 	/**
 	 * @param string $plugin_file Optional, empty if called from the uninstall.php
@@ -73,10 +73,10 @@ class Plugin implements Hookable {
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
 
-		$this->plugin_assets_manager = new Procaptcha_Plugin_Assets_Manager( $plugin_file, $this->version, $wp_filesystem );
+		$this->plugin_assets_manager = new Procaptcha_Plugin_Frontend_Assets( $plugin_file, $this->version, $wp_filesystem );
 
 		$this->settings_storage      = new Procaptcha_Settings_Storage();
-		$this->widget_assets_manager = new Widget_Assets_Manager(
+		$this->widget_assets_manager = new Widget_Frontend_Assets(
 			self::SERVICE_SCRIPT_URL,
 			'prosopo-procaptcha',
 			$this->plugin_assets_manager,

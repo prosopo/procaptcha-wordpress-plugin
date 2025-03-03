@@ -32,10 +32,10 @@ interface UserSettings {
     domains: Array<string>;
 }
 
-interface WpDetails{
-    statusCode:number;
-    body:{
-        name:string,
+interface WpDetails {
+    statusCode: number;
+    body: {
+        name: string,
     }
 }
 
@@ -117,6 +117,10 @@ class Api {
     }
 
     protected async getLoginToken(): Promise<string> {
+
+        // fixme
+        console.log("getLoginToken is called");
+
         if ("" !== this.loginToken) {
             return this.loginToken;
         }

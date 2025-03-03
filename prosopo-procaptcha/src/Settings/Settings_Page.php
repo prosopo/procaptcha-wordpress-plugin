@@ -112,7 +112,7 @@ class Settings_Page implements Hookable {
 
 				// Manually, instead of WP assets, because the settings page is a WebComponenet with Shadow DOM,
 				// and we need to inject assets directly.
-				$settings->css  = $this->assets_manager->get_asset_content( 'settings.min.css' );
+				$settings->css  = $this->assets_manager->get_asset_content( 'settings/settings.min.css' );
 				$settings->css .= '' !== $css_file ?
 					$this->assets_manager->get_asset_content( $css_file ) :
 					'';

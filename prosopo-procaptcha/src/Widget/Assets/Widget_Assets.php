@@ -26,7 +26,7 @@ class Widget_Assets {
 		// do not use wp_enqueue_module() because it doesn't work on the login screens.
 		wp_enqueue_script(
 			$handle,
-			$assets_manager->get_asset_url( 'widget.min.js' ),
+			$assets_manager->get_asset_url( 'widget/widget.min.js' ),
 			array(),
 			$assets_manager->get_assets_version(),
 			array(

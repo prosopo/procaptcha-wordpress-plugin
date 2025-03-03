@@ -288,7 +288,7 @@ class App extends React.Component<object, AppState> {
 
             }
               await this.refreshTrafficData();*/
-        } catch {
+        } catch (e) {
             this.markAsFailed();
         }
     }

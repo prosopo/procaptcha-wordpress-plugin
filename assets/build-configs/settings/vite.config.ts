@@ -1,20 +1,18 @@
-import {defineConfig} from 'vite';
+import type {UserConfig} from 'vite';
 import path from 'path';
+import {makeViteConfig} from "../vite.config";
 
-export default defineConfig({
-    root: '.',
+const settingsConfig: UserConfig = {
     build: {
-        outDir: path.resolve(__dirname, '../../../prosopo-procaptcha/dist'),
         rollupOptions: {
             input: {
                 settings: path.resolve(__dirname, '../../src/settings.scss'),
             },
-            output: {
-                assetFileNames: '[name].min[extname]',
-            }
         },
     },
     css: {
         postcss: path.resolve(__dirname, './postcss.config.js'),
     },
-});
+};
+
+export default makeViteConfig("settings", settingsConfig);

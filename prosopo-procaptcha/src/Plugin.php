@@ -1,16 +1,16 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
+use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin\Assets\Procaptcha_Plugin_Frontend_Assets;
 use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets;
-use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Frontend_Assets;
+use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
@@ -27,7 +27,8 @@ use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
 	User_Registration\User_Registration_Integration,
 	WooCommerce\WooCommerce_Integration,
 	WordPress\WordPress_Integration,
-	WPForms\WPForms_Integration};
+	WPForms\WPForms_Integration
+};
 use Io\Prosopo\Procaptcha\Integration\Form\Helper\Procaptcha_Form_Integration_Helper;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrations;
@@ -40,29 +41,28 @@ use Io\Prosopo\Procaptcha\Settings\{Settings_Page,
 	Storage\Procaptcha_Settings_Storage,
 	Tabs\Account_Forms_Procaptcha_Settings,
 	Tabs\General_Procaptcha_Settings,
-	Tabs\Statistics};
-use WP_Filesystem_Base;
+	Tabs\Statistics
+};
 
-class Plugin implements Hookable {
+final class Plugin implements Hookable {
 	const SLUG               = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 
 	private string $version = '1.11.0';
 	private string $plugin_file;
 	private Widget $widget;
-	private Widget_Frontend_Assets $widget_assets_manager;
+	private Widget_Assets_Loader $widget_assets_manager;
 	private Query_Arguments $query_arguments;
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Settings_Page $settings_page;
 	private Plugin_Integrations $plugin_integrations;
-	private Procaptcha_Plugin_Frontend_Assets $plugin_assets_manager;
+	private Assets_Loader $assets_loader;
 
 	/**
 	 * @param string $plugin_file Optional, empty if called from the uninstall.php
 	 */
-	public function __construct( string $plugin_file = '' ) {
+	public function __construct( string $plugin_file = '', bool $is_dev_mode = false ) {
 		$this->plugin_file = $plugin_file;
-		$wp_filesystem     = $this->get_wp_filesystem();
 
 		$view_template_renderer = new ViewTemplateRenderer();
 
@@ -73,15 +73,17 @@ class Plugin implements Hookable {
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
 
-		$this->plugin_assets_manager = new Procaptcha_Plugin_Frontend_Assets( $plugin_file, $this->version, $wp_filesystem );
+		$assets_resolved     = $is_dev_mode ?
+			$this->create_dev_assets_resolver() :
+		$this->create_assets_resolver();
+		$this->assets_loader = new Assets_Loader( $assets_resolved );
 
 		$this->settings_storage      = new Procaptcha_Settings_Storage();
-		$this->widget_assets_manager = new Widget_Frontend_Assets(
+		$this->widget_assets_manager = new Widget_Assets_Loader(
 			self::SERVICE_SCRIPT_URL,
 			'prosopo-procaptcha',
-			$this->plugin_assets_manager,
-			$this->settings_storage->get( General_Procaptcha_Settings::class ),
-			new Widget_Assets()
+			$this->assets_loader,
+			$this->settings_storage->get( General_Procaptcha_Settings::class )
 		);
 
 		$this->query_arguments = new Query_Arguments();
@@ -99,7 +101,7 @@ class Plugin implements Hookable {
 			$this->query_arguments,
 			$views_manager,
 			$views_manager,
-			$this->plugin_assets_manager
+			$this->assets_loader
 		);
 
 		$this->plugin_integrations = new Plugin_Integrations(
@@ -122,7 +124,7 @@ class Plugin implements Hookable {
 
 		$this->settings_page->add_setting_tabs( $this->get_independent_setting_tabs() );
 
-		$this->plugin_assets_manager->set_hooks( $is_admin_area );
+		$this->assets_loader->set_hooks( $is_admin_area );
 	}
 
 	public function clear_data(): void {
@@ -199,13 +201,25 @@ class Plugin implements Hookable {
 		);
 	}
 
-	protected function get_wp_filesystem(): WP_Filesystem_Base {
-		global $wp_filesystem;
+	protected function create_dev_assets_resolver(): Assets_Resolver {
+		$base_assets_url    = 'http://localhost:5173/src';
+		$url_extensions_map = array();
+		$assets_version     = null;
 
-		require_once ABSPATH . 'wp-admin/includes/file.php';
+		return new Assets_Resolver( $base_assets_url, $url_extensions_map, $assets_version );
+	}
 
-		WP_Filesystem();
+	protected function create_assets_resolver(): Assets_Resolver {
+		$base_assets_url = plugin_dir_url( $this->plugin_file ) . 'dist/';
 
-		return $wp_filesystem;
+		$url_extensions_map = array(
+			'scss' => 'min.css',
+			'ts'   => 'min.js',
+			'tsx'  => 'min.js',
+		);
+
+		$assets_version = $this->version;
+
+		return new Assets_Resolver( $base_assets_url, $url_extensions_map, $assets_version );
 	}
 }

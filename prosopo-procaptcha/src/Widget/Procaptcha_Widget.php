@@ -11,7 +11,7 @@ use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Procaptcha_Settings;
 use Io\Prosopo\Procaptcha\Template_Models\Widget_Model;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
-use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Frontend_Assets;
+use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets_Loader;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\html_attrs_collection;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
@@ -26,7 +26,7 @@ class Procaptcha_Widget implements Widget {
 	const ALLOW_BYPASS_CONSTANT_NAME = 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS';
 
 	private Procaptcha_Settings_Storage $settings_storage;
-	private Widget_Frontend_Assets $widget_assets_manager;
+	private Widget_Assets_Loader $widget_assets_manager;
 	private Query_Arguments $query_arguments;
 	private ModelRendererInterface $renderer;
 	/**
@@ -38,7 +38,7 @@ class Procaptcha_Widget implements Widget {
 
 	public function __construct(
 		Procaptcha_Settings_Storage $settings_storage,
-		Widget_Frontend_Assets $widget_assets_manager,
+		Widget_Assets_Loader $widget_assets_manager,
 		Query_Arguments $query_arguments,
 		ModelRendererInterface $renderer
 	) {
@@ -151,11 +151,11 @@ class Procaptcha_Widget implements Widget {
 	}
 
 	public function add_integration_js( string $integration_name ): void {
-		$this->widget_assets_manager->add_integration_js( $integration_name );
+		$this->widget_assets_manager->load_integration_script( $integration_name );
 	}
 
 	public function add_integration_css( string $css_code ): void {
-		$this->widget_assets_manager->add_integration_css( $css_code );
+		$this->widget_assets_manager->load_integration_css( $css_code );
 	}
 
 	public function print_form_field( array $settings = array() ): string {
@@ -166,7 +166,7 @@ class Procaptcha_Widget implements Widget {
 
 		if ( ! $is_field_stub ) {
 			// automatically mark as in use.
-			$this->widget_assets_manager->add_widget();
+			$this->widget_assets_manager->load_widget();
 		}
 
 		$form_field = $this->renderer->renderModel(

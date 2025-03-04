@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin\Assets\Plugin_Frontend_Assets;
 use Io\Prosopo\Procaptcha\Plugin\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
@@ -31,7 +31,7 @@ class Settings_Page implements Hookable {
 	private Query_Arguments $query_arguments;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
-	private Plugin_Frontend_Assets $assets_manager;
+	private Assets_Loader $assets_loader;
 	/**
 	 * @var array<string,Settings_Tab>
 	 */
@@ -44,7 +44,7 @@ class Settings_Page implements Hookable {
 		Query_Arguments $query_arguments,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
-		Plugin_Frontend_Assets $assets_manager
+		Assets_Loader $assets_loader
 	) {
 		$this->plugin            = $plugin;
 		$this->settings_storage  = $settings_storage;
@@ -52,7 +52,7 @@ class Settings_Page implements Hookable {
 		$this->query_arguments   = $query_arguments;
 		$this->component_creator = $component_creator;
 		$this->renderer          = $component_renderer;
-		$this->assets_manager    = $assets_manager;
+		$this->assets_loader     = $assets_loader;
 		$this->setting_tabs      = array();
 	}
 
@@ -108,13 +108,14 @@ class Settings_Page implements Hookable {
 		return $this->component_creator->createModel(
 			Settings::class,
 			function ( Settings $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
-				$css_file = $tab->get_tab_css_file();
+				$css_file = $tab->get_tab_style_asset();
 
+				// fixme
 				// Manually, instead of WP assets, because the settings page is a WebComponenet with Shadow DOM,
 				// and we need to inject assets directly.
-				$settings->css  = $this->assets_manager->get_asset_content( 'settings/settings.min.css' );
+				$settings->css  = $this->assets_loader->get_asset_content( 'settings/settings.min.css' );
 				$settings->css .= '' !== $css_file ?
-					$this->assets_manager->get_asset_content( $css_file ) :
+					$this->assets_loader->get_asset_content( $css_file ) :
 					'';
 
 				$settings->is_just_saved = $is_just_saved;
@@ -171,12 +172,12 @@ class Settings_Page implements Hookable {
 	}
 
 	protected function enqueue_tab_assets( Settings_Tab $tab ): void {
-		$tab_js_asset = $tab->get_tab_js_asset();
-		$tab_has_js   = '' !== $tab_js_asset;
+		$tab_script_asset  = $tab->get_tab_script_asset();
+		$is_tab_script_set = '' !== $tab_script_asset;
 
-		if ( $tab_has_js ) {
-			$this->assets_manager->enqueue_plugin_javascript_file(
-				$tab_js_asset,
+		if ( $is_tab_script_set ) {
+			$this->assets_loader->load_plugin_script(
+				$tab_script_asset,
 				array(),
 				'prosopoProcaptchaWpSettings',
 				$tab->get_tab_js_data( $this->settings_storage )

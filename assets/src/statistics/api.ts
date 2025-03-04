@@ -119,11 +119,14 @@ class Api {
     protected async getLoginToken(): Promise<string> {
 
         // fixme
-        console.log("getLoginToken is called");
+        console.log("getLoginToken is called2");
 
-        if ("" !== this.loginToken) {
-            return this.loginToken;
-        }
+        /* if ("" !== this.loginToken) {
+             return this.loginToken;
+         }*/
+
+        // fixme
+        console.log("making a sign");
 
         const timestamp = Date.now();
         const signature = await this.sign(
@@ -132,18 +135,16 @@ class Api {
         );
 
         // fixme
-        this.loginToken = "some";
+        console.log("making wp-details request");
 
         const data = await this.request("https://api.prosopo.io/sites/wp-details", {
-            auth: {
-                siteKey: this.config.getSiteKey(),
-                signature: signature,
-                timestamp: timestamp,
-            },
+            siteKey: this.config.getSiteKey(),
+            signature: signature,
+            timestamp: timestamp,
         });
 
         // fixme
-        console.log("wp-details", data);
+        console.log("wp-details response", data);
 
         return this.loginToken;
     }
@@ -152,7 +153,7 @@ class Api {
         const loginToken = await this.getLoginToken();
 
         const rawResponse = await this.request(
-            "https://api.prosopo.io/getuserdata",
+            "https://api.prosopo.io/getuserdata2",// fixme
             {
                 token: loginToken,
             },
@@ -195,7 +196,7 @@ class Api {
         const loginToken = await this.getLoginToken();
 
         const rawResponse = await this.request(
-            "https://api.prosopo.io/getusersettings",
+            "https://api.prosopo.io/getusersettings2",// fixme
             {
                 token: loginToken,
             },

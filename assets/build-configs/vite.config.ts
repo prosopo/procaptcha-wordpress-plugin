@@ -13,6 +13,10 @@ const defaultConfig: UserConfig = {
                 assetFileNames: "[name].min[extname]",
             },
         },
+    },
+    define: {
+        // workaround for @prosopo/contract, which uses 'process.env' instead of 'import.meta.env'.
+        'process.env': {}
     }
 };
 

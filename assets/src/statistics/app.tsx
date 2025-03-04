@@ -1,6 +1,5 @@
 import * as React from "react";
 import {StatCurrentState, StatState, StatStateElement} from "./statState";
-import type {Api} from "./api";
 import {Config, ConfigClass} from "./config";
 import {UsageInfo, UsageInfoElement} from "./usageInfo";
 import {InfoBox, InfoBoxElement} from "./infoBox";
@@ -9,6 +8,7 @@ import {TrafficData, TrafficDataElement} from "./trafficData";
 import ModuleLogger from "../logger/moduleLogger";
 import LoggerFactory from "../logger/loggerFactory";
 import LoggerInterface from "../interfaces/loggerInterface";
+import {Api} from "./api";
 
 interface AppState {
     statState: StatState;
@@ -44,24 +44,24 @@ class App extends React.Component<object, AppState> {
         this.numberUtils = new NumberUtils();
 
         this.state = this.getInitialState();
-
-        this.refresh();
     }
 
     protected async getApi(): Promise<Api> {
-        if (null === this.api) {
-            const ApiClass = (await import("./api")).Api;
-            this.api = new ApiClass(this.config, this.logger);
-        }
+        // fixme lazy loading creates version-related issue.
+        return new Api(this.config, this.logger);
+        /* if (null === this.api) {
+             const ApiClass = (await import("./api")).Api;
+             this.api = new ApiClass(this.config, this.logger);
+         }
 
-        return this.api;
+         return this.api;*/
     }
 
     protected getInitialState(): AppState {
         return {
             statState: {
                 state: StatCurrentState.LOADING,
-                refresh: this.refresh.bind(this),
+                reload: this.reload.bind(this),
                 labels: this.config.getStateLabels(),
             },
             usageInfo: {
@@ -272,9 +272,7 @@ class App extends React.Component<object, AppState> {
         }));
     }
 
-    public async refresh(): Promise<void> {
-        this.setState(this.getInitialState());
-
+    protected async refreshData(): Promise<void> {
         try {
             await Promise.all([
                 this.refreshUserData(),
@@ -293,6 +291,16 @@ class App extends React.Component<object, AppState> {
         }
     }
 
+    public componentDidMount(): void {
+        this.refreshData();
+    }
+
+    public async reload(): Promise<void> {
+        this.setState(this.getInitialState());
+
+        await this.refreshData();
+    }
+
     public render() {
         const {
             statState,
@@ -308,7 +316,7 @@ class App extends React.Component<object, AppState> {
                 <StatStateElement
                     labels={statState.labels}
                     state={statState.state}
-                    refresh={statState.refresh}
+                    reload={statState.reload}
                 />
                 <div className="grid gap-8 grid-cols-2">
                     {/* Usage Info */}

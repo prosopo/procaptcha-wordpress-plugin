@@ -2,7 +2,7 @@ import {stringToU8a, u8aToHex} from "@polkadot/util";
 import {getPairAsync} from "@prosopo/contract";
 import {Config} from "./config";
 import Collection from "./collection";
-import LoggerInterface from "../interfaces/loggerInterface";
+import LoggerInterface from "../../interfaces/loggerInterface";
 
 interface UserData {
     email: string;

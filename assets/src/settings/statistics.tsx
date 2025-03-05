@@ -1,6 +1,6 @@
 import * as ReactDOM from "react-dom/client";
 import {StrictMode} from "react";
-import App from "./app";
+import App from "./statistics/app";
 
 class ProcaptchaStatistics extends HTMLElement {
     public connectedCallback(): void {

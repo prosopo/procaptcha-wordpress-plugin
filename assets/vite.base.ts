@@ -5,7 +5,7 @@ import deepmerge from "deepmerge";
 const defaultConfig: UserConfig = {
     root: ".",
     build: {
-        outDir: path.resolve(__dirname, '../../prosopo-procaptcha/dist'),
+        outDir: path.resolve(__dirname, '../prosopo-procaptcha/dist'),
         emptyOutDir: true,
         rollupOptions: {
             output: {

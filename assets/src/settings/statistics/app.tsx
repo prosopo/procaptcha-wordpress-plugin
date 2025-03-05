@@ -5,9 +5,9 @@ import {UsageInfo, UsageInfoElement} from "./usageInfo";
 import {InfoBox, InfoBoxElement} from "./infoBox";
 import NumberUtils from "./numberUtils";
 import {TrafficData, TrafficDataElement} from "./trafficData";
-import ModuleLogger from "../logger/moduleLogger";
-import LoggerFactory from "../logger/loggerFactory";
-import LoggerInterface from "../interfaces/loggerInterface";
+import ModuleLogger from "../../logger/moduleLogger";
+import LoggerFactory from "../../logger/loggerFactory";
+import LoggerInterface from "../../interfaces/loggerInterface";
 import {Api} from "./api";
 
 interface AppState {

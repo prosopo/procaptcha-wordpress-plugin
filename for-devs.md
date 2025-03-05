@@ -78,8 +78,8 @@ JS:
 
 Assets compilation:
 
-* `cd assets && yarn build:[all/settings/statistics/widget/integrations]` - Vite building.
-* `cd assets && yarn dev:[settings/statistics/widget/integrations]` - Vite development
+* `cd assets && yarn build:[all/settings/widget]` - Vite building.
+* `cd assets && yarn dev:[settings/widget]` - Vite development
 
 ### 5.3) For maintainers
 

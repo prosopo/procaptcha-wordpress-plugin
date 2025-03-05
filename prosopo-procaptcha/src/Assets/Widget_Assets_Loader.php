@@ -105,7 +105,7 @@ final class Widget_Assets_Loader implements Hookable {
 
 	protected function load_integration_scripts(): void {
 		foreach ( $this->integration_scripts as $integration_script ) {
-			$relative_script_path = sprintf( 'integrations/%s.ts', $integration_script );
+			$relative_script_path = sprintf( 'widget/integrations/%s.ts', $integration_script );
 
 			$this->assets_loader->load_script_asset( $relative_script_path );
 		}

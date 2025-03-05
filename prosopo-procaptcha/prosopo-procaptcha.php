@@ -17,5 +17,5 @@ defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/autoloader.php';
 
-( new Plugin( __FILE__, defined( 'PROSOPO_PROCAPTCHA_DEV_MODE' ) ) )
+( new Plugin( __FILE__, defined( 'PROSOPO_PROCAPTCHA_DEV_MODE' ) && PROSOPO_PROCAPTCHA_DEV_MODE ) )
 	->set_hooks( is_admin() );

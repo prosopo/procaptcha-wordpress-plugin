@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WooCommerce\Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration_Base;
-use Io\Prosopo\Procaptcha\Plugin\Plugin;
+use Io\Prosopo\Procaptcha\Plugin;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Error;
 
@@ -83,7 +83,7 @@ class Woo_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 
 			$widget = self::get_form_helper()->get_widget();
 
-			$widget->add_integration_js( 'woo-blocks-checkout' );
+			$widget->load_integration_script( 'woo-blocks-checkout' );
 			$widget->add_integration_css( '.wc-block-components-address-form__prosopo-procaptcha-prosopo_procaptcha { display: none; }' );
 		}
 

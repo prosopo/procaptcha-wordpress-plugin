@@ -26,9 +26,9 @@ interface Settings_Tab {
 
 	public function make_tab_component( ModelFactoryInterface $factory, Widget $widget ): TemplateModelInterface;
 
-	public function get_tab_js_asset(): string;
+	public function get_tab_script_asset(): string;
 
-	public function get_tab_css_file(): string;
+	public function get_style_asset(): string;
 
 	/**
 	 * @return array<string,mixed>

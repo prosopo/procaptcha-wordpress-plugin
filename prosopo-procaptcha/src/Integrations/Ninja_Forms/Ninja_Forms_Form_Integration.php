@@ -54,7 +54,7 @@ class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements Form_In
 		);
 
 		$element .= '<prosopo-procaptcha-ninja-forms-integration></prosopo-procaptcha-ninja-forms-integration>';
-		$widget->add_integration_js( 'ninja-forms' );
+		$widget->load_integration_script( 'ninja-forms' );
 
 		$field['settings'] = array_merge(
 			arr( $field, 'settings' ),

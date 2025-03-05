@@ -9,6 +9,7 @@ import ModuleLogger from "../../logger/moduleLogger";
 import LoggerFactory from "../../logger/loggerFactory";
 import LoggerInterface from "../../interfaces/loggerInterface";
 import {Api} from "./api";
+import type {Account} from "./account/account";
 
 interface AppState {
     statState: StatState;
@@ -28,14 +29,14 @@ class App extends React.Component<object, AppState> {
     private config: Config;
     private numberUtils: NumberUtils;
     private logger: LoggerInterface;
-    private userTier: string;
+    private accountTier: string;
 
     constructor(props) {
         super(props);
 
         const loggerFactory = new LoggerFactory();
 
-        this.userTier = "";
+        this.accountTier = "";
         this.config = new ConfigClass();
         this.logger = loggerFactory.makeLogger(
             "statistics",
@@ -150,11 +151,8 @@ class App extends React.Component<object, AppState> {
         }));
     }
 
-    protected async refreshUserData(): Promise<void> {
-        const api = await this.getApi();
-        const userData = await api.getUserData();
-
-        this.userTier = userData.tier;
+    protected refreshUserData(account: Account): void {
+        this.accountTier = account.tier;
 
         this.setState((actualState) => ({
             ...actualState,
@@ -163,32 +161,32 @@ class App extends React.Component<object, AppState> {
                 items: [
                     {
                         label: this.config.getAccountLabels().tier,
-                        value: userData.tier.toUpperCase(),
+                        value: account.tier.toUpperCase(),
                     },
                     {
                         label: this.config.getAccountLabels().name,
-                        value: userData.name,
+                        value: account.name,
                     },
-                    {
-                        label: this.config.getAccountLabels().email,
-                        value: userData.email,
-                    },
+                    /* fixme remove from label{
+                         label: this.config.getAccountLabels().email,
+                         value: account.email,
+                     },*/
                 ],
             },
             usageInfo: {
                 ...actualState.usageInfo,
                 limits: {
-                    verifications: userData.monthlyUsage.limits.verifications,
+                    verifications: account.monthlyUsage.limit,
                 },
                 image: {
-                    submissions: userData.monthlyUsage.image.submissions,
-                    verifications: userData.monthlyUsage.image.verifications,
-                    total: userData.monthlyUsage.image.total,
+                    submissions: account.monthlyUsage.image.submissions,
+                    verifications: account.monthlyUsage.image.verifications,
+                    total: account.monthlyUsage.image.total,
                 },
                 pow: {
-                    submissions: userData.monthlyUsage.pow.submissions,
-                    verifications: userData.monthlyUsage.pow.verifications,
-                    total: userData.monthlyUsage.pow.total,
+                    submissions: account.monthlyUsage.pow.submissions,
+                    verifications: account.monthlyUsage.pow.verifications,
+                    total: account.monthlyUsage.pow.total,
                 },
             },
         }));
@@ -229,10 +227,7 @@ class App extends React.Component<object, AppState> {
         }
     }
 
-    protected async refreshUserSettings(): Promise<void> {
-        const api = await this.getApi();
-        const userSettings = await api.getUserSettings();
-
+    protected refreshUserSettings(account: Account): void {
         this.setState((actualState) => ({
             ...actualState,
             captchaSettings: {
@@ -240,27 +235,27 @@ class App extends React.Component<object, AppState> {
                 items: [
                     {
                         label: this.config.getCaptchaSettingsLabels().type,
-                        value: this.getTypeLabel(userSettings.captchaType),
+                        value: this.getTypeLabel(account.settings.captchaType),
                     },
                     {
                         label: this.config.getCaptchaSettingsLabels()
                             .frictionlessThreshold,
                         value: this.getFrictionlessThresholdLabel(
-                            userSettings.frictionlessThreshold,
+                            account.settings.frictionlessThreshold,
                         ),
                     },
                     {
                         label: this.config.getCaptchaSettingsLabels()
                             .powDifficulty,
                         value: this.getPowDifficultyLabel(
-                            userSettings.powDifficulty,
+                            account.settings.powDifficulty,
                         ),
                     },
                 ],
             },
             domains: {
                 ...actualState.domains,
-                items: userSettings.domains.map((domain, index) => {
+                items: account.settings.domains.map((domain, index) => {
                     return {
                         label: "#" + (index + 1),
                         value: domain,
@@ -272,19 +267,19 @@ class App extends React.Component<object, AppState> {
 
     protected async refreshData(): Promise<void> {
         try {
-            await Promise.all([
-                this.refreshUserData(),
-                this.refreshUserSettings(),
-            ]);
+            const api = await this.getApi();
+            const account = await api.getAccount();
+
+            this.refreshUserData(account);
+            this.refreshUserSettings(account);
+
 
             this.markAsLoaded();
-
-            // fixme remove
-            /*if (userTier.FREE === this.userTier) {
-
-            }
-              await this.refreshTrafficData();*/
         } catch (e) {
+            this.logger.warning('Failed to refresh data', {
+                error: e,
+            });
+
             this.markAsFailed();
         }
     }

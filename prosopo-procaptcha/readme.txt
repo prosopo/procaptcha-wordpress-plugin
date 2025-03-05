@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.11.0
+Stable tag: 1.12.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,6 +133,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.12.0 (2024-03-) =
+- Updated Statistics page to use the new API
 
 = 1.11.0 (2024-02-18) =
 - Updated JetPack integration to support the latest JetPack form changes

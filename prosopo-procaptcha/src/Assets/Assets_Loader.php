@@ -60,7 +60,7 @@ final class Assets_Loader implements Hookable {
 			$handle,
 			$url,
 			$dependencies,
-			// when set, the version is a part of the url.
+			// the version is a part of the file path (dist/x/settings).
             // @phpcs:ignore
 			null,
 			$script_settings

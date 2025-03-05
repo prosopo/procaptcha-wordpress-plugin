@@ -1,5 +1,5 @@
 import {stringToU8a, u8aToHex} from "@polkadot/util";
-import {getPairAsync} from "@prosopo/contract";
+import {getPairAsync} from "@prosopo/keyring";
 import {Config} from "./config";
 import Collection from "./collection";
 import LoggerInterface from "../../interfaces/loggerInterface";
@@ -119,7 +119,7 @@ class Api {
     protected async getLoginToken(): Promise<string> {
 
         // fixme
-        console.log("getLoginToken is called2");
+        console.log("getLoginToken is called3");
 
         /* if ("" !== this.loginToken) {
              return this.loginToken;

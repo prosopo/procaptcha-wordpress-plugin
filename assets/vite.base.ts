@@ -1,32 +1,55 @@
 import {UserConfig} from "vite";
 import path from "path";
 import deepmerge from "deepmerge";
+import fs from "fs";
 
-const defaultConfig: UserConfig = {
-    root: ".",
-    build: {
-        outDir: path.resolve(__dirname, '../prosopo-procaptcha/dist'),
-        emptyOutDir: true,
-        rollupOptions: {
-            output: {
-                entryFileNames: "[name].min.js",
-                assetFileNames: "[name].min[extname]",
-            },
-        },
-    },
-    define: {
-        // workaround for @prosopo/contract, which uses 'process.env' instead of 'import.meta.env'.
-        'process.env': {}
+class ViteBase {
+    private readonly pluginFileRelativePath = '../prosopo-procaptcha/prosopo-procaptcha.php';
+    private readonly defaultConfig: UserConfig;
+
+    constructor() {
+        const pluginVersion = this.getPluginVersion();
+        this.defaultConfig = {
+            root: ".",
+            build: {
+                outDir: path.resolve(__dirname, `../prosopo-procaptcha/dist/${pluginVersion}`),
+                emptyOutDir: true,
+                rollupOptions: {
+                    output: {
+                        entryFileNames: `[name].min.js`,
+                        assetFileNames: `[name].min[extname]`,
+                    },
+                },
+            }
+        };
+
     }
-};
 
-function makeViteConfig(outputSubdirectoryName: string, customSettings: UserConfig): UserConfig {
-    const config = deepmerge(defaultConfig, customSettings);
+    public makeViteConfig(outputSubdirectoryName: string, customSettings: UserConfig): UserConfig {
+        const config = deepmerge(this.defaultConfig, customSettings);
 
-    config.build.outDir = path.resolve(config.build.outDir, outputSubdirectoryName);
+        config.build.outDir = path.resolve(config.build.outDir, outputSubdirectoryName);
 
-    return config;
+        return config;
+    }
+
+    protected getPluginVersion(): string {
+        const readmeFilePath = path.resolve(__dirname, this.pluginFileRelativePath);
+        const readmeContent = fs.readFileSync(readmeFilePath, 'utf-8');
+
+        const versionMatch = readmeContent.match(/Version:\s*(\d+\.\d+\.\d+)/);
+
+        if (!versionMatch)
+            throw new Error(`Could not find plugin version in the readme file: ${readmeFilePath}`);
+
+        return versionMatch[1];
+    }
 }
 
+const viteBase = new ViteBase();
 
-export {makeViteConfig};
+const makeViteConfig = viteBase.makeViteConfig.bind(viteBase);
+
+export {
+    makeViteConfig
+};

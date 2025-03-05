@@ -45,7 +45,6 @@ final class Plugin implements Hookable {
 	const SLUG               = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 
-	private string $version = '1.11.0';
 	private string $plugin_file;
 	private Widget $widget;
 	private Widget_Assets_Loader $widget_assets_manager;
@@ -70,7 +69,7 @@ final class Plugin implements Hookable {
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
 
-		$this->plugin_assets = new Plugin_Assets( $this->plugin_file, $this->version, $is_dev_mode );
+		$this->plugin_assets = new Plugin_Assets( $this->plugin_file, $this->detect_current_version_number(), $is_dev_mode );
 
 		$this->settings_storage      = new Procaptcha_Settings_Storage();
 		$this->widget_assets_manager = new Widget_Assets_Loader(
@@ -143,16 +142,23 @@ final class Plugin implements Hookable {
 		return plugin_basename( $this->plugin_file );
 	}
 
-	public function get_version(): string {
-		return $this->version;
-	}
-
 	public function load_translations(): void {
 		load_plugin_textdomain(
 			'prosopo-procaptcha',
 			false,
 			dirname( plugin_basename( $this->plugin_file ) ) . '/lang'
 		);
+	}
+
+	protected function detect_current_version_number(): string {
+        // @phpcs:ignore
+		$plugin_file_content = (string)file_get_contents( $this->plugin_file );
+
+		preg_match( '/Version:(.*)/', $plugin_file_content, $matches );
+
+		$current_version_number = $matches[1] ?? '1.0.0';
+
+		return trim( $current_version_number );
 	}
 
 	/**

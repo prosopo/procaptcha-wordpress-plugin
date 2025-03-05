@@ -13,12 +13,12 @@ final class Plugin_Assets implements Hookable {
 	private string $dev_reloader_script = '@vite/client';
 
 	private string $plugin_file;
-	private ?string $plugin_version;
+	private string $plugin_version;
 	private Assets_Resolver $assets_resolver;
 	private Assets_Loader $assets_loader;
 	private bool $is_dev_mode;
 
-	public function __construct( string $plugin_file, ?string $plugin_version, bool $is_dev_mode ) {
+	public function __construct( string $plugin_file, string $plugin_version, bool $is_dev_mode ) {
 		$this->plugin_file    = $plugin_file;
 		$this->plugin_version = $plugin_version;
 		$this->is_dev_mode    = $is_dev_mode;
@@ -33,12 +33,14 @@ final class Plugin_Assets implements Hookable {
 	public function set_hooks( bool $is_admin_area ): void {
 		$this->assets_loader->set_hooks( $is_admin_area );
 
-		$hook = $is_admin_area ?
-			'admin_print_footer_scripts' :
-			'wp_print_footer_scripts';
+		if ( $this->is_dev_mode ) {
+			$hook = $is_admin_area ?
+				'admin_print_footer_scripts' :
+				'wp_print_footer_scripts';
 
-		// priority must be less than 10, to make sure the wp_enqueue_script still has effect.
-		add_action( $hook, array( $this, 'load_reloader_for_dev_assets' ), 1 );
+			// priority must be less than 10, to make sure the wp_enqueue_script still has effect.
+			add_action( $hook, array( $this, 'load_dev_assets_reloader' ), 1 );
+		}
 	}
 
 	public function get_resolver(): Assets_Resolver {
@@ -49,17 +51,16 @@ final class Plugin_Assets implements Hookable {
 		return $this->assets_loader;
 	}
 
-	public function load_reloader_for_dev_assets(): void {
-		if ( $this->is_any_dev_asset_loaded() ) {
+	public function load_dev_assets_reloader(): void {
+		if ( $this->is_any_asset_loaded() ) {
 			$this->load_dev_reloader_script();
 		}
 	}
 
-	protected function is_any_dev_asset_loaded(): bool {
+	protected function is_any_asset_loaded(): bool {
 		$loaded_assets_count = count( $this->assets_loader->get_loaded_assets() );
 
-		return $this->is_dev_mode &&
-			$loaded_assets_count > 0;
+		return $loaded_assets_count > 0;
 	}
 
 	protected function load_dev_reloader_script(): void {
@@ -75,7 +76,8 @@ final class Plugin_Assets implements Hookable {
 	}
 
 	protected function create_assets_resolver(): Assets_Resolver {
-		$base_assets_url = plugin_dir_url( $this->plugin_file ) . 'dist/';
+		$base_assets_url = plugin_dir_url( $this->plugin_file ) .
+			sprintf( 'dist/%s', $this->plugin_version );
 
 		$assets_resolver = new Assets_Resolver( $base_assets_url );
 
@@ -86,8 +88,7 @@ final class Plugin_Assets implements Hookable {
 					'ts'   => 'min.js',
 					'tsx'  => 'min.js',
 				)
-			)
-			->set_version( $this->plugin_version );
+			);
 
 		return $assets_resolver;
 	}

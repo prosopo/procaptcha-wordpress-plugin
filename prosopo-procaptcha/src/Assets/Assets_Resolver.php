@@ -12,12 +12,10 @@ final class Assets_Resolver {
 	 * @var array<string,string> [ ts => min.js ]
 	 */
 	private array $url_extensions_map;
-	private ?string $version;
 
 	public function __construct( string $base_url ) {
 		$this->base_url           = $base_url;
 		$this->url_extensions_map = array();
-		$this->version            = null;
 	}
 
 	/**
@@ -29,12 +27,6 @@ final class Assets_Resolver {
 		return $this;
 	}
 
-	public function set_version( ?string $version ): self {
-		$this->version = $version;
-
-		return $this;
-	}
-
 	public function resolve_asset_url( string $relative_asset_path ): string {
 		$asset_extension     = pathinfo( $relative_asset_path, PATHINFO_EXTENSION );
 		$asset_url_extension = $this->url_extensions_map[ $asset_extension ] ?? $asset_extension;
@@ -42,16 +34,6 @@ final class Assets_Resolver {
 		$extension_with_dot_length = strlen( $asset_extension ) + 1;
 		$asset_name                = substr( $relative_asset_path, 0, -$extension_with_dot_length );
 
-		$asset_url = sprintf( '%s/%s.%s', $this->base_url, $asset_name, $asset_url_extension );
-
-		return $this->add_version_to_url( $asset_url );
-	}
-
-	protected function add_version_to_url( string $url ): string {
-		if ( is_string( $this->version ) ) {
-			$url = add_query_arg( array( 'ver' => $this->version ), $url );
-		}
-
-		return $url;
+		return sprintf( '%s/%s.%s', $this->base_url, $asset_name, $asset_url_extension );
 	}
 }

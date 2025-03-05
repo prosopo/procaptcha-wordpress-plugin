@@ -6,7 +6,9 @@ import {visualizer} from "rollup-plugin-visualizer";
 
 const settingsConfig: UserConfig = {
     plugins: [
-        react(),
+        react({
+            include: "**/*.tsx",
+        }),
         visualizer(),
     ],
     build: {

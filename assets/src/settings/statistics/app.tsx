@@ -47,14 +47,12 @@ class App extends React.Component<object, AppState> {
     }
 
     protected async getApi(): Promise<Api> {
-        // fixme lazy loading creates version-related issue.
-        return new Api(this.config, this.logger);
-        /* if (null === this.api) {
-             const ApiClass = (await import("./api")).Api;
-             this.api = new ApiClass(this.config, this.logger);
-         }
+        if (null === this.api) {
+            const ApiClass = (await import("./api")).Api;
+            this.api = new ApiClass(this.config, this.logger);
+        }
 
-         return this.api;*/
+        return this.api;
     }
 
     protected getInitialState(): AppState {

@@ -28,7 +28,7 @@ interface Settings_Tab {
 
 	public function get_tab_script_asset(): string;
 
-	public function get_tab_style_asset(): string;
+	public function get_style_asset(): string;
 
 	/**
 	 * @return array<string,mixed>

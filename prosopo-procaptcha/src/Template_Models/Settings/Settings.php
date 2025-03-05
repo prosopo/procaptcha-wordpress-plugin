@@ -10,7 +10,12 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 
 class Settings extends BaseTemplateModel {
-	public string $css;
+	/**
+	 * List of CSS assets to be added inside the shadow DOM.
+	 *
+	 * @var array<int,string>
+	 */
+	public array $style_asset_urls;
 	public bool $is_just_saved;
 	/**
 	 * @var array<int,mixed>

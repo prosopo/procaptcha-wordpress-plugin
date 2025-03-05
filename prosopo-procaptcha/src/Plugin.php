@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Io\Prosopo\Procaptcha\Plugin;
+namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
 use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
-use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets_Loader;
+use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
@@ -67,16 +65,16 @@ final class Plugin implements Hookable {
 		$view_template_renderer = new ViewTemplateRenderer();
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
-			->setTemplatesRootPath( __DIR__ . '/../views' )
+			->setTemplatesRootPath( __DIR__ . '/views' )
 			->setTemplateFileExtension( '.blade.php' );
 
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
 
-		$assets_resolved     = $is_dev_mode ?
+		$assets_resolver     = $is_dev_mode ?
 			$this->create_dev_assets_resolver() :
 		$this->create_assets_resolver();
-		$this->assets_loader = new Assets_Loader( $assets_resolved );
+		$this->assets_loader = new Assets_Loader( $assets_resolver );
 
 		$this->settings_storage      = new Procaptcha_Settings_Storage();
 		$this->widget_assets_manager = new Widget_Assets_Loader(
@@ -101,7 +99,8 @@ final class Plugin implements Hookable {
 			$this->query_arguments,
 			$views_manager,
 			$views_manager,
-			$this->assets_loader
+			$this->assets_loader,
+			$assets_resolver
 		);
 
 		$this->plugin_integrations = new Plugin_Integrations(

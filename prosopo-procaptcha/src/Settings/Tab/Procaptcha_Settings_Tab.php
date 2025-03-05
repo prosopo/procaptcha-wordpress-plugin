@@ -136,7 +136,7 @@ abstract class Procaptcha_Settings_Tab implements Settings_Tab {
 		return '';
 	}
 
-	public function get_tab_style_asset(): string {
+	public function get_style_asset(): string {
 		return '';
 	}
 

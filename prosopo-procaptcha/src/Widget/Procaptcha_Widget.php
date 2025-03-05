@@ -11,7 +11,6 @@ use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tabs\General_Procaptcha_Settings;
 use Io\Prosopo\Procaptcha\Template_Models\Widget_Model;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
-use Io\Prosopo\Procaptcha\Widget\Assets\Widget_Assets_Loader;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\html_attrs_collection;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;

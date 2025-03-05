@@ -30,10 +30,16 @@ final class Assets_Resolver {
 		$extension_with_dot_length = strlen( $asset_extension ) + 1;
 		$asset_name                = substr( $relative_asset_path, 0, -$extension_with_dot_length );
 
-		return sprintf( '%s/%s.%s', $this->base_url, $asset_name, $asset_url_extension );
+		$asset_url = sprintf( '%s/%s.%s', $this->base_url, $asset_name, $asset_url_extension );
+
+		return $this->add_version_to_url( $asset_url );
 	}
 
-	public function resolve_asset_version(): ?string {
-		return $this->version;
+	protected function add_version_to_url( string $url ): string {
+		if ( $this->version ) {
+			$url = add_query_arg( array( 'ver' => $this->version ), $url );
+		}
+
+		return $url;
 	}
 }

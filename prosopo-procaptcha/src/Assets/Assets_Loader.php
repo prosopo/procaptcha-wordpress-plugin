@@ -24,6 +24,10 @@ final class Assets_Loader implements Hookable {
 		add_filter( 'script_loader_tag', array( $this, 'add_module_attribute_for_loaded_script' ), 10, 2 );
 	}
 
+	/**
+	 * @param array<int, string> $dependencies
+	 * @param array<string, mixed> $data
+	 */
 	public function load_script(
 		string $handle,
 		string $url,
@@ -51,7 +55,8 @@ final class Assets_Loader implements Hookable {
 			$handle,
 			$url,
 			$dependencies,
-			$this->assets_resolver->resolve_asset_version(),
+			// when set, the version is a part of the url.
+			null,
 			$script_settings
 		);
 
@@ -60,6 +65,10 @@ final class Assets_Loader implements Hookable {
 		}
 	}
 
+	/**
+	 * @param array<int, string> $dependency_scripts
+	 * @param array<string, mixed> $data
+	 */
 	public function load_plugin_script(
 		string $relative_path,
 		array $dependency_scripts = array(),

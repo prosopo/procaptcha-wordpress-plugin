@@ -3,9 +3,9 @@
 
 <prosopo-procaptha-wp-settings style="display:block;margin-left:-18px;">
     <template shadowrootmode="open">
-        <style>
-            {!! $css !!}
-        </style>
+        @foreach($style_asset_urls as $style_asset_url)
+            <link rel="stylesheet" href="{{ $style_asset_url }}">
+        @endforeach
 
         <div class="mt-6 text-sm font-sans px-5">
             <div class="flex items-start gap-4">

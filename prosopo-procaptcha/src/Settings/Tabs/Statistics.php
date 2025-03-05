@@ -36,7 +36,7 @@ class Statistics extends Procaptcha_Settings_Tab {
 		return 'statistics/statistics.min.js';
 	}
 
-	public function get_tab_style_asset(): string {
+	public function get_style_asset(): string {
 		return 'statistics/statistics-styles.min.css';
 	}
 

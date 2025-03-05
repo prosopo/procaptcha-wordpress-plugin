@@ -15,8 +15,6 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin\Plugin;
-
 require_once __DIR__ . '/autoloader.php';
 
 ( new Plugin( __FILE__, defined( 'PROSOPO_PROCAPTCHA_DEV_MODE' ) ) )

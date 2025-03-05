@@ -78,9 +78,8 @@ JS:
 
 Assets compilation:
 
-* `cd assets && yarn build:all` - Build all TypeScript and Sass files.
-* `cd assets && yarn watch:settings` - Build & watch for the settings-page assets.
-* `cd assets && yarn watch:statistics` - Build & watch for the statistics-page assets.
+* `cd assets && yarn build:[all/settings/statistics/widget/integrations]` - Vite building.
+* `cd assets && yarn dev:[settings/statistics/widget/integrations]` - Vite development
 
 ### 5.3) For maintainers
 

@@ -12,8 +12,8 @@ const statisticsConfig: UserConfig = {
     build: {
         rollupOptions: {
             input: {
-                'statistics': path.resolve(__dirname, '../../src/statistics.tsx'),
-                'statistics-styles': path.resolve(__dirname, '../../src/statistics.scss'),
+                'statistics': path.resolve(__dirname, '../../src/statistics/statistics.tsx'),
+                'statistics-styles': path.resolve(__dirname, '../../src/statistics/statistics.scss'),
             }
         },
     },

@@ -6,9 +6,8 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
-use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
-use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
+use Io\Prosopo\Procaptcha\Assets\Plugin_Assets;
+use Io\Prosopo\Procaptcha\Assets\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
@@ -54,7 +53,7 @@ final class Plugin implements Hookable {
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Settings_Page $settings_page;
 	private Plugin_Integrations $plugin_integrations;
-	private Assets_Loader $assets_loader;
+	private Plugin_Assets $plugin_assets;
 
 	/**
 	 * @param string $plugin_file Optional, empty if called from the uninstall.php
@@ -71,16 +70,13 @@ final class Plugin implements Hookable {
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
 
-		$assets_resolver     = $is_dev_mode ?
-			$this->create_dev_assets_resolver() :
-		$this->create_assets_resolver();
-		$this->assets_loader = new Assets_Loader( $assets_resolver );
+		$this->plugin_assets = new Plugin_Assets( $this->plugin_file, $this->version, $is_dev_mode );
 
 		$this->settings_storage      = new Procaptcha_Settings_Storage();
 		$this->widget_assets_manager = new Widget_Assets_Loader(
 			self::SERVICE_SCRIPT_URL,
 			'prosopo-procaptcha',
-			$this->assets_loader,
+			$this->plugin_assets->get_loader(),
 			$this->settings_storage->get( General_Procaptcha_Settings::class )
 		);
 
@@ -99,8 +95,8 @@ final class Plugin implements Hookable {
 			$this->query_arguments,
 			$views_manager,
 			$views_manager,
-			$this->assets_loader,
-			$assets_resolver
+			$this->plugin_assets->get_resolver(),
+			$this->plugin_assets->get_loader()
 		);
 
 		$this->plugin_integrations = new Plugin_Integrations(
@@ -123,7 +119,7 @@ final class Plugin implements Hookable {
 
 		$this->settings_page->add_setting_tabs( $this->get_independent_setting_tabs() );
 
-		$this->assets_loader->set_hooks( $is_admin_area );
+		$this->plugin_assets->set_hooks( $is_admin_area );
 	}
 
 	public function clear_data(): void {
@@ -198,27 +194,5 @@ final class Plugin implements Hookable {
 			Account_Forms_Procaptcha_Settings::class,
 			Statistics::class,
 		);
-	}
-
-	protected function create_dev_assets_resolver(): Assets_Resolver {
-		$base_assets_url    = 'http://localhost:5173/src';
-		$url_extensions_map = array();
-		$assets_version     = null;
-
-		return new Assets_Resolver( $base_assets_url, $url_extensions_map, $assets_version );
-	}
-
-	protected function create_assets_resolver(): Assets_Resolver {
-		$base_assets_url = plugin_dir_url( $this->plugin_file ) . 'dist/';
-
-		$url_extensions_map = array(
-			'scss' => 'min.css',
-			'ts'   => 'min.js',
-			'tsx'  => 'min.js',
-		);
-
-		$assets_version = $this->version;
-
-		return new Assets_Resolver( $base_assets_url, $url_extensions_map, $assets_version );
 	}
 }

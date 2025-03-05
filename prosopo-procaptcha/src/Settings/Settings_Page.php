@@ -32,8 +32,8 @@ final class Settings_Page implements Hookable {
 	private Query_Arguments $query_arguments;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
-	private Assets_Loader $assets_loader;
 	private Assets_Resolver $assets_resolver;
+	private Assets_Loader $assets_loader;
 	/**
 	 * @var array<string,Settings_Tab>
 	 */
@@ -46,8 +46,8 @@ final class Settings_Page implements Hookable {
 		Query_Arguments $query_arguments,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
-		Assets_Loader $assets_loader,
-		Assets_Resolver $assets_resolver
+		Assets_Resolver $assets_resolver,
+		Assets_Loader $assets_loader
 	) {
 		$this->plugin            = $plugin;
 		$this->settings_storage  = $settings_storage;
@@ -55,8 +55,8 @@ final class Settings_Page implements Hookable {
 		$this->query_arguments   = $query_arguments;
 		$this->component_creator = $component_creator;
 		$this->renderer          = $component_renderer;
-		$this->assets_loader     = $assets_loader;
 		$this->assets_resolver   = $assets_resolver;
+		$this->assets_loader     = $assets_loader;
 		$this->setting_tabs      = array();
 	}
 
@@ -118,11 +118,14 @@ final class Settings_Page implements Hookable {
 				// Manually, instead of WP assets, because the settings page is a WebComponenet with Shadow DOM,
 				// and we need to inject styles directly.
 
-				$settings->style_asset_urls[] =
-					$this->assets_resolver->resolve_asset_url( 'settings/settings.scss' );
+				$settings_style_asset = 'settings/settings.scss';
+
+				$settings->style_asset_urls[] = $this->assets_resolver->resolve_asset_url( $settings_style_asset );
+				$this->assets_loader->mark_asset_as_loaded( $settings_style_asset );
 
 				if ( $is_tab_style_asset_set ) {
 					$settings->style_asset_urls[] = $this->assets_resolver->resolve_asset_url( $tab_style_asset );
+					$this->assets_loader->mark_asset_as_loaded( $tab_style_asset );
 				}
 
 				$settings->is_just_saved = $is_just_saved;
@@ -183,7 +186,7 @@ final class Settings_Page implements Hookable {
 		$is_tab_script_set = '' !== $tab_script_asset;
 
 		if ( $is_tab_script_set ) {
-			$this->assets_loader->load_plugin_script(
+			$this->assets_loader->load_script_asset(
 				$tab_script_asset,
 				array(),
 				'prosopoProcaptchaWpSettings',

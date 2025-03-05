@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Widget;
+namespace Io\Prosopo\Procaptcha\Assets;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -95,7 +95,7 @@ final class Widget_Assets_Loader implements Hookable {
 
 		$widget_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $widget_attributes );
 
-		$this->assets_loader->load_plugin_script(
+		$this->assets_loader->load_script_asset(
 			'widget/widget.ts',
 			array(),
 			'procaptchaWpAttributes',
@@ -107,7 +107,7 @@ final class Widget_Assets_Loader implements Hookable {
 		foreach ( $this->integration_scripts as $integration_script ) {
 			$relative_script_path = sprintf( 'integrations/%s.ts', $integration_script );
 
-			$this->assets_loader->load_plugin_script( $relative_script_path );
+			$this->assets_loader->load_script_asset( $relative_script_path );
 		}
 	}
 }

@@ -14,13 +14,25 @@ final class Assets_Resolver {
 	private array $url_extensions_map;
 	private ?string $version;
 
-	/**
-	 * @param array<string,string> $url_extensions_map
-	 */
-	public function __construct( string $base_url, array $url_extensions_map, ?string $version ) {
+	public function __construct( string $base_url ) {
 		$this->base_url           = $base_url;
+		$this->url_extensions_map = array();
+		$this->version            = null;
+	}
+
+	/**
+	 * @param array<string, string> $url_extensions_map
+	 */
+	public function set_url_extensions_map( array $url_extensions_map ): self {
 		$this->url_extensions_map = $url_extensions_map;
-		$this->version            = $version;
+
+		return $this;
+	}
+
+	public function set_version( ?string $version ): self {
+		$this->version = $version;
+
+		return $this;
 	}
 
 	public function resolve_asset_url( string $relative_asset_path ): string {
@@ -36,7 +48,7 @@ final class Assets_Resolver {
 	}
 
 	protected function add_version_to_url( string $url ): string {
-		if ( $this->version ) {
+		if ( is_string( $this->version ) ) {
 			$url = add_query_arg( array( 'ver' => $this->version ), $url );
 		}
 

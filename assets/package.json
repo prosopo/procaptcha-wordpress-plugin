@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "watch:settings": "vite --config build-configs/settings/vite.config.ts",
-    "watch:statistics": "vite --config build-configs/statistics/vite.config.ts",
-    "watch:widget": "vite --config build-configs/widget/vite.config.ts",
-    "watch:integrations": "vite --config build-configs/integrations/vite.config.ts",
+    "dev:settings": "vite --config build-configs/settings/vite.config.ts",
+    "dev:statistics": "vite --config build-configs/statistics/vite.config.ts",
+    "dev:widget": "vite --config build-configs/widget/vite.config.ts",
+    "dev:integrations": "vite --config build-configs/integrations/vite.config.ts",
     "build:settings": "vite build --config build-configs/settings/vite.config.ts",
     "build:statistics": "vite build --config build-configs/statistics/vite.config.ts",
     "build:widget": "vite build --config build-configs/widget/vite.config.ts",

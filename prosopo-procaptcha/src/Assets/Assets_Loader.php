@@ -9,15 +9,20 @@ use Io\Prosopo\Procaptcha\Hookable;
 defined( 'ABSPATH' ) || exit;
 
 final class Assets_Loader implements Hookable {
+	private Assets_Resolver $assets_resolver;
+	/**
+	 * @var array<int,string>
+	 */
+	private array $loaded_assets;
 	/**
 	 * @var array<int,string>
 	 */
 	private array $loaded_script_handles;
-	private Assets_Resolver $assets_resolver;
 
 	public function __construct( Assets_Resolver $assets_resolver ) {
-		$this->loaded_script_handles = array();
 		$this->assets_resolver       = $assets_resolver;
+		$this->loaded_assets         = array();
+		$this->loaded_script_handles = array();
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
@@ -35,10 +40,10 @@ final class Assets_Loader implements Hookable {
 		string $data_object_name = '',
 		array $data = array()
 	): void {
+		$this->loaded_script_handles[] = $handle;
+
 		$has_data         = array() !== $data;
 		$has_dependencies = array() !== $dependencies;
-
-		$this->loaded_script_handles[] = $handle;
 
 		$script_settings = array(
 			'in_footer' => true,
@@ -56,6 +61,7 @@ final class Assets_Loader implements Hookable {
 			$url,
 			$dependencies,
 			// when set, the version is a part of the url.
+            // @phpcs:ignore
 			null,
 			$script_settings
 		);
@@ -65,30 +71,38 @@ final class Assets_Loader implements Hookable {
 		}
 	}
 
+	public function mark_asset_as_loaded( string $relative_asset_path ): void {
+		$this->loaded_assets[] = $relative_asset_path;
+	}
+
 	/**
 	 * @param array<int, string> $dependency_scripts
 	 * @param array<string, mixed> $data
 	 */
-	public function load_plugin_script(
-		string $relative_path,
+	public function load_script_asset(
+		string $relative_script_path,
 		array $dependency_scripts = array(),
 		string $data_object_name = '',
 		array $data = array()
-	): void {
-		$url    = $this->assets_resolver->resolve_asset_url( $relative_path );
-		$handle = $this->get_plugin_script_handle( $relative_path );
+	): string {
+		$script_url = $this->assets_resolver->resolve_asset_url( $relative_script_path );
+		$handle     = $this->get_asset_handle( $relative_script_path );
 
 		$dependency_handles = array_map(
 			function ( string $dependency_script ) {
-				return $this->get_plugin_script_handle( $dependency_script );},
+				return $this->get_asset_handle( $dependency_script );},
 			$dependency_scripts
 		);
 
-		$this->load_script( $handle, $url, $dependency_handles, $data_object_name, $data );
+		$this->mark_asset_as_loaded( $relative_script_path );
+
+		$this->load_script( $handle, $script_url, $dependency_handles, $data_object_name, $data );
+
+		return $script_url;
 	}
 
 	public function add_module_attribute_for_loaded_script( string $script_tag, string $script_handle ): string {
-		if ( $this->is_loaded_plugin_script( $script_handle ) ) {
+		if ( $this->is_script_handle_loaded( $script_handle ) ) {
 			// for old WP versions.
 			$script_tag = str_replace( ' type="text/javascript"', '', $script_tag );
 
@@ -98,11 +112,18 @@ final class Assets_Loader implements Hookable {
 		return $script_tag;
 	}
 
-	protected function is_loaded_plugin_script( string $script_handle ): bool {
+	/**
+	 * @return array<int,string>
+	 */
+	public function get_loaded_assets(): array {
+		return $this->loaded_assets;
+	}
+
+	protected function is_script_handle_loaded( string $script_handle ): bool {
 		return in_array( $script_handle, $this->loaded_script_handles, true );
 	}
 
-	protected function get_plugin_script_handle( string $relative_path ): string {
-		return 'prosopo-procaptcha-' . $relative_path;
+	protected function get_asset_handle( string $relative_asset_path ): string {
+		return 'prosopo-procaptcha-' . $relative_asset_path;
 	}
 }

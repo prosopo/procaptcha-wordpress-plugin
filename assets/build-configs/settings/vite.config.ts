@@ -6,7 +6,7 @@ const settingsConfig: UserConfig = {
     build: {
         rollupOptions: {
             input: {
-                settings: path.resolve(__dirname, '../../src/settings.scss'),
+                settings: path.resolve(__dirname, '../../src/settings/settings.scss'),
             },
         },
     },

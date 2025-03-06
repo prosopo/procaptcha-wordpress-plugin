@@ -21,14 +21,14 @@ class StatStateElement extends React.Component<StatState> {
 			case StatCurrentState.LOADING:
 				return (
 					<div className="flex items-center gap-1.5 text-yellow-500">
-						<span className="iconify eos-icons--arrow-rotate w-5 h-5"></span>
+						<span className="icon-[eos-icons--arrow-rotate] w-5 h-5"></span>
 						<p>{labels.loading}</p>
 					</div>
 				);
 			case StatCurrentState.FAILED:
 				return (
 					<div className="flex items-center gap-1.5 text-red-500">
-						<span className="iconify eos-icons--critical-bug w-5 h-5"></span>
+						<span className="icon-[eos-icons--critical-bug] w-5 h-5"></span>
 						<p>{labels.failedToLoad}</p>
 					</div>
 				);
@@ -45,7 +45,7 @@ class StatStateElement extends React.Component<StatState> {
 
 				return (
 					<div className="flex gap-1.5 items-center text-green-500">
-						<span className="iconify material-symbols--check-circle-outline w-5 h-5"></span>
+						<span className="icon-[material-symbols--check-circle-outline] w-5 h-5"></span>
 						<p className="">{labels.lastRefreshedAt}</p>
 						<p className="font-medium">
 							{hours}:{minutes}

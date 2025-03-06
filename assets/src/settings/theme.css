@@ -1,7 +1,8 @@
 @theme {
-    --color-blue: #2271b1;
-    --color-blue-dark: #135e96;
-    --color-gray: #8c8f94;
+	--color-blue: #2271b1;
+	--color-blue-dark: #135e96;
+	--color-gray: #8c8f94;
 
-    --font-sans: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	--font-sans: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
+		Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }

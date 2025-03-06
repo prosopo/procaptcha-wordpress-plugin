@@ -41,7 +41,7 @@ class UsageInfoElement extends React.Component<UsageInfo> {
 		const labels = this.props.labels;
 
 		return (
-			<BoxElement title={labels.title} icon="eos-icons--quota">
+			<BoxElement title={labels.title} icon="icon-[eos-icons--quota]">
 				<div className="flex flex-col gap-10">
 					{/*Progress bar*/}
 					<div className="flex flex-col gap-2">

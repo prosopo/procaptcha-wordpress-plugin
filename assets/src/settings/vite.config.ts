@@ -1,6 +1,6 @@
 import type { UserConfig } from "vite";
 import path from "path";
-import { makeViteConfig } from "../../vite.base";
+import { makeViteConfig } from "../../vite.base.js";
 import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import tailwindcss from "@tailwindcss/vite";

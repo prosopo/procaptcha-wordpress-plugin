@@ -18,7 +18,7 @@ class BoxElement extends React.Component<Box> {
 				className={`flex flex-col gap-7 rounded py-5 px-7 bg-white text-base ${classes}`}
 			>
 				<div className="flex items-center gap-1.5">
-					<span className={`iconify w-6 h-6 ${icon}`}></span>
+					<span className={`w-6 h-6 ${icon}`}></span>
 					<h2 className="font-medium">{title}</h2>
 				</div>
 

@@ -78,7 +78,7 @@ class App extends React.Component<object, AppState> {
 			},
 			accountInfo: {
 				title: this.config.getAccountLabels().title,
-				icon: "material-symbols--account-circle",
+				icon: "icon-[material-symbols--account-circle]",
 				items: [
 					{
 						label: this.config.getAccountLabels().tier,
@@ -96,7 +96,7 @@ class App extends React.Component<object, AppState> {
 			},
 			captchaSettings: {
 				title: this.config.getCaptchaSettingsLabels().title,
-				icon: "material-symbols--settings",
+				icon: "icon-[material-symbols--settings]",
 				items: [
 					{
 						label: this.config.getCaptchaSettingsLabels().type,
@@ -116,7 +116,7 @@ class App extends React.Component<object, AppState> {
 			},
 			domains: {
 				title: this.config.getDomainLabels().title,
-				icon: "material-symbols--domain",
+				icon: "icon-[material-symbols--domain]",
 				items: [],
 			},
 			trafficData: {

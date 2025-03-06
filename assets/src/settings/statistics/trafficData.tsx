@@ -27,7 +27,7 @@ class TrafficDataElement extends React.Component<TrafficData> {
 		return (
 			<BoxElement
 				title={labels.title}
-				icon="material-symbols--analytics"
+				icon="icon-[material-symbols--analytics]"
 				classes={classes}
 			>
 				{content}

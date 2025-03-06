@@ -64,25 +64,25 @@ item with any value to the localStorage. It'll enable the debug mode.
 
 Common:
 
-1. `bash tools/check-code-quality.sh` - runs all the checks, for both PHP and JS
+1. `bash tools/check-code-quality.sh` - runs all the code-quality checks, for both PHP and JS
 
-JavaScript:
+JavaScript-related:
 
 `cd assets` and:
 
-1. `yarn build:[all/settings/widget]` - Vite building.
-2. `yarn dev:[settings/widget]` - Vite development
-3. `yarn lint:[check/fix]` - ESLint static analyses
-4. `yarn prettier:[check/fix]` - Prettier formatter
+1. `yarn build:[all/settings/widget]` - runs Vite building
+2. `yarn dev:[settings/widget]` - starts Vite dev server
+3. `yarn lint:[check/fix]` - runs ESLint static code analyses
+4. `yarn prettier:[check/fix]` - runs Prettier formatter
 
-PHP:
+PHP-related:
 
 `cd tools` and:
 
-1. `bash check-code-quality.sh codesniffer` - Check WordPress Coding Standards
-2. `bash check-code-quality.sh codebeautifer` - Fix WordPress Coding Standards
-3. `bash check-code-quality.sh phpstan` - Check PHPStan
-4. `bash check-code-quality.sh pest` - Run Pest tests
+1. `bash check-code-quality.sh codesniffer` - checks for WordPress Coding Standards violations
+2. `bash check-code-quality.sh codebeautifer` - fixes WordPress Coding Standards violations
+3. `bash check-code-quality.sh phpstan` - runs PHPStan static code analyses
+4. `bash check-code-quality.sh pest` - runs Pest tests
 
 ### 5.3) For maintainers
 

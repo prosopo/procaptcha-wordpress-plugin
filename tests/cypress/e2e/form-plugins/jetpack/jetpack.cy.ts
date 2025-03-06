@@ -1,6 +1,7 @@
 import { IntegrationTest } from "@support/integration-test";
 import Jetpack from "./classes/jetpack";
 
+// two forms on the same page just doesn't work (even with vanilla setup)...
 const jetpackWithCaptcha = new Jetpack({
 	expectedSubmissionsCount: 3,
 });

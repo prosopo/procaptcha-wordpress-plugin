@@ -134,7 +134,7 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 
 == Changelog ==
 
-= 1.12.0 (2024-03-05) =
+= 1.12.0 (2024-03-06) =
 - Updated Statistics page to use the new API
 
 = 1.11.0 (2024-02-18) =

@@ -1,0 +1,6 @@
+@import "tailwindcss" source("./statistics");
+@import "./theme.css";
+
+@plugin "@iconify/tailwind4" {
+    prefixes: material-symbols, eos-icons;
+}

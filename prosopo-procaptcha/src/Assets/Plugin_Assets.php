@@ -84,6 +84,7 @@ final class Plugin_Assets implements Hookable {
 		$assets_resolver
 			->set_url_extensions_map(
 				array(
+					'css'  => 'min.css',
 					'scss' => 'min.css',
 					'ts'   => 'min.js',
 					'tsx'  => 'min.js',

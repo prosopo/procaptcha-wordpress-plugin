@@ -7,27 +7,27 @@
             <link rel="stylesheet" href="{{ $style_asset_url }}">
         @endforeach
 
-        <div class="mt-6 text-sm font-sans px-5">
+        <div class="mt-5 text-sm font-sans px-5">
             <div class="flex items-start gap-4">
                 <h1 class="text-[23px]">
                     {{ __( 'Prosopo Procaptcha', 'prosopo-procaptcha' ) }}
                 </h1>
-                <a class="text-[13px] -mt-1 text-blue underline transition
+                <a class="text-[13px] mt-1 text-blue underline transition
                 hover:text-black" href="https://prosopo.io/" target="_blank">
                     {{ __( 'Visit Website', 'prosopo-procaptcha' ) }}
                 </a>
-                <a class="text-[13px] -mt-1 text-blue underline transition
+                <a class="text-[13px] mt-1 text-blue underline transition
                 hover:text-black" href="https://docs.prosopo.io/en/wordpress-plugin/"
                    target="_blank">
                     {{ __( 'Open Docs', 'prosopo-procaptcha' ) }}
                 </a>
-                <a class="text-[13px] -mt-1 text-blue underline transition
+                <a class="text-[13px] mt-1 text-blue underline transition
                 hover:text-black" href="https://portal.prosopo.io/"
                    target="_blank">
                     {{ __( 'Visit Portal', 'prosopo-procaptcha' ) }}
                 </a>
             </div>
-            <div class="mt-6">
+            <div class="mt-4">
                 <span>
                     {{ __( 'GDPR compliant, privacy friendly and better value captcha.', 'prosopo-procaptcha' ) }}
                 </span>
@@ -35,7 +35,7 @@
 
             <ul class="flex leading-none my-5 -mx-5 bg-white">
                 @foreach ($tabs as $tab)
-                    <li class="m-0 border-r border-[#dde8f2] last:border-r-0">
+                    <li class="m-0 border-solid border-r border-[#dde8f2] last:border-r-0">
                         <a href="{{ string($tab, 'url') }}"
                                 @class([
                                     'block font-medium tracking-wide py-5 px-8 transition hover:text-black',

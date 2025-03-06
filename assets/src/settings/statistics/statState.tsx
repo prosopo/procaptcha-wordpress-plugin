@@ -53,7 +53,7 @@ class StatStateElement extends React.Component<StatState> {
 						<p>-</p>
 						<button
 							onClick={this.props.reload}
-							className="underline transition hover:text-green-700"
+							className="underline cursor-pointer transition hover:text-green-700"
 						>
 							{labels.refreshNow}
 						</button>

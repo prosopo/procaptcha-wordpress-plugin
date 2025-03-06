@@ -37,7 +37,7 @@ class Statistics extends Procaptcha_Settings_Tab {
 	}
 
 	public function get_style_asset(): string {
-		return 'settings/statistics-styles.scss';
+		return 'settings/statistics-styles.css';
 	}
 
 	public function get_tab_js_data( Settings_Storage $settings_storage ): array {

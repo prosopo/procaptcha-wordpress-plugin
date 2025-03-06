@@ -21,10 +21,10 @@ class InfoBoxElement extends React.Component<InfoBox> {
 				<div className="grid grid-cols-2">
 					{items.map((item, index) => (
 						<React.Fragment key={index}>
-							<p className="py-3 border-b border-gray/50">
+							<p className="py-3 border-solid border-b border-gray/50">
 								{item.label}
 							</p>
-							<p className="py-3 border-b border-gray/50 font-medium">
+							<p className="py-3 border-solid border-b border-gray/50 font-medium">
 								{item.value}
 							</p>
 						</React.Fragment>

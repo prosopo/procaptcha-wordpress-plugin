@@ -118,7 +118,7 @@ final class Settings_Page implements Hookable {
 				// Manually, instead of WP assets, because the settings page is a WebComponenet with Shadow DOM,
 				// and we need to inject styles directly.
 
-				$settings_style_asset = 'settings/settings.scss';
+				$settings_style_asset = 'settings/settings.css';
 
 				$settings->style_asset_urls[] = $this->assets_resolver->resolve_asset_url( $settings_style_asset );
 				$this->assets_loader->mark_asset_as_loaded( $settings_style_asset );

@@ -1,11 +1,18 @@
 import { FormTest } from "@support/form-test";
 
+interface JetpackSettings {
+	expectedSubmissionsCount: number;
+}
+
 class Jetpack extends FormTest {
+	// two forms on the same page just doesn't work (even with vanilla setup)...
+	constructor(private readonly settings: JetpackSettings) {
+		super();
+	}
+
 	protected defineSettings() {
 		super.defineSettings();
 
-		// fixme it doesn't work properly when 2 forms are on the same page
-		this.url = "/jetpack/";
 		this.isAuthSupportedByVendor = true;
 		this.selectors = {
 			formWithCaptcha: ".jetpack-form-with-captcha",
@@ -24,14 +31,26 @@ class Jetpack extends FormTest {
 		};
 	}
 
+	public setUrl(url: string) {
+		this.url = url;
+	}
+
+	public setFormWithCaptchaSelector(selector: string) {
+		this.selectors.formWithCaptcha = selector;
+	}
+
+	public setFormWithoutCaptchaSelector(selector: string) {
+		this.selectors.formWithoutCaptcha = selector;
+	}
+
 	protected afterScenario() {
 		super.afterScenario();
 
 		it("removeResponseRecords", () => {
 			cy.removePosts({
 				postType: "feedback",
-				countToRemove: 4,
-				onlyIfTotal: 4,
+				countToRemove: this.settings.expectedSubmissionsCount,
+				onlyIfTotal: this.settings.expectedSubmissionsCount,
 			});
 		});
 	}

@@ -62,25 +62,27 @@ item with any value to the localStorage. It'll enable the debug mode.
 
 ### 5.2) Full commands list
 
-PHP:
+Common:
 
-* `bash tools/check-code-quality.sh codesniffer` - Check WordPress Coding Standards
-* `bash tools/check-code-quality.sh codebeautifer` - Fix WordPress Coding Standards
-* `bash tools/check-code-quality.sh phpstan` - Check PHPStan
-* `bash tools/check-code-quality.sh pest` - Run Pest tests
+1. `bash tools/check-code-quality.sh` - runs all the code-quality checks, for both PHP and JS
 
-JS:
+JavaScript-related:
 
-* `bash tools/check-code-quality.sh eslint` - Check ESLint
-* `bash tools/check-code-quality.sh prettier` - Check Prettier
-* `cd assets && yarn lint:fix` - Fix ESLint-related issues
-* `cd assets && yarn prettier:fix` - Fix Prettier-related issues
+`cd assets` and:
 
-Assets compilation:
+1. `yarn build:[all/settings/widget]` - runs Vite building
+2. `yarn dev:[settings/widget]` - starts Vite dev server
+3. `yarn lint:[check/fix]` - runs ESLint static code analyses
+4. `yarn prettier:[check/fix]` - runs Prettier formatter
 
-* `cd assets && yarn build:all` - Build all TypeScript and Sass files.
-* `cd assets && yarn watch:settings` - Build & watch for the settings-page assets.
-* `cd assets && yarn watch:statistics` - Build & watch for the statistics-page assets.
+PHP-related:
+
+`cd tools` and:
+
+1. `bash check-code-quality.sh codesniffer` - checks for WordPress Coding Standards violations
+2. `bash check-code-quality.sh codebeautifer` - fixes WordPress Coding Standards violations
+3. `bash check-code-quality.sh phpstan` - runs PHPStan static code analyses
+4. `bash check-code-quality.sh pest` - runs Pest tests
 
 ### 5.3) For maintainers
 

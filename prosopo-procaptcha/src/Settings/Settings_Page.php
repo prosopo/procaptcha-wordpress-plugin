@@ -6,9 +6,10 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
+use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin\Assets\Plugin_Assets_Manager;
-use Io\Prosopo\Procaptcha\Plugin\Plugin;
+use Io\Prosopo\Procaptcha\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
@@ -18,7 +19,7 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererIn
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
-class Settings_Page implements Hookable {
+final class Settings_Page implements Hookable {
 
 	const FORM_NONCE  = 'prosopo-captcha__settings';
 	const TAB_NAME    = 'tab';
@@ -31,7 +32,8 @@ class Settings_Page implements Hookable {
 	private Query_Arguments $query_arguments;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
-	private Plugin_Assets_Manager $assets_manager;
+	private Assets_Resolver $assets_resolver;
+	private Assets_Loader $assets_loader;
 	/**
 	 * @var array<string,Settings_Tab>
 	 */
@@ -44,7 +46,8 @@ class Settings_Page implements Hookable {
 		Query_Arguments $query_arguments,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
-		Plugin_Assets_Manager $assets_manager
+		Assets_Resolver $assets_resolver,
+		Assets_Loader $assets_loader
 	) {
 		$this->plugin            = $plugin;
 		$this->settings_storage  = $settings_storage;
@@ -52,7 +55,8 @@ class Settings_Page implements Hookable {
 		$this->query_arguments   = $query_arguments;
 		$this->component_creator = $component_creator;
 		$this->renderer          = $component_renderer;
-		$this->assets_manager    = $assets_manager;
+		$this->assets_resolver   = $assets_resolver;
+		$this->assets_loader     = $assets_loader;
 		$this->setting_tabs      = array();
 	}
 
@@ -103,19 +107,26 @@ class Settings_Page implements Hookable {
 
 		$tab = $this->setting_tabs[ $current_tab ];
 
-		$this->enqueue_tab_assets( $tab );
+		$this->load_tab_script_asset( $tab );
 
 		return $this->component_creator->createModel(
 			Settings::class,
 			function ( Settings $settings ) use ( $is_just_saved, $tabs, $tab, $current_tab ) {
-				$css_file = $tab->get_tab_css_file();
+				$tab_style_asset        = $tab->get_style_asset();
+				$is_tab_style_asset_set = '' !== $tab_style_asset;
 
 				// Manually, instead of WP assets, because the settings page is a WebComponenet with Shadow DOM,
-				// and we need to inject assets directly.
-				$settings->css  = $this->assets_manager->get_asset_content( 'settings.min.css' );
-				$settings->css .= '' !== $css_file ?
-					$this->assets_manager->get_asset_content( $css_file ) :
-					'';
+				// and we need to inject styles directly.
+
+				$settings_style_asset = 'settings/settings.css';
+
+				$settings->style_asset_urls[] = $this->assets_resolver->resolve_asset_url( $settings_style_asset );
+				$this->assets_loader->mark_asset_as_loaded( $settings_style_asset );
+
+				if ( $is_tab_style_asset_set ) {
+					$settings->style_asset_urls[] = $this->assets_resolver->resolve_asset_url( $tab_style_asset );
+					$this->assets_loader->mark_asset_as_loaded( $tab_style_asset );
+				}
 
 				$settings->is_just_saved = $is_just_saved;
 				$settings->tabs          = $tabs;
@@ -170,13 +181,13 @@ class Settings_Page implements Hookable {
 		}
 	}
 
-	protected function enqueue_tab_assets( Settings_Tab $tab ): void {
-		$tab_js_asset = $tab->get_tab_js_asset();
-		$tab_has_js   = '' !== $tab_js_asset;
+	protected function load_tab_script_asset( Settings_Tab $tab ): void {
+		$tab_script_asset  = $tab->get_tab_script_asset();
+		$is_tab_script_set = '' !== $tab_script_asset;
 
-		if ( $tab_has_js ) {
-			$this->assets_manager->enqueue_module_js_asset(
-				$tab_js_asset,
+		if ( $is_tab_script_set ) {
+			$this->assets_loader->load_script_asset(
+				$tab_script_asset,
 				array(),
 				'prosopoProcaptchaWpSettings',
 				$tab->get_tab_js_data( $this->settings_storage )

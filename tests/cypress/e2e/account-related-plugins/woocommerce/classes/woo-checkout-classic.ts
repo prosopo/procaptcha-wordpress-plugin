@@ -53,6 +53,11 @@ class WooCheckoutClassic extends FormTest {
 		// https://github.com/woocommerce/woocommerce-gateway-stripe/issues/551
 		cy.visit("/cart/?add-to-cart=591");
 
+		cy.get(".wc-block-components-notice-banner__content").should(
+			"include.text",
+			"has been added to your cart",
+		);
+
 		super.visitTargetPage();
 	}
 

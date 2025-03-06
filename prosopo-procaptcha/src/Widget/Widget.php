@@ -14,7 +14,7 @@ interface Widget {
 	 */
 	public function print_form_field( array $settings = array() ): string;
 
-	public function add_integration_js( string $integration_name ): void;
+	public function load_integration_script( string $integration_name ): void;
 
 	public function add_integration_css( string $css_code ): void;
 

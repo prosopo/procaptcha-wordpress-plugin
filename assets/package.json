@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "dev:settings": "vite --config src/settings/vite.config.ts",
     "dev:widget": "vite --config src/widget/vite.config.ts",

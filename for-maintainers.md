@@ -18,10 +18,9 @@ covering maintaining-related aspects.
 * `tag on release` - deploys the plugin to the WordPress SVN repository, tag must follow the `1.0.0` format
 
 So after the release candidate is ready, open a pull request from `main` to `release`, and after the tests are passed,
-merge it to the `release`
-branch and add the version tag to deploy.
+merge it to the `release` branch and add the version tag to deploy.
 
-> Note: it's still your necessity to update the version in the `prosopo-procaptcha.php` and `readme.txt` files.
+> Note: it's still your responsibility to update the version in the `prosopo-procaptcha.php` and `readme.txt` files.
 
 ## 2. One command packages installation
 

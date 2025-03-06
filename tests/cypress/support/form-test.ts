@@ -430,24 +430,30 @@ abstract class FormTest {
 	}
 
 	protected runScenario(): void {
-		// initial tests without the feature enabled (for WP forms).
-		this.testGuestRoleFormWithoutCaptchaHasNoCaptcha();
-		this.testGuestRoleFormWithoutCaptchaCanBeSubmitted();
+		// some plugins, like JetPack, doesn't support 2 forms on the same page...
 
-		this.toggleFeatureSupport(true);
-
-		this.testFormWithCaptcha(Role.GUEST);
-
-		if (false === this.isAuthSupportedByVendor) {
-			return;
+		if (this.selectors.formWithoutCaptcha) {
+			// initial tests without the feature enabled (for WP forms).
+			this.testGuestRoleFormWithoutCaptchaHasNoCaptcha();
+			this.testGuestRoleFormWithoutCaptchaCanBeSubmitted();
 		}
 
-		this.testUserRoleFormWithSkippedCaptchaHasNoCaptcha();
-		this.testUserRoleFormWithSkippedCaptchaCanBeSubmitted();
+		if (this.selectors.formWithCaptcha) {
+			this.toggleFeatureSupport(true);
 
-		this.toggleSetting("general", "is_enabled_for_authorized", true);
-		this.testFormWithCaptcha(Role.USER);
-		this.toggleSetting("general", "is_enabled_for_authorized", false);
+			this.testFormWithCaptcha(Role.GUEST);
+
+			if (false === this.isAuthSupportedByVendor) {
+				return;
+			}
+
+			this.testUserRoleFormWithSkippedCaptchaHasNoCaptcha();
+			this.testUserRoleFormWithSkippedCaptchaCanBeSubmitted();
+
+			this.toggleSetting("general", "is_enabled_for_authorized", true);
+			this.testFormWithCaptcha(Role.USER);
+			this.toggleSetting("general", "is_enabled_for_authorized", false);
+		}
 	}
 
 	protected afterScenario(): void {

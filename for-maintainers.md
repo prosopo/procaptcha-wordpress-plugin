@@ -21,8 +21,7 @@ So after the release candidate is ready, open a pull request from `main` to `rel
 merge it to the `release`
 branch and add the version tag to deploy.
 
-> Note: it's still your necessity to update the version in the `prosopo-procaptcha.php`, `readme.txt` and
-`src/Plugin.php` files.
+> Note: it's still your necessity to update the version in the `prosopo-procaptcha.php` and `readme.txt` files.
 
 ## 2. One command packages installation
 
@@ -71,7 +70,8 @@ into GitHub Actions but can also be run locally.
 
 * WordPress should be setup on `http://procaptcha.local`
 * The expected WordPress installation location is `$HOME/Local Sites/procaptcha/app/public`.
-* The ready DB for tests should be imported from the [private repository](https://github.com/prosopo/procaptcha-wordpress-plugin-private/).
+* The ready DB for tests should be imported from
+  the [private repository](https://github.com/prosopo/procaptcha-wordpress-plugin-private/).
 
 Launching:
 

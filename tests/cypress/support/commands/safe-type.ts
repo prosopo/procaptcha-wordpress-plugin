@@ -36,7 +36,7 @@ class SafeType {
 			.should("be.visible")
 			.focus()
 			.clear()
-			.type(this.value, { delay: 0 })
+			.type(this.value, { delay: 10 })
 			.then(($element) => {
 				if ($element.val() === this.value) {
 					return;

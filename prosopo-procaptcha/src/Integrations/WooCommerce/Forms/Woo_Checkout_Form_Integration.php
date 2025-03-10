@@ -83,7 +83,7 @@ class Woo_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 
 			$widget = self::get_form_helper()->get_widget();
 
-			$widget->load_integration_script( 'woo-blocks-checkout' );
+			$widget->load_integration_script( 'woocommerce' );
 			$widget->add_integration_css( '.wc-block-components-address-form__prosopo-procaptcha-prosopo_procaptcha { display: none; }' );
 		}
 

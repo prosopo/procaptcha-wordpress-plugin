@@ -1,10 +1,10 @@
 import Logger from "../../logger/logger.js";
 import { WebComponentSettings } from "./webComponentSettings.js";
 
-class WebComponentFactory {
+class WebComponentRegistrar {
 	public constructor(private readonly logger: Logger) {}
 
-	public createWebComponent(
+	public registerWebComponent(
 		webComponentSettings: WebComponentSettings,
 	): void {
 		const WebComponentClass = this.createWebComponentClass(
@@ -135,4 +135,4 @@ class WebComponentFactory {
 	}
 }
 
-export { WebComponentFactory };
+export { WebComponentRegistrar };

@@ -1,10 +1,7 @@
-import Logger from "../../logger/logger.js";
-import { WebComponent } from "../webComponent/webComponent.js";
-import { WebComponentFactory } from "../webComponent/webComponentFactory.js";
-import LoggerFactory from "../../logger/loggerFactory.js";
-import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
+import { WebComponent } from "../../webComponent/webComponent.js";
+import Logger from "../../../logger/logger.js";
 
-class NinjaFormsIntegration implements WebComponent {
+class NinjaFormsComponent implements WebComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
@@ -132,23 +129,4 @@ class NinjaFormsIntegration implements WebComponent {
 	}
 }
 
-const loggerFactory = new LoggerFactory();
-const moduleLogger = new PluginModuleLogger();
-
-const ninjaForms = new NinjaFormsIntegration(
-	loggerFactory.makeLogger("ninja-forms", moduleLogger),
-);
-
-const componentLogger = loggerFactory.makeLogger(
-	"web-component-registar",
-	moduleLogger,
-);
-
-const componentRegistrar = new WebComponentFactory(componentLogger);
-
-componentRegistrar.createWebComponent({
-	name: "prosopo-procaptcha-ninja-forms-integration",
-	componentClass: ninjaForms,
-	processIfReconnected: false,
-	waitWindowLoadedInsteadOfDomLoaded: true,
-});
+export { NinjaFormsComponent };

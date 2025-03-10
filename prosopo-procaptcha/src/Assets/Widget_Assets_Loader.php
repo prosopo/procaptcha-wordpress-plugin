@@ -73,7 +73,7 @@ final class Widget_Assets_Loader implements Hookable {
 
 		$this->load_service_script();
 		$this->load_widget_script();
-		$this->load_integration_scripts();
+		$this->load_plugin_integration_scripts();
 
 		if ( '' !== $this->integrations_css_code ) {
 			printf( '<style>%s</style>', esc_html( $this->integrations_css_code ) );
@@ -96,16 +96,16 @@ final class Widget_Assets_Loader implements Hookable {
 		$widget_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $widget_attributes );
 
 		$this->assets_loader->load_script_asset(
-			'widget/widget.ts',
+			'procaptcha-integration/procaptcha-integration.ts',
 			array(),
 			'procaptchaWpAttributes',
 			$widget_attributes
 		);
 	}
 
-	protected function load_integration_scripts(): void {
+	protected function load_plugin_integration_scripts(): void {
 		foreach ( $this->integration_scripts as $integration_script ) {
-			$relative_script_path = sprintf( 'widget/integrations/%s.ts', $integration_script );
+			$relative_script_path = sprintf( 'procaptcha-integration/plugins/%s/%s-integration.ts', $integration_script );
 
 			$this->assets_loader->load_script_asset( $relative_script_path );
 		}

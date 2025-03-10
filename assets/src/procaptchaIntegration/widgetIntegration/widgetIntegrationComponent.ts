@@ -1,7 +1,7 @@
 import Logger from "../../logger/logger.js";
 import { WebComponent } from "../webComponent/webComponent.js";
 
-class WidgetComponent implements WebComponent {
+class WidgetIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
@@ -163,4 +163,4 @@ class WidgetComponent implements WebComponent {
 	}
 }
 
-export default WidgetComponent;
+export default WidgetIntegrationComponent;

@@ -72,25 +72,23 @@ final class Plugin_Assets implements Hookable {
 	protected function create_dev_assets_resolver(): Assets_Resolver {
 		$base_assets_url = sprintf( '%s/src', $this->dev_host );
 
-		return new Assets_Resolver( $base_assets_url );
+		$assets_resolver = new Assets_Resolver( $base_assets_url );
+
+		$assets_resolver
+			->set_url_extensions_map(
+				array(
+					'.min.css' => '.css',
+					'.min.js'  => '.ts',
+				)
+			);
+
+		return $assets_resolver;
 	}
 
 	protected function create_assets_resolver(): Assets_Resolver {
 		$base_assets_url = plugin_dir_url( $this->plugin_file ) .
 			sprintf( 'dist/%s', $this->plugin_version );
 
-		$assets_resolver = new Assets_Resolver( $base_assets_url );
-
-		$assets_resolver
-			->set_url_extensions_map(
-				array(
-					'css'  => 'min.css',
-					'scss' => 'min.css',
-					'ts'   => 'min.js',
-					'tsx'  => 'min.js',
-				)
-			);
-
-		return $assets_resolver;
+		return new Assets_Resolver( $base_assets_url );
 	}
 }

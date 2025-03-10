@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StateLabels } from "./config.js";
+import { StateLabels } from "../config.js";
 
 enum StatCurrentState {
 	LOADING = "loading",
@@ -7,13 +7,13 @@ enum StatCurrentState {
 	FAILED = "failed",
 }
 
-interface StatState {
+interface AppStatus {
 	state: StatCurrentState;
 	reload: () => void;
 	labels: StateLabels;
 }
 
-class StatStateElement extends React.Component<StatState> {
+class AppStatusComponent extends React.Component<AppStatus> {
 	getCurrentState() {
 		const { labels } = this.props;
 
@@ -66,8 +66,7 @@ class StatStateElement extends React.Component<StatState> {
 		const { labels } = this.props;
 
 		return (
-			<div className="flex justify-between">
-				{this.getCurrentState()}
+			<div className="flex flex-col gap-y-6">
 				<a
 					target="_blank"
 					rel="noreferrer"
@@ -75,11 +74,14 @@ class StatStateElement extends React.Component<StatState> {
 					className="py-1.5 px-3 bg-blue text-white rounded transition cursor-pointer
     hover:bg-blue-dark"
 				>
+					<div></div>
 					{labels.toChangeVisitPortal}
 				</a>
+
+				{this.getCurrentState()}
 			</div>
 		);
 	}
 }
 
-export { StatCurrentState, StatState, StatStateElement };
+export { StatCurrentState, AppStatusComponent, AppStatus };

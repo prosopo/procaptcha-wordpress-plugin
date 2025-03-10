@@ -1,9 +1,9 @@
 import * as React from "react";
-import { UsageLabels } from "./config.js";
-import { BoxElement } from "./box.js";
-import NumberUtils from "./numberUtils.js";
+import { UsageLabels } from "../config.js";
+import { SectionComponent } from "./sectionComponent.js";
+import NumberUtils from "../numberUtils.js";
 
-interface UsageInfo {
+interface CaptchaUsage {
 	limits: {
 		verifications: number;
 	};
@@ -21,7 +21,7 @@ interface UsageInfo {
 	numberUtils: NumberUtils;
 }
 
-class UsageInfoElement extends React.Component<UsageInfo> {
+class CaptchaUsageComponent extends React.Component<CaptchaUsage> {
 	render() {
 		const numberUtils = this.props.numberUtils;
 		const limit = this.props.limits.verifications;
@@ -41,7 +41,10 @@ class UsageInfoElement extends React.Component<UsageInfo> {
 		const labels = this.props.labels;
 
 		return (
-			<BoxElement title={labels.title} icon="icon-[eos-icons--quota]">
+			<SectionComponent
+				title={labels.title}
+				icon="icon-[eos-icons--quota]"
+			>
 				<div className="flex flex-col gap-10">
 					{/*Progress bar*/}
 					<div className="flex flex-col gap-2">
@@ -102,9 +105,9 @@ class UsageInfoElement extends React.Component<UsageInfo> {
 						</div>
 					</div>
 				</div>
-			</BoxElement>
+			</SectionComponent>
 		);
 	}
 }
 
-export { UsageInfoElement, UsageInfo };
+export { CaptchaUsageComponent, CaptchaUsage };

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { TrafficDataLabels } from "./config.js";
-import { BoxElement } from "./box.js";
-import Logger from "../../logger/logger.js";
+import { TrafficDataLabels } from "../config.js";
+import { SectionComponent } from "./sectionComponent.js";
+import Logger from "../../../logger/logger.js";
 
 interface TrafficData {
 	isSupported: boolean;
@@ -10,7 +10,7 @@ interface TrafficData {
 	classes?: string;
 }
 
-class TrafficDataElement extends React.Component<TrafficData> {
+class TrafficAnalyticsComponent extends React.Component<TrafficData> {
 	render() {
 		const labels = this.props.labels;
 
@@ -25,15 +25,15 @@ class TrafficDataElement extends React.Component<TrafficData> {
 		const classes = this.props.classes || "";
 
 		return (
-			<BoxElement
+			<SectionComponent
 				title={labels.title}
 				icon="icon-[material-symbols--analytics]"
 				classes={classes}
 			>
 				{content}
-			</BoxElement>
+			</SectionComponent>
 		);
 	}
 }
 
-export { TrafficDataElement, TrafficData };
+export { TrafficAnalyticsComponent, TrafficData };

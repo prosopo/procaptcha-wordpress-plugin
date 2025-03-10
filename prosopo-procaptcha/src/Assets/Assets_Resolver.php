@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 final class Assets_Resolver {
 	private string $base_url;
 	/**
-	 * @var array<string,string> [ ts => min.js ]
+	 * @var array<string,string> [ .min.js => .ts ]
 	 */
 	private array $url_extensions_map;
 
@@ -28,12 +28,21 @@ final class Assets_Resolver {
 	}
 
 	public function resolve_asset_url( string $relative_asset_path ): string {
-		$asset_extension     = pathinfo( $relative_asset_path, PATHINFO_EXTENSION );
-		$asset_url_extension = $this->url_extensions_map[ $asset_extension ] ?? $asset_extension;
+		$asset_extension        = $this->get_file_extension( $relative_asset_path );
+		$asset_extension_length = strlen( $asset_extension );
+		$asset_name             = substr( $relative_asset_path, 0, -$asset_extension_length );
 
-		$extension_with_dot_length = strlen( $asset_extension ) + 1;
-		$asset_name                = substr( $relative_asset_path, 0, -$extension_with_dot_length );
+		$url_asset_extension = $this->url_extensions_map[ $asset_extension ] ?? $asset_extension;
 
-		return sprintf( '%s/%s.%s', $this->base_url, $asset_name, $asset_url_extension );
+		return sprintf( '%s/%s', $this->base_url, $asset_name . $url_asset_extension );
+	}
+
+	/**
+	 * Unlike pathinfo(), supports '.min.css'.
+	 */
+	protected function get_file_extension( string $file_name ): string {
+		$first_dot_position = strpos( $file_name, '.' );
+
+		return substr( $file_name, $first_dot_position );
 	}
 }

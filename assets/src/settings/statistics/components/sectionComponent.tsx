@@ -1,13 +1,13 @@
 import * as React from "react";
 
-interface Box {
+interface Section {
 	classes?: string;
 	title: string;
 	icon: string;
 	children: React.ReactNode;
 }
 
-class BoxElement extends React.Component<Box> {
+class SectionComponent extends React.Component<Section> {
 	render() {
 		const { title, icon, children } = this.props;
 
@@ -28,4 +28,4 @@ class BoxElement extends React.Component<Box> {
 	}
 }
 
-export { BoxElement };
+export { SectionComponent };

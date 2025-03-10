@@ -1,26 +1,36 @@
 import * as React from "react";
-import { StatCurrentState, StatState, StatStateElement } from "./statState.js";
-import { Config, ConfigClass } from "./config.js";
-import { UsageInfo, UsageInfoElement } from "./usageInfo.js";
-import { InfoBox, InfoBoxElement } from "./infoBox.js";
-import NumberUtils from "./numberUtils.js";
-import { TrafficData, TrafficDataElement } from "./trafficData.js";
-import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
-import LoggerFactory from "../../logger/loggerFactory.js";
-import Logger from "../../logger/logger.js";
-import { Api } from "./api.js";
-import type { Account } from "./account/account.js";
+import {
+	StatCurrentState,
+	AppStatusComponent,
+	AppStatus,
+} from "./appStatusComponent.js";
+import { Config, ConfigClass } from "../config.js";
+import {
+	CaptchaUsageComponent,
+	CaptchaUsage,
+} from "./captchaUsageComponent.js";
+import { ListComponent, List } from "./listComponent.js";
+import NumberUtils from "../numberUtils.js";
+import {
+	TrafficAnalyticsComponent,
+	TrafficData,
+} from "./trafficAnalyticsComponent.js";
+import PluginModuleLogger from "../../../logger/plugin/pluginModuleLogger.js";
+import LoggerFactory from "../../../logger/loggerFactory.js";
+import Logger from "../../../logger/logger.js";
+import { Api } from "../api.js";
+import type { Account } from "../account/account.js";
 
 interface AppState {
-	statState: StatState;
-	usageInfo: UsageInfo;
-	accountInfo: InfoBox;
-	captchaSettings: InfoBox;
-	domains: InfoBox;
+	statState: AppStatus;
+	usageInfo: CaptchaUsage;
+	accountInformation: List;
+	captchaSettings: List;
+	domains: List;
 	trafficData: TrafficData;
 }
 
-class App extends React.Component<object, AppState> {
+class AppComponent extends React.Component<object, AppState> {
 	private api: Api | null = null;
 	private config: Config;
 	private numberUtils: NumberUtils;
@@ -45,7 +55,7 @@ class App extends React.Component<object, AppState> {
 
 	protected async getApi(): Promise<Api> {
 		if (null === this.api) {
-			const ApiClass = (await import("./api.js")).Api;
+			const ApiClass = (await import("../api.js")).Api;
 			this.api = new ApiClass(this.config, this.logger);
 		}
 
@@ -76,7 +86,7 @@ class App extends React.Component<object, AppState> {
 				},
 				labels: this.config.getUsageLabels(),
 			},
-			accountInfo: {
+			accountInformation: {
 				title: this.config.getAccountLabels().title,
 				icon: "icon-[material-symbols--account-circle]",
 				items: [
@@ -152,8 +162,8 @@ class App extends React.Component<object, AppState> {
 
 		this.setState((actualState) => ({
 			...actualState,
-			accountInfo: {
-				...actualState.accountInfo,
+			accountInformation: {
+				...actualState.accountInformation,
 				items: [
 					{
 						label: this.config.getAccountLabels().tier,
@@ -293,7 +303,7 @@ class App extends React.Component<object, AppState> {
 		const {
 			statState,
 			usageInfo,
-			accountInfo,
+			accountInformation,
 			captchaSettings,
 			domains,
 			trafficData,
@@ -301,40 +311,35 @@ class App extends React.Component<object, AppState> {
 
 		return (
 			<div className="flex flex-col gap-5">
-				<StatStateElement
+				<AppStatusComponent
 					labels={statState.labels}
 					state={statState.state}
 					reload={statState.reload}
 				/>
 				<div className="grid gap-8 grid-cols-2">
-					{/* Usage Info */}
-					<UsageInfoElement
+					<CaptchaUsageComponent
 						numberUtils={usageInfo.numberUtils}
 						labels={usageInfo.labels}
 						limits={usageInfo.limits}
 						image={usageInfo.image}
 						pow={usageInfo.pow}
 					/>
-					{/* Account Info */}
-					<InfoBoxElement
-						title={accountInfo.title}
-						icon={accountInfo.icon}
-						items={accountInfo.items}
+					<ListComponent
+						title={accountInformation.title}
+						icon={accountInformation.icon}
+						items={accountInformation.items}
 					/>
-					{/* Captcha Settings */}
-					<InfoBoxElement
+					<ListComponent
 						title={captchaSettings.title}
 						icon={captchaSettings.icon}
 						items={captchaSettings.items}
 					/>
-					{/* Domains */}
-					<InfoBoxElement
+					<ListComponent
 						title={domains.title}
 						icon={domains.icon}
 						items={domains.items}
 					/>
-					{/* Traffic Data */}
-					<TrafficDataElement
+					<TrafficAnalyticsComponent
 						classes="col-span-2"
 						logger={trafficData.logger}
 						isSupported={trafficData.isSupported}
@@ -346,4 +351,4 @@ class App extends React.Component<object, AppState> {
 	}
 }
 
-export default App;
+export { AppComponent };

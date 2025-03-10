@@ -1,0 +1,4 @@
+@import "tailwindcss" source(".");
+@import "../theme.css";
+
+@plugin "@iconify/tailwind4";

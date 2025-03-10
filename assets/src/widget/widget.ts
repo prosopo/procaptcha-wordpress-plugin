@@ -1,8 +1,7 @@
 import LoggerFactory from "../logger/loggerFactory.js";
 import PluginModuleLogger from "../logger/plugin/pluginModuleLogger.js";
-import { WebComponentRegistrar } from "./webComponent/webComponentRegistrar.js";
-import { WidgetComponentsRegistrar } from "./widgetComponentsRegistrar.js";
-import { WidgetFactory } from "./widgetFactory.js";
+import { WebComponentFactory } from "./webComponent/webComponentFactory.js";
+import { WidgetComponents } from "./components/widgetComponents.js";
 
 const loggerFactory = new LoggerFactory();
 const moduleLogger = new PluginModuleLogger();
@@ -11,15 +10,12 @@ const componentLogger = loggerFactory.makeLogger(
 	"web-component-registrar",
 	moduleLogger,
 );
-const componentRegistrar = new WebComponentRegistrar(componentLogger);
-const widgetComponentsRegistrar = new WidgetComponentsRegistrar(
-	componentRegistrar,
-);
+const webComponentFactory = new WebComponentFactory(componentLogger);
 
-const widgetFactory = new WidgetFactory(
+const widgetComponents = new WidgetComponents(
 	loggerFactory,
 	moduleLogger,
-	widgetComponentsRegistrar,
+	webComponentFactory,
 );
 
-widgetFactory.createWidget();
+widgetComponents.createWidgetComponents();

@@ -1,8 +1,8 @@
-import ComponentControllerInterface from "../../interfaces/componentControllerInterface.js";
+import { WebComponent } from "./webComponent.js";
 
 interface WebComponentSettings {
 	name: string;
-	componentController: ComponentControllerInterface;
+	componentClass: WebComponent;
 	processIfReconnected: boolean;
 	waitWindowLoadedInsteadOfDomLoaded: boolean;
 }

@@ -1,14 +1,14 @@
-import Logger from "../logger/logger.js";
-import ComponentControllerInterface from "../interfaces/componentControllerInterface.js";
+import Logger from "../../logger/logger.js";
+import { WebComponent } from "../webComponent/webComponent.js";
 
-class WidgetRenderer implements ComponentControllerInterface {
+class WidgetComponent implements WebComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	processElement(origin: HTMLElement) {
+	setupComponentElement(origin: HTMLElement) {
 		const procaptchaServiceCallback = this.getProcaptchaServiceCallback();
 
 		if (null === procaptchaServiceCallback) {
@@ -163,4 +163,4 @@ class WidgetRenderer implements ComponentControllerInterface {
 	}
 }
 
-export default WidgetRenderer;
+export default WidgetComponent;

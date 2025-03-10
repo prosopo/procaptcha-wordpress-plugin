@@ -1,17 +1,17 @@
-import ComponentControllerInterface from "../../interfaces/componentControllerInterface.js";
+import { WebComponent } from "../webComponent/webComponent.js";
 import Logger from "../../logger/logger.js";
-import { WebComponentRegistrar } from "../webComponent/webComponentRegistrar.js";
+import { WebComponentFactory } from "../webComponent/webComponentFactory.js";
 import LoggerFactory from "../../logger/loggerFactory.js";
 import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
 
-class WooBlocksCheckoutIntegration implements ComponentControllerInterface {
+class WooBlocksCheckoutIntegration implements WebComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	processElement(origin: HTMLElement): void {
+	setupComponentElement(origin: HTMLElement): void {
 		const form = origin.closest("form");
 
 		// add a stub to bypass Woo client validation, and run server,
@@ -53,11 +53,11 @@ const componentLogger = loggerFactory.makeLogger(
 	moduleLogger,
 );
 
-const webComponentRegistrar = new WebComponentRegistrar(componentLogger);
+const webComponentRegistrar = new WebComponentFactory(componentLogger);
 
-webComponentRegistrar.registerWebComponent({
+webComponentRegistrar.createWebComponent({
 	name: "prosopo-procaptcha-woo-checkout-form",
-	componentController: wooBlocksCheckout,
+	componentClass: wooBlocksCheckout,
 	processIfReconnected: false,
 	waitWindowLoadedInsteadOfDomLoaded: true,
 });

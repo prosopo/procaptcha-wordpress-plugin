@@ -1,25 +1,25 @@
 import Logger from "../../logger/logger.js";
 import { WebComponentSettings } from "./webComponentSettings.js";
 
-class WebComponentRegistrar {
+class WebComponentFactory {
 	public constructor(private readonly logger: Logger) {}
 
-	public registerWebComponent(
+	public createWebComponent(
 		webComponentSettings: WebComponentSettings,
 	): void {
-		const ComponentClass = this.defineComponentClass(
+		const WebComponentClass = this.createWebComponentClass(
 			this.logger,
 			webComponentSettings,
 		);
 
-		customElements.define(webComponentSettings.name, ComponentClass);
+		customElements.define(webComponentSettings.name, WebComponentClass);
 	}
 
-	protected defineComponentClass(
+	protected createWebComponentClass(
 		logger: Logger,
 		componentSettings: WebComponentSettings,
 	): typeof HTMLElement {
-		class WebComponent extends HTMLElement {
+		class WebComponentClass extends HTMLElement {
 			private isSetup: boolean;
 
 			constructor() {
@@ -59,7 +59,7 @@ class WebComponentRegistrar {
 						element: this,
 					});
 
-					this.process();
+					this.setupElement();
 					return;
 				}
 
@@ -74,10 +74,10 @@ class WebComponentRegistrar {
 					},
 				);
 
-				this.delayProcess();
+				this.delayElementSetup();
 			}
 
-			public processDelayed(): void {
+			public setupDelayedElement(): void {
 				logger.debug(
 					"document is ready, processing delayed WebComponent",
 					{
@@ -86,11 +86,11 @@ class WebComponentRegistrar {
 					},
 				);
 
-				this.process();
+				this.setupElement();
 			}
 
-			protected process(): void {
-				componentSettings.componentController.processElement(this);
+			protected setupElement(): void {
+				componentSettings.componentClass.setupComponentElement(this);
 			}
 
 			protected isDocumentReady(
@@ -112,27 +112,27 @@ class WebComponentRegistrar {
 				return true === interactiveStates.includes(currentState);
 			}
 
-			protected delayProcess(): void {
+			protected delayElementSetup(): void {
 				if (
 					true ===
 					componentSettings.waitWindowLoadedInsteadOfDomLoaded
 				) {
 					window.addEventListener(
 						"load",
-						this.processDelayed.bind(this),
+						this.setupDelayedElement.bind(this),
 					);
 					return;
 				}
 
 				document.addEventListener(
 					"DOMContentLoaded",
-					this.processDelayed.bind(this),
+					this.setupDelayedElement.bind(this),
 				);
 			}
 		}
 
-		return WebComponent;
+		return WebComponentClass;
 	}
 }
 
-export { WebComponentRegistrar };
+export { WebComponentFactory };

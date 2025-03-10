@@ -1,4 +1,4 @@
-import Collection from "./collection";
+import Collection from "./collection.js";
 
 interface AccountLabels {
 	title: string;

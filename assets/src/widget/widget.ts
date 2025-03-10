@@ -1,35 +1,25 @@
-import LoggerFactory from "../logger/loggerFactory";
-import FormValidator from "./formValidator";
-import ModuleLogger from "../logger/moduleLogger";
-import registerWebComponent from "../registerWebComponent";
-import WidgetRenderer from "./widgetRenderer";
+import LoggerFactory from "../logger/loggerFactory.js";
+import PluginModuleLogger from "../logger/plugin/pluginModuleLogger.js";
+import { WebComponentRegistrar } from "./webComponent/webComponentRegistrar.js";
+import { WidgetComponentsRegistrar } from "./widgetComponentsRegistrar.js";
+import { WidgetFactory } from "./widgetFactory.js";
 
 const loggerFactory = new LoggerFactory();
-const moduleLogger = new ModuleLogger();
+const moduleLogger = new PluginModuleLogger();
 
-const widgetRenderer = new WidgetRenderer(
-	loggerFactory.makeLogger("widget-renderer", moduleLogger),
-);
-const formValidator = new FormValidator(
-	loggerFactory.makeLogger("form-validator", moduleLogger),
-);
-
-const webComponentRegistarLogger = loggerFactory.makeLogger(
-	"web-component-registar",
+const componentLogger = loggerFactory.makeLogger(
+	"web-component-registrar",
 	moduleLogger,
 );
+const componentRegistrar = new WebComponentRegistrar(componentLogger);
+const widgetComponentsRegistrar = new WidgetComponentsRegistrar(
+	componentRegistrar,
+);
 
-registerWebComponent(webComponentRegistarLogger, {
-	name: "prosopo-procaptcha-wp-widget",
-	componentController: widgetRenderer,
-	processIfReconnected: false,
-	// wait, case we need to make sure window.procaptcha is available.
-	waitWindowLoadedInsteadOfDomLoaded: true,
-});
+const widgetFactory = new WidgetFactory(
+	loggerFactory,
+	moduleLogger,
+	widgetComponentsRegistrar,
+);
 
-registerWebComponent(webComponentRegistarLogger, {
-	name: "prosopo-procaptcha-wp-form",
-	componentController: formValidator,
-	processIfReconnected: false,
-	waitWindowLoadedInsteadOfDomLoaded: false,
-});
+widgetFactory.createWidget();

@@ -1,13 +1,13 @@
-import ComponentControllerInterface from "../../interfaces/componentControllerInterface";
-import LoggerInterface from "../../interfaces/loggerInterface";
-import registerWebComponent from "../../registerWebComponent";
-import LoggerFactory from "../../logger/loggerFactory";
-import ModuleLogger from "../../logger/moduleLogger";
+import ComponentControllerInterface from "../../interfaces/componentControllerInterface.js";
+import Logger from "../../logger/logger.js";
+import { WebComponentRegistrar } from "../webComponent/webComponentRegistrar.js";
+import LoggerFactory from "../../logger/loggerFactory.js";
+import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
 
 class WooBlocksCheckoutIntegration implements ComponentControllerInterface {
-	private readonly logger: LoggerInterface;
+	private readonly logger: Logger;
 
-	constructor(logger: LoggerInterface) {
+	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
@@ -42,18 +42,20 @@ class WooBlocksCheckoutIntegration implements ComponentControllerInterface {
 }
 
 const loggerFactory = new LoggerFactory();
-const moduleLogger = new ModuleLogger();
+const moduleLogger = new PluginModuleLogger();
 
 const wooBlocksCheckout = new WooBlocksCheckoutIntegration(
 	loggerFactory.makeLogger("woo-blocks-checkout", moduleLogger),
 );
 
-const webComponentRegistarLogger = loggerFactory.makeLogger(
+const componentLogger = loggerFactory.makeLogger(
 	"web-component-registar",
 	moduleLogger,
 );
 
-registerWebComponent(webComponentRegistarLogger, {
+const webComponentRegistrar = new WebComponentRegistrar(componentLogger);
+
+webComponentRegistrar.registerWebComponent({
 	name: "prosopo-procaptcha-woo-checkout-form",
 	componentController: wooBlocksCheckout,
 	processIfReconnected: false,

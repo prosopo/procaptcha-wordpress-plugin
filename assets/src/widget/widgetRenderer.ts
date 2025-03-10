@@ -1,10 +1,10 @@
-import LoggerInterface from "../interfaces/loggerInterface";
-import ComponentControllerInterface from "../interfaces/componentControllerInterface";
+import Logger from "../logger/logger.js";
+import ComponentControllerInterface from "../interfaces/componentControllerInterface.js";
 
 class WidgetRenderer implements ComponentControllerInterface {
-	private readonly logger: LoggerInterface;
+	private readonly logger: Logger;
 
-	constructor(logger: LoggerInterface) {
+	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 

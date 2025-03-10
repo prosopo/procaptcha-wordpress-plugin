@@ -1,4 +1,4 @@
-import ComponentControllerInterface from "./componentControllerInterface";
+import ComponentControllerInterface from "../../interfaces/componentControllerInterface.js";
 
 interface WebComponentSettings {
 	name: string;
@@ -7,4 +7,4 @@ interface WebComponentSettings {
 	waitWindowLoadedInsteadOfDomLoaded: boolean;
 }
 
-export default WebComponentSettings;
+export { WebComponentSettings };

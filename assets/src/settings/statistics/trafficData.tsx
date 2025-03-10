@@ -1,12 +1,12 @@
 import * as React from "react";
-import { TrafficDataLabels } from "./config";
-import { BoxElement } from "./box";
-import LoggerInterface from "../../interfaces/loggerInterface";
+import { TrafficDataLabels } from "./config.js";
+import { BoxElement } from "./box.js";
+import Logger from "../../logger/logger.js";
 
 interface TrafficData {
 	isSupported: boolean;
 	labels: TrafficDataLabels;
-	logger: LoggerInterface;
+	logger: Logger;
 	classes?: string;
 }
 

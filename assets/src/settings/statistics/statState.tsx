@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StateLabels } from "./config";
+import { StateLabels } from "./config.js";
 
 enum StatCurrentState {
 	LOADING = "loading",

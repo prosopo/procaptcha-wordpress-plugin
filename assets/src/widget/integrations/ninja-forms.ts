@@ -1,13 +1,13 @@
-import LoggerInterface from "../../interfaces/loggerInterface";
-import ComponentControllerInterface from "../../interfaces/componentControllerInterface";
-import registerWebComponent from "../../registerWebComponent";
-import LoggerFactory from "../../logger/loggerFactory";
-import ModuleLogger from "../../logger/moduleLogger";
+import Logger from "../../logger/logger.js";
+import ComponentControllerInterface from "../../interfaces/componentControllerInterface.js";
+import { WebComponentRegistrar } from "../webComponent/webComponentRegistrar.js";
+import LoggerFactory from "../../logger/loggerFactory.js";
+import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
 
 class NinjaFormsIntegration implements ComponentControllerInterface {
-	private readonly logger: LoggerInterface;
+	private readonly logger: Logger;
 
-	constructor(logger: LoggerInterface) {
+	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
@@ -133,18 +133,20 @@ class NinjaFormsIntegration implements ComponentControllerInterface {
 }
 
 const loggerFactory = new LoggerFactory();
-const moduleLogger = new ModuleLogger();
+const moduleLogger = new PluginModuleLogger();
 
 const ninjaForms = new NinjaFormsIntegration(
 	loggerFactory.makeLogger("ninja-forms", moduleLogger),
 );
 
-const webComponentRegistarLogger = loggerFactory.makeLogger(
+const componentLogger = loggerFactory.makeLogger(
 	"web-component-registar",
 	moduleLogger,
 );
 
-registerWebComponent(webComponentRegistarLogger, {
+const componentRegistrar = new WebComponentRegistrar(componentLogger);
+
+componentRegistrar.registerWebComponent({
 	name: "prosopo-procaptcha-ninja-forms-integration",
 	componentController: ninjaForms,
 	processIfReconnected: false,

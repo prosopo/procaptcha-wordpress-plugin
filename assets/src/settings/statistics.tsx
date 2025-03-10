@@ -1,6 +1,6 @@
 import * as ReactDOM from "react-dom/client";
 import * as React from "react";
-import App from "./statistics/app";
+import App from "./statistics/app.js";
 
 class ProcaptchaStatistics extends HTMLElement {
 	public connectedCallback(): void {

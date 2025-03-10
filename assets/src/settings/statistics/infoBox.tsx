@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BoxElement } from "./box";
+import { BoxElement } from "./box.js";
 
 interface InfoBox {
 	title: string;

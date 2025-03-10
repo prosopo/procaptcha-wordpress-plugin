@@ -1,15 +1,15 @@
 import { stringToU8a, u8aToHex } from "@polkadot/util";
 import { getPairAsync } from "@prosopo/keyring";
-import { Config } from "./config";
-import LoggerInterface from "../../interfaces/loggerInterface";
-import type { Account } from "./account/account";
-import { accountSchema } from "./account/accountSchema";
+import { Config } from "./config.js";
+import Logger from "../../logger/logger.js";
+import type { Account } from "./account/account.js";
+import { accountSchema } from "./account/accountSchema.js";
 
 class Api {
-	private logger: LoggerInterface;
+	private logger: Logger;
 	private config: Config;
 
-	constructor(config: Config, logger: LoggerInterface) {
+	constructor(config: Config, logger: Logger) {
 		this.logger = logger;
 		this.config = config;
 	}

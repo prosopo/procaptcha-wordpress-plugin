@@ -1,13 +1,10 @@
-import LoggerInterface from "../interfaces/loggerInterface";
-import ModuleLoggerInterface from "../interfaces/moduleLoggerInterface";
-import Logger from "./logger";
+import Logger from "./logger.js";
+import ModuleLogger from "./moduleLogger.js";
+import PluginLogger from "./plugin/pluginLogger.js";
 
 class LoggerFactory {
-	public makeLogger(
-		module: string,
-		moduleLogger: ModuleLoggerInterface,
-	): LoggerInterface {
-		return new Logger(module, moduleLogger, this.isDebugMode());
+	public makeLogger(module: string, moduleLogger: ModuleLogger): Logger {
+		return new PluginLogger(module, moduleLogger, this.isDebugMode());
 	}
 
 	protected isDebugMode(): boolean {

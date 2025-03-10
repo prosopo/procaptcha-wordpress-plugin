@@ -1,7 +1,7 @@
 import * as React from "react";
-import { UsageLabels } from "./config";
-import { BoxElement } from "./box";
-import NumberUtils from "./numberUtils";
+import { UsageLabels } from "./config.js";
+import { BoxElement } from "./box.js";
+import NumberUtils from "./numberUtils.js";
 
 interface UsageInfo {
 	limits: {

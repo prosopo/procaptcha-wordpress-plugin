@@ -70,8 +70,8 @@ JavaScript-related:
 
 `cd assets` and:
 
-1. `yarn build:[all/settings/procaptcha-integration]` - runs Vite building
-2. `yarn dev:[settings/procaptcha-integration]` - starts Vite dev server
+1. `yarn build:[all/settings/integrations]` - runs Vite building
+2. `yarn dev:[settings/integrations]` - starts Vite dev server
 3. `yarn lint:[check/fix]` - runs ESLint static code analyses
 4. `yarn prettier:[check/fix]` - runs Prettier formatter
 

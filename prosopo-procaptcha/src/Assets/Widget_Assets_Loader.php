@@ -96,7 +96,7 @@ final class Widget_Assets_Loader implements Hookable {
 		$widget_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $widget_attributes );
 
 		$this->assets_loader->load_script_asset(
-			'procaptcha-integration/procaptcha-integration.min.js',
+			'integrations/procaptcha-integration.min.js',
 			array(),
 			'procaptchaWpAttributes',
 			$widget_attributes
@@ -106,7 +106,7 @@ final class Widget_Assets_Loader implements Hookable {
 	protected function load_plugin_integration_scripts(): void {
 		foreach ( $this->plugin_integration_scripts as $integration_script ) {
 			$relative_script_path = sprintf(
-				'procaptcha-integration/plugins/%s',
+				'integrations/plugins/%s',
 				$integration_script
 			);
 

@@ -1,8 +1,8 @@
-import type { IntegrationComponent } from "../../integrationComponent.js";
+import type { IntegrationComponent } from "../../integration/integrationComponent.js";
 import WidgetIntegrationComponent from "./widgetIntegrationComponent.js";
-import type { Integration } from "../../integration.js";
-import type Logger from "../../../logger/logger.js";
-import type { WebComponentSettings } from "../../webComponent/webComponentSettings.js";
+import type { Integration } from "../../integration/integration.js";
+import type Logger from "../../logger/logger.js";
+import type { WebComponentSettings } from "../../integration/webComponent/webComponentSettings.js";
 
 class WidgetIntegration implements Integration {
 	getIntegrationName(): string {

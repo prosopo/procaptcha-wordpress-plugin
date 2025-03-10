@@ -1,5 +1,5 @@
-import Logger from "../../../logger/logger.js";
-import { IntegrationComponent } from "../../integrationComponent.js";
+import Logger from "../../logger/logger.js";
+import { IntegrationComponent } from "../../integration/integrationComponent.js";
 
 class WidgetIntegrationComponent implements IntegrationComponent {
 	private readonly logger: Logger;

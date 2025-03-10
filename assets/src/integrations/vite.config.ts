@@ -4,7 +4,7 @@ import { makeViteConfig } from "../../vite.base.js";
 
 const pathToProcaptchaIntegration = path.resolve(
 	__dirname,
-	"../../src/procaptcha-integration/integrations/procaptcha-integration.ts",
+	"./procaptcha-integration.ts",
 );
 
 const widgetConfig: UserConfig = {
@@ -14,12 +14,12 @@ const widgetConfig: UserConfig = {
 				"procaptcha-integration": pathToProcaptchaIntegration,
 				"plugins/ninja-forms/ninja-forms-integration": path.resolve(
 					__dirname,
-					"../../src/procaptcha-integration/integrations/plugins/ninja-forms/ninja-forms-integration.ts",
+					"./plugins/ninja-forms/ninja-forms-integration.ts",
 				),
 				"plugins/woocommerce/woocommerce-blocks-checkout-integration":
 					path.resolve(
 						__dirname,
-						"../../src/procaptcha-integration/integrations/plugins/woocommerce/woocommerce-blocks-checkout-integration.ts",
+						"./plugins/woocommerce/woocommerce-blocks-checkout-integration.ts",
 					),
 			},
 			output: {
@@ -32,4 +32,4 @@ const widgetConfig: UserConfig = {
 	},
 };
 
-export default makeViteConfig("procaptcha-integration", widgetConfig);
+export default makeViteConfig("integrations", widgetConfig);

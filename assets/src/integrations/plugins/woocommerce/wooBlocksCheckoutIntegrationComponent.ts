@@ -1,5 +1,5 @@
-import { IntegrationComponent } from "../../../integrationComponent.js";
-import Logger from "../../../../logger/logger.js";
+import { IntegrationComponent } from "../../../integration/integrationComponent.js";
+import Logger from "../../../logger/logger.js";
 
 class WooBlocksCheckoutIntegrationComponent implements IntegrationComponent {
 	private readonly logger: Logger;

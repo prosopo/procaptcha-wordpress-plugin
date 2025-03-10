@@ -2,10 +2,10 @@
   "type": "module",
   "scripts": {
     "dev:settings": "vite --config src/settings/vite.config.ts",
-    "dev:procaptcha-integration": "vite --config src/procaptcha-integration/vite.config.ts",
+    "dev:integrations": "vite --config src/integrations/vite.config.ts",
     "build:settings": "vite build --config src/settings/vite.config.ts",
-    "build:procaptcha-integration": "vite build --config src/procaptcha-integration/vite.config.ts",
-    "build:all": "yarn build:settings && yarn build:procaptcha-integration",
+    "build:integrations": "vite build --config src/integrations/vite.config.ts",
+    "build:all": "yarn build:settings && yarn build:integrations",
     "lint:check": "eslint src",
     "lint:fix": "eslint src --fix",
     "prettier:check": "prettier src --check",

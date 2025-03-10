@@ -1,14 +1,14 @@
-import Logger from "../../logger/logger.js";
-import { WebComponent } from "../webComponent/webComponent.js";
+import Logger from "../../../logger/logger.js";
+import { IntegrationComponent } from "../../integrationComponent.js";
 
-class FormIntegrationComponent implements WebComponent {
+class FormIntegrationComponent implements IntegrationComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	public setupComponentElement(element: HTMLElement) {
+	public setupIntegrationElement(element: HTMLElement) {
 		const form = element.closest("form");
 
 		if (null === form) {

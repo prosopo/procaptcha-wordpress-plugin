@@ -150,7 +150,7 @@ class Procaptcha_Widget implements Widget {
 			'' !== string( $general_settings, General_Procaptcha_Settings::SITE_KEY );
 	}
 
-	public function load_integration_script( string $integration_name ): void {
+	public function load_plugin_integration_script( string $integration_name ): void {
 		$this->widget_assets_manager->load_integration_script( $integration_name );
 	}
 

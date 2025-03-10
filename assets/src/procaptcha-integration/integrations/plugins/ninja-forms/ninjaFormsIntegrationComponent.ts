@@ -1,15 +1,15 @@
-import { WebComponent } from "../../webComponent/webComponent.js";
-import Logger from "../../../logger/logger.js";
+import { IntegrationComponent } from "../../../integrationComponent.js";
+import Logger from "../../../../logger/logger.js";
 
-class NinjaFormsComponent implements WebComponent {
+class NinjaFormsIntegrationComponent implements IntegrationComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	setupComponentElement(origin: HTMLElement): void {
-		const input = this.getCaptchaInput(origin);
+	setupIntegrationElement(integrationElement: HTMLElement): void {
+		const input = this.getCaptchaInput(integrationElement);
 
 		if (null === input) {
 			this.logger.warning("Captcha input is missing");
@@ -21,7 +21,7 @@ class NinjaFormsComponent implements WebComponent {
 
 		this.makeMarionetteObject(input);
 
-		origin.parentElement
+		integrationElement.parentElement
 			.closest("form")
 			.addEventListener("_prosopo-procaptcha__filled", () => {
 				this.clearValidationError(modelId);
@@ -129,4 +129,4 @@ class NinjaFormsComponent implements WebComponent {
 	}
 }
 
-export { NinjaFormsComponent };
+export { NinjaFormsIntegrationComponent };

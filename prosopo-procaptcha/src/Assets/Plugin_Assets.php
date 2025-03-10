@@ -70,7 +70,7 @@ final class Plugin_Assets implements Hookable {
 	}
 
 	protected function create_dev_assets_resolver(): Assets_Resolver {
-		$base_assets_url = sprintf( '%s/src', $this->dev_host );
+		$base_assets_url = sprintf( '%s/src/', $this->dev_host );
 
 		$assets_resolver = new Assets_Resolver( $base_assets_url );
 

@@ -3,7 +3,7 @@ import ModuleLogger from "./moduleLogger.js";
 import PluginLogger from "./plugin/pluginLogger.js";
 
 class LoggerFactory {
-	public makeLogger(module: string, moduleLogger: ModuleLogger): Logger {
+	public createLogger(module: string, moduleLogger: ModuleLogger): Logger {
 		return new PluginLogger(module, moduleLogger, this.isDebugMode());
 	}
 

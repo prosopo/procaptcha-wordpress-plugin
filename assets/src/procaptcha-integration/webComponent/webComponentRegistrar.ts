@@ -1,13 +1,16 @@
 import Logger from "../../logger/logger.js";
 import { WebComponentSettings } from "./webComponentSettings.js";
+import type { IntegrationComponent } from "../integrationComponent.js";
 
 class WebComponentRegistrar {
 	public constructor(private readonly logger: Logger) {}
 
 	public registerWebComponent(
+		integrationComponent: IntegrationComponent,
 		webComponentSettings: WebComponentSettings,
 	): void {
 		const WebComponentClass = this.createWebComponentClass(
+			integrationComponent,
 			this.logger,
 			webComponentSettings,
 		);
@@ -16,6 +19,7 @@ class WebComponentRegistrar {
 	}
 
 	protected createWebComponentClass(
+		integrationComponent: IntegrationComponent,
 		logger: Logger,
 		componentSettings: WebComponentSettings,
 	): typeof HTMLElement {
@@ -90,7 +94,7 @@ class WebComponentRegistrar {
 			}
 
 			protected setupElement(): void {
-				componentSettings.componentClass.setupComponentElement(this);
+				integrationComponent.setupIntegrationElement(this);
 			}
 
 			protected isDocumentReady(

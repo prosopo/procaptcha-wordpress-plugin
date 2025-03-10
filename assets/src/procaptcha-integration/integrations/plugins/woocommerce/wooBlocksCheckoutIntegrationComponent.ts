@@ -1,15 +1,15 @@
-import { WebComponent } from "../../webComponent/webComponent.js";
-import Logger from "../../../logger/logger.js";
+import { IntegrationComponent } from "../../../integrationComponent.js";
+import Logger from "../../../../logger/logger.js";
 
-class WooBlocksCheckoutComponent implements WebComponent {
+class WooBlocksCheckoutIntegrationComponent implements IntegrationComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	setupComponentElement(origin: HTMLElement): void {
-		const form = origin.closest("form");
+	setupIntegrationElement(integrationElement: HTMLElement): void {
+		const form = integrationElement.closest("form");
 
 		// add a stub to bypass Woo client validation, and run server,
 		// otherwise it's confusing as the input is hidden.
@@ -38,4 +38,4 @@ class WooBlocksCheckoutComponent implements WebComponent {
 	}
 }
 
-export { WooBlocksCheckoutComponent };
+export { WooBlocksCheckoutIntegrationComponent };

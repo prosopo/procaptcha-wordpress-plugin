@@ -44,7 +44,7 @@ class AppComponent extends React.Component<object, AppState> {
 
 		this.accountTier = "";
 		this.config = new ConfigClass();
-		this.logger = loggerFactory.makeLogger(
+		this.logger = loggerFactory.createLogger(
 			"statistics",
 			new PluginModuleLogger(),
 		);

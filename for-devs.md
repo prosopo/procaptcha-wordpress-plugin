@@ -21,8 +21,7 @@ The project follows
 the [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/).
 
 Configure your IDE to use the [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) and use the
-`php-tools/code-quality/wp-ruleset.xml` config, or run the following
-command to automatically fix style issues:
+`php-tools/code-quality/wp-ruleset.xml` config, or run the following command to automatically fix style issues:
 
 `cd php-tools/code-quality; composer install; composer phpcbf`
 

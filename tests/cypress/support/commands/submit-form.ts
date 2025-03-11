@@ -89,7 +89,18 @@ class SubmitForm {
 		this.setCaptchaValue($form);
 		this.populateFieldValues();
 
-		cy.wrap($form).find("[type=submit], button").first().click();
+		cy.wrap($form)
+			.find("[type=submit], button")
+			.then(($buttons) => {
+				const $submitButtons = $buttons.filter("[type=submit]");
+
+				const $submitButton =
+					$submitButtons.length > 0
+						? $submitButtons.first()
+						: $buttons.first();
+
+				cy.wrap($submitButton).click();
+			});
 	}
 }
 

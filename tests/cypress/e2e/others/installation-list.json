@@ -1,6 +1,7 @@
 {
   "plugins": [
     "elementor",
-    "elementor-pro"
+    "elementor-pro",
+    "ultimate-addons-for-gutenberg"
   ]
 }

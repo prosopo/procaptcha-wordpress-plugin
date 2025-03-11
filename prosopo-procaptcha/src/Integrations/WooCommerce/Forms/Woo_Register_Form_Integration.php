@@ -24,7 +24,7 @@ class Woo_Register_Form_Integration extends Hookable_Form_Integration_Base {
 	public function verify_submission( WP_Error $error ): WP_Error {
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_human_made_request() ) {
+		if ( ! $widget->is_verification_token_valid() ) {
 			$widget->get_validation_error( $error );
 		}
 

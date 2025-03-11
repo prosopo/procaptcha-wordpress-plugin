@@ -79,7 +79,7 @@ class Contact_Form_7_Integration extends Procaptcha_Plugin_Integration implement
 			$tag->name = $widget->get_field_name();
 		}
 
-		if ( $widget->is_human_made_request() ) {
+		if ( $widget->is_verification_token_valid() ) {
 			return $result;
 		}
 

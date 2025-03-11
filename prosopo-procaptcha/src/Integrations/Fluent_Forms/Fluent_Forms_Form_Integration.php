@@ -105,8 +105,8 @@ class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Int
 
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_present() ||
-		$widget->is_human_made_request( $token ) ) {
+		if ( ! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid( $token ) ) {
 			return $error_message;
 		}
 

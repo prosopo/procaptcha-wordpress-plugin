@@ -16,7 +16,7 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 	public function print_field(): void {
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_present() ) {
+		if ( ! $widget->is_protection_enabled() ) {
 			return;
 		}
 
@@ -45,8 +45,8 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 		$widget   = self::get_form_helper()->get_widget();
 
 		if ( '' === $order_id ||
-		! $widget->is_present() ||
-		$widget->is_human_made_request() ) {
+		! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid() ) {
 			return $output;
 		}
 

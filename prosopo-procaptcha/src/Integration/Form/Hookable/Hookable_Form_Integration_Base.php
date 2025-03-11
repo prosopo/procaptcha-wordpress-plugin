@@ -16,5 +16,9 @@ abstract class Hookable_Form_Integration_Base implements Hookable_Form_Integrati
 	}
 
 	final public function __construct() {
+		$this->construct();
+	}
+
+	public function construct(): void {
 	}
 }

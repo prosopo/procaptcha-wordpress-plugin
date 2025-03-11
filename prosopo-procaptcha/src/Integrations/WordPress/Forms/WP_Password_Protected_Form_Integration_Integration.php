@@ -24,8 +24,8 @@ class WP_Password_Protected_Form_Integration_Integration extends WP_Form_Integra
 	public function verify_submission(): void {
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_present() ||
-		$widget->is_human_made_request() ) {
+		if ( ! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid() ) {
 			return;
 		}
 

@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.12.0
+Stable tag: 1.13.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,7 +133,7 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 
 == Changelog ==
 
-= 1.13.0 (2024-03-10) =
+= 1.13.0 (2024-03-11) =
 - Added support for [Spectra](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/)
 
 = 1.12.0 (2024-03-06) =

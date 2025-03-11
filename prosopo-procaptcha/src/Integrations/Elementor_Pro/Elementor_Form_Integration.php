@@ -40,7 +40,7 @@ class Elementor_Form_Integration extends Field_Base implements Form_Integration 
 		$widget = self::get_form_helper()->get_widget();
 
 		// Remove the stub if the captcha is not present.
-		if ( ! $widget->is_present() ) {
+		if ( ! $widget->is_protection_enabled() ) {
 			return str_replace( $stub, '', $content );
 		}
 
@@ -91,8 +91,8 @@ class Elementor_Form_Integration extends Field_Base implements Form_Integration 
 
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_present() ||
-		$widget->is_human_made_request() ) {
+		if ( ! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid() ) {
 			return;
 		}
 

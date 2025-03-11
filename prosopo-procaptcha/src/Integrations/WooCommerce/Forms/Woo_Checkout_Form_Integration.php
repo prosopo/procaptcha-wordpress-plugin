@@ -15,7 +15,7 @@ class Woo_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 	public function print_classic_field(): void {
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_present() ) {
+		if ( ! $widget->is_protection_enabled() ) {
 			return;
 		}
 
@@ -32,8 +32,8 @@ class Woo_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 	public function verify( array $data, WP_Error $errors ): void {
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_present() ||
-		$widget->is_human_made_request() ) {
+		if ( ! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid() ) {
 			return;
 		}
 
@@ -54,7 +54,7 @@ class Woo_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 			'';
 
 		// Without checking ->is_present() because this Woo Rest API doesn't pass the Auth cookie.
-		if ( $widget->is_human_made_request( $token ) ) {
+		if ( $widget->is_verification_token_valid( $token ) ) {
 			return;
 		}
 

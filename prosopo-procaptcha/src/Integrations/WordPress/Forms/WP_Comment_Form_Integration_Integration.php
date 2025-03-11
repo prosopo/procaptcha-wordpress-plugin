@@ -36,8 +36,8 @@ class WP_Comment_Form_Integration_Integration extends WP_Form_Integration_Base {
 	public function verify_submission( $approved, array $comment_data ) {
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( $widget->is_present() &&
-			! $widget->is_human_made_request() ) {
+		if ( $widget->is_protection_enabled() &&
+			! $widget->is_verification_token_valid() ) {
 			$error = $approved instanceof WP_Error ?
 				$approved :
 				null;

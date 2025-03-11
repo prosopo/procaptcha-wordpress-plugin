@@ -43,6 +43,8 @@ final class Assets_Resolver {
 	protected function get_file_extension( string $file_name ): string {
 		$first_dot_position = strpos( $file_name, '.' );
 
-		return substr( $file_name, $first_dot_position );
+		return is_int( $first_dot_position ) ?
+			substr( $file_name, $first_dot_position ) :
+			'';
 	}
 }

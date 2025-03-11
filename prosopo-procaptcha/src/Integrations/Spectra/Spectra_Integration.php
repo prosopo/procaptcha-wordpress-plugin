@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
 
-class Spectra_Integration extends Procaptcha_Plugin_Integration {
+final class Spectra_Integration extends Procaptcha_Plugin_Integration {
 	public function get_target_plugin_classes(): array {
 		return array( 'UAGB_Block' );
 	}

@@ -1,4 +1,4 @@
-import { FormTest } from "@support/form-test";
+import { FormSelector, FormTest } from "@support/form-test";
 
 class SpectraFormBlock extends FormTest {
 	protected defineSettings() {
@@ -13,7 +13,7 @@ class SpectraFormBlock extends FormTest {
 			successMessage: ".uagb-forms-success-message",
 			errorMessage: ".uagb-forms-failed-message",
 			errorFieldMessage: "",
-			captchaInput: "",
+			captchaInput: FormSelector.CUSTOM_CAPTCHA_INPUT,
 		};
 		this.submitValues = {
 			".uagb-forms-name-input": "name",

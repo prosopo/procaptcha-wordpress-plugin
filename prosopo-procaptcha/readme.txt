@@ -86,17 +86,15 @@ Branding:
 Account-related:
 1. [Simple Membership](https://wordpress.org/plugins/simple-membership/)
 2. [User Registration](https://wordpress.org/plugins/user-registration/)
-3. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - My Account forms
-4. [bbPress](https://wordpress.org/plugins/bbpress/) (account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/))
 
 While only the items above are tested, overall, the Procaptcha plugin supports all the plugins with custom account forms that use the native WordPress account hooks.
 
 **Other Integrations**:
 
-1. [BBPress](https://wordpress.org/plugins/bbpress/) - Forum forms: Open the target forum settings to enable topic and reply forms protection.
+1. [BBPress](https://wordpress.org/plugins/bbpress/) -  Account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/); Forum forms: Open the target forum settings to enable topic and reply forms protection.
 2. [Elementor Pro](https://elementor.com/) - Form widgets -  use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the plugin settings->Account forms).
 3. [JetPack](https://wordpress.org/plugins/jetpack/) (Forms) - Gutenberg form block: Add the Group block with the `prosopo_procaptcha` shortcode inside the target form block.
-4. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
+4. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - My Account forms; Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
 5. [Spectra](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/) - Form block - add hidden input with the `prosopo_procaptcha` name
 
 **Built-In Integrations**:

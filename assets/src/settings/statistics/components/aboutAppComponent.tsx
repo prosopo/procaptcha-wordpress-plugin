@@ -2,7 +2,7 @@ import * as React from "react";
 import { StateLabels } from "../config.js";
 import { SectionComponent } from "./sectionComponent.js";
 
-class AboutComponent extends React.Component {
+class AboutAppComponent extends React.Component {
 	render() {
 		return (
 			/*fixme translate*/
@@ -34,4 +34,4 @@ class AboutComponent extends React.Component {
 	}
 }
 
-export { AboutComponent };
+export { AboutAppComponent };

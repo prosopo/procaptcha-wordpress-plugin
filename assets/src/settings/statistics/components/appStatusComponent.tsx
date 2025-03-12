@@ -14,58 +14,76 @@ interface AppStatus {
 }
 
 class AppStatusComponent extends React.Component<AppStatus> {
-	getCurrentState() {
-		const { labels } = this.props;
+	private readonly stateElementVendors: {
+		[key in StatCurrentState]: () => React.ReactNode;
+	};
 
-		switch (this.props.state) {
-			case StatCurrentState.LOADING:
-				return (
-					<div className="flex items-center gap-1.5 text-yellow-500">
-						<span className="icon-[eos-icons--arrow-rotate] w-5 h-5"></span>
-						<p>{labels.loading}</p>
-					</div>
-				);
-			case StatCurrentState.FAILED:
-				return (
-					<div className="flex items-center gap-1.5 text-red-500">
-						<span className="icon-[eos-icons--critical-bug] w-5 h-5"></span>
-						<p>{labels.failedToLoad}</p>
-					</div>
-				);
-			case StatCurrentState.LOADED:
-				const now = new Date();
-				const hours =
-					now.getHours() < 10
-						? "0" + now.getHours()
-						: now.getHours().toString();
-				const minutes =
-					now.getMinutes() < 10
-						? "0" + now.getMinutes()
-						: now.getMinutes().toString();
+	constructor(appStatus: AppStatus) {
+		super(appStatus);
 
-				return (
-					<div className="flex gap-1.5 items-center text-green-500">
-						<span className="icon-[material-symbols--check-circle-outline] w-5 h-5"></span>
-						<p className="">{labels.lastRefreshedAt}</p>
-						<p className="font-medium">
-							{hours}:{minutes}
-						</p>
-						<p>-</p>
-						<button
-							onClick={this.props.reload}
-							className="underline cursor-pointer transition hover:text-green-700"
-						>
-							{labels.refreshNow}
-						</button>
-					</div>
-				);
-		}
+		this.stateElementVendors = {
+			[StatCurrentState.LOADING]:
+				this.getLoadingInProgressElement.bind(this),
+			[StatCurrentState.FAILED]: this.getLoadingFailedElement.bind(this),
+			[StatCurrentState.LOADED]:
+				this.getLoadingCompleteElement.bind(this),
+		};
 	}
 
-	render() {
+	public render(): React.ReactNode {
+		const stateElement = this.stateElementVendors[this.props.state]();
+
+		return <div className="flex justify-between">{stateElement}</div>;
+	}
+
+	protected getLoadingInProgressElement(): React.ReactNode {
 		return (
-			<div className="flex justify-between">{this.getCurrentState()}</div>
+			<div className="flex items-center gap-1.5 text-yellow-500">
+				<span className="icon-[eos-icons--arrow-rotate] w-5 h-5"></span>
+				<p>{this.props.labels.loading}</p>
+			</div>
 		);
+	}
+
+	protected getLoadingFailedElement(): React.ReactNode {
+		return (
+			<div className="flex items-center gap-1.5 text-red-500">
+				<span className="icon-[eos-icons--critical-bug] w-5 h-5"></span>
+				<p>{this.props.labels.failedToLoad}</p>
+			</div>
+		);
+	}
+
+	protected getLoadingCompleteElement(): React.ReactNode {
+		const labels = this.props.labels;
+
+		const currentDateTimeLabel = this.getDateTimeLabel(new Date());
+
+		return (
+			<div className="flex gap-1.5 items-center text-green-500">
+				<span className="icon-[material-symbols--check-circle-outline] w-5 h-5"></span>
+				<p className="">{labels.lastRefreshedAt}</p>
+				<p className="font-medium">{currentDateTimeLabel}</p>
+				<p>-</p>
+				<button
+					onClick={this.props.reload}
+					className="underline cursor-pointer transition hover:text-green-700"
+				>
+					{labels.refreshNow}
+				</button>
+			</div>
+		);
+	}
+
+	protected getDateTimeLabel(dateTime: Date): string {
+		const hours = dateTime.getHours();
+		const minutes = dateTime.getMinutes();
+
+		return `${this.formatTimeNumber(hours)}:${this.formatTimeNumber(minutes)}`;
+	}
+
+	protected formatTimeNumber(value: number): string {
+		return value < 10 ? "0" + value : value.toString();
 	}
 }
 

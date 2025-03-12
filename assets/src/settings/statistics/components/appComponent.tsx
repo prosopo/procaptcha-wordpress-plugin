@@ -13,14 +13,14 @@ import { ListComponent, List } from "./listComponent.js";
 import NumberUtils from "../numberUtils.js";
 import {
 	TrafficAnalyticsComponent,
-	TrafficData,
+	TrafficAnalytics,
 } from "./trafficAnalyticsComponent.js";
 import PluginModuleLogger from "../../../logger/plugin/pluginModuleLogger.js";
 import LoggerFactory from "../../../logger/loggerFactory.js";
 import Logger from "../../../logger/logger.js";
 import { Api } from "../api.js";
 import type { Account } from "../account/account.js";
-import { AboutComponent } from "./aboutComponent.js";
+import { AboutAppComponent } from "./aboutAppComponent.js";
 
 interface AppState {
 	statState: AppStatus;
@@ -28,7 +28,7 @@ interface AppState {
 	accountInformation: List;
 	captchaSettings: List;
 	domains: List;
-	trafficData: TrafficData;
+	trafficData: TrafficAnalytics;
 }
 
 class AppComponent extends React.Component<object, AppState> {
@@ -127,7 +127,7 @@ class AppComponent extends React.Component<object, AppState> {
 				items: [],
 			},
 			trafficData: {
-				isSupported: false,
+				accountTier: "",
 				logger: this.logger,
 				labels: this.config.getTrafficDataLabels(),
 			},
@@ -264,6 +264,17 @@ class AppComponent extends React.Component<object, AppState> {
 		}));
 	}
 
+	protected refreshTrafficData(account: Account): void {
+		this.setState((actualState) => ({
+			...actualState,
+			trafficData: {
+				...actualState.trafficData,
+				accountTier: account.tier,
+				labels: this.config.getTrafficDataLabels(),
+			},
+		}));
+	}
+
 	protected async refreshData(): Promise<void> {
 		try {
 			const api = await this.getApi();
@@ -271,6 +282,7 @@ class AppComponent extends React.Component<object, AppState> {
 
 			this.refreshUserData(account);
 			this.refreshUserSettings(account);
+			this.refreshTrafficData(account);
 
 			this.markAsLoaded();
 		} catch (e) {
@@ -304,7 +316,7 @@ class AppComponent extends React.Component<object, AppState> {
 
 		return (
 			<div className="flex flex-col gap-5">
-				<AboutComponent />
+				<AboutAppComponent />
 				<AppStatusComponent
 					labels={statState.labels}
 					state={statState.state}
@@ -336,7 +348,7 @@ class AppComponent extends React.Component<object, AppState> {
 					<TrafficAnalyticsComponent
 						classes="col-span-2"
 						logger={trafficData.logger}
-						isSupported={trafficData.isSupported}
+						accountTier={trafficData.accountTier}
 						labels={trafficData.labels}
 					/>
 				</div>

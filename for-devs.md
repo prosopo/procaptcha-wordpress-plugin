@@ -65,8 +65,8 @@ its [Hot Module Replacement](https://vite.dev/guide/features.html#hot-module-rep
 The dev mode constant tells the plugin to use the Vite dev server (`http://localhost:5173`) as the assets source,
 instead of the default `/dist` folder.
 
-Additionally, the plugin will automatically enqueue the Vite reloader script (
-`http://localhost:5173/@vite/client`) on pages with any assets in use, so the Vite HMR will function as usually.
+Additionally, the plugin will automatically enqueue the Vite reloader script (`http://localhost:5173/@vite/client`) on
+pages with any assets in use, so the Vite HMR will function as usually.
 
 ### 5.2) Scripts debugging
 
@@ -100,5 +100,5 @@ PHP-related:
 ### 5.4) For maintainers
 
 If you're a package maintainer, read
-the [for-maintainers.md](https://github.com/prosopo/procaptcha-wordpress-plugin/blob/main/for-maintainers.md) file
-to get additional information about the project. 
+the [for-maintainers.md](https://github.com/prosopo/procaptcha-wordpress-plugin/blob/main/for-maintainers.md) file to
+get additional information about the project. 

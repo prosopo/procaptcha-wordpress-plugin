@@ -84,7 +84,6 @@ class Statistics extends Procaptcha_Settings_Tab {
 				'submissionsCount' => __( 'Submissions Count', 'prosopo-procaptcha' ),
 				'time'             => __( 'Time', 'prosopo-procaptcha' ),
 				'title'            => __( 'Traffic Analytics', 'prosopo-procaptcha' ),
-				'upgradeNotice'    => __( 'Upgrade your tier to access traffic analytics.', 'prosopo-procaptcha' ),
 			),
 			'usageLabels'           => array(
 				'image'       => __( 'Image:', 'prosopo-procaptcha' ),

@@ -41,7 +41,7 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalytics> {
 		/* fixme translate */
 		return (
 			<PromoComponent
-				title={"Unlock Analytics with the Pro tier"}
+				title={"Unlock Analytics with Pro tier"}
 				icon={"icon-[material-symbols--family-star]"}
 				items={[
 					"Up to 1M monthly requests",
@@ -51,17 +51,12 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalytics> {
 					"Traffic analytics and statistics",
 				]}
 				actionLink={{
-					label: "Upgrade the tier",
-					href: "https://prosopo.io/pricing/",
+					label: "Upgrade",
+					href: "https://portal.prosopo.io/",
 					icon: "icon-[material-symbols--upgrade]",
 				}}
 			/>
 		);
-
-		const labels = this.props.labels;
-
-		/*fixme remove from translations*/
-		return <p>{labels.upgradeNotice}</p>;
 	}
 
 	protected getCallToVisitPortalElement(): React.ReactNode {

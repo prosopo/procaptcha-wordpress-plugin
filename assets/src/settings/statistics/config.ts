@@ -43,7 +43,6 @@ interface DomainLabels {
 
 interface TrafficDataLabels {
 	title: string;
-	upgradeNotice: string;
 	chartTitle: string;
 	powSubmissions: string;
 	imageSubmissions: string;
@@ -170,7 +169,6 @@ class ConfigClass implements Config {
 
 		return {
 			title: trafficDataLabels.getString("title"),
-			upgradeNotice: trafficDataLabels.getString("upgradeNotice"),
 			chartTitle: trafficDataLabels.getString("chartTitle"),
 			powSubmissions: trafficDataLabels.getString("powSubmissions"),
 			imageSubmissions: trafficDataLabels.getString("imageSubmissions"),

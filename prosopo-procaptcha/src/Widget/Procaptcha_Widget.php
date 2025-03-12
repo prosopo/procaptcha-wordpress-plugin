@@ -88,7 +88,7 @@ class Procaptcha_Widget implements Widget {
 	/**
 	 * @param string|null $token Allows to define the token value for JS-based custom forms (like NinjaForms).
 	 */
-	public function is_human_made_request( ?string $token = null ): bool {
+	public function is_verification_token_valid( ?string $token = null ): bool {
 		$token = null === $token ?
 			$this->query_arguments->get_string_for_non_action( self::FORM_FIELD_NAME, Query_Arguments::POST ) :
 			$token;
@@ -131,7 +131,7 @@ class Procaptcha_Widget implements Widget {
 	}
 
 	// Note: this function is available only after the 'set_current_user' hook.
-	public function is_present(): bool {
+	public function is_protection_enabled(): bool {
 		$user_authorized = wp_get_current_user()->exists();
 
 		$general_settings       = $this->settings_storage->get( General_Procaptcha_Settings::class )->get_settings();
@@ -150,7 +150,7 @@ class Procaptcha_Widget implements Widget {
 			'' !== string( $general_settings, General_Procaptcha_Settings::SITE_KEY );
 	}
 
-	public function load_integration_script( string $integration_name ): void {
+	public function load_plugin_integration_script( string $integration_name ): void {
 		$this->widget_assets_manager->load_integration_script( $integration_name );
 	}
 
@@ -162,7 +162,7 @@ class Procaptcha_Widget implements Widget {
 		$desired_on_guests = bool( $settings, Widget_Settings::IS_DESIRED_ON_GUESTS );
 
 		$is_field_stub = $desired_on_guests &&
-			! $this->is_present();
+			! $this->is_protection_enabled();
 
 		if ( ! $is_field_stub ) {
 			// automatically mark as in use.

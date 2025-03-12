@@ -54,7 +54,7 @@ class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements Form_In
 		);
 
 		$element .= '<prosopo-procaptcha-ninja-forms-integration></prosopo-procaptcha-ninja-forms-integration>';
-		$widget->load_integration_script( 'ninja-forms' );
+		$widget->load_plugin_integration_script( 'ninja-forms/ninja-forms-integration.min.js' );
 
 		$field['settings'] = array_merge(
 			arr( $field, 'settings' ),
@@ -79,13 +79,13 @@ class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements Form_In
 
 		if ( ! is_array( $field ) ||
 		! is_array( $data ) ||
-		! $widget->is_present() ) {
+		! $widget->is_protection_enabled() ) {
 			return array();
 		}
 
 		$token = string( $field, 'value' );
 
-		if ( ! $widget->is_human_made_request( $token ) ) {
+		if ( ! $widget->is_verification_token_valid( $token ) ) {
 			// For some reason it doesn't display error if array is returned...
 			return $widget->get_validation_error_message(); // @phpstan-ignore-line.
 		}

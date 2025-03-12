@@ -1,14 +1,14 @@
-import LoggerInterface from "../interfaces/loggerInterface";
-import ComponentControllerInterface from "../interfaces/componentControllerInterface";
+import Logger from "../../logger/logger.js";
+import { IntegrationComponent } from "../../integration/integrationComponent.js";
 
-class WidgetRenderer implements ComponentControllerInterface {
-	private readonly logger: LoggerInterface;
+class WidgetIntegrationComponent implements IntegrationComponent {
+	private readonly logger: Logger;
 
-	constructor(logger: LoggerInterface) {
+	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	processElement(origin: HTMLElement) {
+	setupIntegrationElement(integrationElement: HTMLElement) {
 		const procaptchaServiceCallback = this.getProcaptchaServiceCallback();
 
 		if (null === procaptchaServiceCallback) {
@@ -16,14 +16,14 @@ class WidgetRenderer implements ComponentControllerInterface {
 			return;
 		}
 
-		const captchaElement = this.getCaptchaElement(origin);
+		const captchaElement = this.getCaptchaElement(integrationElement);
 
 		if (null === captchaElement) {
 			this.logger.warning("Inner captcha container is missing.");
 			return;
 		}
 
-		const captchaAttributes = this.getCaptchaAttributes(origin);
+		const captchaAttributes = this.getCaptchaAttributes(integrationElement);
 
 		this.logger.debug("Rendering", {
 			captchaElement: captchaElement,
@@ -163,4 +163,4 @@ class WidgetRenderer implements ComponentControllerInterface {
 	}
 }
 
-export default WidgetRenderer;
+export default WidgetIntegrationComponent;

@@ -1,27 +1,11 @@
-import ModuleLoggerInterface from "../interfaces/moduleLoggerInterface";
-import logLevel from "../interfaces/logLevel";
+import logLevel from "./logLevel.js";
 
-class ModuleLogger implements ModuleLoggerInterface {
-	public log(
-		module: string,
-		level: logLevel,
-		message: string,
-		args: object = {},
-	): void {
-		console.log(`WP Procaptcha (${module}) [${level}]: ${message}`);
+interface ModuleLogger {
+	log(module: string, level: logLevel, message: string, args?: object): void;
 
-		if (0 !== Object.keys(args).length) {
-			console.log(args);
-		}
-	}
+	debug(module: string, message: string, args?: object): void;
 
-	debug(module: string, message: string, args?: object) {
-		this.log(module, logLevel.DEBUG, message, args);
-	}
-
-	warning(module: string, message: string, args?: object) {
-		this.log(module, logLevel.WARNING, message, args);
-	}
+	warning(module: string, message: string, args?: object): void;
 }
 
 export default ModuleLogger;

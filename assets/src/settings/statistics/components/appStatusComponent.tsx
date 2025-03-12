@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StateLabels } from "./config";
+import { StateLabels } from "../config.js";
 
 enum StatCurrentState {
 	LOADING = "loading",
@@ -7,13 +7,13 @@ enum StatCurrentState {
 	FAILED = "failed",
 }
 
-interface StatState {
+interface AppStatus {
 	state: StatCurrentState;
 	reload: () => void;
 	labels: StateLabels;
 }
 
-class StatStateElement extends React.Component<StatState> {
+class AppStatusComponent extends React.Component<AppStatus> {
 	getCurrentState() {
 		const { labels } = this.props;
 
@@ -82,4 +82,4 @@ class StatStateElement extends React.Component<StatState> {
 	}
 }
 
-export { StatCurrentState, StatState, StatStateElement };
+export { StatCurrentState, AppStatusComponent, AppStatus };

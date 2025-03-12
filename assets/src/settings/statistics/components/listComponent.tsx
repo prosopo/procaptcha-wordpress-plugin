@@ -1,23 +1,23 @@
 import * as React from "react";
-import { BoxElement } from "./box";
+import { SectionComponent } from "./sectionComponent.js";
 
-interface InfoBox {
-	title: string;
-	icon: string;
-	items: Array<InfoBoxItem>;
-}
-
-interface InfoBoxItem {
+interface ListItem {
 	label: string;
 	value: string;
 }
 
-class InfoBoxElement extends React.Component<InfoBox> {
+interface List {
+	title: string;
+	icon: string;
+	items: Array<ListItem>;
+}
+
+class ListComponent extends React.Component<List> {
 	render() {
 		const { title, icon, items } = this.props;
 
 		return (
-			<BoxElement title={title} icon={icon}>
+			<SectionComponent title={title} icon={icon}>
 				<div className="grid grid-cols-2">
 					{items.map((item, index) => (
 						<React.Fragment key={index}>
@@ -30,9 +30,9 @@ class InfoBoxElement extends React.Component<InfoBox> {
 						</React.Fragment>
 					))}
 				</div>
-			</BoxElement>
+			</SectionComponent>
 		);
 	}
 }
 
-export { InfoBox, InfoBoxElement };
+export { ListComponent, List };

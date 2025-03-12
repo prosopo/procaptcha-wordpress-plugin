@@ -87,8 +87,8 @@ class Everest_Forms_Form_Integration extends EVF_Form_Fields implements Form_Int
 
 		$widget = self::get_form_helper()->get_widget();
 
-		if ( ! $widget->is_present() ||
-		$widget->is_human_made_request( $field_submit ) ) {
+		if ( ! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid( $field_submit ) ) {
 			return;
 		}
 

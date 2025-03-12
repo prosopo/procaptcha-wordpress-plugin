@@ -1,18 +1,15 @@
-import LoggerInterface from "../../interfaces/loggerInterface";
-import ComponentControllerInterface from "../../interfaces/componentControllerInterface";
-import registerWebComponent from "../../registerWebComponent";
-import LoggerFactory from "../../logger/loggerFactory";
-import ModuleLogger from "../../logger/moduleLogger";
+import { IntegrationComponent } from "../../../integration/integrationComponent.js";
+import Logger from "../../../logger/logger.js";
 
-class NinjaFormsIntegration implements ComponentControllerInterface {
-	private readonly logger: LoggerInterface;
+class NinjaFormsIntegrationComponent implements IntegrationComponent {
+	private readonly logger: Logger;
 
-	constructor(logger: LoggerInterface) {
+	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	processElement(origin: HTMLElement): void {
-		const input = this.getCaptchaInput(origin);
+	setupIntegrationElement(integrationElement: HTMLElement): void {
+		const input = this.getCaptchaInput(integrationElement);
 
 		if (null === input) {
 			this.logger.warning("Captcha input is missing");
@@ -24,7 +21,7 @@ class NinjaFormsIntegration implements ComponentControllerInterface {
 
 		this.makeMarionetteObject(input);
 
-		origin.parentElement
+		integrationElement.parentElement
 			.closest("form")
 			.addEventListener("_prosopo-procaptcha__filled", () => {
 				this.clearValidationError(modelId);
@@ -132,21 +129,4 @@ class NinjaFormsIntegration implements ComponentControllerInterface {
 	}
 }
 
-const loggerFactory = new LoggerFactory();
-const moduleLogger = new ModuleLogger();
-
-const ninjaForms = new NinjaFormsIntegration(
-	loggerFactory.makeLogger("ninja-forms", moduleLogger),
-);
-
-const webComponentRegistarLogger = loggerFactory.makeLogger(
-	"web-component-registar",
-	moduleLogger,
-);
-
-registerWebComponent(webComponentRegistarLogger, {
-	name: "prosopo-procaptcha-ninja-forms-integration",
-	componentController: ninjaForms,
-	processIfReconnected: false,
-	waitWindowLoadedInsteadOfDomLoaded: true,
-});
+export { NinjaFormsIntegrationComponent };

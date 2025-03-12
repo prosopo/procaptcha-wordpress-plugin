@@ -20,7 +20,9 @@ covering maintaining-related aspects.
 So after the release candidate is ready, open a pull request from `main` to `release`, and after the tests are passed,
 merge it to the `release` branch and add the version tag to deploy.
 
-> Note: it's still your responsibility to update the version in the `prosopo-procaptcha.php` and `readme.txt` files.
+> Note: it's still your responsibility to update the plugin version in the `prosopo-procaptcha.php` and `readme.txt`
+> files. For
+> the assets building, it'll be picked up automatically from the plugin header.
 
 ## 2. One command packages installation
 

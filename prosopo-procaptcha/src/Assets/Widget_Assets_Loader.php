@@ -22,7 +22,7 @@ final class Widget_Assets_Loader implements Hookable {
 	 *
 	 * @var string[]
 	 */
-	private array $integration_scripts;
+	private array $plugin_integration_scripts;
 	private string $integrations_css_code;
 
 	private Assets_Loader $assets_loader;
@@ -40,9 +40,9 @@ final class Widget_Assets_Loader implements Hookable {
 		$this->general_settings = $general_settings;
 		$this->assets_loader    = $assets_loader;
 
-		$this->is_widget_in_use      = false;
-		$this->integration_scripts   = array();
-		$this->integrations_css_code = '';
+		$this->is_widget_in_use           = false;
+		$this->plugin_integration_scripts = array();
+		$this->integrations_css_code      = '';
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
@@ -55,7 +55,7 @@ final class Widget_Assets_Loader implements Hookable {
 	}
 
 	public function load_integration_script( string $integration_name ): void {
-		$this->integration_scripts[] = $integration_name;
+		$this->plugin_integration_scripts[] = $integration_name;
 	}
 
 	public function load_integration_css( string $css_code ): void {
@@ -73,7 +73,7 @@ final class Widget_Assets_Loader implements Hookable {
 
 		$this->load_service_script();
 		$this->load_widget_script();
-		$this->load_integration_scripts();
+		$this->load_plugin_integration_scripts();
 
 		if ( '' !== $this->integrations_css_code ) {
 			printf( '<style>%s</style>', esc_html( $this->integrations_css_code ) );
@@ -96,16 +96,19 @@ final class Widget_Assets_Loader implements Hookable {
 		$widget_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $widget_attributes );
 
 		$this->assets_loader->load_script_asset(
-			'widget/widget.ts',
+			'integrations/procaptcha-integration.min.js',
 			array(),
 			'procaptchaWpAttributes',
 			$widget_attributes
 		);
 	}
 
-	protected function load_integration_scripts(): void {
-		foreach ( $this->integration_scripts as $integration_script ) {
-			$relative_script_path = sprintf( 'widget/integrations/%s.ts', $integration_script );
+	protected function load_plugin_integration_scripts(): void {
+		foreach ( $this->plugin_integration_scripts as $integration_script ) {
+			$relative_script_path = sprintf(
+				'integrations/plugins/%s',
+				$integration_script
+			);
 
 			$this->assets_loader->load_script_asset( $relative_script_path );
 		}

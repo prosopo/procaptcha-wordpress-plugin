@@ -33,11 +33,11 @@ class Statistics extends Procaptcha_Settings_Tab {
 	}
 
 	public function get_tab_script_asset(): string {
-		return 'settings/statistics.tsx';
+		return 'settings/statistics/statistics.min.js';
 	}
 
 	public function get_style_asset(): string {
-		return 'settings/statistics-styles.css';
+		return 'settings/statistics/styles.min.css';
 	}
 
 	public function get_tab_js_data( Settings_Storage $settings_storage ): array {

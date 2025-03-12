@@ -77,8 +77,8 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 
 		$token = string( $form_data, 'value' );
 
-		if ( ! $widget->is_present() ||
-		$widget->is_human_made_request( $token ) ) {
+		if ( ! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid( $token ) ) {
 			return;
 		}
 

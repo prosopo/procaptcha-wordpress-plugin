@@ -21,8 +21,7 @@ The project follows
 the [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/).
 
 Configure your IDE to use the [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) and use the
-`php-tools/code-quality/wp-ruleset.xml` config, or run the following
-command to automatically fix style issues:
+`php-tools/code-quality/wp-ruleset.xml` config, or run the following command to automatically fix style issues:
 
 `cd php-tools/code-quality; composer install; composer phpcbf`
 
@@ -55,12 +54,26 @@ Please open your Pull Requests against the `main` branch.
 
 ## 5. Advanced
 
-### 5.1) Dynamic scripts debugging
+### 5.1) Assets developing with the Vite HMR
+
+The plugin assets setup uses [Vite](https://vite.dev/) and supports
+its [Hot Module Replacement](https://vite.dev/guide/features.html#hot-module-replacement) feature. To use HMR:
+
+1. Start Vite dev server: `cd assets; yarn dev:[settings/integrations]`
+2. Update your local `wp-config.php` to add the dev mode constant: `define("PROSOPO_PROCAPTCHA_DEV_MODE", true);`
+
+The dev mode constant tells the plugin to use the Vite dev server (`http://localhost:5173`) as the assets source,
+instead of the default `/dist` folder.
+
+Additionally, the plugin will automatically enqueue the Vite reloader script (`http://localhost:5173/@vite/client`) on
+pages with any assets in use, so the Vite HMR will function as usually.
+
+### 5.2) Scripts debugging
 
 To debug any scripts that come from the plugin (like widget, admin settings page, etc) add `_wp_procaptcha_debug_mode`
-item with any value to the localStorage. It'll enable the debug mode.
+item with any value to the `localStorage`. It'll enable the debug mode.
 
-### 5.2) Full commands list
+### 5.3) Full commands list
 
 Common:
 
@@ -70,8 +83,8 @@ JavaScript-related:
 
 `cd assets` and:
 
-1. `yarn build:[all/settings/widget]` - runs Vite building
-2. `yarn dev:[settings/widget]` - starts Vite dev server
+1. `yarn build:[all/settings/integrations]` - runs Vite building
+2. `yarn dev:[settings/integrations]` - starts Vite dev server
 3. `yarn lint:[check/fix]` - runs ESLint static code analyses
 4. `yarn prettier:[check/fix]` - runs Prettier formatter
 
@@ -84,8 +97,8 @@ PHP-related:
 3. `bash check-code-quality.sh phpstan` - runs PHPStan static code analyses
 4. `bash check-code-quality.sh pest` - runs Pest tests
 
-### 5.3) For maintainers
+### 5.4) For maintainers
 
 If you're a package maintainer, read
-the [for-maintainers.md](https://github.com/prosopo/procaptcha-wordpress-plugin/blob/main/for-maintainers.md) file
-to get additional information about the project. 
+the [for-maintainers.md](https://github.com/prosopo/procaptcha-wordpress-plugin/blob/main/for-maintainers.md) file to
+get additional information about the project. 

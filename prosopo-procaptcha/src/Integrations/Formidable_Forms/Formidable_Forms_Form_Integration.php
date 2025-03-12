@@ -99,8 +99,8 @@ class Formidable_Forms_Form_Integration extends FrmFieldType implements Form_Int
 
 		$token = string( $args, 'value' );
 
-		if ( ! $widget->is_present() ||
-		$widget->is_human_made_request( $token ) ) {
+		if ( ! $widget->is_protection_enabled() ||
+		$widget->is_verification_token_valid( $token ) ) {
 			return $errors;
 		}
 

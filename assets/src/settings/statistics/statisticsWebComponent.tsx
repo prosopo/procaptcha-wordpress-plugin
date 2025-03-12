@@ -1,8 +1,8 @@
 import * as ReactDOM from "react-dom/client";
 import * as React from "react";
-import App from "./statistics/app";
+import { AppComponent } from "./components/appComponent.js";
 
-class ProcaptchaStatistics extends HTMLElement {
+class StatisticsWebComponent extends HTMLElement {
 	public connectedCallback(): void {
 		if ("loading" === document.readyState) {
 			document.addEventListener("DOMContentLoaded", this.setup);
@@ -19,10 +19,10 @@ class ProcaptchaStatistics extends HTMLElement {
 
 		root.render(
 			<React.StrictMode>
-				<App />
+				<AppComponent />
 			</React.StrictMode>,
 		);
 	}
 }
 
-customElements.define("procaptcha-statistics", ProcaptchaStatistics);
+export { StatisticsWebComponent };

@@ -37,7 +37,7 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 		// as for some odd reason they'll have changed.
 
 		// returning WP_Error will outright abort form processing.
-		return $widget->is_present() &&
+		return $widget->is_protection_enabled() &&
 		$submitted_form instanceof Contact_Form &&
 		$this->is_form_submission_unverified( $submitted_form ) ?
 			$widget->get_validation_error() :
@@ -89,7 +89,7 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 		$widget = self::get_form_helper()->get_widget();
 
 		return $this->is_form_protected( $submitted_form ) &&
-			! $widget->is_human_made_request();
+			! $widget->is_verification_token_valid();
 	}
 
 	protected function is_form_protected( Contact_Form $form ): bool {
@@ -119,7 +119,7 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 		// even when they're the same.
 		$is_form_submitted = $this->get_submitted_form() instanceof Contact_Form;
 
-		if ( $widget->is_present() &&
+		if ( $widget->is_protection_enabled() &&
 			$is_form_submitted &&
 			$this->is_form_submission_unverified( $form ) ) {
 			$form->errors = $widget->get_validation_error( $form->errors );

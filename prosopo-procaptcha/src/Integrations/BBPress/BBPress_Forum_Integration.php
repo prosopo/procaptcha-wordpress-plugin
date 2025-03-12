@@ -82,8 +82,8 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 		$widget = self::get_form_helper()->get_widget();
 
 		if ( ! $this->is_enabled( $forum_id ) ||
-			! $widget->is_present() ||
-			$widget->is_human_made_request() ) {
+			! $widget->is_protection_enabled() ||
+			$widget->is_verification_token_valid() ) {
 			return;
 		}
 

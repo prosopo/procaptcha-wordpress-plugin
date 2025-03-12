@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.12.0
+Stable tag: 1.13.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,17 +86,16 @@ Branding:
 Account-related:
 1. [Simple Membership](https://wordpress.org/plugins/simple-membership/)
 2. [User Registration](https://wordpress.org/plugins/user-registration/)
-3. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - My Account forms
-4. [bbPress](https://wordpress.org/plugins/bbpress/) (account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/))
 
 While only the items above are tested, overall, the Procaptcha plugin supports all the plugins with custom account forms that use the native WordPress account hooks.
 
 **Other Integrations**:
 
-1. [BBPress](https://wordpress.org/plugins/bbpress/) - Forum forms: Open the target forum settings to enable topic and reply forms protection.
+1. [BBPress](https://wordpress.org/plugins/bbpress/) -  Account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/); Forum forms: Open the target forum settings to enable topic and reply forms protection.
 2. [Elementor Pro](https://elementor.com/) - Form widgets -  use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the plugin settings->Account forms).
 3. [JetPack](https://wordpress.org/plugins/jetpack/) (Forms) - Gutenberg form block: Add the Group block with the `prosopo_procaptcha` shortcode inside the target form block.
-4. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
+4. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - My Account forms; Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
+5. [Spectra](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/) - Form block - add hidden input with the `prosopo_procaptcha` name
 
 **Built-In Integrations**:
 
@@ -133,6 +132,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.13.0 (2024-03-11) =
+- Added support for [Spectra](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/)
 
 = 1.12.0 (2024-03-06) =
 - Updated Statistics page to use the new API

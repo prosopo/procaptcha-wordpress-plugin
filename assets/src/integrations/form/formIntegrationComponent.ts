@@ -1,14 +1,14 @@
-import LoggerInterface from "../interfaces/loggerInterface";
-import ComponentControllerInterface from "../interfaces/componentControllerInterface";
+import Logger from "../../logger/logger.js";
+import { IntegrationComponent } from "../../integration/integrationComponent.js";
 
-class FormValidator implements ComponentControllerInterface {
-	private readonly logger: LoggerInterface;
+class FormIntegrationComponent implements IntegrationComponent {
+	private readonly logger: Logger;
 
-	constructor(logger: LoggerInterface) {
+	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	public processElement(element: HTMLElement) {
+	public setupIntegrationElement(element: HTMLElement) {
 		const form = element.closest("form");
 
 		if (null === form) {
@@ -122,4 +122,4 @@ class FormValidator implements ComponentControllerInterface {
 	}
 }
 
-export default FormValidator;
+export default FormIntegrationComponent;

@@ -1,20 +1,20 @@
 import React from "react";
-import { Link, LinkComponent } from "./linkComponent.js";
+import { LinkComponentProperties, LinkComponent } from "./linkComponent.js";
 
-interface CallToAction {
+interface CallToActionComponentProperties {
 	message: string;
-	button: Link;
+	buttonComponentProperties: LinkComponentProperties;
 }
 
-class CallToActionComponent extends React.Component<CallToAction> {
+class CallToActionComponent extends React.Component<CallToActionComponentProperties> {
 	public render(): React.ReactNode {
-		const { message, button } = this.props;
+		const { message, buttonComponentProperties } = this.props;
 
 		return (
 			<div className="flex justify-between items-center">
 				<p className="flex-1">{message}</p>
 				<div className="flex justify-center flex-1">
-					<LinkComponent {...button} />
+					<LinkComponent {...buttonComponentProperties} />
 				</div>
 			</div>
 		);

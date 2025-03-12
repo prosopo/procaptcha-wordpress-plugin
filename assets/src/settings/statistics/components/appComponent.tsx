@@ -2,18 +2,18 @@ import * as React from "react";
 import {
 	StatCurrentState,
 	AppStatusComponent,
-	AppStatus,
+	AppStatusComponentProperties,
 } from "./appStatusComponent.js";
 import { Config, ConfigClass } from "../config.js";
 import {
 	CaptchaUsageComponent,
-	CaptchaUsage,
-} from "./captchaUsageComponent.js";
-import { ListComponent, List } from "./listComponent.js";
-import NumberUtils from "../numberUtils.js";
+	CaptchaUsageComponentProperties,
+} from "../captchaUsage/captchaUsageComponent.js";
+import { ListComponent, ListComponentProperties } from "./listComponent.js";
+import CaptchaUsageNumberUtils from "../captchaUsage/captchaUsageNumberUtils.js";
 import {
 	TrafficAnalyticsComponent,
-	TrafficAnalytics,
+	TrafficAnalyticsComponentProperties,
 } from "./trafficAnalyticsComponent.js";
 import PluginModuleLogger from "../../../logger/plugin/pluginModuleLogger.js";
 import LoggerFactory from "../../../logger/loggerFactory.js";
@@ -23,33 +23,31 @@ import type { Account } from "../account/account.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
 
 interface AppState {
-	statState: AppStatus;
-	usageInfo: CaptchaUsage;
-	accountInformation: List;
-	captchaSettings: List;
-	domains: List;
-	trafficData: TrafficAnalytics;
+	statState: AppStatusComponentProperties;
+	usageInfo: CaptchaUsageComponentProperties;
+	accountInformation: ListComponentProperties;
+	captchaSettings: ListComponentProperties;
+	domains: ListComponentProperties;
+	trafficData: TrafficAnalyticsComponentProperties;
 }
 
 class AppComponent extends React.Component<object, AppState> {
 	private api: Api | null = null;
-	private config: Config;
-	private numberUtils: NumberUtils;
-	private logger: Logger;
-	private accountTier: string;
+	private readonly config: Config;
+	private readonly numberUtils: CaptchaUsageNumberUtils;
+	private readonly logger: Logger;
 
 	constructor(props) {
 		super(props);
 
 		const loggerFactory = new LoggerFactory();
 
-		this.accountTier = "";
 		this.config = new ConfigClass();
 		this.logger = loggerFactory.createLogger(
 			"statistics",
 			new PluginModuleLogger(),
 		);
-		this.numberUtils = new NumberUtils();
+		this.numberUtils = new CaptchaUsageNumberUtils();
 
 		this.state = this.getInitialState();
 	}
@@ -155,8 +153,6 @@ class AppComponent extends React.Component<object, AppState> {
 	}
 
 	protected refreshUserData(account: Account): void {
-		this.accountTier = account.tier;
-
 		this.setState((actualState) => ({
 			...actualState,
 			accountInformation: {

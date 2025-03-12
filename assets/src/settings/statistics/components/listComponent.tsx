@@ -1,18 +1,18 @@
 import * as React from "react";
 import { SectionComponent } from "./sectionComponent.js";
 
-interface ListItem {
+interface ListComponentItem {
 	label: string;
 	value: string;
 }
 
-interface List {
+interface ListComponentProperties {
 	title: string;
 	icon: string;
-	items: Array<ListItem>;
+	items: Array<ListComponentItem>;
 }
 
-class ListComponent extends React.Component<List> {
+class ListComponent extends React.Component<ListComponentProperties> {
 	render() {
 		const { title, icon, items } = this.props;
 
@@ -35,4 +35,4 @@ class ListComponent extends React.Component<List> {
 	}
 }
 
-export { ListComponent, List };
+export { ListComponent, ListComponentProperties };

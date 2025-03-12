@@ -1,12 +1,12 @@
 import React from "react";
 
-interface Link {
+interface LinkComponentProperties {
 	label: string;
 	href: string;
 	icon?: string;
 }
 
-class LinkComponent extends React.Component<Link> {
+class LinkComponent extends React.Component<LinkComponentProperties> {
 	public render(): React.ReactNode {
 		const { label, href, icon } = this.props;
 
@@ -25,4 +25,4 @@ class LinkComponent extends React.Component<Link> {
 	}
 }
 
-export { Link, LinkComponent };
+export { LinkComponentProperties, LinkComponent };

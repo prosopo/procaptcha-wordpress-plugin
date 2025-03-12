@@ -7,18 +7,18 @@ enum StatCurrentState {
 	FAILED = "failed",
 }
 
-interface AppStatus {
+interface AppStatusComponentProperties {
 	state: StatCurrentState;
 	reload: () => void;
 	labels: StateLabels;
 }
 
-class AppStatusComponent extends React.Component<AppStatus> {
+class AppStatusComponent extends React.Component<AppStatusComponentProperties> {
 	private readonly stateElementVendors: {
 		[key in StatCurrentState]: () => React.ReactNode;
 	};
 
-	constructor(appStatus: AppStatus) {
+	constructor(appStatus: AppStatusComponentProperties) {
 		super(appStatus);
 
 		this.stateElementVendors = {
@@ -87,4 +87,4 @@ class AppStatusComponent extends React.Component<AppStatus> {
 	}
 }
 
-export { StatCurrentState, AppStatusComponent, AppStatus };
+export { StatCurrentState, AppStatusComponent, AppStatusComponentProperties };

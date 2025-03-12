@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { captchaUsageSchema } from "./captchaUsage/captchaUsageSchema.js";
+import { captchaUsageSchema } from "../captchaUsage/captchaUsageSchema.js";
 
 const accountSchema = z.object({
 	name: z.string(),

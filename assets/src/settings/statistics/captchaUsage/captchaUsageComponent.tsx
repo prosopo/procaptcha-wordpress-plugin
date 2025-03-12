@@ -1,27 +1,20 @@
 import * as React from "react";
 import { UsageLabels } from "../config.js";
-import { SectionComponent } from "./sectionComponent.js";
-import NumberUtils from "../numberUtils.js";
+import { SectionComponent } from "../components/sectionComponent.js";
+import CaptchaUsageNumberUtils from "./captchaUsageNumberUtils.js";
+import type { CaptchaUsage } from "./captchaUsage.js";
 
-interface CaptchaUsage {
+interface CaptchaUsageComponentProperties {
 	limits: {
 		verifications: number;
 	};
-	image: {
-		submissions: number;
-		verifications: number;
-		total: number;
-	};
-	pow: {
-		submissions: number;
-		verifications: number;
-		total: number;
-	};
+	image: CaptchaUsage;
+	pow: CaptchaUsage;
 	labels: UsageLabels;
-	numberUtils: NumberUtils;
+	numberUtils: CaptchaUsageNumberUtils;
 }
 
-class CaptchaUsageComponent extends React.Component<CaptchaUsage> {
+class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentProperties> {
 	render() {
 		const numberUtils = this.props.numberUtils;
 		const limit = this.props.limits.verifications;
@@ -110,4 +103,4 @@ class CaptchaUsageComponent extends React.Component<CaptchaUsage> {
 	}
 }
 
-export { CaptchaUsageComponent, CaptchaUsage };
+export { CaptchaUsageComponent, CaptchaUsageComponentProperties };

@@ -1,16 +1,19 @@
 import * as React from "react";
-import { type Link, LinkComponent } from "./linkComponent.js";
+import {
+	type LinkComponentProperties,
+	LinkComponent,
+} from "./linkComponent.js";
 
-interface Promo {
+interface PromoComponentProperties {
 	title: string;
 	icon: string;
 	items: Array<string>;
-	actionLink: Link;
+	actionLinkComponentProperties: LinkComponentProperties;
 }
 
-class PromoComponent extends React.Component<Promo> {
+class PromoComponent extends React.Component<PromoComponentProperties> {
 	public render() {
-		const { title, icon, actionLink } = this.props;
+		const { title, icon, actionLinkComponentProperties } = this.props;
 		return (
 			<div className="flex flex-col items-start gap-4">
 				<div className="flex gap-2 items-center">
@@ -25,7 +28,7 @@ class PromoComponent extends React.Component<Promo> {
 						</li>
 					))}
 				</ul>
-				<LinkComponent {...actionLink} />
+				<LinkComponent {...actionLinkComponentProperties} />
 			</div>
 		);
 	}

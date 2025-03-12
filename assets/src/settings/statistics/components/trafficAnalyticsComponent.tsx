@@ -6,14 +6,14 @@ import { AccountTiers } from "../account/accountTiers.js";
 import { CallToActionComponent } from "./callToActionComponent.js";
 import { PromoComponent } from "./promoComponent.js";
 
-interface TrafficAnalytics {
+interface TrafficAnalyticsComponentProperties {
 	accountTier: string;
 	labels: TrafficDataLabels;
 	logger: Logger;
 	classes?: string;
 }
 
-class TrafficAnalyticsComponent extends React.Component<TrafficAnalytics> {
+class TrafficAnalyticsComponent extends React.Component<TrafficAnalyticsComponentProperties> {
 	public render() {
 		const labels = this.props.labels;
 		const content = this.getContentElement();
@@ -50,7 +50,7 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalytics> {
 					"Advanced user management",
 					"Traffic analytics and statistics",
 				]}
-				actionLink={{
+				actionLinkComponentProperties={{
 					label: "Upgrade",
 					href: "https://portal.prosopo.io/",
 					icon: "icon-[material-symbols--upgrade]",
@@ -66,7 +66,7 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalytics> {
 				message={
 					"Your tier includes access to the detailed traffic analytics. Visit the portal to see charts."
 				}
-				button={{
+				buttonComponentProperties={{
 					label: "View the traffic analytics",
 					href: "https://portal.prosopo.io/traffic",
 					icon: "icon-[material-symbols--insert-chart]",
@@ -76,4 +76,4 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalytics> {
 	}
 }
 
-export { TrafficAnalyticsComponent, TrafficAnalytics };
+export { TrafficAnalyticsComponent, TrafficAnalyticsComponentProperties };

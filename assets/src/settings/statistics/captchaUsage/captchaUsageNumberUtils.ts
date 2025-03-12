@@ -1,4 +1,4 @@
-class NumberUtils {
+class CaptchaUsageNumberUtils {
 	protected roundToTwoDecimals(value: number): number {
 		return Math.round(value * 100) / 100;
 	}
@@ -21,4 +21,4 @@ class NumberUtils {
 	}
 }
 
-export default NumberUtils;
+export default CaptchaUsageNumberUtils;

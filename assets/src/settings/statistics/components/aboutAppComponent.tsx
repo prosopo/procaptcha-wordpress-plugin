@@ -1,7 +1,5 @@
 import * as React from "react";
-import { StateLabels } from "../config.js";
 import { SectionComponent } from "./sectionComponent.js";
-import { LinkComponent } from "./linkComponent.js";
 import { CallToActionComponent } from "./callToActionComponent.js";
 
 class AboutAppComponent extends React.Component {
@@ -16,7 +14,7 @@ class AboutAppComponent extends React.Component {
 					message={
 						"This page displays general statistics and information by your site key. To manage your account and site settings visit the Prosopo portal."
 					}
-					button={{
+					buttonComponentProperties={{
 						label: "Open the Portal",
 						href: "https://portal.prosopo.io",
 						icon: "icon-[material-symbols--settings-account-box-outline]",

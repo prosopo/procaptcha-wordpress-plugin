@@ -3,7 +3,6 @@ import Collection from "./collection.js";
 interface AccountLabels {
 	title: string;
 	name: string;
-	email: string;
 	tier: string;
 }
 
@@ -19,7 +18,6 @@ interface StateLabels {
 	refreshNow: string;
 	failedToLoad: string;
 	loading: string;
-	toChangeVisitPortal: string;
 }
 
 interface CaptchaSettingsLabels {
@@ -100,7 +98,6 @@ class ConfigClass implements Config {
 		return {
 			title: accountLabels.getString("title"),
 			name: accountLabels.getString("name"),
-			email: accountLabels.getString("email"),
 			tier: accountLabels.getString("tier"),
 		};
 	}
@@ -128,7 +125,6 @@ class ConfigClass implements Config {
 			refreshNow: stateLabels.getString("refreshNow"),
 			failedToLoad: stateLabels.getString("failedToLoad"),
 			loading: stateLabels.getString("loading"),
-			toChangeVisitPortal: stateLabels.getString("toChangeVisitPortal"),
 		};
 	}
 

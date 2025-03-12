@@ -20,6 +20,7 @@ import LoggerFactory from "../../../logger/loggerFactory.js";
 import Logger from "../../../logger/logger.js";
 import { Api } from "../api.js";
 import type { Account } from "../account/account.js";
+import { AboutComponent } from "./aboutComponent.js";
 
 interface AppState {
 	statState: AppStatus;
@@ -98,10 +99,6 @@ class AppComponent extends React.Component<object, AppState> {
 						label: this.config.getAccountLabels().name,
 						value: "...",
 					},
-					{
-						label: this.config.getAccountLabels().email,
-						value: "...",
-					},
 				],
 			},
 			captchaSettings: {
@@ -173,10 +170,6 @@ class AppComponent extends React.Component<object, AppState> {
 						label: this.config.getAccountLabels().name,
 						value: account.name,
 					},
-					/* fixme remove from label{
-                         label: this.config.getAccountLabels().email,
-                         value: account.email,
-                     },*/
 				],
 			},
 			usageInfo: {
@@ -311,6 +304,7 @@ class AppComponent extends React.Component<object, AppState> {
 
 		return (
 			<div className="flex flex-col gap-5">
+				<AboutComponent />
 				<AppStatusComponent
 					labels={statState.labels}
 					state={statState.state}

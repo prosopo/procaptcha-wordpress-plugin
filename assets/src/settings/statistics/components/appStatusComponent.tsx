@@ -63,21 +63,8 @@ class AppStatusComponent extends React.Component<AppStatus> {
 	}
 
 	render() {
-		const { labels } = this.props;
-
 		return (
-			<div className="flex justify-between">
-				{this.getCurrentState()}
-				<a
-					target="_blank"
-					rel="noreferrer"
-					href="https://portal.prosopo.io/"
-					className="py-1.5 px-3 bg-blue text-white rounded transition cursor-pointer
-    hover:bg-blue-dark"
-				>
-					{labels.toChangeVisitPortal}
-				</a>
-			</div>
+			<div className="flex justify-between">{this.getCurrentState()}</div>
 		);
 	}
 }

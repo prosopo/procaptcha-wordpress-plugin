@@ -45,7 +45,6 @@ class Statistics extends Procaptcha_Settings_Tab {
 
 		return array(
 			'accountLabels'         => array(
-				'email' => __( 'Email:', 'prosopo-procaptcha' ),
 				'name'  => __( 'Name:', 'prosopo-procaptcha' ),
 				'tier'  => __( 'Tier:', 'prosopo-procaptcha' ),
 				'title' => __( 'Account Information', 'prosopo-procaptcha' ),
@@ -73,11 +72,10 @@ class Statistics extends Procaptcha_Settings_Tab {
 			'secretKey'             => string( $general_settings, General_Procaptcha_Settings::SECRET_KEY ),
 			'siteKey'               => string( $general_settings, General_Procaptcha_Settings::SITE_KEY ),
 			'stateLabels'           => array(
-				'failedToLoad'        => __( 'Failed to load. Please try again later.', 'prosopo-procaptcha' ),
-				'lastRefreshedAt'     => __( 'Successfully loaded at', 'prosopo-procaptcha' ),
-				'loading'             => __( 'Loading, please wait.', 'prosopo-procaptcha' ),
-				'refreshNow'          => __( 'Refresh now', 'prosopo-procaptcha' ),
-				'toChangeVisitPortal' => __( 'Change settings', 'prosopo-procaptcha' ),
+				'failedToLoad'    => __( 'Failed to load. Please try again later.', 'prosopo-procaptcha' ),
+				'lastRefreshedAt' => __( 'Successfully loaded at', 'prosopo-procaptcha' ),
+				'loading'         => __( 'Loading, please wait.', 'prosopo-procaptcha' ),
+				'refreshNow'      => __( 'Refresh now', 'prosopo-procaptcha' ),
 			),
 			'trafficDataLabels'     => array(
 				'chartTitle'       => __( 'Traffic Data Over Time', 'prosopo-procaptcha' ),

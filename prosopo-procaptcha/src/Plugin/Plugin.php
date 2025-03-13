@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Io\Prosopo\Procaptcha;
+namespace Io\Prosopo\Procaptcha\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Assets\Plugin_Assets;
-use Io\Prosopo\Procaptcha\Assets\Widget_Assets_Loader;
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
@@ -34,12 +35,11 @@ use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
-use Io\Prosopo\Procaptcha\Settings\{Settings_Page,
-	Storage\Procaptcha_Settings_Storage,
-	Tabs\Account_Forms_Procaptcha_Settings,
-	Tabs\General_Procaptcha_Settings,
-	Tabs\Statistics
-};
+use Io\Prosopo\Procaptcha\Settings\{Account_Forms_Settings_Tab,
+	General\General_Settings_Tab,
+	Settings_Page,
+	Statistics\Statistics_Settings_Tab,
+	Storage\Procaptcha_Settings_Storage};
 
 final class Plugin implements Hookable {
 	const SLUG               = 'prosopo-procaptcha';
@@ -76,7 +76,7 @@ final class Plugin implements Hookable {
 			self::SERVICE_SCRIPT_URL,
 			'prosopo-procaptcha',
 			$this->plugin_assets->get_loader(),
-			$this->settings_storage->get( General_Procaptcha_Settings::class )
+			$this->settings_storage->get( General_Settings_Tab::class )
 		);
 
 		$this->query_arguments = new Query_Arguments();
@@ -196,9 +196,9 @@ final class Plugin implements Hookable {
 	 */
 	protected function get_independent_setting_tabs(): array {
 		return array(
-			General_Procaptcha_Settings::class,
-			Account_Forms_Procaptcha_Settings::class,
-			Statistics::class,
+			General_Settings_Tab::class,
+			Account_Forms_Settings_Tab::class,
+			Statistics_Settings_Tab::class,
 		);
 	}
 }

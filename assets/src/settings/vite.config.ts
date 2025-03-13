@@ -16,11 +16,6 @@ const settingsConfig: UserConfig = {
 	build: {
 		rollupOptions: {
 			input: {
-				settings: path.resolve(__dirname, "./settings.css"),
-				"general/general-settings": path.resolve(
-					__dirname,
-					"./general/general-settings.ts",
-				),
 				"general/general-settings-styles": path.resolve(
 					__dirname,
 					"./general/general-settings-styles.css",
@@ -29,9 +24,9 @@ const settingsConfig: UserConfig = {
 					__dirname,
 					"./statistics/statistics.ts",
 				),
-				"statistics/styles": path.resolve(
+				"statistics/statistics-styles": path.resolve(
 					__dirname,
-					"./statistics/styles.css",
+					"./statistics/statistics-styles.css",
 				),
 			},
 		},

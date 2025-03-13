@@ -2,18 +2,17 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Settings\Tabs;
+namespace Io\Prosopo\Procaptcha\Settings\General;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
-use Io\Prosopo\Procaptcha\Templates\Settings\Settings_General_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-class General_Procaptcha_Settings extends Procaptcha_Settings_Tab {
+class General_Settings_Tab extends Procaptcha_Settings_Tab {
 	const SITE_KEY                  = 'site_key';
 	const SECRET_KEY                = 'secret_key';
 	const THEME                     = 'theme';
@@ -30,8 +29,8 @@ class General_Procaptcha_Settings extends Procaptcha_Settings_Tab {
 
 	public function make_tab_component( ModelFactoryInterface $factory, Widget $widget ): TemplateModelInterface {
 		return $factory->createModel(
-			Settings_General_Tab::class,
-			function ( Settings_General_Tab $settings_general_tab ) use ( $factory, $widget ) {
+			General_Settings::class,
+			function ( General_Settings $settings_general_tab ) use ( $factory, $widget ) {
 				$settings_general_tab->form = parent::make_tab_component( $factory, $widget );
 
 				$settings_general_tab->preview = $widget->print_form_field(

@@ -6,11 +6,9 @@ namespace Io\Prosopo\Procaptcha\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Assets\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Settings\General\General_Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
-use Io\Prosopo\Procaptcha\Settings\Tabs\General_Procaptcha_Settings;
-use Io\Prosopo\Procaptcha\Templates\Widget_Model;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\html_attrs_collection;
@@ -19,8 +17,6 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Procaptcha_Widget implements Widget {
-
-
 	const API_URL                    = 'https://api.prosopo.io/siteverify';
 	const FORM_FIELD_NAME            = 'procaptcha-response';
 	const ALLOW_BYPASS_CONSTANT_NAME = 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS';
@@ -134,8 +130,8 @@ class Procaptcha_Widget implements Widget {
 	public function is_protection_enabled(): bool {
 		$user_authorized = wp_get_current_user()->exists();
 
-		$general_settings       = $this->settings_storage->get( General_Procaptcha_Settings::class )->get_settings();
-		$enabled_for_authorized = bool( $general_settings, General_Procaptcha_Settings::IS_ENABLED_FOR_AUTHORIZED );
+		$general_settings       = $this->settings_storage->get( General_Settings_Tab::class )->get_settings();
+		$enabled_for_authorized = bool( $general_settings, General_Settings_Tab::IS_ENABLED_FOR_AUTHORIZED );
 
 		$present = ! $user_authorized ||
 			$enabled_for_authorized;
@@ -144,10 +140,10 @@ class Procaptcha_Widget implements Widget {
 	}
 
 	public function is_available(): bool {
-		$general_settings = $this->settings_storage->get( General_Procaptcha_Settings::class )->get_settings();
+		$general_settings = $this->settings_storage->get( General_Settings_Tab::class )->get_settings();
 
-		return '' !== string( $general_settings, General_Procaptcha_Settings::SECRET_KEY ) &&
-			'' !== string( $general_settings, General_Procaptcha_Settings::SITE_KEY );
+		return '' !== string( $general_settings, General_Settings_Tab::SECRET_KEY ) &&
+			'' !== string( $general_settings, General_Settings_Tab::SITE_KEY );
 	}
 
 	public function load_plugin_integration_script( string $integration_name ): void {
@@ -196,8 +192,8 @@ class Procaptcha_Widget implements Widget {
 	}
 
 	protected function verify_token( string $token ): bool {
-		$general_settings = $this->settings_storage->get( General_Procaptcha_Settings::class )->get_settings();
-		$secret_key       = string( $general_settings, General_Procaptcha_Settings::SECRET_KEY );
+		$general_settings = $this->settings_storage->get( General_Settings_Tab::class )->get_settings();
+		$secret_key       = string( $general_settings, General_Settings_Tab::SECRET_KEY );
 
 		$response = wp_remote_post(
 			self::API_URL,

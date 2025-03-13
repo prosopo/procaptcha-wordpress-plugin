@@ -2,14 +2,14 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Assets;
+namespace Io\Prosopo\Procaptcha\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
 use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Settings\General\General_Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
-use Io\Prosopo\Procaptcha\Settings\Tabs\General_Procaptcha_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 final class Widget_Assets_Loader implements Hookable {
@@ -88,9 +88,9 @@ final class Widget_Assets_Loader implements Hookable {
 		$general_settings = $this->general_settings->get_settings();
 
 		$widget_attributes = array(
-			'captchaType' => string( $general_settings, General_Procaptcha_Settings::TYPE ),
-			'siteKey'     => string( $general_settings, General_Procaptcha_Settings::SITE_KEY ),
-			'theme'       => string( $general_settings, General_Procaptcha_Settings::THEME ),
+			'captchaType' => string( $general_settings, General_Settings_Tab::TYPE ),
+			'siteKey'     => string( $general_settings, General_Settings_Tab::SITE_KEY ),
+			'theme'       => string( $general_settings, General_Settings_Tab::THEME ),
 		);
 
 		$widget_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $widget_attributes );

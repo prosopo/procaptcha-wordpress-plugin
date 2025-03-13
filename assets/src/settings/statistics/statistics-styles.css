@@ -1,4 +1,6 @@
 @import "tailwindcss" source(".");
 @import "../theme.css";
 
+@source "../../../../prosopo-procaptcha/src/Settings/Statistics";
+
 @plugin "@iconify/tailwind4";

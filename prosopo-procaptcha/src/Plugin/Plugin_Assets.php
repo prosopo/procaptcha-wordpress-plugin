@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Io\Prosopo\Procaptcha\Assets;
+namespace Io\Prosopo\Procaptcha\Plugin;
 
+use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
+use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
 use Io\Prosopo\Procaptcha\Hookable;
 
 defined( 'ABSPATH' ) || exit;

@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Integrations\Simple_Membership;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Simple_Membership\Forms\SM_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Simple_Membership\Forms\SM_Registration_Form_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Simple_Membership\Forms\SM_Reset_Password_Form_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Settings\Account_Forms_Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;

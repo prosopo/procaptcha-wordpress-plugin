@@ -9,8 +9,8 @@ defined( 'ABSPATH' ) || exit;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
-use Io\Prosopo\Procaptcha\Integration\Form\Helper\Form_Integration_Helper_Container;
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Form_Integration\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Form_Integration\Hookable\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base {

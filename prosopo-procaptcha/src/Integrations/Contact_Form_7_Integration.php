@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 // Note: CF7 v5.9.8 calls the RestAPI without the nonce, so we can't omit captcha for authorized users.

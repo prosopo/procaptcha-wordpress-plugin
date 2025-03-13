@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use ElementorPro\Modules\Forms\Registrars\Form_Fields_Registrar;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Settings\Account_Forms_Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;

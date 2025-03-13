@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WooCommerce\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Form_Integration\Hookable\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Error;
 

@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha\Integrations\WordPress\Forms;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Form_Integration\Hookable\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 defined( 'ABSPATH' ) || exit;

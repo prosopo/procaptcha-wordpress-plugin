@@ -2,13 +2,13 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Integration\Plugin;
+namespace Io\Prosopo\Procaptcha\Plugin_Integration;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Integration\Form\Helper\Form_Integration_Helper;
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Form_Integration\Form_Integration;
+use Io\Prosopo\Procaptcha\Form_Integration\Helper\Form_Integration_Helper;
+use Io\Prosopo\Procaptcha\Form_Integration\Hookable\Hookable_Form_Integration;
 
 class Plugin_Integrator {
 	public function integration_active( Plugin_Integration $plugin_integration ): bool {

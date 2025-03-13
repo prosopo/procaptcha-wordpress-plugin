@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\BBPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 
 class BBPress_Integration extends Procaptcha_Plugin_Integration {
 	public function get_target_plugin_classes(): array {

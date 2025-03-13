@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WooCommerce;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WooCommerce\Forms\{Woo_Checkout_Form_Integration,
 	Woo_Login_Form_Integration,
 	Woo_Lost_Password_Form_Integration,

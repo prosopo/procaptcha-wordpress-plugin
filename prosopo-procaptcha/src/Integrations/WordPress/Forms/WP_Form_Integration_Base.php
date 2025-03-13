@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WordPress\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Form_Integration\Hookable\Hookable_Form_Integration_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 abstract class WP_Form_Integration_Base extends Hookable_Form_Integration_Base {

@@ -2,11 +2,11 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Integration\Form\Hookable;
+namespace Io\Prosopo\Procaptcha\Form_Integration\Hookable;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Form_Integration\Helper\Form_Integration_Helper_Container;
 
 abstract class Hookable_Form_Integration_Base implements Hookable_Form_Integration {
 	use Form_Integration_Helper_Container;

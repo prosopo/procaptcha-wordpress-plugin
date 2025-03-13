@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\JetPack;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Forms\ContactForm\Contact_Form;
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Form_Integration\Hookable\Hookable_Form_Integration_Base;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;

@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\User_Registration\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Form_Integration\Hookable\Hookable_Form_Integration_Base;
 
 class UR_Lost_Password_Form_Integration extends Hookable_Form_Integration_Base {
 	public function print_field(): void {

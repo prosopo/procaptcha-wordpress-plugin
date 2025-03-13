@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\Formidable_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 
 class Formidable_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {

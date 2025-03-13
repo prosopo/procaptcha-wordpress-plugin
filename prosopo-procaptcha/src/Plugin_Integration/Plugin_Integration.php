@@ -2,11 +2,11 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Integration\Plugin;
+namespace Io\Prosopo\Procaptcha\Plugin_Integration;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Form_Integration;
+use Io\Prosopo\Procaptcha\Form_Integration\Form_Integration;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Widget\Widget;

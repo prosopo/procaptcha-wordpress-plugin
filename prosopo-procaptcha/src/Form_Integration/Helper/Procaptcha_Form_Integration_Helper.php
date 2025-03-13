@@ -2,11 +2,11 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Integration\Form\Helper;
+namespace Io\Prosopo\Procaptcha\Form_Integration\Helper;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Form\Helper\Form_Integration_Helper;
+use Io\Prosopo\Procaptcha\Form_Integration\Helper\Form_Integration_Helper;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 

@@ -27,10 +27,10 @@ use Io\Prosopo\Procaptcha\Integrations\{BBPress\BBPress_Integration,
 	WordPress\WordPress_Integration,
 	WPForms\WPForms_Integration
 };
-use Io\Prosopo\Procaptcha\Integration\Form\Helper\Procaptcha_Form_Integration_Helper;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrations;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integrator;
+use Io\Prosopo\Procaptcha\Form_Integration\Helper\Procaptcha_Form_Integration_Helper;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrator;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
@@ -63,7 +63,7 @@ final class Plugin implements Hookable {
 		$view_template_renderer = new ViewTemplateRenderer();
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
-			->setTemplatesRootPath( __DIR__ )
+			->setTemplatesRootPath( __DIR__ . '/..' )
 			->setTemplateFileExtension( '.blade.php' );
 
 		$views_manager = new ViewsManager();

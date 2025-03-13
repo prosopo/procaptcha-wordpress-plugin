@@ -13,7 +13,6 @@ use Io\Prosopo\Procaptcha\Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
-use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;

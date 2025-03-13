@@ -1,14 +1,14 @@
 import Logger from "../../logger/logger.js";
-import { IntegrationComponent } from "../../integration/integrationComponent.js";
+import { WebComponent } from "../../webComponent/webComponent.js";
 
-class WidgetIntegrationComponent implements IntegrationComponent {
+class WidgetIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	setupIntegrationElement(integrationElement: HTMLElement) {
+	constructComponent(integrationElement: HTMLElement) {
 		const procaptchaServiceCallback = this.getProcaptchaServiceCallback();
 
 		if (null === procaptchaServiceCallback) {

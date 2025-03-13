@@ -19,14 +19,14 @@ class Api {
 
 		const sign = keypair.sign(stringToU8a(message));
 
-		const sing = u8aToHex(sign);
+		const hexSign = u8aToHex(sign);
 
 		this.logger.debug("Created sign", {
 			message: message,
 			sign: sign,
 		});
 
-		return sing;
+		return hexSign;
 	}
 
 	protected async makeRequest(url: string, args: object): Promise<unknown> {

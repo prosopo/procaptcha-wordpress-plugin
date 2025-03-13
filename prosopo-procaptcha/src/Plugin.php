@@ -63,11 +63,11 @@ final class Plugin implements Hookable {
 		$view_template_renderer = new ViewTemplateRenderer();
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
-			->setTemplatesRootPath( __DIR__ . '/views' )
+			->setTemplatesRootPath( __DIR__ )
 			->setTemplateFileExtension( '.blade.php' );
 
 		$views_manager = new ViewsManager();
-		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha\\Template_Models', $namespace_config );
+		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha', $namespace_config );
 
 		$this->plugin_assets = new Plugin_Assets( $this->plugin_file, $this->detect_current_version_number(), $is_dev_mode );
 

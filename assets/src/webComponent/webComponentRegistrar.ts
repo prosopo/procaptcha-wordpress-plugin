@@ -1,16 +1,16 @@
-import Logger from "../../logger/logger.js";
+import Logger from "../logger/logger.js";
 import { WebComponentSettings } from "./webComponentSettings.js";
-import type { IntegrationComponent } from "../integrationComponent.js";
+import type { WebComponent } from "./webComponent.js";
 
 class WebComponentRegistrar {
 	public constructor(private readonly logger: Logger) {}
 
 	public registerWebComponent(
-		integrationComponent: IntegrationComponent,
+		webComponent: WebComponent,
 		webComponentSettings: WebComponentSettings,
 	): void {
 		const WebComponentClass = this.createWebComponentClass(
-			integrationComponent,
+			webComponent,
 			this.logger,
 			webComponentSettings,
 		);
@@ -19,7 +19,7 @@ class WebComponentRegistrar {
 	}
 
 	protected createWebComponentClass(
-		integrationComponent: IntegrationComponent,
+		webComponent: WebComponent,
 		logger: Logger,
 		componentSettings: WebComponentSettings,
 	): typeof HTMLElement {
@@ -63,7 +63,7 @@ class WebComponentRegistrar {
 						element: this,
 					});
 
-					this.setupElement();
+					this.constructElement();
 					return;
 				}
 
@@ -78,23 +78,23 @@ class WebComponentRegistrar {
 					},
 				);
 
-				this.delayElementSetup();
+				this.scheduleElementConstruction();
 			}
 
-			public setupDelayedElement(): void {
+			public constructScheduledElement(): void {
 				logger.debug(
-					"document is ready, processing delayed WebComponent",
+					"document is ready, running scheduled WebComponent construction",
 					{
 						name: componentSettings.name,
 						element: this,
 					},
 				);
 
-				this.setupElement();
+				this.constructElement();
 			}
 
-			protected setupElement(): void {
-				integrationComponent.setupIntegrationElement(this);
+			protected constructElement(): void {
+				webComponent.constructComponent(this);
 			}
 
 			protected isDocumentReady(
@@ -116,21 +116,21 @@ class WebComponentRegistrar {
 				return true === interactiveStates.includes(currentState);
 			}
 
-			protected delayElementSetup(): void {
+			protected scheduleElementConstruction(): void {
 				if (
 					true ===
 					componentSettings.waitWindowLoadedInsteadOfDomLoaded
 				) {
 					window.addEventListener(
 						"load",
-						this.setupDelayedElement.bind(this),
+						this.constructScheduledElement.bind(this),
 					);
 					return;
 				}
 
 				document.addEventListener(
 					"DOMContentLoaded",
-					this.setupDelayedElement.bind(this),
+					this.constructScheduledElement.bind(this),
 				);
 			}
 		}

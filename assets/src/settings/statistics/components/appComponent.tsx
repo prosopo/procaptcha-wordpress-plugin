@@ -15,12 +15,14 @@ import {
 	TrafficAnalyticsComponent,
 	TrafficAnalyticsComponentProperties,
 } from "./trafficAnalyticsComponent.js";
-import PluginModuleLogger from "../../../logger/plugin/pluginModuleLogger.js";
-import LoggerFactory from "../../../logger/loggerFactory.js";
 import Logger from "../../../logger/logger.js";
 import { Api } from "../api.js";
 import type { Account } from "../account/account.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
+
+interface AppComponentProperties {
+	logger: Logger;
+}
 
 interface AppState {
 	statState: AppStatusComponentProperties;
@@ -31,22 +33,17 @@ interface AppState {
 	trafficData: TrafficAnalyticsComponentProperties;
 }
 
-class AppComponent extends React.Component<object, AppState> {
+class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	private api: Api | null = null;
 	private readonly config: Config;
 	private readonly numberUtils: CaptchaUsageNumberUtils;
 	private readonly logger: Logger;
 
-	constructor(props) {
+	constructor(props: AppComponentProperties) {
 		super(props);
 
-		const loggerFactory = new LoggerFactory();
-
 		this.config = new ConfigClass();
-		this.logger = loggerFactory.createLogger(
-			"statistics",
-			new PluginModuleLogger(),
-		);
+		this.logger = props.logger;
 		this.numberUtils = new CaptchaUsageNumberUtils();
 
 		this.state = this.getInitialState();

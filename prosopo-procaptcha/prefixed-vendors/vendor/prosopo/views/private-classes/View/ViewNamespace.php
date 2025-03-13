@@ -65,7 +65,7 @@ final class ViewNamespace
         // Without null check - templateRenderer is a mandatory module.
         $templateRenderer = $modules->getTemplateRenderer();
         $templateRendererWithModelsRender = new TemplateRendererWithModelsRender($templateRenderer, $modelRendererWithNamespace);
-        if (\true === $config->modelsAsStringsInTemplates()) {
+        if ($config->modelsAsStringsInTemplates()) {
             $templateRenderer = $templateRendererWithModelsRender;
         }
         //// 2. Real Factory and Renderer creation (used in the ViewsManager class):

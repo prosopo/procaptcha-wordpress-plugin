@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "prosopo/views",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/prosopo/php-views.git",
-                "reference": "7fbc426521a94700f48358e877a1b51fab850247"
+                "reference": "221e55f008c7132292bb13d3ba2c66ab29c80fe2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/prosopo/php-views/zipball/7fbc426521a94700f48358e877a1b51fab850247",
-                "reference": "7fbc426521a94700f48358e877a1b51fab850247",
+                "url": "https://api.github.com/repos/prosopo/php-views/zipball/221e55f008c7132292bb13d3ba2c66ab29c80fe2",
+                "reference": "221e55f008c7132292bb13d3ba2c66ab29c80fe2",
                 "shasum": ""
             },
             "require": {
@@ -51,9 +51,9 @@
             ],
             "support": {
                 "issues": "https://github.com/prosopo/php-views/issues",
-                "source": "https://github.com/prosopo/php-views/tree/1.0.3"
+                "source": "https://github.com/prosopo/php-views/tree/1.0.4"
             },
-            "time": "2024-12-19T16:01:27+00:00"
+            "time": "2025-03-13T10:22:50+00:00"
         },
         {
             "name": "wplake/typed",

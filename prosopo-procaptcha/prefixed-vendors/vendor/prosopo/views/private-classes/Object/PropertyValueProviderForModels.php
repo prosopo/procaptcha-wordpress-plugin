@@ -22,7 +22,7 @@ final class PropertyValueProviderForModels implements PropertyValueProviderInter
     }
     public function supportsProperty(ReflectionProperty $property): bool
     {
-        if (\true === $this->propertyValueProvider->supportsProperty($property)) {
+        if ($this->propertyValueProvider->supportsProperty($property)) {
             return \true;
         }
         $type = $this->getPropertyType($property);
@@ -30,7 +30,7 @@ final class PropertyValueProviderForModels implements PropertyValueProviderInter
     }
     public function getPropertyValue(ReflectionProperty $property)
     {
-        if (\true === $this->propertyValueProvider->supportsProperty($property)) {
+        if ($this->propertyValueProvider->supportsProperty($property)) {
             return $this->propertyValueProvider->getPropertyValue($property);
         }
         $type = $this->getPropertyType($property);
@@ -44,7 +44,7 @@ final class PropertyValueProviderForModels implements PropertyValueProviderInter
      */
     protected function getValidModelClass(string $propertyType)
     {
-        return \true === class_exists($propertyType) && \true === is_a($propertyType, TemplateModelInterface::class, \true) ? $propertyType : null;
+        return class_exists($propertyType) && is_a($propertyType, TemplateModelInterface::class, \true) ? $propertyType : null;
     }
     protected function getPropertyType(ReflectionProperty $property): string
     {

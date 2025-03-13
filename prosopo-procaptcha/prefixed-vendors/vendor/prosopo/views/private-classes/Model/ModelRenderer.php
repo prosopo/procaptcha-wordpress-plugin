@@ -25,7 +25,7 @@ final class ModelRenderer implements ModelRendererInterface
     }
     public function renderModel($modelOrClass, ?Closure $setupModelCallback = null): string
     {
-        $model = \true === is_string($modelOrClass) ? $this->viewFactory->createModel($modelOrClass) : $modelOrClass;
+        $model = is_string($modelOrClass) ? $this->viewFactory->createModel($modelOrClass) : $modelOrClass;
         if (null !== $setupModelCallback) {
             $setupModelCallback($model);
         }

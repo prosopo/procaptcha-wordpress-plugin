@@ -43,7 +43,7 @@ final class ViewTemplateRenderer implements TemplateRendererInterface
         $codeExecutor = new CodeRunnerWithTemplateCompilation($codeExecutor, $templateCompiler);
         $templateRenderer = $modules->getTemplateRenderer();
         $templateRenderer = null === $templateRenderer ? new TemplateRenderer($codeExecutor) : $templateRenderer;
-        if (\true === $config->fileBasedTemplates()) {
+        if ($config->fileBasedTemplates()) {
             $templateRenderer = new TemplateRendererWithFileTemplate($templateRenderer);
         }
         $templateRenderer = new TemplateRendererWithCustomEscape($templateRenderer, $config->getCustomOutputEscapeCallback(), $config->getEscapeVariableName());

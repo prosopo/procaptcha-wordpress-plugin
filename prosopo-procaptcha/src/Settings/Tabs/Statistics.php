@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
-use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Statistics;
+use Io\Prosopo\Procaptcha\Templates\Settings\Settings_Statistics;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;

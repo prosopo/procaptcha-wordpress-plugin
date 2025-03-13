@@ -31,7 +31,13 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalyticsComponen
 		);
 	}
 
-	protected getContentElement(): React.ReactNode {
+	protected getContentElement(): React.ReactNode | null {
+		const accountTier = this.props.accountTier;
+
+		if (0 === accountTier.length) {
+			return null;
+		}
+
 		return AccountTiers.FREE === this.props.accountTier
 			? this.getCallToUpgradeElement()
 			: this.getCallToVisitPortalElement();

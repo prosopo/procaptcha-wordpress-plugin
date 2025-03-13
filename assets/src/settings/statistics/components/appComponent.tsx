@@ -19,6 +19,7 @@ import Logger from "../../../logger/logger.js";
 import { Api } from "../api.js";
 import type { Account } from "../account/account.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
+import { AccountTiers } from "../account/accountTiers.js";
 
 interface AppComponentProperties {
 	logger: Logger;

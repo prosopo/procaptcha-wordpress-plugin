@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.13.0
+Stable tag: 1.14.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,14 +40,14 @@ Please review the [Prosopo Privacy Policy](https://prosopo.io/privacy-policy/) a
 
 **Form Plugins**:
 
-1. [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) - Add the `[prosopo_procaptcha]` field to your form.
-2. [Everest Forms](https://wordpress.org/plugins/everest-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Advanced Fields` group).
-3. [Fluent Forms](https://wordpress.org/plugins/fluentform/) - Add the `Prosopo Procaptcha` field to your form (the `Advanced Fields` group).
-4. [Formidable Forms](https://wordpress.org/plugins/formidable/) - Add the `Prosopo Procaptcha` field to your form.
-5. [Gravity Forms](https://www.gravityforms.com/) - Add the `Prosopo Procaptcha` field to your form (the `Advanced Fields` group).
-6. [Ninja Forms](https://wordpress.org/plugins/ninja-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Miscellaneous` group).
-7. [User Registration](https://wordpress.org/plugins/user-registration/) - Add the `Prosopo Procaptcha` field to your form (the `Extra Fields` group).
-8. [WP Forms](https://wordpress.org/plugins/wpforms-lite/) - Add the `Prosopo Procaptcha` field to your form (the `Standard Fields` group).
+1. [Contact Form 7](https://docs.prosopo.io/en/wordpress-plugin/contact-form-7/) - Add the `[prosopo_procaptcha]` field to your form.
+2. [Everest Forms](https://docs.prosopo.io/en/wordpress-plugin/everest-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Advanced Fields` group).
+3. [Fluent Forms](https://docs.prosopo.io/en/wordpress-plugin/fluent-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Advanced Fields` group).
+4. [Formidable Forms](https://docs.prosopo.io/en/wordpress-plugin/formidable/) - Add the `Prosopo Procaptcha` field to your form.
+5. [Gravity Forms](https://docs.prosopo.io/en/wordpress-plugin/gravity-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Advanced Fields` group).
+6. [Ninja Forms](https://docs.prosopo.io/en/wordpress-plugin/ninja-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Miscellaneous` group).
+7. [User Registration](https://docs.prosopo.io/en/wordpress-plugin/user-registration/) - Add the `Prosopo Procaptcha` field to your form (the `Extra Fields` group).
+8. [WP Forms](https://docs.prosopo.io/en/wordpress-plugin/wpforms/) - Add the `Prosopo Procaptcha` field to your form (the `Standard Fields` group).
 
 **WordPress Core Forms**:
 
@@ -91,11 +91,11 @@ While only the items above are tested, overall, the Procaptcha plugin supports a
 
 **Other Integrations**:
 
-1. [BBPress](https://wordpress.org/plugins/bbpress/) -  Account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/); Forum forms: Open the target forum settings to enable topic and reply forms protection.
-2. [Elementor Pro](https://elementor.com/) - Form widgets -  use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the plugin settings->Account forms).
+1. [BBPress](https://docs.prosopo.io/en/wordpress-plugin/bbpress/) -  Account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/); Forum forms: Open the target forum settings to enable topic and reply forms protection.
+2. [Elementor Pro](https://docs.prosopo.io/en/wordpress-plugin/elementor-pro/) - Form widgets -  use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the plugin settings->Account forms).
 3. [JetPack](https://wordpress.org/plugins/jetpack/) (Forms) - Gutenberg form block: Add the Group block with the `prosopo_procaptcha` shortcode inside the target form block.
-4. [WooCommerce](https://wordpress.org/plugins/woocommerce/) - My Account forms; Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
-5. [Spectra](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/) - Form block - add hidden input with the `prosopo_procaptcha` name
+4. [WooCommerce](https://docs.prosopo.io/en/wordpress-plugin/woocommerce/) - My Account forms; Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
+5. [Spectra](https://docs.prosopo.io/en/wordpress-plugin/spectra/) - Form block - add hidden input with the `prosopo_procaptcha` name
 
 **Built-In Integrations**:
 
@@ -132,6 +132,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.14.0 (2024-03-13) =
+- Readme update
 
 = 1.13.0 (2024-03-11) =
 - Added support for [Spectra](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/)

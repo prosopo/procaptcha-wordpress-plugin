@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
 use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin\Plugin;
+use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\General\Settings;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
@@ -26,7 +26,7 @@ final class Settings_Page implements Hookable {
 	const MENU_SLUG   = 'prosopo-procaptcha';
 	const DEFAULT_TAB = 'general';
 
-	private Plugin $plugin;
+	private Procaptcha_Plugin $plugin;
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Widget $widget;
 	private Query_Arguments $query_arguments;
@@ -40,7 +40,7 @@ final class Settings_Page implements Hookable {
 	private array $setting_tabs;
 
 	public function __construct(
-		Plugin $plugin,
+		Procaptcha_Plugin $plugin,
 		Procaptcha_Settings_Storage $settings_storage,
 		Widget $widget,
 		Query_Arguments $query_arguments,

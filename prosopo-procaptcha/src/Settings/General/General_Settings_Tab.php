@@ -6,11 +6,15 @@ namespace Io\Prosopo\Procaptcha\Settings\General;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
+use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class General_Settings_Tab extends Procaptcha_Settings_Tab {
 	const SITE_KEY                  = 'site_key';
@@ -39,6 +43,21 @@ class General_Settings_Tab extends Procaptcha_Settings_Tab {
 					)
 				);
 			}
+		);
+	}
+
+	public function get_tab_script_asset(): string {
+		return 'settings/general/general-settings.min.js';
+	}
+
+	public function get_tab_js_data( Settings_Storage $settings_storage, ModelRendererInterface $renderer ): array {
+		$general_settings_tab = $settings_storage->get( self::class );
+		$general_settings     = $general_settings_tab->get_settings();
+
+		return array(
+			'accountApiEndpoint' => Procaptcha_Plugin::ACCOUNT_API_ENDPOINT_URL,
+			'secretKey'          => string( $general_settings, self::SECRET_KEY ),
+			'siteKey'            => string( $general_settings, self::SITE_KEY ),
 		);
 	}
 

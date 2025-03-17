@@ -1,65 +1,45 @@
-import { AccountTiers } from "../account/accountTiers.js";
-import { ProsopoApi } from "../prosopoApi.js";
 import LoggerFactory from "../../logger/loggerFactory.js";
 import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
-import { ConfigClass, type Config } from "../statistics/config.js";
-import { Account } from "../account/account.js";
-import { accountSchema } from "../account/accountSchema.js";
+import type Logger from "../../logger/logger.js";
+import { WebComponentRegistrar } from "../../webComponent/webComponentRegistrar.js";
+import { GeneralSettingsWebComponent } from "./generalSettingsWebComponent.js";
+import { GeneralSettingsConfig } from "./generalSettingsConfig.js";
 
 class GeneralSettings {
-	private readonly config: Config;
-	private readonly prosopoApi: ProsopoApi;
+	private readonly logger: Logger;
+	private readonly webComponentRegistrar: WebComponentRegistrar;
+	private readonly config: GeneralSettingsConfig;
 
 	public constructor() {
 		const loggerFactory = new LoggerFactory();
 		const pluginModuleLogger = new PluginModuleLogger();
-		const logger = loggerFactory.createLogger(
-			"general-settings",
+
+		this.logger = loggerFactory.createLogger(
+			"statistics",
 			pluginModuleLogger,
 		);
+		this.webComponentRegistrar = new WebComponentRegistrar(this.logger);
 
-		this.config = new ConfigClass();
-		this.prosopoApi = new ProsopoApi(logger);
+		this.config = new GeneralSettingsConfig();
 	}
 
-	public async displayUpgradeBannerForFreeAccountTier(): Promise<void> {
-		const currentAccount = await this.getCurrentAccount();
-		const accountTier = currentAccount?.tier || "";
-
-		if (AccountTiers.FREE === accountTier) {
-			this.displayUpgradeTierBanner();
-		}
-	}
-
-	protected displayUpgradeTierBanner(): void {
-		// todo
-	}
-
-	protected async getCurrentAccount(): Promise<Account | null> {
-		const siteKey = this.config.getSiteKey();
-		const secretKey = this.config.getSecretKey();
-
-		return siteKey.length > 0 && secretKey.length > 0
-			? this.resolveAccount(siteKey, secretKey)
-			: null;
-	}
-
-	protected async resolveAccount(
-		sitePublicKey: string,
-		sitePrivateKey: string,
-	): Promise<Account> {
-		const account = await this.prosopoApi.requestEndpoint(
+	public setupWebComponent(): void {
+		const generalSettingsWebComponent = new GeneralSettingsWebComponent(
 			this.config.getAccountApiEndpoint(),
-			sitePrivateKey,
-			{
-				siteKey: sitePublicKey,
-			},
+			this.config.getSiteKey(),
+			this.config.getSecretKey(),
+			this.logger,
 		);
 
-		return accountSchema.parse(account);
+		this.webComponentRegistrar.registerWebComponent(
+			generalSettingsWebComponent,
+			{
+				name: "general-procaptcha-settings",
+				processIfReconnected: false,
+				waitWindowLoadedInsteadOfDomLoaded: false,
+			},
+		);
 	}
 }
 
-const generalSettings = new GeneralSettings();
-
-generalSettings.displayUpgradeBannerForFreeAccountTier();
+new GeneralSettings().setupWebComponent();

@@ -16,10 +16,13 @@ import {
 	TrafficAnalyticsComponentProperties,
 } from "./trafficAnalyticsComponent.js";
 import Logger from "../../../logger/logger.js";
-import { Api } from "../api.js";
-import type { Account } from "../account/account.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
-import { AccountTiers } from "../account/accountTiers.js";
+import type { ProsopoApi } from "../../prosopoApi.js";
+import type { Account } from "../../account/account.js";
+import type { Site } from "../site/site.js";
+import type { SiteSettings } from "../site/settings/siteSettings.js";
+import { accountSchema } from "../../account/accountSchema.js";
+import { siteSchema } from "../site/siteSchema.js";
 
 interface AppComponentProperties {
 	logger: Logger;
@@ -35,7 +38,7 @@ interface AppState {
 }
 
 class AppComponent extends React.Component<AppComponentProperties, AppState> {
-	private api: Api | null = null;
+	private prosopoApi: ProsopoApi | null = null;
 	private readonly config: Config;
 	private readonly numberUtils: CaptchaUsageNumberUtils;
 	private readonly logger: Logger;
@@ -50,13 +53,14 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		this.state = this.getInitialState();
 	}
 
-	protected async getApi(): Promise<Api> {
-		if (null === this.api) {
-			const ApiClass = (await import("../api.js")).Api;
-			this.api = new ApiClass(this.config, this.logger);
+	protected async getProsopoApi(): Promise<ProsopoApi> {
+		if (null === this.prosopoApi) {
+			const ProsopoApiClass = (await import("../../prosopoApi.js"))
+				.ProsopoApi;
+			this.prosopoApi = new ProsopoApiClass(this.logger);
 		}
 
-		return this.api;
+		return this.prosopoApi;
 	}
 
 	protected getInitialState(): AppState {
@@ -126,6 +130,8 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 				accountTier: "",
 				logger: this.logger,
 				labels: this.config.getTrafficDataLabels(),
+				callToUpgradeElementMarkup:
+					this.config.getCallToUpgradeElementMarkup(),
 			},
 		};
 	}
@@ -150,7 +156,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		}));
 	}
 
-	protected refreshUserData(account: Account): void {
+	protected refreshUserData(account: Account, site: Site): void {
 		this.setState((actualState) => ({
 			...actualState,
 			accountInformation: {
@@ -162,24 +168,24 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 					},
 					{
 						label: this.config.getAccountLabels().name,
-						value: account.name,
+						value: site.name,
 					},
 				],
 			},
 			usageInfo: {
 				...actualState.usageInfo,
 				limits: {
-					verifications: account.monthlyUsage.limit,
+					verifications: site.monthlyUsage.limit,
 				},
 				image: {
-					submissions: account.monthlyUsage.image.submissions,
-					verifications: account.monthlyUsage.image.verifications,
-					total: account.monthlyUsage.image.total,
+					submissions: site.monthlyUsage.image.submissions,
+					verifications: site.monthlyUsage.image.verifications,
+					total: site.monthlyUsage.image.total,
 				},
 				pow: {
-					submissions: account.monthlyUsage.pow.submissions,
-					verifications: account.monthlyUsage.pow.verifications,
-					total: account.monthlyUsage.pow.total,
+					submissions: site.monthlyUsage.pow.submissions,
+					verifications: site.monthlyUsage.pow.verifications,
+					total: site.monthlyUsage.pow.total,
 				},
 			},
 		}));
@@ -220,7 +226,16 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		}
 	}
 
-	protected refreshUserSettings(account: Account): void {
+	protected refreshSiteSettings(siteSettings: SiteSettings): void {
+		const domains = siteSettings.domains
+			.filter((domain) => "*" !== domain)
+			.map((domain, index) => {
+				return {
+					label: "#" + (index + 1),
+					value: domain,
+				};
+			});
+
 		this.setState((actualState) => ({
 			...actualState,
 			captchaSettings: {
@@ -228,32 +243,27 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 				items: [
 					{
 						label: this.config.getCaptchaSettingsLabels().type,
-						value: this.getTypeLabel(account.settings.captchaType),
+						value: this.getTypeLabel(siteSettings.captchaType),
 					},
 					{
 						label: this.config.getCaptchaSettingsLabels()
 							.frictionlessThreshold,
 						value: this.getFrictionlessThresholdLabel(
-							account.settings.frictionlessThreshold,
+							siteSettings.frictionlessThreshold,
 						),
 					},
 					{
 						label: this.config.getCaptchaSettingsLabels()
 							.powDifficulty,
 						value: this.getPowDifficultyLabel(
-							account.settings.powDifficulty,
+							siteSettings.powDifficulty,
 						),
 					},
 				],
 			},
 			domains: {
 				...actualState.domains,
-				items: account.settings.domains.map((domain, index) => {
-					return {
-						label: "#" + (index + 1),
-						value: domain,
-					};
-				}),
+				items: domains,
 			},
 		}));
 	}
@@ -265,17 +275,28 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 				...actualState.trafficData,
 				accountTier: account.tier,
 				labels: this.config.getTrafficDataLabels(),
+				callToUpgradeElementMarkup:
+					this.config.getCallToUpgradeElementMarkup(),
 			},
 		}));
 	}
 
 	protected async refreshData(): Promise<void> {
 		try {
-			const api = await this.getApi();
-			const account = await api.getAccount();
+			const prosopoApi = await this.getProsopoApi();
+			const endpointResponse = await prosopoApi.requestEndpoint(
+				this.config.getAccountApiEndpoint(),
+				this.config.getSecretKey(),
+				{
+					siteKey: this.config.getSiteKey(),
+				},
+			);
 
-			this.refreshUserData(account);
-			this.refreshUserSettings(account);
+			const account = accountSchema.parse(endpointResponse);
+			const site = siteSchema.parse(endpointResponse);
+
+			this.refreshUserData(account, site);
+			this.refreshSiteSettings(site.settings);
 			this.refreshTrafficData(account);
 
 			this.markAsLoaded();
@@ -344,6 +365,9 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 						logger={trafficData.logger}
 						accountTier={trafficData.accountTier}
 						labels={trafficData.labels}
+						callToUpgradeElementMarkup={
+							trafficData.callToUpgradeElementMarkup
+						}
 					/>
 				</div>
 			</div>

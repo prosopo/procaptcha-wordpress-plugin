@@ -42,8 +42,9 @@ use Io\Prosopo\Procaptcha\Settings\{Account_Forms_Settings_Tab,
 	Storage\Procaptcha_Settings_Storage};
 
 final class Procaptcha_Plugin implements Hookable {
-	const SLUG               = 'prosopo-procaptcha';
-	const SERVICE_SCRIPT_URL = 'https://js.prosopo.io/js/procaptcha.bundle.js';
+	const SLUG                     = 'prosopo-procaptcha';
+	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
+	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
 
 	private string $plugin_file;
 	private Widget $widget;
@@ -63,7 +64,7 @@ final class Procaptcha_Plugin implements Hookable {
 		$view_template_renderer = new ViewTemplateRenderer();
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
-			->setTemplatesRootPath( __DIR__ . '/src' )
+			->setTemplatesRootPath( __DIR__ )
 			->setTemplateFileExtension( '.blade.php' );
 
 		$views_manager = new ViewsManager();

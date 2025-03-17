@@ -67,7 +67,17 @@ interface Config {
 
 	getTrafficDataLabels(): TrafficDataLabels;
 
+	getCallToUpgradeElementMarkup(): string;
+
 	isDebugMode(): boolean;
+
+	getAccountApiEndpoint(): string;
+}
+
+declare global {
+	interface Window {
+		prosopoProcaptchaWpSettings: object;
+	}
 }
 
 class ConfigClass implements Config {
@@ -75,7 +85,7 @@ class ConfigClass implements Config {
 
 	constructor() {
 		const rawData =
-			true === window.hasOwnProperty("prosopoProcaptchaWpSettings") &&
+			window.hasOwnProperty("prosopoProcaptchaWpSettings") &&
 			"object" === typeof window["prosopoProcaptchaWpSettings"]
 				? window["prosopoProcaptchaWpSettings"]
 				: {};
@@ -175,6 +185,14 @@ class ConfigClass implements Config {
 			time: trafficDataLabels.getString("time"),
 			submissionsCount: trafficDataLabels.getString("submissionsCount"),
 		};
+	}
+
+	public getCallToUpgradeElementMarkup(): string {
+		return this.data.getString("callToUpgradeElementMarkup");
+	}
+
+	public getAccountApiEndpoint(): string {
+		return this.data.getString("accountApiEndpoint");
 	}
 }
 

@@ -30,10 +30,10 @@ class General_Settings_Tab extends Procaptcha_Settings_Tab {
 	public function make_tab_component( ModelFactoryInterface $factory, Widget $widget ): TemplateModelInterface {
 		return $factory->createModel(
 			General_Settings::class,
-			function ( General_Settings $settings_general_tab ) use ( $factory, $widget ) {
-				$settings_general_tab->form = parent::make_tab_component( $factory, $widget );
+			function ( General_Settings $general_settings_tab ) use ( $factory, $widget ) {
+				$general_settings_tab->form = parent::make_tab_component( $factory, $widget );
 
-				$settings_general_tab->preview = $widget->print_form_field(
+				$general_settings_tab->widget_preview = $widget->print_form_field(
 					array(
 						Widget_Settings::IS_RETURN_ONLY => true,
 					)

@@ -5,5 +5,9 @@
         {{ __('Preview: if the credentials are valid, you should be able to complete the captcha below:', 'prosopo-procaptcha') }}
     </p>
 
-    {!! $preview !!}
+    {!! $widget_preview !!}
+
+    <div class="mt-3 flex justify-center bg-white rounded p-5">
+        {!! $tier_upgrade_banner !!}
+    </div>
 </div>

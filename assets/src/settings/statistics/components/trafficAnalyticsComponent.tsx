@@ -2,15 +2,15 @@ import * as React from "react";
 import { TrafficDataLabels } from "../config.js";
 import { SectionComponent } from "./sectionComponent.js";
 import Logger from "../../../logger/logger.js";
-import { AccountTiers } from "../account/accountTiers.js";
+import { AccountTiers } from "../../account/accountTiers.js";
 import { CallToActionComponent } from "./callToActionComponent.js";
-import { PromoComponent } from "./promoComponent.js";
 
 interface TrafficAnalyticsComponentProperties {
 	accountTier: string;
 	labels: TrafficDataLabels;
 	logger: Logger;
 	classes?: string;
+	callToUpgradeElementMarkup: string;
 }
 
 class TrafficAnalyticsComponent extends React.Component<TrafficAnalyticsComponentProperties> {
@@ -44,24 +44,12 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalyticsComponen
 	}
 
 	protected getCallToUpgradeElement(): React.ReactNode {
-		/* fixme translate */
+		const { callToUpgradeElementMarkup } = this.props;
+
 		return (
-			<PromoComponent
-				title={"Unlock Analytics with Pro tier"}
-				icon={"icon-[material-symbols--family-star]"}
-				items={[
-					"Up to 1M monthly requests",
-					"Rapid technical support",
-					"Unlimited number of sites",
-					"Advanced user management",
-					"Traffic analytics and statistics",
-				]}
-				actionLinkComponentProperties={{
-					label: "Upgrade",
-					href: "https://portal.prosopo.io/",
-					icon: "icon-[material-symbols--upgrade]",
-				}}
-			/>
+			<div
+				dangerouslySetInnerHTML={{ __html: callToUpgradeElementMarkup }}
+			></div>
 		);
 	}
 

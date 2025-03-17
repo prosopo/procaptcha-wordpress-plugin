@@ -190,7 +190,7 @@ final class Settings_Page implements Hookable {
 				$tab_script_asset,
 				array(),
 				'prosopoProcaptchaWpSettings',
-				$tab->get_tab_js_data( $this->settings_storage )
+				$tab->get_tab_js_data( $this->settings_storage, $this->renderer )
 			);
 		}
 	}

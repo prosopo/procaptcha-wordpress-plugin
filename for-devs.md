@@ -93,9 +93,8 @@ PHP-related:
 `cd tools` and:
 
 1. `bash check-code-quality.sh codesniffer` - checks for WordPress Coding Standards violations
-2. `bash check-code-quality.sh codebeautifer` - fixes WordPress Coding Standards violations
-3. `bash check-code-quality.sh phpstan` - runs PHPStan static code analyses
-4. `bash check-code-quality.sh pest` - runs Pest tests
+2. `bash check-code-quality.sh phpstan` - runs PHPStan static code analyses
+3. `bash check-code-quality.sh pest` - runs Pest tests
 
 ### 5.4) For maintainers
 

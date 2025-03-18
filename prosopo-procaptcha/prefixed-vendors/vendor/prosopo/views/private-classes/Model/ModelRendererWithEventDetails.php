@@ -23,7 +23,7 @@ final class ModelRendererWithEventDetails implements ModelRendererInterface
     }
     public function renderModel($modelOrClass, ?Closure $setupModelCallback = null): string
     {
-        $modelClass = \true === is_string($modelOrClass) ? $modelOrClass : get_class($modelOrClass);
+        $modelClass = is_string($modelOrClass) ? $modelOrClass : get_class($modelOrClass);
         $eventDetails = ['modelClass' => $modelClass];
         $this->eventDispatcher->registerEventDetails($this->eventName, $eventDetails);
         $response = $this->viewRenderer->renderModel($modelOrClass, $setupModelCallback);

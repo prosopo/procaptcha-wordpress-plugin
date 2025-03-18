@@ -7,4 +7,4 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 require_once __DIR__ . '/autoloader.php';
 
-( new Plugin() )->clear_data();
+( new Procaptcha_Plugin() )->clear_data();

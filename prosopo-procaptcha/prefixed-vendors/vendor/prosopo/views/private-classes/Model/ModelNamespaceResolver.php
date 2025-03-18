@@ -18,7 +18,7 @@ final class ModelNamespaceResolver implements ModelNamespaceResolverInterface
     }
     public function resolveModelNamespace($modelOrClass): string
     {
-        $modelNamespaceWithClassName = \false === is_string($modelOrClass) ? $this->objectClassReader->getObjectClass($modelOrClass) : $modelOrClass;
+        $modelNamespaceWithClassName = !is_string($modelOrClass) ? $this->objectClassReader->getObjectClass($modelOrClass) : $modelOrClass;
         $lastDelimiterPosition = strrpos($modelNamespaceWithClassName, '\\');
         if (\false === $lastDelimiterPosition) {
             return '';

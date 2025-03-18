@@ -18,7 +18,7 @@ final class ObjectPropertyWriter implements ObjectPropertyWriterInterface
         $reflectionClass = new ReflectionClass($instance);
         $publicTypedVariables = $this->getPublicTypedVariables($reflectionClass);
         array_map(function (ReflectionProperty $reflectionProperty) use ($instance, $propertyValueProvider) {
-            if (\true === $reflectionProperty->isInitialized($instance)) {
+            if ($reflectionProperty->isInitialized($instance)) {
                 return;
             }
             $this->setDefaultValueForSupportedType($instance, $propertyValueProvider, $reflectionProperty);
@@ -36,7 +36,7 @@ final class ObjectPropertyWriter implements ObjectPropertyWriterInterface
     }
     protected function setDefaultValueForSupportedType(object $instance, PropertyValueProviderInterface $propertyValueProvider, ReflectionProperty $reflectionProperty): bool
     {
-        if (\false === $propertyValueProvider->supportsProperty($reflectionProperty)) {
+        if (!$propertyValueProvider->supportsProperty($reflectionProperty)) {
             return \false;
         }
         $value = $propertyValueProvider->getPropertyValue($reflectionProperty);

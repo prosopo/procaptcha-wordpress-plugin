@@ -2,6 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react",
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "strict": true
   }
 }

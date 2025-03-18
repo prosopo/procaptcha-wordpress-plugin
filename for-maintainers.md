@@ -17,14 +17,17 @@ covering maintaining-related aspects.
 * `pull_request on release` - runs the tests
 * `tag on release` - deploys the plugin to the WordPress SVN repository, tag must follow the `1.0.0` format
 
-So after the release candidate is ready, open a pull request from `main` to `release`, and after the tests are passed,
-merge it to the `release` branch and add the version tag to deploy.
+## 2. New version release
 
-> Note: it's still your responsibility to update the plugin version in the `prosopo-procaptcha.php` and `readme.txt`
-> files. For
-> the assets building, it'll be picked up automatically from the plugin header.
+When the release candidate is ready:
 
-## 2. One command packages installation
+1. Update plugin version in the `/prosopo-procaptcha/prosopo-procaptcha.php` and `readme.txt` files
+2. Manually test all the captcha types (PoW, Frictionless, Image: it requires portal visiting)
+3. Open a pull request from `main` to `release`
+4. Make sure all the CI tests are passed and merge the PR
+5. Add the new version tag to the release branch
+
+## 3. One command packages installation
 
 After cloning the repository, run `bash tools/install-tools.sh`. It'll install all the necessary composer and npm
 packages at once.
@@ -32,7 +35,7 @@ packages at once.
 > Make sure you've the [wp-cli](https://wp-cli.org/) installed and the `wp` command is available in the terminal (for
 > working with the translation files).
 
-## 3. Translations management
+## 4. Translations management
 
 In the `prosopo/procaptcha/lang` folder:
 
@@ -46,7 +49,7 @@ Commands:
 1. `bash tools/refresh-translations.sh` - updates the `.pot` and `.po` files based on the plugin codebase.
 2. `bash tools/compile-translations.sh` - compiles the `.po` files to `.mo` and `.l10n.php` files.
 
-## 4. Updating scoped Composer packages
+## 5. Updating scoped Composer packages
 
 WordPress does not natively support Composer, which means plugin authors must scope their Composer packages to avoid
 conflicts.
@@ -62,7 +65,7 @@ Steps to update the scoped packages:
 1. `cd php-tools/origin-vendors; composer install/update`
 2. `bash tools/scope-php-vendors.sh`
 
-## 5. Local End-to-End tests
+## 6. Local End-to-End tests
 
 The integrations are covered by [Cypress](https://www.cypress.io/) e2e tests. These tests are integrated
 into GitHub Actions but can also be run locally.

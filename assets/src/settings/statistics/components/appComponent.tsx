@@ -2,64 +2,69 @@ import * as React from "react";
 import {
 	StatCurrentState,
 	AppStatusComponent,
-	AppStatus,
+	AppStatusComponentProperties,
 } from "./appStatusComponent.js";
 import { Config, ConfigClass } from "../config.js";
 import {
 	CaptchaUsageComponent,
-	CaptchaUsage,
-} from "./captchaUsageComponent.js";
-import { ListComponent, List } from "./listComponent.js";
-import NumberUtils from "../numberUtils.js";
+	CaptchaUsageComponentProperties,
+} from "../captchaUsage/captchaUsageComponent.js";
+import { ListComponent, ListComponentProperties } from "./listComponent.js";
+import CaptchaUsageNumberUtils from "../captchaUsage/captchaUsageNumberUtils.js";
 import {
 	TrafficAnalyticsComponent,
-	TrafficData,
+	TrafficAnalyticsComponentProperties,
 } from "./trafficAnalyticsComponent.js";
-import PluginModuleLogger from "../../../logger/plugin/pluginModuleLogger.js";
-import LoggerFactory from "../../../logger/loggerFactory.js";
 import Logger from "../../../logger/logger.js";
-import { Api } from "../api.js";
-import type { Account } from "../account/account.js";
+import { AboutAppComponent } from "./aboutAppComponent.js";
+import type { Account } from "../../account/account.js";
+import type { Site } from "../site/site.js";
+import type { SiteSettings } from "../site/settings/siteSettings.js";
+import type { SiteApiResolver } from "../site/api/siteApiResolver.js";
+import type { ApiCredentials } from "../../apiCredentials.js";
+import { ProsopoSiteApi } from "../site/api/prosopoSiteApi.js";
+import { AccountApiCredentials } from "../../account/api/accountApiCredentials.js";
+import { SiteApiCredentials } from "../site/api/siteApiCredentials.js";
 
-interface AppState {
-	statState: AppStatus;
-	usageInfo: CaptchaUsage;
-	accountInformation: List;
-	captchaSettings: List;
-	domains: List;
-	trafficData: TrafficData;
+interface AppComponentProperties {
+	logger: Logger;
 }
 
-class AppComponent extends React.Component<object, AppState> {
-	private api: Api | null = null;
-	private config: Config;
-	private numberUtils: NumberUtils;
-	private logger: Logger;
-	private accountTier: string;
+interface AppState {
+	statState: AppStatusComponentProperties;
+	usageInfo: CaptchaUsageComponentProperties;
+	accountInformation: ListComponentProperties;
+	captchaSettings: ListComponentProperties;
+	domains: ListComponentProperties;
+	trafficData: TrafficAnalyticsComponentProperties;
+}
 
-	constructor(props) {
+class AppComponent extends React.Component<AppComponentProperties, AppState> {
+	private readonly siteApiResolver: SiteApiResolver;
+	private readonly siteApiCredentials: ApiCredentials;
+	private readonly config: Config;
+	private readonly numberUtils: CaptchaUsageNumberUtils;
+	private readonly logger: Logger;
+
+	constructor(props: AppComponentProperties) {
 		super(props);
 
-		const loggerFactory = new LoggerFactory();
-
-		this.accountTier = "";
 		this.config = new ConfigClass();
-		this.logger = loggerFactory.createLogger(
-			"statistics",
-			new PluginModuleLogger(),
+		this.logger = props.logger;
+		this.numberUtils = new CaptchaUsageNumberUtils();
+
+		this.siteApiResolver = new ProsopoSiteApi(
+			this.config.getAccountApiEndpoint(),
+			this.logger,
 		);
-		this.numberUtils = new NumberUtils();
+		this.siteApiCredentials = new SiteApiCredentials(
+			new AccountApiCredentials(
+				this.config.getSiteKey(),
+				this.config.getSecretKey(),
+			),
+		);
 
 		this.state = this.getInitialState();
-	}
-
-	protected async getApi(): Promise<Api> {
-		if (null === this.api) {
-			const ApiClass = (await import("../api.js")).Api;
-			this.api = new ApiClass(this.config, this.logger);
-		}
-
-		return this.api;
 	}
 
 	protected getInitialState(): AppState {
@@ -98,10 +103,6 @@ class AppComponent extends React.Component<object, AppState> {
 						label: this.config.getAccountLabels().name,
 						value: "...",
 					},
-					{
-						label: this.config.getAccountLabels().email,
-						value: "...",
-					},
 				],
 			},
 			captchaSettings: {
@@ -130,9 +131,11 @@ class AppComponent extends React.Component<object, AppState> {
 				items: [],
 			},
 			trafficData: {
-				isSupported: false,
+				accountTier: "",
 				logger: this.logger,
 				labels: this.config.getTrafficDataLabels(),
+				callToUpgradeElementMarkup:
+					this.config.getCallToUpgradeElementMarkup(),
 			},
 		};
 	}
@@ -157,9 +160,7 @@ class AppComponent extends React.Component<object, AppState> {
 		}));
 	}
 
-	protected refreshUserData(account: Account): void {
-		this.accountTier = account.tier;
-
+	protected refreshUserData(site: Site): void {
 		this.setState((actualState) => ({
 			...actualState,
 			accountInformation: {
@@ -167,32 +168,28 @@ class AppComponent extends React.Component<object, AppState> {
 				items: [
 					{
 						label: this.config.getAccountLabels().tier,
-						value: account.tier.toUpperCase(),
+						value: site.account.tier.toUpperCase(),
 					},
 					{
 						label: this.config.getAccountLabels().name,
-						value: account.name,
+						value: site.name,
 					},
-					/* fixme remove from label{
-                         label: this.config.getAccountLabels().email,
-                         value: account.email,
-                     },*/
 				],
 			},
 			usageInfo: {
 				...actualState.usageInfo,
 				limits: {
-					verifications: account.monthlyUsage.limit,
+					verifications: site.monthlyUsage.limit,
 				},
 				image: {
-					submissions: account.monthlyUsage.image.submissions,
-					verifications: account.monthlyUsage.image.verifications,
-					total: account.monthlyUsage.image.total,
+					submissions: site.monthlyUsage.image.submissions,
+					verifications: site.monthlyUsage.image.verifications,
+					total: site.monthlyUsage.image.total,
 				},
 				pow: {
-					submissions: account.monthlyUsage.pow.submissions,
-					verifications: account.monthlyUsage.pow.verifications,
-					total: account.monthlyUsage.pow.total,
+					submissions: site.monthlyUsage.pow.submissions,
+					verifications: site.monthlyUsage.pow.verifications,
+					total: site.monthlyUsage.pow.total,
 				},
 			},
 		}));
@@ -233,7 +230,16 @@ class AppComponent extends React.Component<object, AppState> {
 		}
 	}
 
-	protected refreshUserSettings(account: Account): void {
+	protected refreshSiteSettings(siteSettings: SiteSettings): void {
+		const domains = siteSettings.domains
+			.filter((domain) => "*" !== domain)
+			.map((domain, index) => {
+				return {
+					label: "#" + (index + 1),
+					value: domain,
+				};
+			});
+
 		this.setState((actualState) => ({
 			...actualState,
 			captchaSettings: {
@@ -241,52 +247,60 @@ class AppComponent extends React.Component<object, AppState> {
 				items: [
 					{
 						label: this.config.getCaptchaSettingsLabels().type,
-						value: this.getTypeLabel(account.settings.captchaType),
+						value: this.getTypeLabel(siteSettings.captchaType),
 					},
 					{
 						label: this.config.getCaptchaSettingsLabels()
 							.frictionlessThreshold,
 						value: this.getFrictionlessThresholdLabel(
-							account.settings.frictionlessThreshold,
+							siteSettings.frictionlessThreshold,
 						),
 					},
 					{
 						label: this.config.getCaptchaSettingsLabels()
 							.powDifficulty,
 						value: this.getPowDifficultyLabel(
-							account.settings.powDifficulty,
+							siteSettings.powDifficulty,
 						),
 					},
 				],
 			},
 			domains: {
 				...actualState.domains,
-				items: account.settings.domains.map((domain, index) => {
-					return {
-						label: "#" + (index + 1),
-						value: domain,
-					};
-				}),
+				items: domains,
+			},
+		}));
+	}
+
+	protected refreshTrafficData(account: Account): void {
+		this.setState((actualState) => ({
+			...actualState,
+			trafficData: {
+				...actualState.trafficData,
+				accountTier: account.tier,
+				labels: this.config.getTrafficDataLabels(),
+				callToUpgradeElementMarkup:
+					this.config.getCallToUpgradeElementMarkup(),
 			},
 		}));
 	}
 
 	protected async refreshData(): Promise<void> {
-		try {
-			const api = await this.getApi();
-			const account = await api.getAccount();
+		const site = await this.siteApiResolver.resolveSite(
+			this.siteApiCredentials,
+		);
 
-			this.refreshUserData(account);
-			this.refreshUserSettings(account);
+		if (site) {
+			this.refreshUserData(site);
+			this.refreshSiteSettings(site.settings);
+			this.refreshTrafficData(site.account);
 
 			this.markAsLoaded();
-		} catch (e) {
-			this.logger.warning("Failed to refresh data", {
-				error: e,
-			});
 
-			this.markAsFailed();
+			return;
 		}
+
+		this.markAsFailed();
 	}
 
 	public componentDidMount(): void {
@@ -311,6 +325,7 @@ class AppComponent extends React.Component<object, AppState> {
 
 		return (
 			<div className="flex flex-col gap-5">
+				<AboutAppComponent />
 				<AppStatusComponent
 					labels={statState.labels}
 					state={statState.state}
@@ -342,8 +357,11 @@ class AppComponent extends React.Component<object, AppState> {
 					<TrafficAnalyticsComponent
 						classes="col-span-2"
 						logger={trafficData.logger}
-						isSupported={trafficData.isSupported}
+						accountTier={trafficData.accountTier}
 						labels={trafficData.labels}
+						callToUpgradeElementMarkup={
+							trafficData.callToUpgradeElementMarkup
+						}
 					/>
 				</div>
 			</div>

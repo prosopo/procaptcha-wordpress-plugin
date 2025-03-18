@@ -1,7 +1,7 @@
 import { NinjaFormsIntegrationComponent } from "./ninjaFormsIntegrationComponent.js";
 import type { Integration } from "../../../integration/integration.js";
-import type { IntegrationComponent } from "../../../integration/integrationComponent.js";
-import type { WebComponentSettings } from "../../../integration/webComponent/webComponentSettings.js";
+import type { WebComponent } from "../../../webComponent/webComponent.js";
+import type { WebComponentSettings } from "../../../webComponent/webComponentSettings.js";
 import type Logger from "../../../logger/logger.js";
 
 class NinjaFormsIntegration implements Integration {
@@ -9,7 +9,7 @@ class NinjaFormsIntegration implements Integration {
 		return "ninja-forms";
 	}
 
-	createIntegrationComponent(componentLogger: Logger): IntegrationComponent {
+	createIntegrationComponent(componentLogger: Logger): WebComponent {
 		return new NinjaFormsIntegrationComponent(componentLogger);
 	}
 

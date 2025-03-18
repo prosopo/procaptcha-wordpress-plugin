@@ -1,14 +1,14 @@
-import { IntegrationComponent } from "../../../integration/integrationComponent.js";
+import { WebComponent } from "../../../webComponent/webComponent.js";
 import Logger from "../../../logger/logger.js";
 
-class NinjaFormsIntegrationComponent implements IntegrationComponent {
+class NinjaFormsIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	setupIntegrationElement(integrationElement: HTMLElement): void {
+	constructComponent(integrationElement: HTMLElement): void {
 		const input = this.getCaptchaInput(integrationElement);
 
 		if (null === input) {

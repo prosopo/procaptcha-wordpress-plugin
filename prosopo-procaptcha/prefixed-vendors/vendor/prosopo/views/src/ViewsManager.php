@@ -46,7 +46,7 @@ final class ViewsManager implements ViewNamespaceManagerInterface, ModelFactoryI
     }
     public function createModel(string $modelClass, ?Closure $setupModelCallback = null)
     {
-        if (\false === $this->isModel($modelClass)) {
+        if (!$this->isModel($modelClass)) {
             throw $this->makeWrongModelException($modelClass);
         }
         $modelNamespace = $this->modelNamespaceProvider->resolveModelNamespace($modelClass);
@@ -62,7 +62,7 @@ final class ViewsManager implements ViewNamespaceManagerInterface, ModelFactoryI
     }
     public function renderModel($modelOrClass, ?Closure $setupModelCallback = null): string
     {
-        if (\false === $this->isModel($modelOrClass)) {
+        if (!$this->isModel($modelOrClass)) {
             throw $this->makeWrongModelException($modelOrClass);
         }
         $modelNamespace = $this->modelNamespaceProvider->resolveModelNamespace($modelOrClass);
@@ -90,7 +90,7 @@ final class ViewsManager implements ViewNamespaceManagerInterface, ModelFactoryI
      */
     protected function makeWrongModelException($modelOrClass): Exception
     {
-        $modelClass = \true === is_object($modelOrClass) ? get_class($modelOrClass) : $modelOrClass;
+        $modelClass = is_object($modelOrClass) ? get_class($modelOrClass) : $modelOrClass;
         $message = sprintf('%s : %s', $this->wrongModelErrorMessage, $modelClass);
         return new Exception($message);
     }
@@ -99,13 +99,13 @@ final class ViewsManager implements ViewNamespaceManagerInterface, ModelFactoryI
      */
     protected function isModel($modelOrClass): bool
     {
-        if (\true === is_object($modelOrClass)) {
+        if (is_object($modelOrClass)) {
             return $modelOrClass instanceof TemplateModelInterface;
         }
-        if (\false === class_exists($modelOrClass)) {
+        if (!class_exists($modelOrClass)) {
             return \false;
         }
         $implementedList = class_implements($modelOrClass);
-        return \true === in_array(TemplateModelInterface::class, $implementedList, \true);
+        return in_array(TemplateModelInterface::class, $implementedList, \true);
     }
 }

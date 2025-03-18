@@ -1,29 +1,29 @@
-# Copyright (C) 2024 Prosopo Team
+# Copyright (C) 2025 Prosopo Team
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Prosopo Procaptcha 1.8.1\n"
+"Project-Id-Version: Prosopo Procaptcha 1.15.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prosopo-procaptcha\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-09T12:25:03+00:00\n"
+"POT-Creation-Date: 2025-03-18T10:43:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: prosopo-procaptcha\n"
 
 #. Plugin Name of the plugin
 #: prosopo-procaptcha.php
-#: src/Captcha/Procaptcha.php:72
-#: src/views/settings/settings.blade.php:11
+#: src/Widget/Procaptcha_Widget.php:81
+#: src/Settings/General/settings.blade.php:14
 msgid "Prosopo Procaptcha"
 msgstr ""
 
 #. Description of the plugin
 #: prosopo-procaptcha.php
-#: src/views/settings/settings.blade.php:34
+#: src/Settings/General/settings.blade.php:37
 msgid "GDPR compliant, privacy friendly and better value captcha."
 msgstr ""
 
@@ -37,258 +37,278 @@ msgstr ""
 msgid "https://prosopo.io/"
 msgstr ""
 
-#: src/Captcha/Procaptcha.php:40
-msgid "Please verify that you are human."
-msgstr ""
-
-#: src/Captcha/Procaptcha.php:50
-#: src/Settings/Tabs/General_Settings.php:79
-msgid "Dark"
-msgstr ""
-
-#: src/Captcha/Procaptcha.php:51
-#: src/Settings/Tabs/General_Settings.php:80
-msgid "Light"
-msgstr ""
-
-#: src/Captcha/Procaptcha.php:60
-#: src/Settings/Tabs/General_Settings.php:83
-#: src/Settings/Tabs/Statistics.php:64
-msgid "Frictionless"
-msgstr ""
-
-#: src/Captcha/Procaptcha.php:61
-#: src/Settings/Tabs/General_Settings.php:84
-#: src/Settings/Tabs/Statistics.php:65
-msgid "Image"
-msgstr ""
-
-#: src/Captcha/Procaptcha.php:62
-#: src/Settings/Tabs/General_Settings.php:85
-msgid "Pow"
-msgstr ""
-
-#: src/Integrations/BBPress/BBPress_Forum.php:48
+#: src/Plugin_Integrations/BBPress/BBPress_Forum_Integration.php:47
 msgid "Enable form protection for this forum (new topic, reply)"
 msgstr ""
 
-#: src/Settings/Settings_Page.php:114
-msgid "Procaptcha Settings"
-msgstr ""
-
-#: src/Settings/Settings_Page.php:115
-msgid "Procaptcha"
-msgstr ""
-
-#: src/Settings/Settings_Page.php:131
-msgid "Settings"
-msgstr ""
-
-#: src/Settings/Tabs/Account_Forms_Settings.php:19
+#: src/Settings/Account_Forms_Settings_Tab.php:19
 msgid "Account Forms"
 msgstr ""
 
-#: src/Settings/Tabs/Account_Forms_Settings.php:33
+#: src/Settings/Account_Forms_Settings_Tab.php:33
 msgid "Protect the comment form:"
 msgstr ""
 
-#: src/Settings/Tabs/Account_Forms_Settings.php:34
+#: src/Settings/Account_Forms_Settings_Tab.php:34
 msgid "Protect the login form:"
 msgstr ""
 
-#: src/Settings/Tabs/Account_Forms_Settings.php:35
+#: src/Settings/Account_Forms_Settings_Tab.php:35
 msgid "Protect the lost password form:"
 msgstr ""
 
-#: src/Settings/Tabs/Account_Forms_Settings.php:36
+#: src/Settings/Account_Forms_Settings_Tab.php:36
 msgid "Protect the post/page password form:"
 msgstr ""
 
-#: src/Settings/Tabs/Account_Forms_Settings.php:37
+#: src/Settings/Account_Forms_Settings_Tab.php:37
 msgid "Protect the register form:"
 msgstr ""
 
-#: src/Settings/Tabs/General_Settings.php:24
+#: src/Settings/General/General_Settings_Tab.php:27
 msgid "General"
 msgstr ""
 
-#: src/Settings/Tabs/General_Settings.php:56
+#: src/Settings/General/General_Settings_Tab.php:71
 msgid "Your Secret Key:"
 msgstr ""
 
-#: src/Settings/Tabs/General_Settings.php:57
+#: src/Settings/General/General_Settings_Tab.php:72
 msgid "Your Site Key:"
 msgstr ""
 
-#: src/Settings/Tabs/General_Settings.php:58
+#: src/Settings/General/General_Settings_Tab.php:73
 msgid "Theme:"
 msgstr ""
 
-#: src/Settings/Tabs/General_Settings.php:59
-#: src/Settings/Tabs/Statistics.php:62
+#: src/Settings/General/General_Settings_Tab.php:74
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:77
 msgid "Type:"
 msgstr ""
 
-#: src/Settings/Tabs/General_Settings.php:65
+#: src/Settings/General/General_Settings_Tab.php:80
 msgid "Require from authorized users:"
 msgstr ""
 
-#: src/Settings/Tabs/General_Settings.php:95
+#: src/Settings/General/General_Settings_Tab.php:94
+#: src/Widget/Procaptcha_Widget.php:59
+msgid "Dark"
+msgstr ""
+
+#: src/Settings/General/General_Settings_Tab.php:95
+#: src/Widget/Procaptcha_Widget.php:60
+msgid "Light"
+msgstr ""
+
+#: src/Settings/General/General_Settings_Tab.php:98
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:79
+#: src/Widget/Procaptcha_Widget.php:69
+msgid "Frictionless"
+msgstr ""
+
+#: src/Settings/General/General_Settings_Tab.php:99
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:80
+#: src/Widget/Procaptcha_Widget.php:70
+msgid "Image"
+msgstr ""
+
+#: src/Settings/General/General_Settings_Tab.php:100
+#: src/Widget/Procaptcha_Widget.php:71
+msgid "Pow"
+msgstr ""
+
+#: src/Settings/General/General_Settings_Tab.php:110
 msgid "Behavior"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:18
+#: src/Settings/General/Upgrade_Tier_Banner.php:23
+msgid "Unlock more with Pro tier"
+msgstr ""
+
+#: src/Settings/General/Upgrade_Tier_Banner.php:26
+msgid "Up to 1M monthly requests"
+msgstr ""
+
+#: src/Settings/General/Upgrade_Tier_Banner.php:27
+msgid "Rapid technical support"
+msgstr ""
+
+#: src/Settings/General/Upgrade_Tier_Banner.php:28
+msgid "Unlimited number of sites"
+msgstr ""
+
+#: src/Settings/General/Upgrade_Tier_Banner.php:29
+msgid "Advanced user management"
+msgstr ""
+
+#: src/Settings/General/Upgrade_Tier_Banner.php:30
+msgid "Traffic analytics and statistics"
+msgstr ""
+
+#: src/Settings/General/Upgrade_Tier_Banner.php:33
+msgid "Upgrade"
+msgstr ""
+
+#: src/Settings/Settings_Page.php:141
+msgid "Procaptcha Settings"
+msgstr ""
+
+#: src/Settings/Settings_Page.php:142
+msgid "Procaptcha"
+msgstr ""
+
+#: src/Settings/Settings_Page.php:165
+msgid "Settings"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:22
 msgid "Statistics"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:48
-msgid "Email:"
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:56
+msgid "Unlock Analytics with Pro tier"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:49
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:63
 msgid "Name:"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:50
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:64
 msgid "Tier:"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:51
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:65
 msgid "Account Information"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:54
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:69
 msgid "Frictionless Threshold:"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:56
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:71
 msgid "High"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:57
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:72
 msgid "Low"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:58
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:73
 msgid "Normal"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:60
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:75
 msgid "Proof of Work Difficulty:"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:61
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:76
 msgid "Captcha Settings"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:66
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:81
 msgid "Proof of Work"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:70
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:85
 msgid "Whitelisted Domains"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:76
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:91
 msgid "Failed to load. Please try again later."
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:77
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:92
 msgid "Successfully loaded at"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:78
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
 msgid "Loading, please wait."
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:79
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
 msgid "Refresh now"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:80
-msgid "Change settings"
-msgstr ""
-
-#: src/Settings/Tabs/Statistics.php:83
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:97
 msgid "Traffic Data Over Time"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:84
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
 msgid "Image Submissions"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:85
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
 msgid "Proof of Work Submissions"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:86
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
 msgid "Submissions Count"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:87
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
 msgid "Time"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:88
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
 msgid "Traffic Analytics"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:89
-msgid "Upgrade your tier to access traffic analytics."
-msgstr ""
-
-#: src/Settings/Tabs/Statistics.php:92
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:105
 msgid "Image:"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:93
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:106
 msgid "Proof of Work:"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:94
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:107
 msgid "Monthly Usage"
 msgstr ""
 
-#: src/Settings/Tabs/Statistics.php:95
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:108
 msgid "Total Verification Requests:"
 msgstr ""
 
-#: src/Settings/Tabs/Woo_Commerce_Settings.php:16
+#: src/Settings/WooCommerce_Settings_Tab.php:16
 msgid "WooCommerce"
 msgstr ""
 
-#: src/Settings/Tabs/Woo_Commerce_Settings.php:29
+#: src/Settings/WooCommerce_Settings_Tab.php:29
 msgid "Protect the checkout form"
 msgstr ""
 
-#: src/Settings/Tabs/Woo_Commerce_Settings.php:30
+#: src/Settings/WooCommerce_Settings_Tab.php:30
 msgid "Protect the order tracking form"
 msgstr ""
 
-#: src/views/settings/settings.blade.php:16
+#: src/Widget/Procaptcha_Widget.php:49
+msgid "Please verify that you are human."
+msgstr ""
+
+#: src/Settings/General/general_settings.blade.php:6
+msgid "Preview: if the credentials are valid, you should be able to complete the captcha below:"
+msgstr ""
+
+#: src/Settings/General/settings.blade.php:19
 msgid "Visit Website"
 msgstr ""
 
-#: src/views/settings/settings.blade.php:22
+#: src/Settings/General/settings.blade.php:25
 msgid "Open Docs"
 msgstr ""
 
-#: src/views/settings/settings.blade.php:28
+#: src/Settings/General/settings.blade.php:31
 msgid "Visit Portal"
 msgstr ""
 
-#: src/views/settings/settings.blade.php:58
+#: src/Settings/General/settings.blade.php:61
 msgid "Settings successfully saved."
 msgstr ""
 
-#: src/views/settings/settings_form.blade.php:71
+#: src/Settings/General/settings_form.blade.php:72
 msgid "Save"
 msgstr ""
 
-#: src/views/settings/settings_statistics.blade.php:34
+#: src/Settings/Statistics/statistics_settings.blade.php:34
 msgid "Please setup your keys to see the statistics."
-msgstr ""
-
-#: src/views/settings/settings_widget_preview.blade.php:3
-msgid "Preview: if the credentials are valid, you should be able to complete the captcha below:"
 msgstr ""

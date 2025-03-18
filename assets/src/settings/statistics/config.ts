@@ -3,7 +3,6 @@ import Collection from "./collection.js";
 interface AccountLabels {
 	title: string;
 	name: string;
-	email: string;
 	tier: string;
 }
 
@@ -19,7 +18,6 @@ interface StateLabels {
 	refreshNow: string;
 	failedToLoad: string;
 	loading: string;
-	toChangeVisitPortal: string;
 }
 
 interface CaptchaSettingsLabels {
@@ -45,7 +43,6 @@ interface DomainLabels {
 
 interface TrafficDataLabels {
 	title: string;
-	upgradeNotice: string;
 	chartTitle: string;
 	powSubmissions: string;
 	imageSubmissions: string;
@@ -70,7 +67,17 @@ interface Config {
 
 	getTrafficDataLabels(): TrafficDataLabels;
 
+	getCallToUpgradeElementMarkup(): string;
+
 	isDebugMode(): boolean;
+
+	getAccountApiEndpoint(): string;
+}
+
+declare global {
+	interface Window {
+		prosopoProcaptchaWpSettings: object;
+	}
 }
 
 class ConfigClass implements Config {
@@ -78,7 +85,7 @@ class ConfigClass implements Config {
 
 	constructor() {
 		const rawData =
-			true === window.hasOwnProperty("prosopoProcaptchaWpSettings") &&
+			window.hasOwnProperty("prosopoProcaptchaWpSettings") &&
 			"object" === typeof window["prosopoProcaptchaWpSettings"]
 				? window["prosopoProcaptchaWpSettings"]
 				: {};
@@ -100,7 +107,6 @@ class ConfigClass implements Config {
 		return {
 			title: accountLabels.getString("title"),
 			name: accountLabels.getString("name"),
-			email: accountLabels.getString("email"),
 			tier: accountLabels.getString("tier"),
 		};
 	}
@@ -128,7 +134,6 @@ class ConfigClass implements Config {
 			refreshNow: stateLabels.getString("refreshNow"),
 			failedToLoad: stateLabels.getString("failedToLoad"),
 			loading: stateLabels.getString("loading"),
-			toChangeVisitPortal: stateLabels.getString("toChangeVisitPortal"),
 		};
 	}
 
@@ -174,13 +179,20 @@ class ConfigClass implements Config {
 
 		return {
 			title: trafficDataLabels.getString("title"),
-			upgradeNotice: trafficDataLabels.getString("upgradeNotice"),
 			chartTitle: trafficDataLabels.getString("chartTitle"),
 			powSubmissions: trafficDataLabels.getString("powSubmissions"),
 			imageSubmissions: trafficDataLabels.getString("imageSubmissions"),
 			time: trafficDataLabels.getString("time"),
 			submissionsCount: trafficDataLabels.getString("submissionsCount"),
 		};
+	}
+
+	public getCallToUpgradeElementMarkup(): string {
+		return this.data.getString("callToUpgradeElementMarkup");
+	}
+
+	public getAccountApiEndpoint(): string {
+		return this.data.getString("accountApiEndpoint");
 	}
 }
 

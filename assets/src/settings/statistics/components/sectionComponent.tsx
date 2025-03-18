@@ -1,13 +1,13 @@
 import * as React from "react";
 
-interface Section {
+interface SectionComponentProperties {
 	classes?: string;
 	title: string;
 	icon: string;
 	children: React.ReactNode;
 }
 
-class SectionComponent extends React.Component<Section> {
+class SectionComponent extends React.Component<SectionComponentProperties> {
 	render() {
 		const { title, icon, children } = this.props;
 

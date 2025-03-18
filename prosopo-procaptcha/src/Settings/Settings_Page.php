@@ -9,11 +9,11 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
 use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin;
+use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Settings\General\Settings;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
-use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
@@ -26,7 +26,7 @@ final class Settings_Page implements Hookable {
 	const MENU_SLUG   = 'prosopo-procaptcha';
 	const DEFAULT_TAB = 'general';
 
-	private Plugin $plugin;
+	private Procaptcha_Plugin $plugin;
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Widget $widget;
 	private Query_Arguments $query_arguments;
@@ -40,7 +40,7 @@ final class Settings_Page implements Hookable {
 	private array $setting_tabs;
 
 	public function __construct(
-		Plugin $plugin,
+		Procaptcha_Plugin $plugin,
 		Procaptcha_Settings_Storage $settings_storage,
 		Widget $widget,
 		Query_Arguments $query_arguments,
@@ -118,7 +118,7 @@ final class Settings_Page implements Hookable {
 				// Manually, instead of WP assets, because the settings page is a WebComponenet with Shadow DOM,
 				// and we need to inject styles directly.
 
-				$settings_style_asset = 'settings/settings.min.css';
+				$settings_style_asset = 'settings/general/general-settings-styles.min.css';
 
 				$settings->style_asset_urls[] = $this->assets_resolver->resolve_asset_url( $settings_style_asset );
 				$this->assets_loader->mark_asset_as_loaded( $settings_style_asset );
@@ -190,7 +190,7 @@ final class Settings_Page implements Hookable {
 				$tab_script_asset,
 				array(),
 				'prosopoProcaptchaWpSettings',
-				$tab->get_tab_js_data( $this->settings_storage )
+				$tab->get_tab_js_data( $this->settings_storage, $this->renderer )
 			);
 		}
 	}

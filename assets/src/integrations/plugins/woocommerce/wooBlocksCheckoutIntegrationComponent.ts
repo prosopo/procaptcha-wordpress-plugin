@@ -1,14 +1,14 @@
-import { IntegrationComponent } from "../../../integration/integrationComponent.js";
+import { WebComponent } from "../../../webComponent/webComponent.js";
 import Logger from "../../../logger/logger.js";
 
-class WooBlocksCheckoutIntegrationComponent implements IntegrationComponent {
+class WooBlocksCheckoutIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;
 
 	constructor(logger: Logger) {
 		this.logger = logger;
 	}
 
-	setupIntegrationElement(integrationElement: HTMLElement): void {
+	constructComponent(integrationElement: HTMLElement): void {
 		const form = integrationElement.closest("form");
 
 		// add a stub to bypass Woo client validation, and run server,

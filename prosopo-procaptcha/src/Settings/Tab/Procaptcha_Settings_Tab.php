@@ -7,10 +7,11 @@ namespace Io\Prosopo\Procaptcha\Settings\Tab;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Settings\General\Settings_Form;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
-use Io\Prosopo\Procaptcha\Template_Models\Settings\Settings_Form;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
@@ -140,7 +141,7 @@ abstract class Procaptcha_Settings_Tab implements Settings_Tab {
 		return '';
 	}
 
-	public function get_tab_js_data( Settings_Storage $settings_storage ): array {
+	public function get_tab_js_data( Settings_Storage $settings_storage, ModelRendererInterface $renderer ): array {
 		return array();
 	}
 

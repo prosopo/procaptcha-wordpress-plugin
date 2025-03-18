@@ -36,11 +36,11 @@ final class FileModelTemplateResolver implements ModelTemplateResolverInterface
         $modelName = $this->modelNameProvider->resolveModelName($model);
         $relativeTemplatePath = $this->getRelativeTemplatePath($relativeModelNamespace, $modelName);
         $absoluteTemplatePath = $this->getAbsoluteTemplatePath($relativeTemplatePath);
-        return \true === $this->isFileBasedTemplate ? $absoluteTemplatePath : $this->getFileContent($absoluteTemplatePath);
+        return $this->isFileBasedTemplate ? $absoluteTemplatePath : $this->getFileContent($absoluteTemplatePath);
     }
     protected function getFileContent(string $file): string
     {
-        if (\false === file_exists($file)) {
+        if (!file_exists($file)) {
             return '';
         }
         // @phpcs:ignore
@@ -56,7 +56,7 @@ final class FileModelTemplateResolver implements ModelTemplateResolverInterface
         $modelName = (string) preg_replace('/([a-z])([A-Z])/', '$1-$2', $modelName);
         $relativeTemplatePath = $relativeModelPath;
         $relativeTemplatePath .= '' !== $relativeTemplatePath ? \DIRECTORY_SEPARATOR : '';
-        $relativeTemplatePath .= $modelName;
-        return strtolower($relativeTemplatePath);
+        $relativeTemplatePath .= strtolower($modelName);
+        return $relativeTemplatePath;
     }
 }

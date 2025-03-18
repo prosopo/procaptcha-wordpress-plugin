@@ -66,7 +66,7 @@ final class Procaptcha_Plugin implements Hookable {
 		$view_template_renderer = new ViewTemplateRenderer();
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
-			->setTemplatesRootPath( __DIR__ . '/..' )
+			->setTemplatesRootPath( __DIR__ )
 			->setTemplateFileExtension( '.blade.php' )
 			->setTemplateErrorHandler(
 				function ( array $event_details ) {

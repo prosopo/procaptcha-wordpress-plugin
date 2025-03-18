@@ -17,12 +17,15 @@ import {
 } from "./trafficAnalyticsComponent.js";
 import Logger from "../../../logger/logger.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
-import type { ProsopoApi } from "../../prosopoApi.js";
+import type { ProsopoAccountApi } from "../../account/prosopoAccountApi.js";
 import type { Account } from "../../account/account.js";
 import type { Site } from "../site/site.js";
 import type { SiteSettings } from "../site/settings/siteSettings.js";
 import { accountSchema } from "../../account/accountSchema.js";
 import { siteSchema } from "../site/siteSchema.js";
+import type { AccountApiResolver } from "../../account/accountApiResolver.js";
+import type { SiteApiResolver } from "../site/siteApiResolver.js";
+import type { ApiCredentials } from "../../apiCredentials.js";
 
 interface AppComponentProperties {
 	logger: Logger;
@@ -38,7 +41,10 @@ interface AppState {
 }
 
 class AppComponent extends React.Component<AppComponentProperties, AppState> {
-	private prosopoApi: ProsopoApi | null = null;
+	private readonly accountApiResolver: AccountApiResolver;
+	private readonly siteApiResolver: SiteApiResolver;
+	private readonly accountCredentials: ApiCredentials;
+	private readonly siteCredentials: ApiCredentials;
 	private readonly config: Config;
 	private readonly numberUtils: CaptchaUsageNumberUtils;
 	private readonly logger: Logger;
@@ -51,16 +57,6 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		this.numberUtils = new CaptchaUsageNumberUtils();
 
 		this.state = this.getInitialState();
-	}
-
-	protected async getProsopoApi(): Promise<ProsopoApi> {
-		if (null === this.prosopoApi) {
-			const ProsopoApiClass = (await import("../../prosopoApi.js"))
-				.ProsopoApi;
-			this.prosopoApi = new ProsopoApiClass(this.logger);
-		}
-
-		return this.prosopoApi;
 	}
 
 	protected getInitialState(): AppState {
@@ -156,7 +152,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		}));
 	}
 
-	protected refreshUserData(account: Account, site: Site): void {
+	protected refreshUserData(site: Site): void {
 		this.setState((actualState) => ({
 			...actualState,
 			accountInformation: {
@@ -164,7 +160,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 				items: [
 					{
 						label: this.config.getAccountLabels().tier,
-						value: account.tier.toUpperCase(),
+						value: site.account.tier.toUpperCase(),
 					},
 					{
 						label: this.config.getAccountLabels().name,
@@ -282,31 +278,21 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	}
 
 	protected async refreshData(): Promise<void> {
-		try {
-			const prosopoApi = await this.getProsopoApi();
-			const endpointResponse = await prosopoApi.requestEndpoint(
-				this.config.getAccountApiEndpoint(),
-				this.config.getSecretKey(),
-				{
-					siteKey: this.config.getSiteKey(),
-				},
-			);
+		const site = await this.siteApiResolver.resolveSite(
+			this.siteCredentials,
+		);
 
-			const account = accountSchema.parse(endpointResponse);
-			const site = siteSchema.parse(endpointResponse);
-
-			this.refreshUserData(account, site);
+		if (site) {
+			this.refreshUserData(site);
 			this.refreshSiteSettings(site.settings);
-			this.refreshTrafficData(account);
+			this.refreshTrafficData(site.account);
 
 			this.markAsLoaded();
-		} catch (e) {
-			this.logger.warning("Failed to refresh data", {
-				error: e,
-			});
 
-			this.markAsFailed();
+			return;
 		}
+
+		this.markAsFailed();
 	}
 
 	public componentDidMount(): void {

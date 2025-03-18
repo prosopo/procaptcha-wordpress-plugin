@@ -6,6 +6,7 @@ namespace Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelNameResolverInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelNamespaceResolverInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Template\FileTemplateContentProviderInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Template\ModelTemplateResolverInterface;
 /**
  * This class is marked as a final and placed under the 'Private' namespace to prevent anyone from using it directly.
@@ -17,13 +18,15 @@ final class FileModelTemplateResolver implements ModelTemplateResolverInterface
     private string $namespace;
     private string $extension;
     private bool $isFileBasedTemplate;
+    private FileTemplateContentProviderInterface $fileTemplateContentProvider;
     private ModelNameResolverInterface $modelNameProvider;
     private ModelNamespaceResolverInterface $modelNamespaceProvider;
-    public function __construct(string $namespace, string $templatesRootPath, string $extension, bool $isFileBasedTemplate, ModelNamespaceResolverInterface $modelNamespaceProvider, ModelNameResolverInterface $modelNameProvider)
+    public function __construct(string $namespace, string $templatesRootPath, string $extension, bool $isFileBasedTemplate, FileTemplateContentProviderInterface $fileTemplateContentProvider, ModelNamespaceResolverInterface $modelNamespaceProvider, ModelNameResolverInterface $modelNameProvider)
     {
         $this->templatesRootPath = $templatesRootPath;
         $this->namespace = $namespace;
         $this->extension = $extension;
+        $this->fileTemplateContentProvider = $fileTemplateContentProvider;
         $this->isFileBasedTemplate = $isFileBasedTemplate;
         $this->modelNameProvider = $modelNameProvider;
         $this->modelNamespaceProvider = $modelNamespaceProvider;
@@ -36,15 +39,7 @@ final class FileModelTemplateResolver implements ModelTemplateResolverInterface
         $modelName = $this->modelNameProvider->resolveModelName($model);
         $relativeTemplatePath = $this->getRelativeTemplatePath($relativeModelNamespace, $modelName);
         $absoluteTemplatePath = $this->getAbsoluteTemplatePath($relativeTemplatePath);
-        return $this->isFileBasedTemplate ? $absoluteTemplatePath : $this->getFileContent($absoluteTemplatePath);
-    }
-    protected function getFileContent(string $file): string
-    {
-        if (!file_exists($file)) {
-            return '';
-        }
-        // @phpcs:ignore
-        return (string) file_get_contents($file);
+        return $this->isFileBasedTemplate ? $absoluteTemplatePath : $this->fileTemplateContentProvider->getFileTemplateContent($absoluteTemplatePath);
     }
     protected function getAbsoluteTemplatePath(string $relativeTemplatePath): string
     {

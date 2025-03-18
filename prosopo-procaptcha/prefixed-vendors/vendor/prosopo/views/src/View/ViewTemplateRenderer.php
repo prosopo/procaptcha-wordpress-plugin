@@ -10,6 +10,7 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\CodeRunner\CodeRu
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\CodeRunner\CodeRunnerWithTemplateCompilation;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\CodeRunner\PhpCodeRunner;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\EventDispatcher;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template\FileTemplateContentProvider;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template\TemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template\TemplateRendererWithCustomEscape;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template\TemplateRendererWithEventDetails;
@@ -44,7 +45,8 @@ final class ViewTemplateRenderer implements TemplateRendererInterface
         $templateRenderer = $modules->getTemplateRenderer();
         $templateRenderer = null === $templateRenderer ? new TemplateRenderer($codeExecutor) : $templateRenderer;
         if ($config->fileBasedTemplates()) {
-            $templateRenderer = new TemplateRendererWithFileTemplate($templateRenderer);
+            $fileTemplateContentProvider = new FileTemplateContentProvider($errorEventName, $eventDispatcher);
+            $templateRenderer = new TemplateRendererWithFileTemplate($fileTemplateContentProvider, $templateRenderer);
         }
         $templateRenderer = new TemplateRendererWithCustomEscape($templateRenderer, $config->getCustomOutputEscapeCallback(), $config->getEscapeVariableName());
         $templateRenderer = new TemplateRendererWithEventDetails($templateRenderer, $eventDispatcher, $errorEventName);

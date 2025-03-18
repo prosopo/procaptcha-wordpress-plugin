@@ -2,23 +2,23 @@
     "packages": [
         {
             "name": "prosopo\/views",
-            "version": "1.0.4",
-            "version_normalized": "1.0.4.0",
+            "version": "1.0.5",
+            "version_normalized": "1.0.5.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/prosopo\/php-views.git",
-                "reference": "221e55f008c7132292bb13d3ba2c66ab29c80fe2"
+                "reference": "8a2a4d1d1ed8cc25d5c5725dfba2e0178d12c0f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/prosopo\/php-views\/zipball\/221e55f008c7132292bb13d3ba2c66ab29c80fe2",
-                "reference": "221e55f008c7132292bb13d3ba2c66ab29c80fe2",
+                "url": "https:\/\/api.github.com\/repos\/prosopo\/php-views\/zipball\/8a2a4d1d1ed8cc25d5c5725dfba2e0178d12c0f6",
+                "reference": "8a2a4d1d1ed8cc25d5c5725dfba2e0178d12c0f6",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0"
             },
-            "time": "2025-03-13T10:22:50+00:00",
+            "time": "2025-03-18T14:33:36+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -48,7 +48,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/prosopo\/php-views\/issues",
-                "source": "https:\/\/github.com\/prosopo\/php-views\/tree\/1.0.4"
+                "source": "https:\/\/github.com\/prosopo\/php-views\/tree\/1.0.5"
             },
             "install-path": "..\/prosopo\/views"
         },

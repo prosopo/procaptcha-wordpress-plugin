@@ -39,9 +39,11 @@ use Io\Prosopo\Procaptcha\Settings\{Account_Forms_Settings_Tab,
 	General\General_Settings_Tab,
 	Settings_Page,
 	Statistics\Statistics_Settings_Tab,
-	Storage\Procaptcha_Settings_Storage};
+	Storage\Procaptcha_Settings_Storage
+};
 
 final class Procaptcha_Plugin implements Hookable {
+
 	const SLUG                     = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
@@ -64,8 +66,17 @@ final class Procaptcha_Plugin implements Hookable {
 		$view_template_renderer = new ViewTemplateRenderer();
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
-			->setTemplatesRootPath( __DIR__ )
-			->setTemplateFileExtension( '.blade.php' );
+			->setTemplatesRootPath( __DIR__ . '/..' )
+			->setTemplateFileExtension( '.blade.php' )
+			->setTemplateErrorHandler(
+				function ( array $event_details ) {
+					// todo log.
+				}
+			);
+
+		$namespace_config
+			->getModules()
+			->setEventDispatcher( $view_template_renderer->getModules()->getEventDispatcher() );
 
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha', $namespace_config );
@@ -153,7 +164,7 @@ final class Procaptcha_Plugin implements Hookable {
 
 	protected function detect_current_version_number(): string {
         // @phpcs:ignore
-		$plugin_file_content = (string)file_get_contents( $this->plugin_file );
+        $plugin_file_content = (string)file_get_contents($this->plugin_file);
 
 		preg_match( '/Version:(.*)/', $plugin_file_content, $matches );
 

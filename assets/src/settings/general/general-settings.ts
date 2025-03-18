@@ -4,9 +4,9 @@ import type Logger from "../../logger/logger.js";
 import { WebComponentRegistrar } from "../../webComponent/webComponentRegistrar.js";
 import { GeneralSettingsWebComponent } from "./generalSettingsWebComponent.js";
 import { GeneralSettingsConfig } from "./generalSettingsConfig.js";
-import { ProsopoAccountApi } from "../account/prosopoAccountApi.js";
-import { AccountApiCredentials } from "../account/accountApiCredentials.js";
-import type { AccountApiResolver } from "../account/accountApiResolver.js";
+import { ProsopoAccountApi } from "../account/api/prosopoAccountApi.js";
+import { AccountApiCredentials } from "../account/api/accountApiCredentials.js";
+import type { AccountApiResolver } from "../account/api/accountApiResolver.js";
 import type { ApiCredentials } from "../apiCredentials.js";
 
 class GeneralSettings {

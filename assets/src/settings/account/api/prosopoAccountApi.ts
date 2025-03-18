@@ -1,7 +1,7 @@
-import type Logger from "../../logger/logger.js";
+import type Logger from "../../../logger/logger.js";
 import type { AccountApiResolver } from "./accountApiResolver.js";
-import type { Account } from "./account.js";
-import type { ApiCredentials } from "../apiCredentials.js";
+import type { Account } from "../account.js";
+import type { ApiCredentials } from "../../apiCredentials.js";
 
 class ProsopoAccountApi implements AccountApiResolver {
 	public constructor(
@@ -27,7 +27,7 @@ class ProsopoAccountApi implements AccountApiResolver {
 	protected async getAccount(credentials: ApiCredentials): Promise<Account> {
 		if (credentials.canSignMessage()) {
 			const accountEndpointResponse =
-				this.requestAccountEndpoint(credentials);
+				await this.requestAccountEndpoint(credentials);
 
 			return await this.parseAccountEndpointResponse(
 				accountEndpointResponse,
@@ -121,7 +121,7 @@ class ProsopoAccountApi implements AccountApiResolver {
 	protected async parseAccountEndpointResponse(
 		accountEndpointResponse: unknown,
 	): Promise<Account> {
-		const { accountSchema } = await import("./accountSchema.js");
+		const { accountSchema } = await import("../accountSchema.js");
 
 		return accountSchema.parse(accountEndpointResponse);
 	}

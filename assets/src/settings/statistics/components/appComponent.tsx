@@ -17,15 +17,14 @@ import {
 } from "./trafficAnalyticsComponent.js";
 import Logger from "../../../logger/logger.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
-import type { ProsopoAccountApi } from "../../account/prosopoAccountApi.js";
 import type { Account } from "../../account/account.js";
 import type { Site } from "../site/site.js";
 import type { SiteSettings } from "../site/settings/siteSettings.js";
-import { accountSchema } from "../../account/accountSchema.js";
-import { siteSchema } from "../site/siteSchema.js";
-import type { AccountApiResolver } from "../../account/accountApiResolver.js";
-import type { SiteApiResolver } from "../site/siteApiResolver.js";
+import type { SiteApiResolver } from "../site/api/siteApiResolver.js";
 import type { ApiCredentials } from "../../apiCredentials.js";
+import { ProsopoSiteApi } from "../site/api/prosopoSiteApi.js";
+import { AccountApiCredentials } from "../../account/api/accountApiCredentials.js";
+import { SiteApiCredentials } from "../site/api/siteApiCredentials.js";
 
 interface AppComponentProperties {
 	logger: Logger;
@@ -41,10 +40,8 @@ interface AppState {
 }
 
 class AppComponent extends React.Component<AppComponentProperties, AppState> {
-	private readonly accountApiResolver: AccountApiResolver;
 	private readonly siteApiResolver: SiteApiResolver;
-	private readonly accountCredentials: ApiCredentials;
-	private readonly siteCredentials: ApiCredentials;
+	private readonly siteApiCredentials: ApiCredentials;
 	private readonly config: Config;
 	private readonly numberUtils: CaptchaUsageNumberUtils;
 	private readonly logger: Logger;
@@ -55,6 +52,17 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		this.config = new ConfigClass();
 		this.logger = props.logger;
 		this.numberUtils = new CaptchaUsageNumberUtils();
+
+		this.siteApiResolver = new ProsopoSiteApi(
+			this.config.getAccountApiEndpoint(),
+			this.logger,
+		);
+		this.siteApiCredentials = new SiteApiCredentials(
+			new AccountApiCredentials(
+				this.config.getSiteKey(),
+				this.config.getSecretKey(),
+			),
+		);
 
 		this.state = this.getInitialState();
 	}
@@ -279,7 +287,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 
 	protected async refreshData(): Promise<void> {
 		const site = await this.siteApiResolver.resolveSite(
-			this.siteCredentials,
+			this.siteApiCredentials,
 		);
 
 		if (site) {

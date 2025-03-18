@@ -1,8 +1,7 @@
-import { ProsopoAccountApi } from "../../account/prosopoAccountApi.js";
+import { ProsopoAccountApi } from "../../../account/api/prosopoAccountApi.js";
 import type { SiteApiResolver } from "./siteApiResolver.js";
-import type { ApiCredentials } from "../../apiCredentials.js";
-import type { Site } from "./site.js";
-import deepmerge from "deepmerge";
+import type { ApiCredentials } from "../../../apiCredentials.js";
+import type { Site } from "../site.js";
 
 class ProsopoSiteApi extends ProsopoAccountApi implements SiteApiResolver {
 	public async resolveSite(
@@ -40,14 +39,18 @@ class ProsopoSiteApi extends ProsopoAccountApi implements SiteApiResolver {
 			accountEndpointResponse,
 		);
 
-		// fixme
-		const siteEndpointResponse = {
-			...accountEndpointResponse,
-			account: account,
-		};
+		const siteEndpointResponse =
+			Object === accountEndpointResponse?.constructor
+				? {
+						...accountEndpointResponse,
+						account: account,
+					}
+				: {};
 
-		const { siteSchema } = await import("./siteSchema.js");
+		const { siteSchema } = await import("../siteSchema.js");
 
 		return siteSchema.parse(siteEndpointResponse);
 	}
 }
+
+export { ProsopoSiteApi };

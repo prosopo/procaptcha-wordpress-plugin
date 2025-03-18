@@ -1,4 +1,5 @@
-@import "tailwindcss" source("../../../../prosopo-procaptcha/src/Settings/General");
+@import "tailwindcss"
+	source("../../../../prosopo-procaptcha/src/Settings/General");
 
 @import "../theme.css";
 

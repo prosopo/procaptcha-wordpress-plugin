@@ -6,8 +6,6 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
@@ -23,10 +21,10 @@ use Io\Prosopo\Procaptcha\Plugin_Integrations\{BBPress\BBPress_Integration,
 	Simple_Membership\Simple_Membership_Integration,
 	Spectra\Spectra_Integration,
 	User_Registration\User_Registration_Integration,
+	Beaver_Builder\Beaver_Builder_Integration,
 	WooCommerce\WooCommerce_Integration,
 	WordPress\WordPress_Integration,
-	WPForms\WPForms_Integration
-};
+	WPForms\WPForms_Integration};
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Procaptcha_Form_Integration_Helper;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
@@ -193,6 +191,7 @@ final class Procaptcha_Plugin implements Hookable {
 			WooCommerce_Integration::class,
 			WordPress_Integration::class,
 			Simple_Membership_Integration::class,
+			Beaver_Builder_Integration::class,
 		);
 	}
 

@@ -1,8 +1,8 @@
 import { StatisticsWebComponent } from "./components/statisticsWebComponent.js";
-import { WebComponentRegistrar } from "../../webComponent/webComponentRegistrar.js";
-import LoggerFactory from "../../logger/loggerFactory.js";
-import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
-import type Logger from "../../logger/logger.js";
+import { WebComponentRegistrar } from "#webComponent/webComponentRegistrar.js";
+import LoggerFactory from "#logger/loggerFactory.js";
+import PluginModuleLogger from "#logger/plugin/pluginModuleLogger.js";
+import type Logger from "#logger/logger.js";
 
 class Statistics {
 	private readonly logger: Logger;

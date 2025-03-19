@@ -1,8 +1,8 @@
-import type { WebComponent } from "../../webComponent/webComponent.js";
-import FormIntegrationComponent from "./formIntegrationComponent.js";
-import type { Integration } from "../../integration/integration.js";
-import type { WebComponentSettings } from "../../webComponent/webComponentSettings.js";
-import type Logger from "../../logger/logger.js";
+import type { WebComponent } from "#webComponent/webComponent.js";
+import FormIntegrationComponent from "#integrations/form/formIntegrationComponent.js";
+import type { Integration } from "#integration/integration.js";
+import type { WebComponentSettings } from "#webComponent/webComponentSettings.js";
+import type Logger from "#logger/logger.js";
 
 class FormIntegration implements Integration {
 	getIntegrationName(): string {

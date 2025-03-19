@@ -1,7 +1,7 @@
-import type Logger from "../../../logger/logger.js";
 import type { AccountApiResolver } from "./accountApiResolver.js";
-import type { Account } from "../account.js";
-import type { ApiCredentials } from "../../apiCredentials.js";
+import type Logger from "#logger/logger.js";
+import type { ApiCredentials } from "#settings/apiCredentials.js";
+import type { Account } from "#settings/account/account.js";
 
 class ProsopoAccountApi implements AccountApiResolver {
 	public constructor(

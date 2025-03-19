@@ -1,7 +1,7 @@
-import { ProsopoAccountApi } from "../../../account/api/prosopoAccountApi.js";
 import type { SiteApiResolver } from "./siteApiResolver.js";
-import type { ApiCredentials } from "../../../apiCredentials.js";
-import type { Site } from "../site.js";
+import { ProsopoAccountApi } from "#settings/account/api/prosopoAccountApi.js";
+import type { ApiCredentials } from "#settings/apiCredentials.js";
+import type { Site } from "#settings/statistics/site/site.js";
 
 class ProsopoSiteApi extends ProsopoAccountApi implements SiteApiResolver {
 	public async resolveSite(

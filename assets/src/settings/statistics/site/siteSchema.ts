@@ -1,8 +1,8 @@
 import { z, type ZodType } from "zod";
 import type { Site } from "./site.js";
-import { siteSettingsSchema } from "./settings/siteSettingsSchema.js";
-import { captchaUsageSchema } from "../captchaUsage/captchaUsageSchema.js";
-import { accountSchema } from "../../account/accountSchema.js";
+import { accountSchema } from "#settings/account/accountSchema.js";
+import { siteSettingsSchema } from "#settings/statistics/site/settings/siteSettingsSchema.js";
+import { captchaUsageSchema } from "#settings/statistics/captchaUsage/captchaUsageSchema.js";
 
 const siteSchema = z.object({
 	account: accountSchema,

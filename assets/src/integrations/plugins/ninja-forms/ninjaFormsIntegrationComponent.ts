@@ -1,5 +1,20 @@
-import { WebComponent } from "../../../webComponent/webComponent.js";
-import Logger from "../../../logger/logger.js";
+import { WebComponent } from "#webComponent/webComponent.js";
+import Logger from "#logger/logger.js";
+
+declare global {
+	interface Window {
+		Marionette: {
+			Object: {
+				extend: (object: object) => new () => unknown;
+			};
+		};
+		Backbone: {
+			Radio: {
+				channel: (channel: string) => unknown;
+			};
+		};
+	}
+}
 
 class NinjaFormsIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;
@@ -22,8 +37,8 @@ class NinjaFormsIntegrationComponent implements WebComponent {
 		this.makeMarionetteObject(input);
 
 		integrationElement.parentElement
-			.closest("form")
-			.addEventListener("_prosopo-procaptcha__filled", () => {
+			?.closest("form")
+			?.addEventListener("_prosopo-procaptcha__filled", () => {
 				this.clearValidationError(modelId);
 			});
 	}
@@ -68,7 +83,7 @@ class NinjaFormsIntegrationComponent implements WebComponent {
 	}
 
 	protected getCaptchaInput(origin: HTMLElement): HTMLInputElement | null {
-		const input = origin.parentElement.querySelector(
+		const input = origin.parentElement?.querySelector(
 			".prosopo-procaptcha-input",
 		);
 
@@ -104,12 +119,15 @@ class NinjaFormsIntegrationComponent implements WebComponent {
 
 				const submitChannel = _this.getBackboneChannel("submit");
 
+				// @ts-expect-error custom object
 				this.listenTo(
 					submitChannel,
 					"validate:field",
+					// @ts-expect-error custom object
 					this.updateProcaptcha,
 				);
 			},
+			// @ts-expect-error custom object
 			updateProcaptcha(model) {
 				_this.logger.debug("Update is called", {
 					model: model,

@@ -3,6 +3,23 @@
     "esModuleInterop": true,
     "jsx": "react",
     "moduleResolution": "nodenext",
-    "strict": true
+    "strict": true,
+    "paths": {
+      "#integration/*": [
+        "./src/integration/*"
+      ],
+      "#integrations/*": [
+        "./src/integrations/*"
+      ],
+      "#logger/*": [
+        "./src/logger/*"
+      ],
+      "#settings/*": [
+        "./src/settings/*"
+      ],
+      "#webComponent/*": [
+        "./src/webComponent/*"
+      ]
+    }
   }
 }

@@ -4,27 +4,28 @@ import {
 	AppStatusComponent,
 	AppStatusComponentProperties,
 } from "./appStatusComponent.js";
-import { Config, ConfigClass } from "../config.js";
-import {
-	CaptchaUsageComponent,
-	CaptchaUsageComponentProperties,
-} from "../captchaUsage/captchaUsageComponent.js";
+
 import { ListComponent, ListComponentProperties } from "./listComponent.js";
-import CaptchaUsageNumberUtils from "../captchaUsage/captchaUsageNumberUtils.js";
 import {
 	TrafficAnalyticsComponent,
 	TrafficAnalyticsComponentProperties,
 } from "./trafficAnalyticsComponent.js";
-import Logger from "../../../logger/logger.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
-import type { Account } from "../../account/account.js";
-import type { Site } from "../site/site.js";
-import type { SiteSettings } from "../site/settings/siteSettings.js";
-import type { SiteApiResolver } from "../site/api/siteApiResolver.js";
-import type { ApiCredentials } from "../../apiCredentials.js";
-import { ProsopoSiteApi } from "../site/api/prosopoSiteApi.js";
-import { AccountApiCredentials } from "../../account/api/accountApiCredentials.js";
-import { SiteApiCredentials } from "../site/api/siteApiCredentials.js";
+import type { SiteApiResolver } from "#settings/statistics/site/api/siteApiResolver.js";
+import type { ApiCredentials } from "#settings/apiCredentials.js";
+import {
+	CaptchaUsageComponent,
+	type CaptchaUsageComponentProperties,
+} from "#settings/statistics/captchaUsage/captchaUsageComponent.js";
+import type Logger from "#logger/logger.js";
+import { type Config, ConfigClass } from "#settings/statistics/config.js";
+import CaptchaUsageNumberUtils from "#settings/statistics/captchaUsage/captchaUsageNumberUtils.js";
+import { ProsopoSiteApi } from "#settings/statistics/site/api/prosopoSiteApi.js";
+import { SiteApiCredentials } from "#settings/statistics/site/api/siteApiCredentials.js";
+import { AccountApiCredentials } from "#settings/account/api/accountApiCredentials.js";
+import type { Site } from "#settings/statistics/site/site.js";
+import type { SiteSettings } from "#settings/statistics/site/settings/siteSettings.js";
+import type { Account } from "#settings/account/account.js";
 
 interface AppComponentProperties {
 	logger: Logger;

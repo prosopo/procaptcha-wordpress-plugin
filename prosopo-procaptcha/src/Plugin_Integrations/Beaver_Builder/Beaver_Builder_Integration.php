@@ -38,8 +38,8 @@ final class Beaver_Builder_Integration extends Procaptcha_Plugin_Integration imp
 		);
 
 		// todo find a way to print procaptcha when the setting above is enabled
-		// the form is printed in: bb-plugin/modules/contact-form/includes/frontend.php
-		/*
+		// the form is printed in: bb-plugin/modules/contact-form/includes/frontend.php.
+		/* @phpcs:ignore
 		add_action(
 			'fl_builder_render_module_html_before',
 			function ( $type, $settings, $module ) {

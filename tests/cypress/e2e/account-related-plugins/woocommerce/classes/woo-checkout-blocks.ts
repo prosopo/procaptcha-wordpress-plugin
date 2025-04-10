@@ -28,6 +28,11 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 		};
 	}
 
+	// It's out of the form.
+	protected getFailSubmitMessageSelector(): string {
+		return this.selectors.errorMessage;
+	}
+
 	// Do not prefix fields that expect the exact values.
 	protected prefixSubmitValue(key: string, value: string): string {
 		if (["country", "city", "postcode", "state"].includes(key)) {
@@ -37,23 +42,39 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 		return super.prefixSubmitValue(key, value);
 	}
 
-	protected fillAndSubmitForm(wpData, settings: SubmitFormSettings): void {
+	protected submitFormFields(wpData, settings: SubmitFormSettings): void {
 		// usual
 		wpData
 			.dispatch("wc/store/cart")
 			.setBillingAddress(settings.fieldValues);
 
-		let captchaValue = settings.captchaValue || "";
-
-		if ("" !== captchaValue) {
-			wpData.dispatch("wc/store/checkout").setAdditionalFields({
-				"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
-			});
-		}
-
 		cy.get(
 			"button.wc-block-components-checkout-place-order-button",
 		).click();
+	}
+
+	protected fillAndSubmitForm(wpData, settings: SubmitFormSettings): void {
+		let captchaValue = settings.captchaValue || "";
+
+		// wait until the 'additional fields' section is loaded
+		cy.wrap(".wc-block-components-checkout-step__title").should("exist");
+
+		if ("" !== captchaValue) {
+			cy.intercept("POST", "/wp-json/wc/store/v1/checkout*").as(
+				"additionalFieldsResponse",
+			);
+
+			wpData.dispatch("wc/store/checkout").setAdditionalFields({
+				"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
+			});
+
+			// wait until the update request is processed
+			cy.wait("@additionalFieldsResponse").then(() => {
+				this.submitFormFields(wpData, settings);
+			});
+		} else {
+			this.submitFormFields(wpData, settings);
+		}
 	}
 
 	// On the checkout page, the usual 'input.value=x' approach doesn't work.

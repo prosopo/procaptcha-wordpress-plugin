@@ -134,7 +134,8 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 == Changelog ==
 
 = 1.16.0 (2024-04-10) =
-- Fix - deactivation-related bug
+- Fix - plugin deactivation-related bug
+- Enhancement - WooCommerce 9.8 block checkout integration
 
 = 1.15.0 (2024-03-18) =
 - Settings page enhancements

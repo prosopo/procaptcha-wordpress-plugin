@@ -24,7 +24,7 @@ To install manually you'll need to clone the repository and build the assets:
 
 ## 2. Folders Description
 
-This repository includes both the plugin code and the workflow tools:
+This repository includes both the plugin code, and the workflow tools:
 
 - `.github/workflows` - GitHub Actions: (CI/CD) workflows
 - `assets` - TypeScript and Sass source files; [ESLint](https://eslint.org/), [Prettifier](https://prettier.io/)

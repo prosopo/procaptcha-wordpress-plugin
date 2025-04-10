@@ -1,5 +1,17 @@
-import { WebComponent } from "../../../webComponent/webComponent.js";
-import Logger from "../../../logger/logger.js";
+import { WebComponent } from "#webComponent/webComponent.js";
+import type Logger from "#logger/logger.js";
+
+declare global {
+	interface Window {
+		wp: {
+			data: {
+				dispatch: (namespace: string) => {
+					setAdditionalFields: (fields: object) => void;
+				};
+			};
+		};
+	}
+}
 
 class WooBlocksCheckoutIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;
@@ -15,10 +27,10 @@ class WooBlocksCheckoutIntegrationComponent implements WebComponent {
 		// otherwise it's confusing as the input is hidden.
 		this.updateInputValue("default");
 
-		form.addEventListener(
+		form?.addEventListener(
 			"_prosopo-procaptcha__filled",
-			(event: CustomEvent) => {
-				this.updateInputValue(event.detail.token);
+			(event: Event) => {
+				this.updateInputValue((event as CustomEvent).detail.token);
 			},
 		);
 	}

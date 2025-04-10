@@ -21,6 +21,7 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelRender
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Model\ModelRendererWithEventDetails;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\EventDispatcher;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template\FileModelTemplateResolver;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template\FileTemplateContentProvider;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template\TemplateRendererWithModelsRender;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceModules;
@@ -55,8 +56,9 @@ final class ViewNamespace
         $modelNamespaceProvider = null === $modelNamespaceProvider ? new ModelNamespaceResolver(new ObjectClassReader()) : $modelNamespaceProvider;
         $modelNameProvider = $modules->getModelNameResolver();
         $modelNameProvider = null === $modelNameProvider ? new ModelNameResolver(new ObjectClassReader()) : $modelNameProvider;
+        $fileTemplateContentProvider = new FileTemplateContentProvider($templateErrorEventName, $eventDispatcher);
         $modelTemplateResolver = $modules->getModelTemplateResolver();
-        $modelTemplateResolver = null === $modelTemplateResolver ? new FileModelTemplateResolver($namespace, $config->getTemplatesRootPath(), $config->getTemplateFileExtension(), $config->fileBasedTemplates(), $modelNamespaceProvider, $modelNameProvider) : $modelTemplateResolver;
+        $modelTemplateResolver = null === $modelTemplateResolver ? new FileModelTemplateResolver($namespace, $config->getTemplatesRootPath(), $config->getTemplateFileExtension(), $config->fileBasedTemplates(), $fileTemplateContentProvider, $modelNamespaceProvider, $modelNameProvider) : $modelTemplateResolver;
         $propertyValueProvider = $modules->getPropertyValueProvider();
         $propertyValueProvider = null === $propertyValueProvider ? new PropertyValueProvider() : $propertyValueProvider;
         $propertyValueProvider = new PropertyValueProviderByTypes($propertyValueProvider, $config->getDefaultPropertyValues());

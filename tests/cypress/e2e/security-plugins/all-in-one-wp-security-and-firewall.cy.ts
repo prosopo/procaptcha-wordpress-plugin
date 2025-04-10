@@ -3,7 +3,8 @@ import { RegisterForm } from "@wordpress/register-form";
 import { LostPasswordForm } from "@wordpress/lost-password-form";
 import { IntegrationTest } from "@support/integration-test";
 
-new IntegrationTest({
+// fixme uncomment when fixed https://wordpress.org/support/topic/cant-reset-password-when-brute-force-option-rename-login-is-on/
+/*   new IntegrationTest({
 	targetPluginSlugs: ["all-in-one-wp-security-and-firewall"],
 	loginUrl: "/login",
 	forms: [
@@ -17,4 +18,4 @@ new IntegrationTest({
 			url: "/login/?action=lostpassword",
 		}),
 	],
-});
+});*/

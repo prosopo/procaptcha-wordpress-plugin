@@ -1,6 +1,6 @@
-import Logger from "./logger.js";
 import ModuleLogger from "./moduleLogger.js";
 import PluginLogger from "./plugin/pluginLogger.js";
+import type Logger from "#logger/logger.js";
 
 class LoggerFactory {
 	public createLogger(module: string, moduleLogger: ModuleLogger): Logger {

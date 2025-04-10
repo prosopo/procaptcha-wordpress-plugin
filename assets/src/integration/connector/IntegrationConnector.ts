@@ -1,7 +1,7 @@
-import LoggerFactory from "../../logger/loggerFactory.js";
-import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
-import { WebComponentRegistrar } from "../../webComponent/webComponentRegistrar.js";
-import type { Integration } from "../integration.js";
+import { WebComponentRegistrar } from "#webComponent/webComponentRegistrar.js";
+import type LoggerFactory from "#logger/loggerFactory.js";
+import type PluginModuleLogger from "#logger/plugin/pluginModuleLogger.js";
+import type { Integration } from "#integration/integration.js";
 
 class IntegrationConnector {
 	public constructor(

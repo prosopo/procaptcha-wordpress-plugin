@@ -1,13 +1,13 @@
-import LoggerFactory from "../../logger/loggerFactory.js";
-import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
-import type Logger from "../../logger/logger.js";
-import { WebComponentRegistrar } from "../../webComponent/webComponentRegistrar.js";
+import { WebComponentRegistrar } from "#webComponent/webComponentRegistrar.js";
 import { GeneralSettingsWebComponent } from "./generalSettingsWebComponent.js";
 import { GeneralSettingsConfig } from "./generalSettingsConfig.js";
-import { ProsopoAccountApi } from "../account/api/prosopoAccountApi.js";
-import { AccountApiCredentials } from "../account/api/accountApiCredentials.js";
-import type { AccountApiResolver } from "../account/api/accountApiResolver.js";
-import type { ApiCredentials } from "../apiCredentials.js";
+import type Logger from "#logger/logger.js";
+import type { AccountApiResolver } from "#settings/account/api/accountApiResolver.js";
+import type { ApiCredentials } from "#settings/apiCredentials.js";
+import LoggerFactory from "#logger/loggerFactory.js";
+import PluginModuleLogger from "#logger/plugin/pluginModuleLogger.js";
+import { ProsopoAccountApi } from "#settings/account/api/prosopoAccountApi.js";
+import { AccountApiCredentials } from "#settings/account/api/accountApiCredentials.js";
 
 class GeneralSettings {
 	private readonly logger: Logger;

@@ -1,5 +1,14 @@
-import Logger from "../../logger/logger.js";
-import { WebComponent } from "../../webComponent/webComponent.js";
+import { WebComponent } from "#webComponent/webComponent.js";
+import type Logger from "#logger/logger.js";
+
+declare global {
+	interface Window {
+		procaptcha: {
+			render: (element: HTMLElement, args: object) => () => void;
+		};
+		procaptchaWpAttributes: object;
+	}
+}
 
 class WidgetIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;
@@ -67,10 +76,9 @@ class WidgetIntegrationComponent implements WebComponent {
 		}
 	}
 
-	protected getProcaptchaServiceCallback(): (
-		element: HTMLElement,
-		args: object,
-	) => void | null {
+	protected getProcaptchaServiceCallback():
+		| ((element: HTMLElement, args: object) => () => void)
+		| null {
 		if (
 			false === window.hasOwnProperty("procaptcha") ||
 			"object" !== typeof window["procaptcha"] ||
@@ -123,7 +131,7 @@ class WidgetIntegrationComponent implements WebComponent {
 		const input =
 			null !== form
 				? form.querySelector(".prosopo-procaptcha-input")
-				: origin.parentElement.querySelector(
+				: origin.parentElement?.querySelector(
 						".prosopo-procaptcha-input",
 					);
 
@@ -131,8 +139,10 @@ class WidgetIntegrationComponent implements WebComponent {
 	}
 
 	protected getValidationElement(origin: HTMLElement): HTMLElement | null {
-		return origin.parentElement.querySelector(
-			".prosopo-procaptcha-wp-form",
+		return (
+			origin.parentElement?.querySelector(
+				".prosopo-procaptcha-wp-form",
+			) || null
 		);
 	}
 

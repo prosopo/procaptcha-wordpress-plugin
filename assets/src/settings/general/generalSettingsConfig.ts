@@ -1,8 +1,8 @@
-import Collection from "../statistics/collection.js";
+import Collection from "#settings/statistics/collection.js";
 
 declare global {
 	interface Window {
-		prosopoProcaptchaWpSettings: object;
+		prosopoProcaptchaWpSettings: Record<string, unknown>;
 	}
 }
 

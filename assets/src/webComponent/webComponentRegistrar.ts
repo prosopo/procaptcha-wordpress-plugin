@@ -1,6 +1,6 @@
-import Logger from "../logger/logger.js";
 import { WebComponentSettings } from "./webComponentSettings.js";
 import type { WebComponent } from "./webComponent.js";
+import type Logger from "#logger/logger.js";
 
 class WebComponentRegistrar {
 	public constructor(private readonly logger: Logger) {}

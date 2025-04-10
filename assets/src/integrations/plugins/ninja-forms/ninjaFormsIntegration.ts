@@ -1,8 +1,8 @@
+import type { Integration } from "#integration/integration.js";
+import type { WebComponent } from "#webComponent/webComponent.js";
+import type { WebComponentSettings } from "#webComponent/webComponentSettings.js";
+import type Logger from "#logger/logger.js";
 import { NinjaFormsIntegrationComponent } from "./ninjaFormsIntegrationComponent.js";
-import type { Integration } from "../../../integration/integration.js";
-import type { WebComponent } from "../../../webComponent/webComponent.js";
-import type { WebComponentSettings } from "../../../webComponent/webComponentSettings.js";
-import type Logger from "../../../logger/logger.js";
 
 class NinjaFormsIntegration implements Integration {
 	getIntegrationName(): string {

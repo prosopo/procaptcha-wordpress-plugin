@@ -6,8 +6,6 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
@@ -23,10 +21,10 @@ use Io\Prosopo\Procaptcha\Plugin_Integrations\{BBPress\BBPress_Integration,
 	Simple_Membership\Simple_Membership_Integration,
 	Spectra\Spectra_Integration,
 	User_Registration\User_Registration_Integration,
+	Beaver_Builder\Beaver_Builder_Integration,
 	WooCommerce\WooCommerce_Integration,
 	WordPress\WordPress_Integration,
-	WPForms\WPForms_Integration
-};
+	WPForms\WPForms_Integration};
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Procaptcha_Form_Integration_Helper;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
@@ -39,9 +37,11 @@ use Io\Prosopo\Procaptcha\Settings\{Account_Forms_Settings_Tab,
 	General\General_Settings_Tab,
 	Settings_Page,
 	Statistics\Statistics_Settings_Tab,
-	Storage\Procaptcha_Settings_Storage};
+	Storage\Procaptcha_Settings_Storage
+};
 
 final class Procaptcha_Plugin implements Hookable {
+
 	const SLUG                     = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
@@ -65,7 +65,16 @@ final class Procaptcha_Plugin implements Hookable {
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
 			->setTemplatesRootPath( __DIR__ )
-			->setTemplateFileExtension( '.blade.php' );
+			->setTemplateFileExtension( '.blade.php' )
+			->setTemplateErrorHandler(
+				function ( array $event_details ) {
+					// todo log.
+				}
+			);
+
+		$namespace_config
+			->getModules()
+			->setEventDispatcher( $view_template_renderer->getModules()->getEventDispatcher() );
 
 		$views_manager = new ViewsManager();
 		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha', $namespace_config );
@@ -153,7 +162,7 @@ final class Procaptcha_Plugin implements Hookable {
 
 	protected function detect_current_version_number(): string {
         // @phpcs:ignore
-		$plugin_file_content = (string)file_get_contents( $this->plugin_file );
+        $plugin_file_content = (string)file_get_contents($this->plugin_file);
 
 		preg_match( '/Version:(.*)/', $plugin_file_content, $matches );
 
@@ -182,6 +191,7 @@ final class Procaptcha_Plugin implements Hookable {
 			WooCommerce_Integration::class,
 			WordPress_Integration::class,
 			Simple_Membership_Integration::class,
+			Beaver_Builder_Integration::class,
 		);
 	}
 

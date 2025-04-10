@@ -1,9 +1,9 @@
 import * as React from "react";
-import { TrafficDataLabels } from "../config.js";
 import { SectionComponent } from "./sectionComponent.js";
-import Logger from "../../../logger/logger.js";
-import { AccountTiers } from "../../account/accountTiers.js";
 import { CallToActionComponent } from "./callToActionComponent.js";
+import type Logger from "#logger/logger.js";
+import { AccountTiers } from "#settings/account/accountTiers.js";
+import type { TrafficDataLabels } from "#settings/statistics/config.js";
 
 interface TrafficAnalyticsComponentProperties {
 	accountTier: string;

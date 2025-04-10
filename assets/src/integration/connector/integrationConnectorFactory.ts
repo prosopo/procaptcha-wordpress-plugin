@@ -1,7 +1,7 @@
-import { IntegrationConnector } from "./IntegrationConnector.js";
-import LoggerFactory from "../../logger/loggerFactory.js";
-import PluginModuleLogger from "../../logger/plugin/pluginModuleLogger.js";
-import { WebComponentRegistrar } from "../../webComponent/webComponentRegistrar.js";
+import { WebComponentRegistrar } from "#webComponent/webComponentRegistrar.js";
+import { IntegrationConnector } from "#integration/connector/IntegrationConnector.js";
+import LoggerFactory from "#logger/loggerFactory.js";
+import PluginModuleLogger from "#logger/plugin/pluginModuleLogger.js";
 
 function createIntegrationConnector(): IntegrationConnector {
 	const loggerFactory = new LoggerFactory();

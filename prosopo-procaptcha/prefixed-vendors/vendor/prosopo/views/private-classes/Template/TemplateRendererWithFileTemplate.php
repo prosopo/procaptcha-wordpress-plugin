@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\PrivateClasses\Template;
 
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Template\FileTemplateContentProviderInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Template\TemplateRendererInterface;
 /**
  * This class is marked as a final and placed under the 'Private' namespace to prevent anyone from using it directly.
@@ -10,21 +11,16 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Template\TemplateRend
  */
 final class TemplateRendererWithFileTemplate implements TemplateRendererInterface
 {
+    private FileTemplateContentProviderInterface $fileTemplateContentProvider;
     private TemplateRendererInterface $templateRenderer;
-    public function __construct(TemplateRendererInterface $templateRenderer)
+    public function __construct(FileTemplateContentProviderInterface $fileTemplateContentProvider, TemplateRendererInterface $templateRenderer)
     {
+        $this->fileTemplateContentProvider = $fileTemplateContentProvider;
         $this->templateRenderer = $templateRenderer;
     }
     public function renderTemplate(string $template, array $variables = []): string
     {
-        $template = $this->getFileContent($template);
+        $template = $this->fileTemplateContentProvider->getFileTemplateContent($template);
         return $this->templateRenderer->renderTemplate($template, $variables);
-    }
-    protected function getFileContent(string $file): string
-    {
-        if (!file_exists($file)) {
-            return '';
-        }
-        return (string) file_get_contents($file);
     }
 }

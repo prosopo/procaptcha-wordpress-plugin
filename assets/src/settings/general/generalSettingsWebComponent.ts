@@ -1,7 +1,7 @@
-import type { WebComponent } from "../../webComponent/webComponent.js";
-import { AccountTiers } from "../account/accountTiers.js";
-import type { AccountApiResolver } from "../account/api/accountApiResolver.js";
-import type { ApiCredentials } from "../apiCredentials.js";
+import type { WebComponent } from "#webComponent/webComponent.js";
+import type { ApiCredentials } from "#settings/apiCredentials.js";
+import type { AccountApiResolver } from "#settings/account/api/accountApiResolver.js";
+import { AccountTiers } from "#settings/account/accountTiers.js";
 
 class GeneralSettingsWebComponent implements WebComponent {
 	public constructor(

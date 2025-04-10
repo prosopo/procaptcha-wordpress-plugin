@@ -1,5 +1,5 @@
-import { createIntegrationConnector } from "../../../integration/connector/integrationConnectorFactory.js";
-import { WoocommerceBlocksCheckoutIntegration } from "./woocommerceBlocksCheckoutIntegration.js";
+import { createIntegrationConnector } from "#integration/connector/integrationConnectorFactory.js";
+import { WoocommerceBlocksCheckoutIntegration } from "#integrations/plugins/woocommerce/woocommerceBlocksCheckoutIntegration.js";
 
 const woocommerceBlocksCheckoutIntegration =
 	new WoocommerceBlocksCheckoutIntegration();

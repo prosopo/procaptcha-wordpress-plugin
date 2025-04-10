@@ -1,8 +1,8 @@
 import * as React from "react";
-import { UsageLabels } from "../config.js";
-import { SectionComponent } from "../components/sectionComponent.js";
 import CaptchaUsageNumberUtils from "./captchaUsageNumberUtils.js";
 import type { CaptchaUsage } from "./captchaUsage.js";
+import type { UsageLabels } from "#settings/statistics/config.js";
+import { SectionComponent } from "#settings/statistics/components/sectionComponent.js";
 
 interface CaptchaUsageComponentProperties {
 	limits: {

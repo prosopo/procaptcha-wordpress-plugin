@@ -76,7 +76,7 @@ interface Config {
 
 declare global {
 	interface Window {
-		prosopoProcaptchaWpSettings: object;
+		prosopoProcaptchaWpSettings: Record<string, unknown>;
 	}
 }
 

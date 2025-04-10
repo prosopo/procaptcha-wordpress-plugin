@@ -26,6 +26,24 @@ class ViteBase {
 					},
 				},
 			},
+			resolve: {
+				alias: {
+					"#integration": path.resolve(
+						__dirname,
+						"./src/integration",
+					),
+					"#integrations": path.resolve(
+						__dirname,
+						"./src/integrations",
+					),
+					"#logger": path.resolve(__dirname, "./src/logger"),
+					"#settings": path.resolve(__dirname, "./src/settings"),
+					"#webComponent": path.resolve(
+						__dirname,
+						"./src/webComponent",
+					),
+				},
+			},
 		};
 	}
 

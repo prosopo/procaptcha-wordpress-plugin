@@ -1,4 +1,4 @@
-import type { ApiCredentials } from "../../../apiCredentials.js";
+import type { ApiCredentials } from "#settings/apiCredentials.js";
 
 class SiteApiCredentials implements ApiCredentials {
 	public constructor(

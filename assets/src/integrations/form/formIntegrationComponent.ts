@@ -1,5 +1,5 @@
-import Logger from "../../logger/logger.js";
-import { WebComponent } from "../../webComponent/webComponent.js";
+import Logger from "#logger/logger.js";
+import { WebComponent } from "#webComponent/webComponent.js";
 
 class FormIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;

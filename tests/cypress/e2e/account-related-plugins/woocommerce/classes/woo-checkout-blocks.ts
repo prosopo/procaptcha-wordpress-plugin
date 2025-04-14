@@ -55,8 +55,6 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 			"captchaValue",
 		);
 
-		// fixme at this point, it has no effect:
-		//  in admin it shows 'this order is no longer editable'
 		wpData.dispatch("wc/store/checkout").setAdditionalFields({
 			"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
 		});
@@ -64,26 +62,40 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 		cy.wait("@captchaValue");
 	}
 
-	protected fillOutForm(wpData, settings: SubmitFormSettings): void {
-		let captchaValue = settings.captchaValue || "";
-
-		this.setCartData(wpData, settings.fieldValues);
-
-		if ("" !== captchaValue) {
-			this.setCaptchaValue(wpData, captchaValue);
-		}
+	/**
+	 * It's necessary to wait until the captcha is drawn,
+	 * otherwise .setAdditionalFields() call will be passed without error but with no effect.
+	 *
+	 * Note: it would be better to wait generic 'additional fields ready' event, but it isn't present in the Woo's JS.
+	 */
+	protected waitForCaptcha(): void {
+		cy.get("prosopo-procaptcha-wp-widget").should("exist");
 	}
 
 	// On the checkout page, the usual 'input.value=x' approach doesn't work.
 	protected submitForm(settings: SubmitFormSettings): void {
+		let captchaValue = settings.captchaValue || "";
+
+		/**
+		 * The waiting workaround must be placed exactly before we access window.wp.data,
+		 * otherwise it doesn't work.
+		 */
+		if (captchaValue.length > 0) {
+			this.waitForCaptcha();
+		}
+
 		cy.window()
-			.should("have.property", "wp") // Wait for `wp` to exist
+			.should("have.property", "wp")
 			.then((wp) => {
 				cy.wrap(wp)
-					.its("data") // Wait for `wp.data` to exist
+					.its("data")
 					.should("exist")
 					.then((wpData) => {
-						this.fillOutForm(wpData, settings);
+						this.setCartData(wpData, settings.fieldValues);
+
+						if (captchaValue.length > 0) {
+							this.setCaptchaValue(wpData, captchaValue);
+						}
 
 						cy.get(
 							"button.wc-block-components-checkout-place-order-button",

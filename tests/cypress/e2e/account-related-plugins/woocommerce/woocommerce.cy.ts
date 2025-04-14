@@ -9,12 +9,11 @@ import WooCheckoutBlocks from "./classes/woo-checkout-blocks";
 new IntegrationTest({
 	targetPluginSlugs: ["woocommerce"],
 	forms: [
-		// fixme
-		/*new WooLoginForm(),
-        new WooLostPasswordForm(),
-        new WooRegisterForm(),
-        new WooCheckoutClassic(),*/
+		new WooLoginForm(),
+		new WooLostPasswordForm(),
+		new WooRegisterForm(),
+		new WooCheckoutClassic(),
 		new WooCheckoutBlocks(),
-		// new WooOrderTracking(),
+		new WooOrderTracking(),
 	],
 });

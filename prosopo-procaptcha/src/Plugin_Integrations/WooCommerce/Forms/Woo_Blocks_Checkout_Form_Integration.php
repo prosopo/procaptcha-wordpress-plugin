@@ -32,12 +32,6 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 		$this->field_location = 'order';
 	}
 
-	public function render_field(): string {
-		$this->load_integration_assets();
-
-		return $this->get_field_markup();
-	}
-
 	public function register_field(): void {
 		if ( function_exists( 'woocommerce_register_additional_checkout_field' ) ) {
 			// https://developer.woocommerce.com/docs/cart-and-checkout-additional-checkout-fields/.
@@ -58,14 +52,10 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 	}
 
 	/**
-	 * Unlike 'validate_callback' option of an additional block checkout field,
-	 * 'woocommerce_store_api_checkout_order_processed' hook is called only once.
-	 *
 	 * @throws Exception
 	 */
 	public function verify_order_submission( WC_Order $order ): void {
-		if ( ! $this->is_field_in_submission() ||
-			$this->is_verified_order_submission( $order ) ) {
+		if ( $this->is_verified_order_submission( $order ) ) {
 			return;
 		}
 
@@ -76,6 +66,8 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
+		add_action( 'woocommerce_init', array( $this, 'register_field' ) );
+
 		add_filter(
 			'render_block_woocommerce/checkout-additional-information-block',
 			fn( string $content )=>$content . $this->render_field(),
@@ -83,11 +75,21 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 			999
 		);
 
-		add_action( 'woocommerce_init', array( $this, 'register_field' ) );
 		add_action(
+			// Unlike 'validate_callback' option of an additional block checkout field, this hook is called only once.
 			'woocommerce_store_api_checkout_order_processed',
-			array( $this, 'verify_order_submission' )
+			function ( WC_Order $order ) {
+				if ( $this->is_field_in_submission() ) {
+					$this->verify_order_submission( $order );
+				}
+			}
 		);
+	}
+
+	protected function render_field(): string {
+		$this->load_integration_assets();
+
+		return $this->get_field_markup();
 	}
 
 	protected function get_field_markup(): string {

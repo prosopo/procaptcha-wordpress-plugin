@@ -8,7 +8,7 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 	protected defineSettings() {
 		super.defineSettings();
 
-		this.url = "/checkout/?add-to-cart=591";
+		this.url = "/checkout/";
 		this.isAuthSupportedByVendor = false;
 
 		this.selectors.formWithCaptcha = ".wc-block-checkout__form";
@@ -42,38 +42,35 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 		return super.prefixSubmitValue(key, value);
 	}
 
-	protected submitFormFields(wpData, settings: SubmitFormSettings): void {
-		// usual
-		wpData
-			.dispatch("wc/store/cart")
-			.setBillingAddress(settings.fieldValues);
+	protected setCartData(wpData, billingFields): void {
+		cy.intercept("POST", "/wp-json/wc/store/v1/batch*").as("cartData");
 
-		cy.get(
-			"button.wc-block-components-checkout-place-order-button",
-		).click();
+		wpData.dispatch("wc/store/cart").setBillingAddress(billingFields);
+
+		cy.wait("@cartData");
 	}
 
-	protected fillAndSubmitForm(wpData, settings: SubmitFormSettings): void {
+	protected setCaptchaValue(wpData, captchaValue: string): void {
+		cy.intercept("POST", "/wp-json/wc/store/v1/checkout*").as(
+			"captchaValue",
+		);
+
+		// fixme at this point, it has no effect:
+		//  in admin it shows 'this order is no longer editable'
+		wpData.dispatch("wc/store/checkout").setAdditionalFields({
+			"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
+		});
+
+		cy.wait("@captchaValue");
+	}
+
+	protected fillOutForm(wpData, settings: SubmitFormSettings): void {
 		let captchaValue = settings.captchaValue || "";
 
-		// wait until the 'additional fields' section is loaded
-		cy.wrap(".wc-block-components-checkout-step__title").should("exist");
+		this.setCartData(wpData, settings.fieldValues);
 
 		if ("" !== captchaValue) {
-			cy.intercept("POST", "/wp-json/wc/store/v1/checkout*").as(
-				"additionalFieldsResponse",
-			);
-
-			wpData.dispatch("wc/store/checkout").setAdditionalFields({
-				"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
-			});
-
-			// wait until the update request is processed
-			cy.wait("@additionalFieldsResponse").then(() => {
-				this.submitFormFields(wpData, settings);
-			});
-		} else {
-			this.submitFormFields(wpData, settings);
+			this.setCaptchaValue(wpData, captchaValue);
 		}
 	}
 
@@ -86,8 +83,11 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 					.its("data") // Wait for `wp.data` to exist
 					.should("exist")
 					.then((wpData) => {
-						// Pass wpData to fillAndSubmitForm
-						this.fillAndSubmitForm(wpData, settings);
+						this.fillOutForm(wpData, settings);
+
+						cy.get(
+							"button.wc-block-components-checkout-place-order-button",
+						).click();
 					});
 			});
 	}

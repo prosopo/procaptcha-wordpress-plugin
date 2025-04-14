@@ -15,6 +15,14 @@ class WPForms_Form_Integration extends \WPForms_Field implements Form_Integratio
 	use Form_Integration_Helper_Container;
 
 	/**
+	 * Todo.
+	 * Form submission with Stripe, unlike a plain submission, consists of 2 separate requests.
+	 * Both of requests trigger field validation, so we must skip token verification at the second step
+	 * to avoid verification issues.
+	 */
+	private bool $is_payment_submission = false;
+
+	/**
 	 * @return void
 	 */
 	public function init() {
@@ -90,7 +98,9 @@ class WPForms_Form_Integration extends \WPForms_Field implements Form_Integratio
 			'';
 		$widget = self::get_form_helper()->get_widget();
 
+		// for 'is_payment_submition' explanation see the field's description.
 		if ( ! $widget->is_protection_enabled() ||
+			$this->is_payment_submission ||
 			$widget->is_verification_token_valid( $token ) ) {
 			return;
 		}

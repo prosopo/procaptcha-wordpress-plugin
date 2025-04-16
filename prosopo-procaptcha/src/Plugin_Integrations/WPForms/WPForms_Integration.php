@@ -17,7 +17,13 @@ class WPForms_Integration extends Procaptcha_Plugin_Integration implements Hooka
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
-		new WPForms_Form_Integration();
+		// translations are used in the constructor, which aren't available before this hook.
+		add_action(
+			'init',
+			function () {
+				new WPForms_Form_Integration();
+			}
+		);
 	}
 
 	protected function get_form_integrations(): array {

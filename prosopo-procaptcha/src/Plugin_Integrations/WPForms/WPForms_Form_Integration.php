@@ -35,7 +35,13 @@ class WPForms_Form_Integration extends WPForms_Field implements Form_Integration
 
 		add_action(
 			'wpforms_process_before',
-			fn( array $entry )=>$this->detect_payment_submission( string( $entry, 'payment_intent_id' ) ),
+			function ( array $entry ) {
+				$payment_intent_id = string( $entry, 'payment_intent_id' );
+
+				if ( strlen( $payment_intent_id ) > 0 ) {
+					$this->is_payment_submission = $this->is_valid_payment_intent( $payment_intent_id );
+				}
+			},
 		);
 	}
 
@@ -117,15 +123,14 @@ class WPForms_Form_Integration extends WPForms_Field implements Form_Integration
 		}
 	}
 
-	private function detect_payment_submission( string $payment_intent_id ): void {
-		if ( 0 === strlen( $payment_intent_id ) ) {
-			return;
-		}
+	/**
+	 * This check was suggested by the WPForms support.
+	 */
+	private function is_valid_payment_intent( string $payment_intent_id ): bool {
+		$api = new PaymentIntents();
 
-		// This check is suggested by the WPForms support.
-		$api            = new PaymentIntents();
 		$payment_intent = $api->retrieve_payment_intent( $payment_intent_id );
 
-		$this->is_payment_submission = is_object( $payment_intent );
+		return is_object( $payment_intent );
 	}
 }

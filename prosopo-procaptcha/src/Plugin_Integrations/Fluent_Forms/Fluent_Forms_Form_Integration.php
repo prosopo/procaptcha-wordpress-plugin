@@ -16,9 +16,12 @@ class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Int
 	use Form_Integration_Helper_Container;
 
 	public function __construct() {
+		$widget = self::get_form_helper()->get_widget();
+
 		parent::__construct(
-			self::get_form_helper()->get_widget()->get_field_name(),
-			self::get_form_helper()->get_widget()->get_field_label(),
+			$widget->get_field_name(),
+			// bypassing title, at this point translations aren't available yet.
+			'',
 			array(
 				'prosopo',
 				'procaptcha',
@@ -27,7 +30,16 @@ class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Int
 			'advanced'
 		);
 
+		// set title as soon the translations are available.
+		add_action( 'init', array( $this, 'set_field_title' ) );
+
 		add_filter( "fluentform/validate_input_item_{$this->key}", array( $this, 'validate' ), 10, 5 );
+	}
+
+	public function set_field_title(): void {
+		$widget = self::get_form_helper()->get_widget();
+
+		$this->title = $widget->get_field_label();
 	}
 
 	/**

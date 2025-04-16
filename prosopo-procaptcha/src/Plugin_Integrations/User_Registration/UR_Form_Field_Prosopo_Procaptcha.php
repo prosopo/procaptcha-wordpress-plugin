@@ -39,15 +39,25 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 		$this->form_id                  = 1;
 		$this->registered_fields_config = array(
 			'icon'  => 'ur-icon ur-icon-input-checkbox',
-			'label' => $widget->get_field_label(),
+			// bypassing, as translations aren't available yet.
+			'label' => '',
 		);
 
 		$this->field_defaults = array(
 			'default_field_name' => $widget->get_field_name(),
-			'default_label'      => $widget->get_field_label(),
+			// bypassing, as translations aren't available yet.
+			'default_label'      => '',
 			// Mark as required, otherwise the form can be submitted without the field, and the validation callback won't be called.
 			'default_required'   => true,
 		);
+	}
+
+	public function set_field_label(): void {
+		$widget      = self::get_form_helper()->get_widget();
+		$field_label = $widget->get_field_label();
+
+		$this->registered_fields_config['label'] = $field_label;
+		$this->field_defaults['default_label']   = $field_label;
 	}
 
 	/**
@@ -120,5 +130,8 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 			10,
 			4
 		);
+
+		// set field label as soon translations are ready.
+		add_action( 'init', array( $this, 'set_field_label' ) );
 	}
 }

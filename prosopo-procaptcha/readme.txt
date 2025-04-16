@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.16.0
+Stable tag: 1.17.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.17.0 (2024-04-16) =
+- Enhancement - WPForms Stripe addon integration
 
 = 1.16.0 (2024-04-10) =
 - Fix - plugin deactivation-related bug

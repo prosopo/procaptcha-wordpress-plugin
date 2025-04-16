@@ -9,13 +9,14 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
+use WPForms\Integrations\Stripe\Api\PaymentIntents;
+use WPForms_Field;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class WPForms_Form_Integration extends \WPForms_Field implements Form_Integration {
+class WPForms_Form_Integration extends WPForms_Field implements Form_Integration {
 	use Form_Integration_Helper_Container;
 
 	/**
-	 * Todo.
 	 * Form submission with Stripe, unlike a plain submission, consists of 2 separate requests.
 	 * Both of requests trigger field validation, so we must skip token verification at the second step
 	 * to avoid verification issues.
@@ -31,6 +32,11 @@ class WPForms_Form_Integration extends \WPForms_Field implements Form_Integratio
 		$this->type     = self::get_form_helper()->get_widget()->get_field_name();
 		$this->icon     = 'fa-check-square-o';
 		$this->order    = 180;
+
+		add_action(
+			'wpforms_process_before',
+			fn( array $entry )=>$this->detect_payment_submission( string( $entry, 'payment_intent_id' ) ),
+		);
 	}
 
 	/**
@@ -105,11 +111,21 @@ class WPForms_Form_Integration extends \WPForms_Field implements Form_Integratio
 			return;
 		}
 
-		if ( ! function_exists( 'wpforms' ) ) {
+		if ( function_exists( 'wpforms' ) ) {
+			wpforms()->obj( 'process' )
+				->errors[ $form_data['id'] ][ $field_id ] = $widget->get_validation_error_message();
+		}
+	}
+
+	private function detect_payment_submission( string $payment_intent_id ): void {
+		if ( 0 === strlen( $payment_intent_id ) ) {
 			return;
 		}
 
-		wpforms()->obj( 'process' )
-			->errors[ $form_data['id'] ][ $field_id ] = $widget->get_validation_error_message();
+		// This check is suggested by the WPForms support.
+		$api            = new PaymentIntents();
+		$payment_intent = $api->retrieve_payment_intent( $payment_intent_id );
+
+		$this->is_payment_submission = is_object( $payment_intent );
 	}
 }

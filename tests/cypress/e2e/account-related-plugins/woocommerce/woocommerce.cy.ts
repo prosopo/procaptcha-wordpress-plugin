@@ -13,7 +13,7 @@ new IntegrationTest({
 		new WooLostPasswordForm(),
 		new WooRegisterForm(),
 		new WooCheckoutClassic(),
-		// fixme update to work properly new WooCheckoutBlocks(),
+		new WooCheckoutBlocks(),
 		new WooOrderTracking(),
 	],
 });

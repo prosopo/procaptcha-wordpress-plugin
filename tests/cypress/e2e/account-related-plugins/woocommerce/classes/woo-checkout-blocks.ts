@@ -8,7 +8,7 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 	protected defineSettings() {
 		super.defineSettings();
 
-		this.url = "/checkout/?add-to-cart=591";
+		this.url = "/checkout/";
 		this.isAuthSupportedByVendor = false;
 
 		this.selectors.formWithCaptcha = ".wc-block-checkout__form";
@@ -42,52 +42,64 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 		return super.prefixSubmitValue(key, value);
 	}
 
-	protected submitFormFields(wpData, settings: SubmitFormSettings): void {
-		// usual
-		wpData
-			.dispatch("wc/store/cart")
-			.setBillingAddress(settings.fieldValues);
+	protected setCartData(wpData, billingFields): void {
+		cy.intercept("POST", "/wp-json/wc/store/v1/batch*").as("cartData");
 
-		cy.get(
-			"button.wc-block-components-checkout-place-order-button",
-		).click();
+		wpData.dispatch("wc/store/cart").setBillingAddress(billingFields);
+
+		cy.wait("@cartData");
 	}
 
-	protected fillAndSubmitForm(wpData, settings: SubmitFormSettings): void {
-		let captchaValue = settings.captchaValue || "";
+	protected setCaptchaValue(wpData, captchaValue: string): void {
+		cy.intercept("POST", "/wp-json/wc/store/v1/checkout*").as(
+			"captchaValue",
+		);
 
-		// wait until the 'additional fields' section is loaded
-		cy.wrap(".wc-block-components-checkout-step__title").should("exist");
+		wpData.dispatch("wc/store/checkout").setAdditionalFields({
+			"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
+		});
 
-		if ("" !== captchaValue) {
-			cy.intercept("POST", "/wp-json/wc/store/v1/checkout*").as(
-				"additionalFieldsResponse",
-			);
+		cy.wait("@captchaValue");
+	}
 
-			wpData.dispatch("wc/store/checkout").setAdditionalFields({
-				"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
-			});
-
-			// wait until the update request is processed
-			cy.wait("@additionalFieldsResponse").then(() => {
-				this.submitFormFields(wpData, settings);
-			});
-		} else {
-			this.submitFormFields(wpData, settings);
-		}
+	/**
+	 * It's necessary to wait until the captcha is drawn,
+	 * otherwise .setAdditionalFields() call will be passed without error but with no effect.
+	 *
+	 * Note: it would be better to wait generic 'additional fields ready' event, but it isn't present in the Woo's JS.
+	 */
+	protected waitForCaptcha(): void {
+		cy.get("prosopo-procaptcha-wp-widget").should("exist");
 	}
 
 	// On the checkout page, the usual 'input.value=x' approach doesn't work.
 	protected submitForm(settings: SubmitFormSettings): void {
+		let captchaValue = settings.captchaValue || "";
+
+		/**
+		 * The waiting workaround must be placed exactly before we access window.wp.data,
+		 * otherwise it doesn't work.
+		 */
+		if (captchaValue.length > 0) {
+			this.waitForCaptcha();
+		}
+
 		cy.window()
-			.should("have.property", "wp") // Wait for `wp` to exist
+			.should("have.property", "wp")
 			.then((wp) => {
 				cy.wrap(wp)
-					.its("data") // Wait for `wp.data` to exist
+					.its("data")
 					.should("exist")
 					.then((wpData) => {
-						// Pass wpData to fillAndSubmitForm
-						this.fillAndSubmitForm(wpData, settings);
+						this.setCartData(wpData, settings.fieldValues);
+
+						if (captchaValue.length > 0) {
+							this.setCaptchaValue(wpData, captchaValue);
+						}
+
+						cy.get(
+							"button.wc-block-components-checkout-place-order-button",
+						).click();
 					});
 			});
 	}

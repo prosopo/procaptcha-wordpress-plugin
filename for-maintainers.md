@@ -51,7 +51,7 @@ Commands:
 
 ## 5. Updating scoped Composer packages
 
-WordPress does not natively support Composer, which means plugin authors must scope their Composer packages to avoid
+WordPress does not natively support Composer. It means plugin authors must scope their Composer packages to avoid
 conflicts.
 
 Each original namespace, such as `Some/Package`, needs to be transformed into a unique namespace like

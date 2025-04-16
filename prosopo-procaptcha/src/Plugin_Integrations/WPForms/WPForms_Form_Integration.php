@@ -9,10 +9,19 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
+use WPForms\Integrations\Stripe\Api\PaymentIntents;
+use WPForms_Field;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class WPForms_Form_Integration extends \WPForms_Field implements Form_Integration {
+class WPForms_Form_Integration extends WPForms_Field implements Form_Integration {
 	use Form_Integration_Helper_Container;
+
+	/**
+	 * Form submission with Stripe, unlike a plain submission, consists of 2 separate requests.
+	 * Both of requests trigger field validation, so we must skip token verification at the second step
+	 * to avoid verification issues.
+	 */
+	private bool $is_payment_submission = false;
 
 	/**
 	 * @return void
@@ -23,6 +32,17 @@ class WPForms_Form_Integration extends \WPForms_Field implements Form_Integratio
 		$this->type     = self::get_form_helper()->get_widget()->get_field_name();
 		$this->icon     = 'fa-check-square-o';
 		$this->order    = 180;
+
+		add_action(
+			'wpforms_process_before',
+			function ( array $entry ) {
+				$payment_intent_id = string( $entry, 'payment_intent_id' );
+
+				if ( strlen( $payment_intent_id ) > 0 ) {
+					$this->is_payment_submission = $this->is_valid_payment_intent( $payment_intent_id );
+				}
+			},
+		);
 	}
 
 	/**
@@ -90,16 +110,27 @@ class WPForms_Form_Integration extends \WPForms_Field implements Form_Integratio
 			'';
 		$widget = self::get_form_helper()->get_widget();
 
+		// for 'is_payment_submition' explanation see the field's description.
 		if ( ! $widget->is_protection_enabled() ||
+			$this->is_payment_submission ||
 			$widget->is_verification_token_valid( $token ) ) {
 			return;
 		}
 
-		if ( ! function_exists( 'wpforms' ) ) {
-			return;
+		if ( function_exists( 'wpforms' ) ) {
+			wpforms()->obj( 'process' )
+				->errors[ $form_data['id'] ][ $field_id ] = $widget->get_validation_error_message();
 		}
+	}
 
-		wpforms()->obj( 'process' )
-			->errors[ $form_data['id'] ][ $field_id ] = $widget->get_validation_error_message();
+	/**
+	 * This check was suggested by the WPForms support.
+	 */
+	private function is_valid_payment_intent( string $payment_intent_id ): bool {
+		$api = new PaymentIntents();
+
+		$payment_intent = $api->retrieve_payment_intent( $payment_intent_id );
+
+		return is_object( $payment_intent );
 	}
 }

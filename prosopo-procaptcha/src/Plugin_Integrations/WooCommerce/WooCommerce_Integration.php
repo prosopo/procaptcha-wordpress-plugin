@@ -7,7 +7,8 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WooCommerce;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integrations\WooCommerce\Forms\{Woo_Checkout_Form_Integration,
+use Io\Prosopo\Procaptcha\Plugin_Integrations\WooCommerce\Forms\{Woo_Blocks_Checkout_Form_Integration,
+	Woo_Classic_Checkout_Form_Integration,
 	Woo_Login_Form_Integration,
 	Woo_Lost_Password_Form_Integration,
 	Woo_Order_Tracking_Form_Integration,
@@ -33,11 +34,12 @@ class WooCommerce_Integration extends Procaptcha_Plugin_Integration {
 		$woo_settings  = $settings_storage->get( WooCommerce_Settings_Tab::class )->get_settings();
 
 		return array(
-			Woo_Checkout_Form_Integration::class       => bool( $woo_settings, WooCommerce_Settings_Tab::IS_ON_CHECKOUT ),
-			Woo_Login_Form_Integration::class          => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOGIN_FORM ),
-			Woo_Lost_Password_Form_Integration::class  => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOST_PASSWORD_FORM ),
-			Woo_Order_Tracking_Form_Integration::class => bool( $woo_settings, WooCommerce_Settings_Tab::IS_ON_ORDER_TRACKING ),
-			Woo_Register_Form_Integration::class       => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_REGISTER_FORM ),
+			Woo_Blocks_Checkout_Form_Integration::class  => bool( $woo_settings, WooCommerce_Settings_Tab::IS_ON_CHECKOUT ),
+			Woo_Classic_Checkout_Form_Integration::class => bool( $woo_settings, WooCommerce_Settings_Tab::IS_ON_CHECKOUT ),
+			Woo_Login_Form_Integration::class            => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOGIN_FORM ),
+			Woo_Lost_Password_Form_Integration::class    => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOST_PASSWORD_FORM ),
+			Woo_Order_Tracking_Form_Integration::class   => bool( $woo_settings, WooCommerce_Settings_Tab::IS_ON_ORDER_TRACKING ),
+			Woo_Register_Form_Integration::class         => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_REGISTER_FORM ),
 		);
 	}
 }

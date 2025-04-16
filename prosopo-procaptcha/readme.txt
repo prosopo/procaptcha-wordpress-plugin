@@ -2,9 +2,9 @@
 Contributors: 1prosopo
 Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.16.0
+Stable tag: 1.17.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,26 +133,30 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 
 == Changelog ==
 
-= 1.16.0 (2024-04-10) =
+= 1.17.0 (2025-04-16) =
+- Enhancement - WPForms Stripe addon integration
+- Maintenance - Compatibility with WordPress 6.8
+
+= 1.16.0 (2025-04-10) =
 - Fix - plugin deactivation-related bug
 - Enhancement - WooCommerce 9.8 block checkout integration
 
-= 1.15.0 (2024-03-18) =
+= 1.15.0 (2025-03-18) =
 - Settings page enhancements
 
-= 1.14.0 (2024-03-13) =
+= 1.14.0 (2025-03-13) =
 - Readme update
 
-= 1.13.0 (2024-03-11) =
+= 1.13.0 (2025-03-11) =
 - Added support for [Spectra](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/)
 
-= 1.12.0 (2024-03-06) =
+= 1.12.0 (2025-03-06) =
 - Updated Statistics page to use the new API
 
-= 1.11.0 (2024-02-18) =
+= 1.11.0 (2025-02-18) =
 - Updated JetPack integration to support the latest JetPack form changes
 
-= 1.10.0 (2024-01-16) =
+= 1.10.0 (2025-01-16) =
 - Added support for [Simple Membership](https://wordpress.org/plugins/simple-membership/) register, login and reset password forms
 
 = 1.9.0 (2024-12-10) =

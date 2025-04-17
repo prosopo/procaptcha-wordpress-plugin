@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms;
 
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\setItem;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 defined( 'ABSPATH' ) || exit;
@@ -54,14 +55,13 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 		$widget     = self::get_form_helper()->get_widget();
 		$field_name = $widget->get_field_name();
 
-		// fixme harness phpTyped package
-        /*setItem(
+		setItem(
 			$form,
 			array( 'general', 'sections', 'general', 'fields', $field_name ),
 			$this->get_field_settings()
-		);*/
+		);
 
-        return $form;
+		return $form;
 	}
 
 	/**

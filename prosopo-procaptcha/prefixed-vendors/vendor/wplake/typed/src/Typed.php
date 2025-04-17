@@ -5,6 +5,7 @@ namespace Io\Prosopo\Procaptcha\Vendors\WPLake\Typed;
 
 use DateTime;
 use stdClass;
+use Throwable;
 /**
  * This class is marked as final to prevent extension.
  * It allows us to add new public methods in the future.
@@ -23,13 +24,7 @@ final class Typed
      */
     public static function any($source, $keys = null, $default = null)
     {
-        if (null === $keys) {
-            return $source;
-        }
-        if (\false === is_array($keys)) {
-            $keys = explode('.', (string) $keys);
-        }
-        return self::resolveKeys($source, $keys, $default);
+        return self::anyAsReference($source, $keys, $default);
     }
     /**
      * @param mixed $source
@@ -38,7 +33,7 @@ final class Typed
     public static function string($source, $keys = null, string $default = ''): string
     {
         $value = self::any($source, $keys, $default);
-        return \true === is_string($value) || \true === is_numeric($value) ? (string) $value : $default;
+        return is_string($value) || is_numeric($value) ? (string) $value : $default;
     }
     /**
      * @param mixed $source
@@ -47,10 +42,10 @@ final class Typed
     public static function stringExtended($source, $keys = null, string $default = ''): string
     {
         $value = self::any($source, $keys, $default);
-        if (\true === is_string($value) || \true === is_numeric($value)) {
+        if (is_string($value) || is_numeric($value)) {
             return (string) $value;
         }
-        if (\true === is_object($value) && \true === method_exists($value, '__toString')) {
+        if (is_object($value) && method_exists($value, '__toString')) {
             return (string) $value;
         }
         return $default;
@@ -62,7 +57,7 @@ final class Typed
     public static function stringOrNull($source, $keys = null): ?string
     {
         $value = self::any($source, $keys);
-        return \true === is_string($value) || \true === is_numeric($value) ? (string) $value : null;
+        return is_string($value) || is_numeric($value) ? (string) $value : null;
     }
     /**
      * @param mixed $source
@@ -71,10 +66,10 @@ final class Typed
     public static function stringExtendedOrNull($source, $keys = null): ?string
     {
         $value = self::any($source, $keys);
-        if (\true === is_string($value) || \true === is_numeric($value)) {
+        if (is_string($value) || is_numeric($value)) {
             return (string) $value;
         }
-        if (\true === is_object($value) && \true === method_exists($value, '__toString')) {
+        if (is_object($value) && method_exists($value, '__toString')) {
             return (string) $value;
         }
         return null;
@@ -86,7 +81,7 @@ final class Typed
     public static function int($source, $keys = null, int $default = 0): int
     {
         $value = self::any($source, $keys, $default);
-        return \true === is_numeric($value) ? (int) $value : $default;
+        return is_numeric($value) ? (int) $value : $default;
     }
     /**
      * @param mixed $source
@@ -95,7 +90,7 @@ final class Typed
     public static function intOrNull($source, $keys = null): ?int
     {
         $value = self::any($source, $keys);
-        return \true === is_numeric($value) ? (int) $value : null;
+        return is_numeric($value) ? (int) $value : null;
     }
     /**
      * @param mixed $source
@@ -104,7 +99,7 @@ final class Typed
     public static function float($source, $keys = null, float $default = 0.0): float
     {
         $value = self::any($source, $keys, $default);
-        return \true === is_numeric($value) ? (float) $value : $default;
+        return is_numeric($value) ? (float) $value : $default;
     }
     /**
      * @param mixed $source
@@ -113,7 +108,7 @@ final class Typed
     public static function floatOrNull($source, $keys = null): ?float
     {
         $value = self::any($source, $keys);
-        return \true === is_numeric($value) ? (float) $value : null;
+        return is_numeric($value) ? (float) $value : null;
     }
     /**
      * @param mixed $source
@@ -122,7 +117,7 @@ final class Typed
     public static function bool($source, $keys = null, bool $default = \false): bool
     {
         $value = self::any($source, $keys, $default);
-        return \true === is_bool($value) ? $value : $default;
+        return is_bool($value) ? $value : $default;
     }
     /**
      * @param mixed $source
@@ -131,7 +126,7 @@ final class Typed
     public static function boolOrNull($source, $keys = null): ?bool
     {
         $value = self::any($source, $keys);
-        return \true === is_bool($value) ? $value : null;
+        return is_bool($value) ? $value : null;
     }
     /**
      * @param mixed $source
@@ -142,10 +137,10 @@ final class Typed
     public static function boolExtended($source, $keys = null, bool $default = \false, array $positive = [\true, 1, '1', 'on'], array $negative = [\false, 0, '0', 'off']): bool
     {
         $value = self::any($source, $keys, $default);
-        if (\true === in_array($value, $positive, \true)) {
+        if (in_array($value, $positive, \true)) {
             return \true;
         }
-        if (\true === in_array($value, $negative, \true)) {
+        if (in_array($value, $negative, \true)) {
             return \false;
         }
         return $default;
@@ -159,10 +154,10 @@ final class Typed
     public static function boolExtendedOrNull($source, $keys = null, array $positive = [\true, 1, '1', 'on'], array $negative = [\false, 0, '0', 'off']): ?bool
     {
         $value = self::any($source, $keys);
-        if (\true === in_array($value, $positive, \true)) {
+        if (in_array($value, $positive, \true)) {
             return \true;
         }
-        if (\true === in_array($value, $negative, \true)) {
+        if (in_array($value, $negative, \true)) {
             return \false;
         }
         return null;
@@ -177,7 +172,7 @@ final class Typed
     public static function array($source, $keys = null, array $default = []): array
     {
         $value = self::any($source, $keys, $default);
-        return \true === is_array($value) ? $value : $default;
+        return is_array($value) ? $value : $default;
     }
     /**
      * @param mixed $source
@@ -188,7 +183,7 @@ final class Typed
     public static function arrayOrNull($source, $keys = null): ?array
     {
         $value = self::any($source, $keys);
-        return \true === is_array($value) ? $value : null;
+        return is_array($value) ? $value : null;
     }
     /**
      * @param mixed $source
@@ -198,7 +193,7 @@ final class Typed
     {
         $default = null === $default ? new stdClass() : $default;
         $value = self::any($source, $keys, $default);
-        return \true === is_object($value) ? $value : $default;
+        return is_object($value) ? $value : $default;
     }
     /**
      * @param mixed $source
@@ -207,7 +202,7 @@ final class Typed
     public static function objectOrNull($source, $keys = null): ?object
     {
         $value = self::any($source, $keys);
-        return \true === is_object($value) ? $value : null;
+        return is_object($value) ? $value : null;
     }
     /**
      * @param mixed $source
@@ -217,7 +212,7 @@ final class Typed
     {
         $default = null === $default ? new DateTime() : $default;
         $value = self::object($source, $keys, $default);
-        return \true === $value instanceof DateTime ? $value : $default;
+        return $value instanceof DateTime ? $value : $default;
     }
     /**
      * @param mixed $source
@@ -226,24 +221,74 @@ final class Typed
     public static function dateTimeOrNull($source, $keys = null): ?DateTime
     {
         $value = self::any($source, $keys);
-        return \true === $value instanceof DateTime ? $value : null;
+        return $value instanceof DateTime ? $value : null;
+    }
+    /**
+     * @param mixed $target
+     * @param int|string|array<int,int|string> $keys
+     * @param mixed $value
+     */
+    public static function setItem(&$target, $keys, $value): bool
+    {
+        $keys = is_numeric($keys) || is_string($keys) ? explode('.', (string) $keys) : $keys;
+        $itemKey = array_pop($keys);
+        // at least one key must be defined.
+        if (null === $itemKey) {
+            return \false;
+        }
+        $parentItemReference =& self::anyAsReference($target, $keys);
+        if (is_array($parentItemReference)) {
+            $parentItemReference[$itemKey] = $value;
+            return \true;
+        }
+        if (is_object($parentItemReference)) {
+            try {
+                // @phpstan-ignore-next-line
+                $parentItemReference->{$itemKey} = $value;
+            } catch (Throwable $e) {
+                return \false;
+            }
+            return \true;
+        }
+        return \false;
+    }
+    /**
+     * @param mixed $source
+     * @param int|string|array<int,int|string>|null $keys
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    protected static function &anyAsReference(&$source, $keys = null, $default = null)
+    {
+        if (null === $keys) {
+            return $source;
+        }
+        if (is_string($keys) || is_numeric($keys)) {
+            $keys = explode('.', (string) $keys);
+        }
+        return self::resolveKeys($source, $keys, $default);
     }
     /**
      * @param mixed $source
      * @param int|string $key
-     * @param mixed $value
+     *
+     * @return mixed
      */
-    protected static function resolveKey($source, $key, &$value): bool
+    protected static function &resolveKey(&$source, $key, bool &$isResolved = \false)
     {
-        if (\true === is_object($source) && \true === isset($source->{$key})) {
-            $value = $source->{$key};
-            return \true;
+        $value = null;
+        if (is_object($source) && isset($source->{$key})) {
+            $isResolved = \true;
+            // @phpstan-ignore-next-line
+            $value =& $source->{$key};
         }
-        if (\true === is_array($source) && \true === isset($source[$key])) {
-            $value = $source[$key];
-            return \true;
+        if (is_array($source) && key_exists($key, $source)) {
+            $isResolved = \true;
+            // @phpstan-ignore-next-line
+            $value =& $source[$key];
         }
-        return \false;
+        return $value;
     }
     /**
      * @param mixed $source
@@ -252,16 +297,18 @@ final class Typed
      *
      * @return mixed
      */
-    protected static function resolveKeys($source, array $keys, $default)
+    protected static function &resolveKeys(&$source, array $keys, $default)
     {
+        $origin =& $source;
         foreach ($keys as $key) {
-            $value = null;
-            if (\true === self::resolveKey($source, $key, $value)) {
-                $source = $value;
+            $isResolved = \false;
+            $value =& self::resolveKey($origin, $key, $isResolved);
+            if ($isResolved) {
+                $origin =& $value;
                 continue;
             }
             return $default;
         }
-        return $source;
+        return $origin;
     }
 }

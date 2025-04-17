@@ -177,3 +177,12 @@ function dateTimeOrNull($source, $keys = null): ?DateTime
 {
     return Typed::dateTimeOrNull($source, $keys);
 }
+/**
+ * @param mixed $target
+ * @param int|string|array<int,int|string> $keys
+ * @param mixed $value
+ */
+function setItem(&$target, $keys, $value): bool
+{
+    return Typed::setItem($target, $keys, $value);
+}

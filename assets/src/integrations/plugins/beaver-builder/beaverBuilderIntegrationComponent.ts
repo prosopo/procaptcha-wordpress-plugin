@@ -17,22 +17,16 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 			const formId = formElement.dataset["node"] || "";
 
 			if (formId.length > 0) {
-				this.addAjaxRequestPrefilter(
-					(requestFields: URLSearchParams) => {
-						if (
-							"fl_builder_email" ===
-								requestFields.get("action") &&
-							formId === requestFields.get("node_id")
-						) {
-							const fieldName = "procaptcha-response";
+				const fieldName = "procaptcha-response";
 
-							requestFields.set(
-								fieldName,
-								// this input is added by the Procaptcha widget.
-								this.getInputValue(formElement, fieldName),
-							);
-						}
+				this.bindAjaxRequestField(
+					{
+						action: "fl_builder_email",
+						node_id: formId,
 					},
+					fieldName,
+					// this input is added by the Procaptcha widget.
+					() => this.getInputValue(formElement, fieldName),
 				);
 			} else {
 				this.logger.warning("Cannot get form id", {
@@ -45,6 +39,23 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 
 		this.logger.warning("Cannot get form element", {
 			integrationElement: integrationElement,
+		});
+	}
+
+	protected bindAjaxRequestField(
+		requestFilters: object,
+		fieldName: string,
+		getFieldValue: () => string,
+	) {
+		this.addAjaxRequestPrefilter((requestFields: URLSearchParams) => {
+			const isMatchingRequest = Object.entries(requestFilters).every(
+				([filterFieldName, filterFieldValue]) =>
+					filterFieldValue === requestFields.get(filterFieldName),
+			);
+
+			if (isMatchingRequest) {
+				requestFields.set(fieldName, getFieldValue());
+			}
 		});
 	}
 

@@ -39,5 +39,5 @@ runs:
       shell: bash
 
     - name: Build assets
-      run: cd ${{ github.workspace }}/assets && yarn build:all
+      run: cd ${{ github.workspace }}/assets && yarn build
       shell: bash

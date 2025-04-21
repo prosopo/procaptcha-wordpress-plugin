@@ -22,6 +22,7 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 			2
 		);
 
+		// fixme move into methods
 		add_filter(
 			'fl_builder_contact_form_fields',
 			function ( array $fields, object $form_settings ) {
@@ -54,8 +55,8 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 						)
 					);
 
-					// fixme move into a separate place to standartize
 					echo '<prosopo-procaptcha-beaver-builder-integration></prosopo-procaptcha-beaver-builder-integration>';
+
 					$widget->load_plugin_integration_script( 'beaver-builder/beaver-builder-integration.min.js' );
 				}
 			},

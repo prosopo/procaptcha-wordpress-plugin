@@ -9,14 +9,12 @@ const integrationConnector = createIntegrationConnector();
 
 const beaverBuilderIntegration: Integration = {
 	name: "beaver-builder",
-
 	createWebComponent: (componentLogger: Logger): WebComponent =>
 		new BeaverBuilderIntegrationComponent(componentLogger),
-
 	getWebComponentSettings: (): WebComponentSettings => ({
 		name: "prosopo-procaptcha-beaver-builder-integration",
 		processIfReconnected: false,
-		waitWindowLoadedInsteadOfDomLoaded: false,
+		waitWindowLoadedInsteadOfDomLoaded: true,
 	}),
 };
 

@@ -12,7 +12,7 @@ class IntegrationConnector {
 
 	public connectIntegration(integration: Integration): void {
 		const integrationComponentLogger = this.loggerFactory.createLogger(
-			integration.getName(),
+			integration.name,
 			this.moduleLogger,
 		);
 

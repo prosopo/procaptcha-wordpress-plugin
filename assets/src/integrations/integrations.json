@@ -1,0 +1,6 @@
+[
+  "plugins/ninja-forms/ninja-forms-integration",
+  "plugins/woocommerce/woocommerce-blocks-checkout-integration",
+  "plugins/beaver-builder/beaver-builder-integration",
+  "procaptcha/procaptcha-integration"
+]

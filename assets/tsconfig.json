@@ -2,9 +2,11 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "strict": true,
+    "skipLibCheck": true,
     "paths": {
       "#integration/*": [
         "./src/integration/*"

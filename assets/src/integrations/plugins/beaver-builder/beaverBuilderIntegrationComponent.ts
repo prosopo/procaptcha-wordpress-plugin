@@ -9,7 +9,32 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 	}
 
 	constructComponent(integrationElement: HTMLElement): void {
-		// todo
+		const contactForm = integrationElement.closest(
+			".fl-module-contact-form",
+		);
+
+		// todo log for fails
+
+		if (contactForm instanceof HTMLElement) {
+			const nodeId = contactForm.dataset["node"] || "";
+
+			if (nodeId.length > 0) {
+				const $ = window.jQuery;
+
+				if ("function" === typeof $) {
+					$.ajaxPrefilter((options) => {
+						// todo data is a string, parse it
+						// filter target request: action = fl_builder_email
+					});
+				}
+			}
+		}
+	}
+}
+
+declare global {
+	interface Window {
+		jQuery?: typeof jQuery;
 	}
 }
 

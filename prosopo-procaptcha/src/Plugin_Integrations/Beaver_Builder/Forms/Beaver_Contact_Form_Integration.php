@@ -53,8 +53,10 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 							Widget_Settings::IS_WITHOUT_CLIENT_VALIDATION => true,
 						)
 					);
-					echo '<prosopo-procaptcha-ninja-forms-integration></prosopo-procaptcha-ninja-forms-integration>';
-					$widget->load_plugin_integration_script( 'ninja-forms/ninja-forms-integration.min.js' );
+
+					// fixme move into a separate place to standartize
+					echo '<prosopo-procaptcha-beaver-builder-integration></prosopo-procaptcha-beaver-builder-integration>';
+					$widget->load_plugin_integration_script( 'beaver-builder/beaver-builder-integration.min.js' );
 				}
 			},
 			10,

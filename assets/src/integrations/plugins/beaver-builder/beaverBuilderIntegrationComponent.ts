@@ -17,9 +17,23 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 			const formId = formElement.dataset["node"] || "";
 
 			if (formId.length > 0) {
-				this.bindFormField(formId, "procaptcha-response", () => {
-					return this.getProcaptchaToken(formElement);
-				});
+				this.addAjaxRequestPrefilter(
+					(requestFields: URLSearchParams) => {
+						if (
+							"fl_builder_email" ===
+								requestFields.get("action") &&
+							formId === requestFields.get("node_id")
+						) {
+							const fieldName = "procaptcha-response";
+
+							requestFields.set(
+								fieldName,
+								// this input is added by the Procaptcha widget.
+								this.getInputValue(formElement, fieldName),
+							);
+						}
+					},
+				);
 			} else {
 				this.logger.warning("Cannot get form id", {
 					formElement: formElement,
@@ -31,21 +45,6 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 
 		this.logger.warning("Cannot get form element", {
 			integrationElement: integrationElement,
-		});
-	}
-
-	protected bindFormField(
-		formId: string,
-		fieldName: string,
-		getFieldValue: () => string,
-	): void {
-		this.addAjaxRequestPrefilter((requestFields: URLSearchParams) => {
-			if (
-				"fl_builder_email" === requestFields.get("action") &&
-				formId === requestFields.get("node_id")
-			) {
-				requestFields.set(fieldName, getFieldValue());
-			}
 		});
 	}
 
@@ -75,17 +74,21 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 		);
 	}
 
-	protected getProcaptchaToken(formElement: HTMLElement): string {
-		const tokenInputElement = formElement.querySelector(
-			`input[name=procaptcha-response]`,
+	protected getInputValue(
+		parentElement: HTMLElement,
+		inputName: string,
+	): string {
+		const inputElement = parentElement.querySelector(
+			`input[name=${inputName}]`,
 		);
 
-		if (tokenInputElement instanceof HTMLInputElement) {
-			return tokenInputElement.value;
+		if (inputElement instanceof HTMLInputElement) {
+			return inputElement.value;
 		}
 
-		this.logger.warning("Cannot get token input element", {
-			formElement: formElement,
+		this.logger.warning("Cannot find input element", {
+			parentElement: parentElement,
+			inputName: inputName,
 		});
 
 		return "";

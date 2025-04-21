@@ -3,6 +3,7 @@
     "esModuleInterop": true,
     "jsx": "react",
     "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
     "strict": true,
     "paths": {
       "#integration/*": [

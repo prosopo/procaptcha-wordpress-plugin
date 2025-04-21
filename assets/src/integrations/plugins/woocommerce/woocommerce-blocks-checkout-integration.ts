@@ -1,8 +1,21 @@
 import { createIntegrationConnector } from "#integration/connector/integrationConnectorFactory.js";
-import { WoocommerceBlocksCheckoutIntegration } from "#integrations/plugins/woocommerce/woocommerceBlocksCheckoutIntegration.js";
-
-const woocommerceBlocksCheckoutIntegration =
-	new WoocommerceBlocksCheckoutIntegration();
+import type Logger from "#logger/logger.js";
+import { WooBlocksCheckoutIntegrationComponent } from "#integrations/plugins/woocommerce/wooBlocksCheckoutIntegrationComponent.js";
+import type { Integration } from "#integration/integration.js";
 
 const integrationConnector = createIntegrationConnector();
-integrationConnector.connectIntegration(woocommerceBlocksCheckoutIntegration);
+
+const wooBlocksCheckoutIntegration: Integration = {
+	name: "woocommerce-blocks-checkout",
+
+	createWebComponent: (componentLogger: Logger) =>
+		new WooBlocksCheckoutIntegrationComponent(componentLogger),
+
+	getWebComponentSettings: () => ({
+		name: "prosopo-procaptcha-woo-checkout-form",
+		processIfReconnected: false,
+		waitWindowLoadedInsteadOfDomLoaded: true,
+	}),
+};
+
+integrationConnector.connectIntegration(wooBlocksCheckoutIntegration);

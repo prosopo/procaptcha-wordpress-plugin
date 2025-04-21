@@ -5,15 +5,15 @@ import type { WebComponentSettings } from "#webComponent/webComponentSettings.js
 import type Logger from "#logger/logger.js";
 
 class WidgetIntegration implements Integration {
-	getIntegrationName(): string {
+	getName(): string {
 		return "widget";
 	}
 
-	public createIntegrationComponent(componentLogger: Logger): WebComponent {
+	public createWebComponent(componentLogger: Logger): WebComponent {
 		return new WidgetIntegrationComponent(componentLogger);
 	}
 
-	public getIntegrationWebComponentSettings(): WebComponentSettings {
+	public getWebComponentSettings(): WebComponentSettings {
 		return {
 			name: "prosopo-procaptcha-wp-widget",
 			processIfReconnected: false,

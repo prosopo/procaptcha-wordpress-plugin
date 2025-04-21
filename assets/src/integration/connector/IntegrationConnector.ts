@@ -12,16 +12,16 @@ class IntegrationConnector {
 
 	public connectIntegration(integration: Integration): void {
 		const integrationComponentLogger = this.loggerFactory.createLogger(
-			integration.getIntegrationName(),
+			integration.getName(),
 			this.moduleLogger,
 		);
 
-		const integrationComponent = integration.createIntegrationComponent(
+		const integrationComponent = integration.createWebComponent(
 			integrationComponentLogger,
 		);
 
 		const integrationWebComponentSettings =
-			integration.getIntegrationWebComponentSettings();
+			integration.getWebComponentSettings();
 
 		this.webComponentRegistrar.registerWebComponent(
 			integrationComponent,

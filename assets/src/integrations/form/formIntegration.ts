@@ -5,15 +5,15 @@ import type { WebComponentSettings } from "#webComponent/webComponentSettings.js
 import type Logger from "#logger/logger.js";
 
 class FormIntegration implements Integration {
-	getIntegrationName(): string {
+	getName(): string {
 		return "form";
 	}
 
-	public createIntegrationComponent(componentLogger: Logger): WebComponent {
+	public createWebComponent(componentLogger: Logger): WebComponent {
 		return new FormIntegrationComponent(componentLogger);
 	}
 
-	public getIntegrationWebComponentSettings(): WebComponentSettings {
+	public getWebComponentSettings(): WebComponentSettings {
 		return {
 			name: "prosopo-procaptcha-wp-form",
 			processIfReconnected: false,

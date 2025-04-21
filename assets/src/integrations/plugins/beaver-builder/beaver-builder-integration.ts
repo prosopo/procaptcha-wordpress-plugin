@@ -7,17 +7,17 @@ import type { WebComponentSettings } from "#webComponent/webComponentSettings.js
 
 const integrationConnector = createIntegrationConnector();
 
-const ninjaFormsIntegration: Integration = {
-	name: "ninja-forms",
+const beaverBuilderIntegration: Integration = {
+	name: "beaver-builder",
 
 	createWebComponent: (componentLogger: Logger): WebComponent =>
 		new NinjaFormsIntegrationComponent(componentLogger),
 
 	getWebComponentSettings: (): WebComponentSettings => ({
-		name: "prosopo-procaptcha-ninja-forms-integration",
+		name: "prosopo-procaptcha-beaver-builder-integration",
 		processIfReconnected: false,
-		waitWindowLoadedInsteadOfDomLoaded: true,
+		waitWindowLoadedInsteadOfDomLoaded: false,
 	}),
 };
 
-integrationConnector.connectIntegration(ninjaFormsIntegration);
+integrationConnector.connectIntegration(beaverBuilderIntegration);

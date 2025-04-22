@@ -16,12 +16,12 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 
 			if (moduleId.length > 0) {
 				this.bindAjaxRequestField(
+					"procaptcha-response",
+					createTokenValueResolver(moduleElement),
 					{
 						action: /^fl_builder_.*$/,
 						node_id: moduleId,
 					},
-					"procaptcha-response",
-					createTokenValueResolver(moduleElement),
 				);
 			} else {
 				this.logger.warning("Cannot get module id", {
@@ -38,9 +38,9 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 	}
 
 	protected bindAjaxRequestField(
-		requestFilters: RequestFieldFilter,
 		fieldName: string,
 		getFieldValue: () => string,
+		requestFilters: RequestFieldFilter,
 	) {
 		this.addAjaxRequestPrefilter((fields: URLSearchParams) => {
 			if (isRequestMatching(fields, requestFilters)) {

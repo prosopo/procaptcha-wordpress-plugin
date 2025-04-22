@@ -9,24 +9,24 @@ use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Beaver_Builder_Modu
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Base {
 	private Beaver_Builder_Modules $beaver_modules;
-	private bool $is_enabled_on_rendering_form;
 
 	public function construct(): void {
-		$this->beaver_modules               = new Beaver_Builder_Modules();
-		$this->is_enabled_on_rendering_form = false;
+		$this->beaver_modules = new Beaver_Builder_Modules();
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
-		$widget     = self::get_form_helper()->get_widget();
-		$field_name = $widget->get_field_name();
+		$widget      = self::get_form_helper()->get_widget();
+		$module_name = 'contact-form';
+		$field_name  = $widget->get_field_name();
 
 		$this->beaver_modules->add_module_setting(
-			'contact-form',
+			$module_name,
 			array( 'general', 'sections', 'general', 'fields', $field_name ),
 			array(
 				'default' => 'disabled',
@@ -39,18 +39,13 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 			)
 		);
 
-		$is_enabled_on_form = fn( object $form )=>boolExtended( $form, $field_name );
+		$is_module_protection_enabled = fn( object $module_settings )=>boolExtended( $module_settings, $field_name );
 
-		$this->beaver_modules->on_form_render(
-			function ( object $form ) use ( $is_enabled_on_form ) {
-				$this->is_enabled_on_rendering_form = $is_enabled_on_form( $form );
-			}
-		);
+		$this->beaver_modules->on_module_item_render(
+			function ( object $module ) use ( $is_module_protection_enabled, $widget ) {
+				$module_settings = object( $module, 'settings' );
 
-		$this->beaver_modules->on_module_render(
-			'button',
-			function () use ( $widget ) {
-				if ( $this->is_enabled_on_rendering_form &&
+				if ( $is_module_protection_enabled( $module_settings ) &&
 				$widget->is_protection_enabled() ) {
 					$this->print_widget_field(
 						array(
@@ -63,14 +58,16 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 						'beaver-builder/beaver-builder-integration.min.js'
 					);
 				}
-			}
+			},
+			$module_name,
+			'button'
 		);
 
-		$this->beaver_modules->add_form_validation(
-			function ( object $form ) use ( $is_enabled_on_form, $widget ): ?WP_Error {
+		$this->beaver_modules->add_contact_form_validation(
+			function ( object $form_settings ) use ( $is_module_protection_enabled, $widget ): ?WP_Error {
 				$is_form_valid = true;
 
-				if ( $is_enabled_on_form( $form ) &&
+				if ( $is_module_protection_enabled( $form_settings ) &&
 					$widget->is_protection_enabled() ) {
 					$is_form_valid = $widget->is_verification_token_valid();
 				}

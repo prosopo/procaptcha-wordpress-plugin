@@ -10,17 +10,12 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 
 defined( 'ABSPATH' ) || exit;
 
-final class Beaver_Widget_Integration {
-
-	public function __construct( Beaver_Modules $beaver_modules ) {
-		$this->beaver_modules = $beaver_modules;
-	}
-
+final class Beaver_Module_Widget_Field {
 	/**
 	 * @param callable(object $module_settings): bool $is_module_protection_enabled
 	 */
-	public function integrate_widget( Widget $widget, string $module_name, callable $is_module_protection_enabled ): void {
-		$this->beaver_modules->on_module_item_render(
+	public static function integrate_widget( Widget $widget, string $module_name, callable $is_module_protection_enabled ): void {
+		Beaver_Modules::on_module_item_render(
 			function ( object $module ) use ( $is_module_protection_enabled, $widget ) {
 				$module_settings = object( $module, 'settings' );
 

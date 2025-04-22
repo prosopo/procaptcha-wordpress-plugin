@@ -11,12 +11,11 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Modules {
-
 	/**
 	 * @param string[] $setting_path
 	 * @param array<string,mixed> $setting_options
 	 */
-	public function add_module_setting( string $module, array $setting_path, array $setting_options ): void {
+	public static function add_module_setting( string $module, array $setting_path, array $setting_options ): void {
 		add_filter(
 			'fl_builder_register_module_settings_form',
 			function ( array $form, string $slug ) use ( $module, $setting_path, $setting_options ): array {
@@ -38,7 +37,7 @@ final class Beaver_Modules {
 	/**
 	 * @param callable(object $module): void $on_render
 	 */
-	public function on_module_render( callable $on_render, ?string $target_module_slug = null ): void {
+	public static function on_module_render( callable $on_render, ?string $target_module_slug = null ): void {
 		add_action(
 			'fl_builder_before_render_module',
 			function ( object $module ) use ( $on_render, $target_module_slug ) {
@@ -56,14 +55,14 @@ final class Beaver_Modules {
 	 *
 	 * @param callable(object $module, object $item): void $on_render
 	 */
-	public function on_module_item_render(
+	public static function on_module_item_render(
 		callable $on_render,
 		?string $target_module_slug = null,
 		?string $target_item_slug = null
 	): void {
 		$rendering_module = null;
 
-		$this->on_module_render(
+		self::on_module_render(
 			function ( object $module ) use ( &$rendering_module ) {
 				$rendering_module = $module;
 			}
@@ -91,7 +90,7 @@ final class Beaver_Modules {
 	/**
 	 * @param callable(object $form_settings): ?WP_Error $validate_form
 	 */
-	public function add_contact_form_validation( callable $validate_form ): void {
+	public static function add_contact_form_validation( callable $validate_form ): void {
 		add_action(
 			'fl_module_contact_form_before_send',
 			function ( string $mailto, string $subject, string $template, array $headers, object $form ) use ( $validate_form ) {

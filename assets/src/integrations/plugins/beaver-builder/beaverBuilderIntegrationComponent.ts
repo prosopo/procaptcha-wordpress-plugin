@@ -9,52 +9,42 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 	}
 
 	constructComponent(integrationElement: HTMLElement): void {
-		const formElement = integrationElement.closest(
-			".fl-module-contact-form",
-		);
+		const moduleElement = integrationElement.closest(".fl-module");
 
-		if (formElement instanceof HTMLElement) {
-			const formId = formElement.dataset["node"] || "";
+		if (moduleElement instanceof HTMLElement) {
+			const moduleId = moduleElement.dataset["node"] || "";
 
-			if (formId.length > 0) {
-				const fieldName = "procaptcha-response";
-
+			if (moduleId.length > 0) {
 				this.bindAjaxRequestField(
 					{
-						action: "fl_builder_email", // fixme fl_builder_login_form_submit
-						node_id: formId,
+						action: /^fl_builder_.*$/,
+						node_id: moduleId,
 					},
-					fieldName,
-					// this input is added by the Procaptcha widget.
-					() => this.getInputValue(formElement, fieldName),
+					"procaptcha-response",
+					createTokenValueResolver(moduleElement),
 				);
 			} else {
-				this.logger.warning("Cannot get form id", {
-					formElement: formElement,
+				this.logger.warning("Cannot get module id", {
+					moduleElement: moduleElement,
 				});
 			}
 
 			return;
 		}
 
-		this.logger.warning("Cannot get form element", {
+		this.logger.warning("Cannot get module element", {
 			integrationElement: integrationElement,
 		});
 	}
 
 	protected bindAjaxRequestField(
-		requestFilters: object,
+		requestFilters: RequestFieldFilter,
 		fieldName: string,
 		getFieldValue: () => string,
 	) {
-		this.addAjaxRequestPrefilter((requestFields: URLSearchParams) => {
-			const isMatchingRequest = Object.entries(requestFilters).every(
-				([filterFieldName, filterFieldValue]) =>
-					filterFieldValue === requestFields.get(filterFieldName),
-			);
-
-			if (isMatchingRequest) {
-				requestFields.set(fieldName, getFieldValue());
+		this.addAjaxRequestPrefilter((fields: URLSearchParams) => {
+			if (isRequestMatching(fields, requestFilters)) {
+				fields.set(fieldName, getFieldValue());
 			}
 		});
 	}
@@ -84,27 +74,34 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 			"Cannot attach ajax prefilter: jQuery is not available",
 		);
 	}
-
-	protected getInputValue(
-		parentElement: HTMLElement,
-		inputName: string,
-	): string {
-		const inputElement = parentElement.querySelector(
-			`input[name=${inputName}]`,
-		);
-
-		if (inputElement instanceof HTMLInputElement) {
-			return inputElement.value;
-		}
-
-		this.logger.warning("Cannot find input element", {
-			parentElement: parentElement,
-			inputName: inputName,
-		});
-
-		return "";
-	}
 }
+
+type RequestFieldFilter = Record<string, string | RegExp>;
+
+const isRequestMatching = (
+	fields: URLSearchParams,
+	filters: RequestFieldFilter,
+) => {
+	return Object.entries(filters).every(([filterName, filterValue]) => {
+		const fieldValue = fields.get(filterName);
+
+		return filterValue instanceof RegExp && "string" === typeof fieldValue
+			? filterValue.test(fieldValue)
+			: filterValue === fieldValue;
+	});
+};
+
+const createTokenValueResolver = (element: HTMLElement): (() => string) => {
+	let tokenValue = "";
+
+	element.addEventListener("_prosopo-procaptcha__filled", (event) => {
+		if (event instanceof CustomEvent) {
+			tokenValue = event.detail.token;
+		}
+	});
+
+	return () => tokenValue;
+};
 
 declare global {
 	interface Window {

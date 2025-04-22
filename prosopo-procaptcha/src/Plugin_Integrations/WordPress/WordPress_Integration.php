@@ -7,11 +7,11 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WordPress;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integrations\WordPress\Forms\{WP_Comment_Form_Integration_Integration,
-	WP_Login_Form_Integration_Integration,
-	WP_Lost_Password_Form_Integration_Integration,
-	WP_Password_Protected_Form_Integration_Integration,
-	WP_Register_Form_Integration_Integration,
+use Io\Prosopo\Procaptcha\Plugin_Integrations\WordPress\Forms\{WP_Comment_Form_Integration,
+	WP_Login_Form_Integration,
+	WP_Lost_Password_Form_Integration,
+	WP_Password_Protected_Form_Integration,
+	WP_Register_Form_Integration,
 	WP_Shortcode_Integration};
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Account_Forms_Settings_Tab;
@@ -32,11 +32,11 @@ class WordPress_Integration extends Procaptcha_Plugin_Integration {
 		$account_forms = $settings_storage->get( Account_Forms_Settings_Tab::class )->get_settings();
 
 		return array(
-			WP_Comment_Form_Integration_Integration::class => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_COMMENT_FORM ),
-			WP_Login_Form_Integration_Integration::class   => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOGIN_FORM ),
-			WP_Lost_Password_Form_Integration_Integration::class => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOST_PASSWORD_FORM ),
-			WP_Password_Protected_Form_Integration_Integration::class => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_POST_FORM ),
-			WP_Register_Form_Integration_Integration::class => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_REGISTER_FORM ),
+			WP_Comment_Form_Integration::class            => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_COMMENT_FORM ),
+			WP_Login_Form_Integration::class              => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOGIN_FORM ),
+			WP_Lost_Password_Form_Integration::class      => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOST_PASSWORD_FORM ),
+			WP_Password_Protected_Form_Integration::class => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_POST_FORM ),
+			WP_Register_Form_Integration::class           => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_REGISTER_FORM ),
 		);
 	}
 }

@@ -55,6 +55,11 @@ final class Widget_Assets_Loader implements Hookable {
 	}
 
 	public function load_integration_script( string $integration_name ): void {
+		// skip loading the same script twice.
+		if ( in_array( $integration_name, $this->plugin_integration_scripts, true ) ) {
+			return;
+		}
+
 		$this->plugin_integration_scripts[] = $integration_name;
 	}
 

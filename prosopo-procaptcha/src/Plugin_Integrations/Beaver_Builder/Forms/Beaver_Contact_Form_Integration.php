@@ -5,23 +5,25 @@ declare( strict_types=1 );
 namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms;
 
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
-use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Beaver_Builder_Modules;
-use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
+use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Beaver_Modules;
+use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Beaver_Widget_Integration;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Base {
-	private Beaver_Builder_Modules $beaver_modules;
+	private Beaver_Modules $beaver_modules;
+	private Beaver_Widget_Integration $beaver_widget_integration;
 
 	public function construct(): void {
-		$this->beaver_modules = new Beaver_Builder_Modules();
+		$this->beaver_modules            = new Beaver_Modules();
+		$this->beaver_widget_integration = new Beaver_Widget_Integration( $this->beaver_modules );
 	}
 
 	public function set_hooks( bool $is_admin_area ): void {
-		$widget      = self::get_form_helper()->get_widget();
+		$widget = self::get_form_helper()->get_widget();
+
 		$module_name = 'contact-form';
 		$field_name  = $widget->get_field_name();
 
@@ -39,28 +41,12 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 			)
 		);
 
-		$is_module_protection_enabled = fn( object $module_settings )=>boolExtended( $module_settings, $field_name );
+		$is_module_protection_enabled = fn( object $module_settings ) => boolExtended( $module_settings, $field_name );
 
-		$this->beaver_modules->on_module_item_render(
-			function ( object $module ) use ( $is_module_protection_enabled, $widget ) {
-				$module_settings = object( $module, 'settings' );
-
-				if ( $is_module_protection_enabled( $module_settings ) &&
-				$widget->is_protection_enabled() ) {
-					$this->print_widget_field(
-						array(
-							Widget_Settings::ELEMENT_ATTRIBUTES           => array(
-								'style' => 'margin: 0 0 10px;',
-							),
-							Widget_Settings::IS_WITHOUT_CLIENT_VALIDATION => true,
-						),
-						'prosopo-procaptcha-beaver-builder-integration',
-						'beaver-builder/beaver-builder-integration.min.js'
-					);
-				}
-			},
+		$this->beaver_widget_integration->integrate_widget(
+			$widget,
 			$module_name,
-			'button'
+			$is_module_protection_enabled
 		);
 
 		$this->beaver_modules->add_contact_form_validation(
@@ -76,21 +62,6 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 					null :
 					$widget->get_validation_error();
 			}
-		);
-	}
-
-	/**
-	 * @param array<string,mixed> $widget_settings
-	 */
-	protected function print_widget_field( array $widget_settings, string $field_tag, string $integration_script ): void {
-		$widget = self::get_form_helper()->get_widget();
-
-		$widget->print_form_field( $widget_settings );
-
-		printf( '<%s></%1$s>', esc_html( $field_tag ) );
-
-		$widget->load_plugin_integration_script(
-			$integration_script
 		);
 	}
 }

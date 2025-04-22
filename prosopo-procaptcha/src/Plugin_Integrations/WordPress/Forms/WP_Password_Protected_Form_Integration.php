@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Post;
 
-class WP_Password_Protected_Form_Integration_Integration extends WP_Form_Integration_Base {
+class WP_Password_Protected_Form_Integration extends WP_Form_Integration_Base {
 	public function add_form_field( string $output, WP_Post $post ): string {
 		$form_field = self::get_form_helper()->get_widget()->print_form_field(
 			array(

@@ -9,7 +9,7 @@ use WP_User;
 
 defined( 'ABSPATH' ) || exit;
 
-class WP_Login_Form_Integration_Integration extends WP_Form_Integration_Base {
+class WP_Login_Form_Integration extends WP_Form_Integration_Base {
 	/**
 	 * @param WP_User|WP_Error|null $user_or_error
 	 *

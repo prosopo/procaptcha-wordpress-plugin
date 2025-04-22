@@ -10,7 +10,7 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 defined( 'ABSPATH' ) || exit;
 
-class Beaver_Builder_Modules {
+final class Beaver_Modules {
 
 	/**
 	 * @param string[] $setting_path

@@ -21,7 +21,7 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 
 				this.bindAjaxRequestField(
 					{
-						action: "fl_builder_email",
+						action: "fl_builder_email", // fixme fl_builder_login_form_submit
 						node_id: formId,
 					},
 					fieldName,

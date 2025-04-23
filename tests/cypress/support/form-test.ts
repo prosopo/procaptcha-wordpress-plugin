@@ -9,6 +9,7 @@ interface Selectors {
 	errorMessage: string;
 	errorFieldMessage: string;
 	captchaInput: string;
+	submitButton?: string;
 }
 
 interface Messages {
@@ -55,6 +56,7 @@ abstract class FormTest {
 			errorMessage: "",
 			errorFieldMessage: "",
 			captchaInput: "",
+			submitButton: "",
 		};
 		this.submitValues = {};
 		this.messages = {
@@ -191,6 +193,10 @@ abstract class FormTest {
 	}
 
 	protected submitForm(settings: SubmitFormSettings): void {
+		if ("string" === typeof this.selectors.submitButton) {
+			settings.submitButtonSelector = this.selectors.submitButton;
+		}
+
 		cy.submitForm(settings);
 	}
 

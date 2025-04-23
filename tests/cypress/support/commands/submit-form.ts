@@ -3,6 +3,7 @@ interface Settings {
 	fieldValues?: object;
 	formSelector?: string;
 	captchaInputSelector?: string;
+	submitButtonSelector?: string;
 }
 
 class SubmitForm {
@@ -15,6 +16,7 @@ class SubmitForm {
 				fieldValues: {},
 				formSelector: "form",
 				captchaInputSelector: "",
+				submitButtonSelector: "[type=submit], button",
 			},
 			settings,
 		);
@@ -42,12 +44,25 @@ class SubmitForm {
 		}
 
 		if ("" === this.settings.captchaInputSelector) {
-			cy.wrap($form).invoke(
-				"append",
-				'<input type="hidden" name="procaptcha-response" value="' +
-					this.settings.captchaValue +
-					'">',
-			);
+			cy.wrap($form)
+				.invoke(
+					"append",
+					'<input type="hidden" name="procaptcha-response" value="' +
+						this.settings.captchaValue +
+						'">',
+				)
+				.then(($form) => {
+					$form[0]
+						.querySelector("input[name=procaptcha-response]")
+						.dispatchEvent(
+							new CustomEvent("_prosopo-procaptcha__filled", {
+								detail: { token: this.settings.captchaValue },
+							}),
+						);
+					cy.log(
+						'even is fired: "' + this.settings.captchaValue + '"',
+					); //fixme
+				});
 
 			return;
 		}
@@ -90,7 +105,7 @@ class SubmitForm {
 		this.populateFieldValues();
 
 		cy.wrap($form)
-			.find("[type=submit], button")
+			.find(this.settings.submitButtonSelector)
 			.then(($buttons) => {
 				const $submitButtons = $buttons.filter("[type=submit]");
 

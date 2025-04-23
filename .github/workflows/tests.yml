@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         # names of the test folders: /tests/cypress/e2e/*.\\
-        cypress-target: [ account-related-plugins, branding-plugins-1, branding-plugins-2, form-plugins, others, security-plugins, wordpress, ]
+        cypress-target: [ account-related-plugins, branding-plugins-1, branding-plugins-2, builders, form-plugins, security-plugins, wordpress, ]
 
     steps:
       - name: Checkout code

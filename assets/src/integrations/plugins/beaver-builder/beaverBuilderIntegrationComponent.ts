@@ -15,9 +15,11 @@ class BeaverBuilderIntegrationComponent implements WebComponent {
 			const moduleId = moduleElement.dataset["node"] || "";
 
 			if (moduleId.length > 0) {
+				const tokenFieldName = "procaptcha-response";
+
 				this.bindAjaxRequestField(
-					"procaptcha-response",
-					createTokenValueResolver(moduleElement),
+					tokenFieldName,
+					createTokenValueResolver(moduleElement, tokenFieldName),
 					{
 						action: /^fl_builder_.*$/,
 						node_id: moduleId,
@@ -91,16 +93,25 @@ const isRequestMatching = (
 	});
 };
 
-const createTokenValueResolver = (element: HTMLElement): (() => string) => {
-	let tokenValue = "";
+const createTokenValueResolver = (
+	element: HTMLElement,
+	inputName: string,
+): (() => string) => {
+	let tokenEventValue = "";
 
 	element.addEventListener("_prosopo-procaptcha__filled", (event) => {
 		if (event instanceof CustomEvent) {
-			tokenValue = event.detail.token;
+			tokenEventValue = event.detail.token;
 		}
 	});
 
-	return () => tokenValue;
+	return () => {
+		const tokenInput = element.querySelector(`input[name=${inputName}]`);
+
+		return tokenInput instanceof HTMLInputElement
+			? tokenInput.value
+			: tokenEventValue;
+	};
 };
 
 declare global {

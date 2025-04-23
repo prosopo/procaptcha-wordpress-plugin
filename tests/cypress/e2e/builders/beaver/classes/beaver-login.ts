@@ -5,7 +5,7 @@ class BeaverLogin extends LoginForm {
 	protected defineSettings() {
 		super.defineSettings();
 
-		this.url = "/beaver-builder/";
+		this.url = "/beaver-login-form/";
 		this.isAuthSupportedByVendor = false;
 		this.isClientSideFieldValidationSupported = false;
 		this.selectors = {

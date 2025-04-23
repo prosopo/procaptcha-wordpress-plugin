@@ -118,7 +118,9 @@ abstract class FormTest {
 		if ("" !== this.messages.success) {
 			cy.get(
 				this.getSuccessfulSubmitMessageSelector(formSelector, userRole),
-			).should("include.text", this.messages.success);
+			)
+				.should("be.visible")
+				.should("include.text", this.messages.success);
 
 			return;
 		}

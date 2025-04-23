@@ -1,5 +1,5 @@
 import { IntegrationTest } from "./integration-test";
-import { Settings as SubmitFormSettings } from "@support/commands/submit-form";
+import { FormSubmitionSettings } from "@support/commands/submit-form";
 import AUTWindow = Cypress.AUTWindow;
 
 interface Selectors {
@@ -30,6 +30,11 @@ enum FormSelector {
 
 enum Message {
 	VALIDATION_ERROR = "Please verify that you are human.",
+}
+
+export enum CaptchaValue {
+	WRONG = "wrong",
+	RIGHT = "bypass",
 }
 
 abstract class FormTest {
@@ -194,7 +199,7 @@ abstract class FormTest {
 		cy.get("script#prosopo-procaptcha-js").should("exist");
 	}
 
-	protected submitForm(settings: SubmitFormSettings): void {
+	protected submitForm(settings: FormSubmitionSettings): void {
 		if ("string" === typeof this.selectors.submitButton) {
 			settings.submitButtonSelector = this.selectors.submitButton;
 		}

@@ -1,4 +1,4 @@
-interface Settings {
+interface FormSubmitionSettings {
 	captchaValue?: string;
 	fieldValues?: object;
 	formSelector?: string;
@@ -14,7 +14,7 @@ interface ExpectedResult {
 	};
 }
 
-const defaultSettings: Settings = {
+const defaultSettings: FormSubmitionSettings = {
 	captchaValue: "",
 	fieldValues: {},
 	formSelector: "form",
@@ -22,7 +22,7 @@ const defaultSettings: Settings = {
 	submitButtonSelector: "[type=submit], button",
 };
 
-const submitForm = (options: Settings): void => {
+const submitForm = (options: FormSubmitionSettings): void => {
 	const settings = Object.assign(defaultSettings, options);
 
 	cy.getForm(settings.formSelector).then(($form) => {
@@ -65,7 +65,10 @@ const fillRequiredInputs = ($form: JQuery): void => {
 	});
 };
 
-const setCaptchaValue = ($form: JQuery, settings: Settings): void => {
+const setCaptchaValue = (
+	$form: JQuery,
+	settings: FormSubmitionSettings,
+): void => {
 	if ("" === settings.captchaInputSelector) {
 		cy.wrap($form)
 			.invoke(
@@ -92,7 +95,7 @@ const setCaptchaValue = ($form: JQuery, settings: Settings): void => {
 		.invoke("val", settings.captchaValue);
 };
 
-const populateFieldValues = (settings: Settings): void => {
+const populateFieldValues = (settings: FormSubmitionSettings): void => {
 	for (let fieldName in settings.fieldValues) {
 		let isFieldSelector =
 			-1 !== fieldName.indexOf(".") ||
@@ -127,4 +130,4 @@ const checkExpectedResult = (expectedResult: ExpectedResult): void => {
 	}
 };
 
-export { submitForm, Settings, ExpectedResult };
+export { submitForm, FormSubmitionSettings, ExpectedResult };

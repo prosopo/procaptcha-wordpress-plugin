@@ -4,108 +4,38 @@ interface Settings {
 	formSelector?: string;
 	captchaInputSelector?: string;
 	submitButtonSelector?: string;
+	expectedResult?: ExpectedResult;
 }
 
-class SubmitForm {
-	private settings: Settings;
+interface ExpectedResult {
+	element?: {
+		selector: string;
+		label: string;
+	};
+}
 
-	constructor(settings: Settings) {
-		this.settings = Object.assign(
-			{
-				captchaValue: "",
-				fieldValues: {},
-				formSelector: "form",
-				captchaInputSelector: "",
-				submitButtonSelector: "[type=submit], button",
-			},
-			settings,
-		);
+const defaultSettings: Settings = {
+	captchaValue: "",
+	fieldValues: {},
+	formSelector: "form",
+	captchaInputSelector: "",
+	submitButtonSelector: "[type=submit], button",
+};
 
-		cy.getForm(this.settings.formSelector).then(($form) => {
-			this.submit($form);
-		});
-	}
+const submitForm = (options: Settings): void => {
+	const settings = Object.assign(defaultSettings, options);
 
-	protected fillRequiredInputs($form: JQuery): void {
-		let $inputs = $form.find("input[required]:not([type=hidden])");
+	cy.getForm(settings.formSelector).then(($form) => {
+		fillRequiredInputs($form);
 
-		if (0 === $inputs.length) {
-			return;
+		if (settings.captchaValue.length > 0) {
+			setCaptchaValue($form, settings);
 		}
 
-		$inputs.each((index, input) => {
-			cy.safeType(Cypress.$(input), "procaptcha");
-		});
-	}
-
-	protected setCaptchaValue($form: JQuery): void {
-		if ("" === this.settings.captchaValue) {
-			return;
-		}
-
-		if ("" === this.settings.captchaInputSelector) {
-			cy.wrap($form)
-				.invoke(
-					"append",
-					'<input type="hidden" name="procaptcha-response" value="' +
-						this.settings.captchaValue +
-						'">',
-				)
-				.then(($form) => {
-					$form[0]
-						.querySelector("input[name=procaptcha-response]")
-						.dispatchEvent(
-							new CustomEvent("_prosopo-procaptcha__filled", {
-								detail: { token: this.settings.captchaValue },
-							}),
-						);
-					cy.log(
-						'even is fired: "' + this.settings.captchaValue + '"',
-					); //fixme
-				});
-
-			return;
-		}
+		populateFieldValues(settings);
 
 		cy.wrap($form)
-			.find(this.settings.captchaInputSelector)
-			.invoke("val", this.settings.captchaValue);
-	}
-
-	protected populateFieldValues(): void {
-		for (let fieldName in this.settings.fieldValues) {
-			let isFieldSelector =
-				-1 !== fieldName.indexOf(".") ||
-				-1 !== fieldName.indexOf("#") ||
-				-1 !== fieldName.indexOf("[");
-
-			let selector =
-				false === isFieldSelector
-					? this.settings.formSelector +
-						' input[name="' +
-						fieldName +
-						'"],' +
-						this.settings.formSelector +
-						' textarea[name="' +
-						fieldName +
-						'"],' +
-						this.settings.formSelector +
-						' select[name="' +
-						fieldName +
-						'"]'
-					: this.settings.formSelector + " " + fieldName;
-
-			cy.safeType(selector, this.settings.fieldValues[fieldName]);
-		}
-	}
-
-	protected submit($form: JQuery): void {
-		this.fillRequiredInputs($form);
-		this.setCaptchaValue($form);
-		this.populateFieldValues();
-
-		cy.wrap($form)
-			.find(this.settings.submitButtonSelector)
+			.find(settings.submitButtonSelector)
 			.then(($buttons) => {
 				const $submitButtons = $buttons.filter("[type=submit]");
 
@@ -115,8 +45,86 @@ class SubmitForm {
 						: $buttons.first();
 
 				cy.wrap($submitButton).click();
-			});
-	}
-}
 
-export { SubmitForm, Settings };
+				if (Object === settings.expectedResult.constructor) {
+					checkExpectedResult(settings.expectedResult);
+				}
+			});
+	});
+};
+
+const fillRequiredInputs = ($form: JQuery): void => {
+	let $inputs = $form.find("input[required]:not([type=hidden])");
+
+	if (0 === $inputs.length) {
+		return;
+	}
+
+	$inputs.each((index, input) => {
+		cy.safeType(Cypress.$(input), "procaptcha");
+	});
+};
+
+const setCaptchaValue = ($form: JQuery, settings: Settings): void => {
+	if ("" === settings.captchaInputSelector) {
+		cy.wrap($form)
+			.invoke(
+				"append",
+				'<input type="hidden" name="procaptcha-response" value="' +
+					settings.captchaValue +
+					'">',
+			)
+			.then(($form) => {
+				$form[0]
+					.querySelector("input[name=procaptcha-response]")
+					.dispatchEvent(
+						new CustomEvent("_prosopo-procaptcha__filled", {
+							detail: { token: settings.captchaValue },
+						}),
+					);
+			});
+
+		return;
+	}
+
+	cy.wrap($form)
+		.find(settings.captchaInputSelector)
+		.invoke("val", settings.captchaValue);
+};
+
+const populateFieldValues = (settings: Settings): void => {
+	for (let fieldName in settings.fieldValues) {
+		let isFieldSelector =
+			-1 !== fieldName.indexOf(".") ||
+			-1 !== fieldName.indexOf("#") ||
+			-1 !== fieldName.indexOf("[");
+
+		let selector =
+			false === isFieldSelector
+				? settings.formSelector +
+					' input[name="' +
+					fieldName +
+					'"],' +
+					settings.formSelector +
+					' textarea[name="' +
+					fieldName +
+					'"],' +
+					settings.formSelector +
+					' select[name="' +
+					fieldName +
+					'"]'
+				: settings.formSelector + " " + fieldName;
+
+		cy.safeType(selector, settings.fieldValues[fieldName]);
+	}
+};
+
+const checkExpectedResult = (expectedResult: ExpectedResult): void => {
+	if (Object === expectedResult.element.constructor) {
+		cy.get(expectedResult.element.selector)
+			.should("be.visible")
+			.should("include.text", expectedResult.element.label);
+	}
+};
+
+export { submitForm, Settings, ExpectedResult };

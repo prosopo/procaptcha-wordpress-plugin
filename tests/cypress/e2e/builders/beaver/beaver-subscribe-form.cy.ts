@@ -8,9 +8,8 @@ import { activatePluginsForTestLifetime } from "@support/pluginsManagement";
 const submitForm = (settings: FormSubmitionSettings) =>
 	cy.submitForm({
 		fieldValues: {
-			"fl-name": "John Doe",
-			"fl-email": "test@gmail.com",
-			"fl-message": "Hey",
+			"fl-subscribe-form-name": "John Doe",
+			"fl-subscribe-form-email": "test@gmail.com",
 		},
 		submitButtonSelector: "a.fl-button",
 		...settings,
@@ -19,13 +18,14 @@ const submitForm = (settings: FormSubmitionSettings) =>
 const submissionResult = {
 	successful: {
 		element: {
-			selector: ".fl-success-msg",
-			label: "Message Sent!",
+			// todo change when the mailchimp account verification issue is resolved
+			selector: ".fl-form-error-message",
+			label: "There was an error subscribing to MailChimp",
 		},
 	} as ExpectedResult,
 	failed: {
 		element: {
-			selector: ".fl-send-error",
+			selector: ".fl-form-error-message",
 			label: Message.VALIDATION_ERROR,
 		},
 	} as ExpectedResult,
@@ -33,9 +33,9 @@ const submissionResult = {
 
 activatePluginsForTestLifetime(["bb-plugin"]);
 
-describe("Protected contact form", () => {
-	const page = "/beaver-contact-form/";
-	const formSelector = ".fl-node-5pz83b20h9vw";
+describe("Protected subscribe form", () => {
+	const page = "/beaver-subscribe-form/";
+	const formSelector = ".fl-node-tbzc6iuhvm5p";
 
 	context("for guests", () => {
 		beforeEach(() => cy.visit(page));
@@ -81,9 +81,9 @@ describe("Protected contact form", () => {
 	});
 });
 
-describe("Default contact form is not affected", () => {
-	const page = "/beaver-contact-form/";
-	const formSelector = ".fl-node-0q3pr1yu6754";
+describe("Default subscribe form is not affected", () => {
+	const page = "/beaver-subscribe-form/";
+	const formSelector = ".fl-node-lzsrofqca4b2";
 
 	context("for guests", () => {
 		beforeEach(() => cy.visit(page));

@@ -40,6 +40,36 @@ final class Beaver_Subscribe_Form_Integration extends Hookable_Form_Integration_
 			$is_module_protection_enabled
 		);
 
-		// fixme extend_module_submit_validation for fl_builder_subscribe_form_submit
+		Beaver_Modules::extend_module_submit_validation(
+			'fl_builder_subscribe_form_submit',
+			function ( object $module ) use ( $is_module_protection_enabled, $widget ): void {
+				$is_form_valid = true;
+
+				if ( $is_module_protection_enabled( $module ) &&
+					$widget->is_protection_enabled() ) {
+					$is_form_valid = $widget->is_verification_token_valid();
+				}
+
+				if ( $is_form_valid ) {
+					return;
+				}
+
+				/**
+				 * Beaver subscribe uses json_encode itself.
+				 * We can't employ wp_send_json(), otherwise it'll also change the response content type to JSON,
+				 * and cause parsing issues in the Beaver's JS
+				 */
+                // @phpcs:ignore
+				echo json_encode(
+					array(
+						'action'  => false,
+						'error'   => $widget->get_validation_error_message(),
+						'message' => false,
+						'url'     => false,
+					)
+				);
+				wp_die();
+			}
+		);
 	}
 }

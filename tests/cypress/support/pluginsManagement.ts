@@ -4,23 +4,31 @@ export const activatePluginsForTestLifetime = (
 	let pluginSlugsToDeactivate: string[] = [];
 
 	before(() => {
+		cy.login();
+
 		togglePlugins("activate", pluginSlugsToActivate).then(
 			(disabledPluginSlugs) => {
 				pluginSlugsToDeactivate = disabledPluginSlugs;
 			},
 		);
+
+		// avoid affecting the first coming test.
+		cy.clearAllCookies();
 	});
 
 	after(() => {
 		if (pluginSlugsToDeactivate) {
+			cy.login();
+
 			togglePlugins("deactivate", pluginSlugsToDeactivate);
+
+			// avoid affecting others.
+			cy.clearAllCookies();
 		}
 	});
 };
 
 const togglePlugins = (action: string, pluginSlugs: string[]) => {
-	cy.login();
-
 	const affectedPluginSlugs: string[] = [];
 
 	return cy

@@ -1,7 +1,7 @@
 import { LoginCredentials, LoginForm } from "@wordpress/login-form";
 import { Message } from "@support/form-test";
 
-class BeaverLogin extends LoginForm {
+class BeaverLoginForm extends LoginForm {
 	protected defineSettings() {
 		super.defineSettings();
 
@@ -28,4 +28,4 @@ class BeaverLogin extends LoginForm {
 	}
 }
 
-export { BeaverLogin };
+export { BeaverLoginForm };

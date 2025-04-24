@@ -1,7 +1,7 @@
 import { IntegrationTest } from "@support/integration-test";
-import { BeaverLogin } from "./classes/beaver-login";
+import { BeaverLoginForm } from "./beaver-login-form";
 
 new IntegrationTest({
 	targetPluginSlugs: ["bb-plugin"],
-	forms: [new BeaverLogin()],
+	forms: [new BeaverLoginForm()],
 });

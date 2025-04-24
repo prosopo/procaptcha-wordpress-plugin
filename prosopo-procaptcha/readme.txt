@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.17.0
+Stable tag: 1.18.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,10 +92,11 @@ While only the items above are tested, overall, the Procaptcha plugin supports a
 **Other Integrations**:
 
 1. [BBPress](https://docs.prosopo.io/en/wordpress-plugin/bbpress/) -  Account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/); Forum forms: Open the target forum settings to enable topic and reply forms protection.
-2. [Elementor Pro](https://docs.prosopo.io/en/wordpress-plugin/elementor-pro/) - Form widgets -  use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the plugin settings->Account forms).
+2. [Elementor Pro](https://docs.prosopo.io/en/wordpress-plugin/elementor-pro/) - Form widgets: use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the Procaptcha plugin settings->Account forms).
 3. [JetPack](https://wordpress.org/plugins/jetpack/) (Forms) - Gutenberg form block: Add the Group block with the `prosopo_procaptcha` shortcode inside the target form block.
 4. [WooCommerce](https://docs.prosopo.io/en/wordpress-plugin/woocommerce/) - My Account forms; Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
-5. [Spectra](https://docs.prosopo.io/en/wordpress-plugin/spectra/) - Form block - add hidden input with the `prosopo_procaptcha` name
+5. [Spectra](https://docs.prosopo.io/en/wordpress-plugin/spectra/) - Form block: add hidden input with the `prosopo_procaptcha` name
+6. Beaver Builder - Contact, Subscribe forms: enabled protection in the target form settings; Login form: Procaptcha plugin settings->Account forms.
 
 **Built-In Integrations**:
 
@@ -132,6 +133,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.18.0 (2025-04-24) =
+- Feature: Beaver builder integration
 
 = 1.17.0 (2025-04-16) =
 - Enhancement - WPForms Stripe addon integration

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms;
 
@@ -11,17 +11,16 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
 
 defined( 'ABSPATH' ) || exit;
 
-final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Base {
-
+final class Beaver_Subscribe_Form_Integration extends Hookable_Form_Integration_Base {
 	public function set_hooks( bool $is_admin_area ): void {
 		$widget = self::get_form_helper()->get_widget();
 
-		$module_name = 'contact-form';
+		$module_name = 'subscribe-form';
 		$field_name  = $widget->get_field_name();
 
 		Beaver_Modules::add_module_setting(
 			$module_name,
-			array( 'general', 'sections', 'general', 'fields', $field_name ),
+			array( 'general', 'sections', 'structure', 'fields', $field_name ),
 			array(
 				'default' => 'disabled',
 				'label'   => __( 'Procaptcha protection', 'prosopo-procaptcha' ),
@@ -33,7 +32,7 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 			)
 		);
 
-		$is_module_protection_enabled = fn ( object $module ) =>boolExtended( $module, array( 'settings', $field_name ) );
+		$is_module_protection_enabled = fn( object $module ) => boolExtended( $module, array( 'settings', $field_name ) );
 
 		Beaver_Module_Widget_Field::integrate_widget(
 			$widget,
@@ -41,27 +40,6 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 			$is_module_protection_enabled
 		);
 
-		Beaver_Modules::extend_module_submit_validation(
-			'fl_builder_email',
-			function ( object $module ) use ( $is_module_protection_enabled, $widget ): void {
-				$is_form_valid = true;
-
-				if ( $is_module_protection_enabled( $module ) &&
-					$widget->is_protection_enabled() ) {
-					$is_form_valid = $widget->is_verification_token_valid();
-				}
-
-				if ( $is_form_valid ) {
-					return;
-				}
-
-				wp_send_json(
-					array(
-						'error'   => true,
-						'message' => $widget->get_validation_error(),
-					)
-				);
-			}
-		);
+		// fixme extend_module_submit_validation for fl_builder_subscribe_form_submit
 	}
 }

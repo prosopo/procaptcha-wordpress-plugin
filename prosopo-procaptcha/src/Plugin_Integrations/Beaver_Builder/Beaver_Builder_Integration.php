@@ -7,6 +7,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Contact_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Login_Form_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Subscribe_Form_Integration;
 use Io\Prosopo\Procaptcha\Settings\Account_Forms_Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
@@ -22,6 +23,7 @@ final class Beaver_Builder_Integration extends Procaptcha_Plugin_Integration {
 	protected function get_form_integrations(): array {
 		return array(
 			Beaver_Contact_Form_Integration::class,
+			Beaver_Subscribe_Form_Integration::class,
 		);
 	}
 

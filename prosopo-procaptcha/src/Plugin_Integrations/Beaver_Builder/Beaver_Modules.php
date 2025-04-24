@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder;
 
+use FLBuilderModel;
 use WP_Error;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\setItem;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
@@ -87,10 +89,31 @@ final class Beaver_Modules {
 		);
 	}
 
+	// fixme remove
+	/**
+	 * @param callable(object $module): void $validate_submission
+	 */
+	public static function extend_module_submit_validation( string $ajax_hook, callable $validate_submission ): void {
+		$run_validation = function () use ( $validate_submission ) {
+			$module = self::get_submitted_module();
+			$validate_submission( $module );
+		};
+
+		$hook_names = array(
+			sprintf( 'wp_ajax_%s', $ajax_hook ),
+			sprintf( 'wp_ajax_nopriv_%s', $ajax_hook ),
+		);
+
+		foreach ( $hook_names as $hook_name ) {
+			// Priority must be lower than 10, to be before the default Beaver handler.
+			add_action( $hook_name, $run_validation, 1 );
+		}
+	}
+
 	/**
 	 * @param callable(object $form_settings): ?WP_Error $validate_form
 	 */
-	public static function add_contact_form_validation( callable $validate_form ): void {
+	protected static function extend_contact_form_validation( callable $validate_form ): void {
 		add_action(
 			'fl_module_contact_form_before_send',
 			function ( string $mailto, string $subject, string $template, array $headers, object $form ) use ( $validate_form ) {
@@ -108,5 +131,25 @@ final class Beaver_Modules {
 			10,
 			5
 		);
+	}
+
+	protected static function get_submitted_module(): object {
+		// fixme
+		$node_id          = isset( $_POST['node_id'] ) ? sanitize_text_field( $_POST['node_id'] ) : false;
+		$template_id      = isset( $_POST['template_id'] ) ? sanitize_text_field( $_POST['template_id'] ) : false;
+		$template_node_id = isset( $_POST['template_node_id'] ) ? sanitize_text_field( $_POST['template_node_id'] ) : false;
+
+		$module = $template_id ?
+			self::get_template_module( $template_id, $template_node_id ) :
+			FLBuilderModel::get_module( $node_id );
+
+		return object( $module );
+	}
+
+	protected static function get_template_module( string $template_id, string $template_node_id ): object {
+		$post_id = FLBuilderModel::get_node_template_post_id( $template_id );
+		$data    = FLBuilderModel::get_layout_data( 'published', $post_id );
+
+		return object( $data, $template_node_id );
 	}
 }

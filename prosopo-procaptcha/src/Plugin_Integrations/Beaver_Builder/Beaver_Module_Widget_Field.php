@@ -6,20 +6,17 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder;
 
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Module_Widget_Field {
 	/**
-	 * @param callable(object $module_settings): bool $is_module_protection_enabled
+	 * @param callable(object $module): bool $is_module_protection_enabled
 	 */
 	public static function integrate_widget( Widget $widget, string $module_name, callable $is_module_protection_enabled ): void {
 		Beaver_Modules::on_module_item_render(
 			function ( object $module ) use ( $is_module_protection_enabled, $widget ) {
-				$module_settings = object( $module, 'settings' );
-
-				if ( $is_module_protection_enabled( $module_settings ) &&
+				if ( $is_module_protection_enabled( $module ) &&
 					$widget->is_protection_enabled() ) {
 					$widget->print_form_field(
 						array(

@@ -31,7 +31,7 @@ const submissionResult = {
 	} as ExpectedResult,
 };
 
-activatePluginsForTestLifetime(["bb-plugin"]);
+activatePluginsForTestLifetime(["beaver-builder-plugin-starter-version"]);
 
 describe("Protected subscribe form", () => {
 	const page = "/beaver-subscribe-form/";

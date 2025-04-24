@@ -31,7 +31,7 @@ const submissionResult = {
 	} as ExpectedResult,
 };
 
-activatePluginsForTestLifetime(["bb-plugin"]);
+activatePluginsForTestLifetime(["beaver-builder-plugin-starter-version"]);
 
 describe("Protected contact form", () => {
 	const page = "/beaver-contact-form/";

@@ -29,7 +29,7 @@ When the release candidate is ready:
 
 ## 3. One command packages installation
 
-After cloning the repository, run `bash tools/install-tools.sh`. It'll install all the necessary composer and npm
+After cloning the repository run `bash tools/install-tools.sh`. It'll install all the necessary composer and npm
 packages at once.
 
 > Make sure you've the [wp-cli](https://wp-cli.org/) installed and the `wp` command is available in the terminal (for

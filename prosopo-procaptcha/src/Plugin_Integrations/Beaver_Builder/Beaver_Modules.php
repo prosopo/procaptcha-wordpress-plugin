@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder;
 
-use FLBuilderModel;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\objectOrNull;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\setItem;
@@ -126,8 +125,10 @@ final class Beaver_Modules {
 	}
 
 	protected static function resolve_node_module( string $node_id ): ?object {
-		$node_module = is_callable( array( 'FLBuilderModel', 'get_module' ) ) ?
-			FLBuilderModel::get_module( $node_id ) :
+		$get_module = array( 'FLBuilderModel', 'get_module' );
+
+		$node_module = is_callable( $get_module ) ?
+			$get_module( $node_id ) :
 			false;
 
 		// todo log if not callable, it means breaking changes.
@@ -138,10 +139,13 @@ final class Beaver_Modules {
 	protected static function resolve_template_module( string $template_id, string $template_node_id ): ?object {
 		$data = null;
 
-		if ( is_callable( array( 'FLBuilderModel', 'get_node_template_post_id' ) ) &&
-			is_callable( array( 'FLBuilderModel', 'get_layout_data' ) ) ) {
-			$post_id = FLBuilderModel::get_node_template_post_id( $template_id );
-			$data    = FLBuilderModel::get_layout_data( 'published', $post_id );
+		$get_post_id     = array( 'FLBuilderModel', 'get_node_template_post_id' );
+		$get_layout_data = array( 'FLBuilderModel', 'get_layout_data' );
+
+		if ( is_callable( $get_post_id ) &&
+			is_callable( $get_layout_data ) ) {
+			$post_id = $get_post_id( $template_id );
+			$data    = $get_layout_data( 'published', $post_id );
 		}
 
 		// todo log if not callable, it means breaking changes.

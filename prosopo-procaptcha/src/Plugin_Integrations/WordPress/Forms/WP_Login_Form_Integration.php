@@ -16,7 +16,7 @@ class WP_Login_Form_Integration extends WP_Form_Integration_Base {
 	 * @return WP_User|WP_Error|null
 	 */
 	public function verify_submission( $user_or_error ) {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_verification_token_valid() ) {
 			$error_instance = $user_or_error instanceof WP_Error ?

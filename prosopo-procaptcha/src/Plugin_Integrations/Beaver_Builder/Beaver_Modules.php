@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder;
 
 use FLBuilderModel;
-use WP_Error;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
+use Io\Prosopo\Procaptcha\Query_Arguments;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\objectOrNull;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\setItem;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Modules {
+
 	/**
 	 * @param string[] $setting_path
 	 * @param array<string,mixed> $setting_options
@@ -89,14 +90,18 @@ final class Beaver_Modules {
 		);
 	}
 
-	// fixme remove
 	/**
 	 * @param callable(object $module): void $validate_submission
 	 */
 	public static function extend_module_submit_validation( string $ajax_hook, callable $validate_submission ): void {
 		$run_validation = function () use ( $validate_submission ) {
-			$module = self::get_submitted_module();
-			$validate_submission( $module );
+			$submitted_module = self::resolve_submitted_module();
+
+			if ( is_object( $submitted_module ) ) {
+				$validate_submission( $submitted_module );
+			}
+
+			// todo log if not object, it means breaking changes.
 		};
 
 		$hook_names = array(
@@ -110,46 +115,37 @@ final class Beaver_Modules {
 		}
 	}
 
-	/**
-	 * @param callable(object $form_settings): ?WP_Error $validate_form
-	 */
-	protected static function extend_contact_form_validation( callable $validate_form ): void {
-		add_action(
-			'fl_module_contact_form_before_send',
-			function ( string $mailto, string $subject, string $template, array $headers, object $form ) use ( $validate_form ) {
-				$validation_error = $validate_form( $form );
+	protected static function resolve_submitted_module(): ?object {
+		$node_id          = Query_Arguments::get_non_action_string( 'node_id', Query_Arguments::POST );
+		$template_id      = Query_Arguments::get_non_action_string( 'template_id', Query_Arguments::POST );
+		$template_node_id = Query_Arguments::get_non_action_string( 'template_node_id', Query_Arguments::POST );
 
-				if ( $validation_error instanceof WP_Error ) {
-					wp_send_json(
-						array(
-							'error'   => true,
-							'message' => $validation_error->get_error_message(),
-						)
-					);
-				}
-			},
-			10,
-			5
-		);
+		return strlen( $template_id ) > 0 ?
+			self::resolve_template_module( $template_id, $template_node_id ) :
+			self::resolve_node_module( $node_id );
 	}
 
-	protected static function get_submitted_module(): object {
-		// fixme
-		$node_id          = isset( $_POST['node_id'] ) ? sanitize_text_field( $_POST['node_id'] ) : false;
-		$template_id      = isset( $_POST['template_id'] ) ? sanitize_text_field( $_POST['template_id'] ) : false;
-		$template_node_id = isset( $_POST['template_node_id'] ) ? sanitize_text_field( $_POST['template_node_id'] ) : false;
+	protected static function resolve_node_module( string $node_id ): ?object {
+		$node_module = is_callable( array( 'FLBuilderModel', 'get_module' ) ) ?
+			FLBuilderModel::get_module( $node_id ) :
+			false;
 
-		$module = $template_id ?
-			self::get_template_module( $template_id, $template_node_id ) :
-			FLBuilderModel::get_module( $node_id );
+		// todo log if not callable, it means breaking changes.
 
-		return object( $module );
+		return objectOrNull( $node_module );
 	}
 
-	protected static function get_template_module( string $template_id, string $template_node_id ): object {
-		$post_id = FLBuilderModel::get_node_template_post_id( $template_id );
-		$data    = FLBuilderModel::get_layout_data( 'published', $post_id );
+	protected static function resolve_template_module( string $template_id, string $template_node_id ): ?object {
+		$data = null;
 
-		return object( $data, $template_node_id );
+		if ( is_callable( array( 'FLBuilderModel', 'get_node_template_post_id' ) ) &&
+			is_callable( array( 'FLBuilderModel', 'get_layout_data' ) ) ) {
+			$post_id = FLBuilderModel::get_node_template_post_id( $template_id );
+			$data    = FLBuilderModel::get_layout_data( 'published', $post_id );
+		}
+
+		// todo log if not callable, it means breaking changes.
+
+		return objectOrNull( $data, $template_node_id );
 	}
 }

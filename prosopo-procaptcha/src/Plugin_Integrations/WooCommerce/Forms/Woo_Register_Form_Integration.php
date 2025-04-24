@@ -12,7 +12,7 @@ use WP_Error;
 
 class Woo_Register_Form_Integration extends Hookable_Form_Integration_Base {
 	public function print_field(): void {
-		self::get_form_helper()->get_widget()->print_form_field(
+		self::get_widget()->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin:0 0 10px',
@@ -22,7 +22,7 @@ class Woo_Register_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	public function verify_submission( WP_Error $error ): WP_Error {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_verification_token_valid() ) {
 			$widget->get_validation_error( $error );

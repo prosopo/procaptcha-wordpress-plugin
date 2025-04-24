@@ -17,7 +17,7 @@ class WP_Comment_Form_Integration extends WP_Form_Integration_Base {
 	 * @return string
 	 */
 	public function include_captcha_field( string $submit_field, array $args ): string {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		return $widget->print_form_field(
 			array(
@@ -34,7 +34,7 @@ class WP_Comment_Form_Integration extends WP_Form_Integration_Base {
 	 * @return int|string|WP_Error
 	 */
 	public function verify_submission( $approved, array $comment_data ) {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( $widget->is_protection_enabled() &&
 			! $widget->is_verification_token_valid() ) {

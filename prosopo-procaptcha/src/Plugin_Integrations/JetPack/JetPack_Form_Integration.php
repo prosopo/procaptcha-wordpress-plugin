@@ -8,6 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Forms\ContactForm\Contact_Form;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Query_Arguments;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
@@ -29,7 +30,7 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 	 */
 	public function is_spam_submission( $current_spam_status ) {
 		$submitted_form = $this->get_submitted_form();
-		$widget         = self::get_form_helper()->get_widget();
+		$widget         = self::get_widget();
 
 		// adding an error to the form instance here will have no effect on the error displaying.
 
@@ -67,10 +68,8 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	protected function get_submitted_form(): ?Contact_Form {
-		$query_arguments = self::get_form_helper()->get_query_arguments();
-
-		$current_action      = $query_arguments->get_string_for_non_action( 'action', 'post' );
-		$submitted_form_hash = $query_arguments->get_string_for_non_action( 'contact-form-hash', 'post' );
+		$current_action      = Query_Arguments::get_non_action_string( 'action', 'post' );
+		$submitted_form_hash = Query_Arguments::get_non_action_string( 'contact-form-hash', 'post' );
 
 		return 'grunion-contact-form' === $current_action ?
 			$this->get_form_by_hash( $submitted_form_hash ) :
@@ -86,14 +85,14 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	protected function is_form_submission_unverified( Contact_Form $submitted_form ): bool {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		return $this->is_form_protected( $submitted_form ) &&
 			! $widget->is_verification_token_valid();
 	}
 
 	protected function is_form_protected( Contact_Form $form ): bool {
-		$widget       = self::get_form_helper()->get_widget();
+		$widget       = self::get_widget();
 		$form_content = string( $form, 'content' );
 
 		return false !== strpos( $form_content, '[' . $widget->get_field_name() );
@@ -112,7 +111,7 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	protected function validate_form( Contact_Form $form ): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		// we can detect only if any form was submitted, but can't confirm if it's exactly the current one.
 		// For some reason, $form->attributes['id'] and ->hash of the submitted form and the current form always different,

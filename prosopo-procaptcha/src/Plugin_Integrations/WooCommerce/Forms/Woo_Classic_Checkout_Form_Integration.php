@@ -12,7 +12,7 @@ use WP_Error;
 
 class Woo_Classic_Checkout_Form_Integration extends Hookable_Form_Integration_Base {
 	public function print_field(): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_protection_enabled() ) {
 			return;
@@ -26,7 +26,7 @@ class Woo_Classic_Checkout_Form_Integration extends Hookable_Form_Integration_Ba
 	}
 
 	public function verify_submission( WP_Error $errors ): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_protection_enabled() ||
 			$widget->is_verification_token_valid() ) {

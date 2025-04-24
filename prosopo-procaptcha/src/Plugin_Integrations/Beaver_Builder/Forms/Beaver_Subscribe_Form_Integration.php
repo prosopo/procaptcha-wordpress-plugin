@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Subscribe_Form_Integration extends Hookable_Form_Integration_Base {
 	public function set_hooks( bool $is_admin_area ): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$module_name = 'subscribe-form';
 		$field_name  = $widget->get_field_name();

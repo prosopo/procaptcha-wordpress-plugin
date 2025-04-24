@@ -6,14 +6,14 @@ declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // Class name must match the UR_Form_Field_{field_type} format.
 class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable_Form_Integration {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	const NAME_PREFIX = 'user_registration_';
 
@@ -32,7 +32,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	}
 
 	private function __construct() {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		// @phpstan-ignore-next-line
 		$this->id                       = self::NAME_PREFIX . $widget->get_field_name();
@@ -53,7 +53,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	}
 
 	public function set_field_label(): void {
-		$widget      = self::get_form_helper()->get_widget();
+		$widget      = self::get_widget();
 		$field_label = $widget->get_field_label();
 
 		$this->registered_fields_config['label'] = $field_label;
@@ -83,7 +83,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	 * @return void
 	 */
 	public function validation( $single_form_field, $form_data, $filter_hook, $form_id ) {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$token = string( $form_data, 'value' );
 
@@ -105,7 +105,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 	 * @param mixed $value
 	 */
 	public function render_field( string $field, string $key, array $args, $value ): string {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		return $widget->print_form_field(
 			array(
@@ -125,7 +125,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 
 	public function set_hooks( bool $is_admin_area ): void {
 		add_filter(
-			sprintf( 'user_registration_form_field_%s', self::get_form_helper()->get_widget()->get_field_name() ),
+			sprintf( 'user_registration_form_field_%s', self::get_widget()->get_field_name() ),
 			array( $this, 'render_field' ),
 			10,
 			4

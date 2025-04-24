@@ -11,7 +11,7 @@ use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 abstract class WP_Form_Integration_Base extends Hookable_Form_Integration_Base {
 	public function print_form_field(): void {
-		self::get_form_helper()->get_widget()->print_form_field(
+		self::get_widget()->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin:0 0 10px',

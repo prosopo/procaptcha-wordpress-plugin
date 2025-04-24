@@ -9,12 +9,12 @@ defined( 'ABSPATH' ) || exit;
 use ElementorPro\Modules\Forms\Classes;
 use ElementorPro\Modules\Forms\Fields\Field_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Elementor_Form_Integration extends Field_Base implements Form_Integration {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	public function __construct() {
 		parent::__construct();
@@ -23,11 +23,11 @@ class Elementor_Form_Integration extends Field_Base implements Form_Integration 
 	}
 
 	public function get_type(): string {
-		return self::get_form_helper()->get_widget()->get_field_name();
+		return self::get_widget()->get_field_name();
 	}
 
 	public function get_name(): string {
-		return self::get_form_helper()->get_widget()->get_field_label();
+		return self::get_widget()->get_field_label();
 	}
 
 	public function maybe_replace_field_stub( string $content ): string {
@@ -37,7 +37,7 @@ class Elementor_Form_Integration extends Field_Base implements Form_Integration 
 			return $content;
 		}
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		// Remove the stub if the captcha is not present.
 		if ( ! $widget->is_protection_enabled() ) {
@@ -89,7 +89,7 @@ class Elementor_Form_Integration extends Field_Base implements Form_Integration 
 	public function validation( $field, Classes\Form_Record $record, Classes\Ajax_Handler $ajax_handler ): void {
 		parent::validation( $field, $record, $ajax_handler );
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_protection_enabled() ||
 		$widget->is_verification_token_valid() ) {
@@ -105,6 +105,6 @@ class Elementor_Form_Integration extends Field_Base implements Form_Integration 
 	}
 
 	protected function get_field_stub(): string {
-		return '{' . self::get_form_helper()->get_widget()->get_field_name() . '}';
+		return '{' . self::get_widget()->get_field_name() . '}';
 	}
 }

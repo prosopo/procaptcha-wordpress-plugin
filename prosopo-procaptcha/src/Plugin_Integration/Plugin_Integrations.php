@@ -7,7 +7,6 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integration;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
@@ -16,20 +15,20 @@ use Io\Prosopo\Procaptcha\Widget\Widget;
 class Plugin_Integrations {
 	private Plugin_Integrator $plugin_integrator;
 	private Settings_Storage $settings_storage;
-	private Form_Integration_Helper $form_helper;
+	private Widget $widget;
 	private Settings_Page $settings_page;
 	private bool $is_admin_area;
 
 	public function __construct(
 		Plugin_Integrator $plugin_integrator,
 		Settings_Storage $settings_storage,
-		Form_Integration_Helper $form_helper,
+		Widget $widget,
 		Settings_Page $settings_page,
 		bool $is_admin_area
 	) {
 		$this->plugin_integrator = $plugin_integrator;
 		$this->settings_storage  = $settings_storage;
-		$this->form_helper       = $form_helper;
+		$this->widget            = $widget;
 		$this->settings_page     = $settings_page;
 		$this->is_admin_area     = $is_admin_area;
 	}
@@ -39,13 +38,13 @@ class Plugin_Integrations {
 	 *
 	 * @return Plugin_Integration[]
 	 */
-	public function make_plugin_integrations( array $plugin_integration_classes, Widget $widget ): array {
+	public function make_plugin_integrations( array $plugin_integration_classes ): array {
 		return array_map(
 		/**
 		 * @param class-string<Plugin_Integration> $plugin_integration_class
 		 */
-			function ( string $plugin_integration_class ) use ( $widget ) {
-				return $plugin_integration_class::make_instance( $widget );
+			function ( string $plugin_integration_class ) {
+				return $plugin_integration_class::make_instance( $this->widget );
 			},
 			$plugin_integration_classes
 		);
@@ -122,7 +121,7 @@ class Plugin_Integrations {
 
 		$form_integrations = $plugin_integration->get_active_form_integrations( $this->settings_storage );
 
-		$this->plugin_integrator->inject_form_helper( $form_integrations, $this->form_helper );
+		$this->plugin_integrator->inject_widget( $form_integrations, $this->widget );
 
 		$hookable_form_integrations = $this->plugin_integrator->create_hookable_form_integrations( $form_integrations );
 		$this->plugin_integrator->set_hooks_for_hookable_form_instances( $hookable_form_integrations, $this->is_admin_area );

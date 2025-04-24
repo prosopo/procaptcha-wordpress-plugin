@@ -23,9 +23,7 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	public function update_option( int $post_id ): void {
-		$query_arguments = self::get_form_helper()->get_query_arguments();
-
-		$value = $query_arguments->get_bool_for_non_action( $this->get_meta_key(), Query_Arguments::POST );
+		$value = Query_Arguments::get_non_action_bool( $this->get_meta_key(), Query_Arguments::POST );
 
 		update_post_meta( $post_id, $this->get_meta_key(), $value );
 	}
@@ -50,7 +48,7 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	public function add_settings_metabox(): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		add_meta_box(
 			$widget->get_field_name() . '_bbpress_forum',
@@ -67,7 +65,7 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 			return;
 		}
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$widget->print_form_field(
 			array(
@@ -79,7 +77,7 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 	public function maybe_validate_captcha(): void {
 		$forum_id = $this->get_current_forum_id();
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $this->is_enabled( $forum_id ) ||
 			! $widget->is_protection_enabled() ||
@@ -93,7 +91,7 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	protected function get_meta_key(): string {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		return $widget->get_field_name() . '_bbpress_forum_protection';
 	}

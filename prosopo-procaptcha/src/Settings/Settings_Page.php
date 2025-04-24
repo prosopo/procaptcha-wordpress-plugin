@@ -29,7 +29,6 @@ final class Settings_Page implements Hookable {
 	private Procaptcha_Plugin $plugin;
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Widget $widget;
-	private Query_Arguments $query_arguments;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
 	private Assets_Resolver $assets_resolver;
@@ -43,7 +42,6 @@ final class Settings_Page implements Hookable {
 		Procaptcha_Plugin $plugin,
 		Procaptcha_Settings_Storage $settings_storage,
 		Widget $widget,
-		Query_Arguments $query_arguments,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
 		Assets_Resolver $assets_resolver,
@@ -52,7 +50,6 @@ final class Settings_Page implements Hookable {
 		$this->plugin            = $plugin;
 		$this->settings_storage  = $settings_storage;
 		$this->widget            = $widget;
-		$this->query_arguments   = $query_arguments;
 		$this->component_creator = $component_creator;
 		$this->renderer          = $component_renderer;
 		$this->assets_resolver   = $assets_resolver;
@@ -74,7 +71,7 @@ final class Settings_Page implements Hookable {
 	}
 
 	public function get_active_tab( string $from = Query_Arguments::GET ): string {
-		return $this->query_arguments->get_string_for_non_action(
+		return Query_Arguments::get_non_action_string(
 			self::TAB_NAME,
 			$from
 		);
@@ -85,7 +82,7 @@ final class Settings_Page implements Hookable {
 		$is_just_saved = '' !== $current_tab;
 
 		if ( '' === $current_tab ) {
-			$current_tab = $this->query_arguments->get_string_for_non_action( self::TAB_NAME );
+			$current_tab = Query_Arguments::get_non_action_string( self::TAB_NAME );
 		}
 
 		if ( '' === $current_tab ) {
@@ -208,7 +205,7 @@ final class Settings_Page implements Hookable {
 		}
 
 		$settings_tab = $this->setting_tabs[ $tab_name ];
-		$settings_tab->process_form( $this->query_arguments );
+		$settings_tab->process_form();
 
 		return $tab_name;
 	}

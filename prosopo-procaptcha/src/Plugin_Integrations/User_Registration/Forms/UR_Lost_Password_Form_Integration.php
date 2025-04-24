@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integra
 
 class UR_Lost_Password_Form_Integration extends Hookable_Form_Integration_Base {
 	public function print_field(): void {
-		self::get_form_helper()->get_widget()->print_form_field();
+		self::get_widget()->print_form_field();
 	}
 
 	// Only print, without validation, as the UR plugin uses the 'lostpassword_post' hook, so WordPress/Lost_Password_Form.php will handle it.

@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Login_Form_Integration extends Hookable_Form_Integration_Base {
 	public function set_hooks( bool $is_admin_area ): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		// no custom setting is needed, as it's handled by the native WP_Login_Form_Integration.
 

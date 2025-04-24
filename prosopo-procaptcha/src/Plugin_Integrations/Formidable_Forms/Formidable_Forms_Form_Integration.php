@@ -8,13 +8,13 @@ defined( 'ABSPATH' ) || exit;
 
 use FrmFieldType;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Formidable_Forms_Form_Integration extends FrmFieldType implements Form_Integration {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	/**
 	 * @var bool
@@ -30,7 +30,7 @@ class Formidable_Forms_Form_Integration extends FrmFieldType implements Form_Int
 	 * @param string           $type
 	 */
 	public function __construct( $field = 0, $type = '' ) {
-		$this->type = self::get_form_helper()->get_widget()->get_field_name();
+		$this->type = self::get_widget()->get_field_name();
 
 		parent::__construct( $field, $type );
 	}
@@ -66,7 +66,7 @@ class Formidable_Forms_Form_Integration extends FrmFieldType implements Form_Int
 	 */
 	// @phpstan-ignore-next-line
 	public function front_field_input( $args, $shortcode_atts ) {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$field_id = string( $args, 'field_id' );
 
@@ -95,7 +95,7 @@ class Formidable_Forms_Form_Integration extends FrmFieldType implements Form_Int
 	// @phpstan-ignore-next-line
 	public function validate( $args ) {
 		$errors = array();
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$token = string( $args, 'value' );
 

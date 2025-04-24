@@ -8,16 +8,16 @@ defined( 'ABSPATH' ) || exit;
 
 use EVF_Form_Fields;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Everest_Forms_Form_Integration extends EVF_Form_Fields implements Form_Integration {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	public function __construct() {
-		$this->name     = self::get_form_helper()->get_widget()->get_field_label();
-		$this->type     = self::get_form_helper()->get_widget()->get_field_name();
+		$this->name     = self::get_widget()->get_field_label();
+		$this->type     = self::get_widget()->get_field_name();
 		$this->icon     = 'evf-icon evf-icon-hcaptcha';
 		$this->order    = '240';
 		$this->group    = 'advanced';
@@ -40,7 +40,7 @@ class Everest_Forms_Form_Integration extends EVF_Form_Fields implements Form_Int
 	 */
 	// @phpstan-ignore-next-line
 	public function field_preview( $field ) {
-		$field['label'] = self::get_form_helper()->get_widget()->get_field_label();
+		$field['label'] = self::get_widget()->get_field_label();
 
 		$this->field_preview_option( 'label', $field );
 	}
@@ -54,7 +54,7 @@ class Everest_Forms_Form_Integration extends EVF_Form_Fields implements Form_Int
 	 */
 	// @phpstan-ignore-next-line
 	public function field_display( $field, $field_atts, $form_data ) {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$field_id = string( $field, 'id' );
 		$form_id  = string( $form_data, 'id' );
@@ -85,7 +85,7 @@ class Everest_Forms_Form_Integration extends EVF_Form_Fields implements Form_Int
 			$field_submit :
 			'';
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_protection_enabled() ||
 		$widget->is_verification_token_valid( $field_submit ) ) {

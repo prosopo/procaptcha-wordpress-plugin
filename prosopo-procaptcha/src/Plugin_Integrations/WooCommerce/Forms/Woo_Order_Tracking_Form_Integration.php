@@ -14,13 +14,13 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 	private bool $is_invalid = false;
 
 	public function print_field(): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_protection_enabled() ) {
 			return;
 		}
 
-		self::get_form_helper()->get_widget()->print_form_field(
+		self::get_widget()->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin:0 0 10px',
@@ -40,9 +40,8 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 			return $output;
 		}
 
-		$order_id = self::get_form_helper()->get_query_arguments()
-			->get_string_for_non_action( 'orderid', Query_Arguments::POST );
-		$widget   = self::get_form_helper()->get_widget();
+		$order_id = Query_Arguments::get_non_action_string( 'orderid', Query_Arguments::POST );
+		$widget   = self::get_widget();
 
 		if ( '' === $order_id ||
 		! $widget->is_protection_enabled() ||
@@ -67,7 +66,7 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 		$prefix = '';
 
 		if ( function_exists( 'wc_print_notice' ) ) {
-			$validation_error_message = self::get_form_helper()->get_widget()->get_validation_error_message();
+			$validation_error_message = self::get_widget()->get_validation_error_message();
 			$prefix                   = wc_print_notice( $validation_error_message, 'error', array(), true );
 		}
 

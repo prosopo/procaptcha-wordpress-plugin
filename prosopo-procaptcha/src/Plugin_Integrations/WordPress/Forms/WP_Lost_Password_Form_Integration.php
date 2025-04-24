@@ -15,7 +15,7 @@ class WP_Lost_Password_Form_Integration extends WP_Form_Integration_Base {
 	 * @param WP_User|false $user_data
 	 */
 	public function verify_submission( WP_Error $errors, $user_data ): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( $widget->is_verification_token_valid() ) {
 			return;

@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Base {
 
 	public function set_hooks( bool $is_admin_area ): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$module_name = 'contact-form';
 		$field_name  = $widget->get_field_name();
@@ -58,7 +58,7 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 				wp_send_json(
 					array(
 						'error'   => true,
-						'message' => $widget->get_validation_error(),
+						'message' => $widget->get_validation_error_message(),
 					)
 				);
 			}

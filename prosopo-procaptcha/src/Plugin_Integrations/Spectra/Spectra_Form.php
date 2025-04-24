@@ -58,8 +58,8 @@ final class Spectra_Form {
 	/**
 	 * @return mixed
 	 */
-	public function get_submitted_form_field( Query_Arguments $query_arguments, string $field_name ) {
-		$form_data = $query_arguments->get_string_for_non_action( 'form_data', Query_Arguments::POST );
+	public function get_submitted_form_field( string $field_name ) {
+		$form_data = Query_Arguments::get_non_action_string( 'form_data', Query_Arguments::POST );
 
 		return $this->extract_field_from_json_string( $field_name, $form_data );
 	}

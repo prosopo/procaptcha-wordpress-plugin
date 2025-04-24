@@ -7,8 +7,8 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integration;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 
 class Plugin_Integrator {
 	public function integration_active( Plugin_Integration $plugin_integration ): bool {
@@ -22,16 +22,16 @@ class Plugin_Integrator {
 	/**
 	 * @param class-string<Form_Integration>[] $form_integrations
 	 */
-	public function inject_form_helper(
+	public function inject_widget(
 		array $form_integrations,
-		Form_Integration_Helper $form_helper
+		Widget $widget
 	): void {
 		array_map(
 		/**
 		 * @param class-string<Form_Integration> $form_integration
 		 */
-			function ( string $form_integration ) use ( $form_helper ) {
-				$form_integration::set_form_helper( $form_helper );
+			function ( string $form_integration ) use ( $widget ) {
+				$form_integration::set_widget( $widget );
 			},
 			$form_integrations
 		);

@@ -14,16 +14,17 @@ interface ExpectedResult {
 	};
 }
 
-const defaultSettings: FormSubmitionSettings = {
-	captchaValue: "",
-	fieldValues: {},
-	formSelector: "form",
-	captchaInputSelector: "",
-	submitButtonSelector: "[type=submit], button",
-};
-
 const submitForm = (options: FormSubmitionSettings): void => {
-	const settings = Object.assign(defaultSettings, options);
+	const settings = {
+		...{
+			captchaValue: "",
+			fieldValues: {},
+			formSelector: "form",
+			captchaInputSelector: "",
+			submitButtonSelector: "[type=submit], button",
+		},
+		...options,
+	};
 
 	cy.getForm(settings.formSelector).then(($form) => {
 		fillRequiredInputs($form);
@@ -69,30 +70,34 @@ const setCaptchaValue = (
 	$form: JQuery,
 	settings: FormSubmitionSettings,
 ): void => {
-	if ("" === settings.captchaInputSelector) {
+	if (settings.captchaInputSelector.length > 0) {
+		cy.log(
+			`setting captcha value as ${settings.captchaValue} to ${settings.captchaInputSelector}`,
+		);
+
 		cy.wrap($form)
-			.invoke(
-				"append",
-				'<input type="hidden" name="procaptcha-response" value="' +
-					settings.captchaValue +
-					'">',
-			)
-			.then(($form) => {
-				$form[0]
-					.querySelector("input[name=procaptcha-response]")
-					.dispatchEvent(
-						new CustomEvent("_prosopo-procaptcha__filled", {
-							detail: { token: settings.captchaValue },
-						}),
-					);
-			});
+			.find(settings.captchaInputSelector)
+			.invoke("val", settings.captchaValue);
 
 		return;
 	}
 
+	cy.log(`settings captcha value as ${settings.captchaValue} to [new input]`);
+
+	const inputName = "procaptcha-response";
+
 	cy.wrap($form)
-		.find(settings.captchaInputSelector)
-		.invoke("val", settings.captchaValue);
+		.invoke(
+			"append",
+			`<input type="hidden" name="${inputName}" value="${settings.captchaValue}">`,
+		)
+		.then(($form) => {
+			$form[0].querySelector(`input[name=${inputName}]`).dispatchEvent(
+				new CustomEvent("_prosopo-procaptcha__filled", {
+					detail: { token: settings.captchaValue },
+				}),
+			);
+		});
 };
 
 const populateFieldValues = (settings: FormSubmitionSettings): void => {

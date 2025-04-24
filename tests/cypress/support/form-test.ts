@@ -168,7 +168,7 @@ abstract class FormTest {
 
 		cy.visit(this.url);
 
-		this.printScriptsOnThePage();
+		// this.printScriptsOnThePage();
 	}
 
 	protected prefixSubmitValue(key: string, value: string): string {

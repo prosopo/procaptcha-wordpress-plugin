@@ -41,23 +41,37 @@ export const activatePluginsForTestLifetime = (
 const togglePlugins = (action: string, pluginSlugs: string[]) => {
 	const affectedPluginSlugs: string[] = [];
 
+	cy.visit("/wp-admin/plugins.php");
+
+	cy.get("#the-list tr[data-slug]").then(($elements) => {
+		const slugs = Array.from($elements).map((element) =>
+			element.getAttribute("data-slug"),
+		);
+
+		cy.log("on-page plugin slugs: ", slugs.join(", "));
+	});
+
 	return cy
 		.wrap(pluginSlugs)
 		.each((pluginSlug: string) => {
-			let selector = "#" + action + "-" + pluginSlug;
-
 			cy.visit("/wp-admin/plugins.php");
 
 			cy.get("body").then(($body) => {
+				let selector = `#${action}-${pluginSlug}, 
+				#the-list tr[data-slug="${pluginSlug}"] .${action} a`;
+
 				// optional, as the plugin may be already active (avoid breaks if tests are run locally).
 				if (0 === $body.find(selector).length) {
-					cy.log(`skipping plugin toggling: ${pluginSlug}`);
+					cy.log(
+						`skipping plugin toggling: ${pluginSlug}, selector was: ${selector}`,
+					);
 
 					return;
 				}
 
 				// visit instead of the click, as some plugins have deactivation survey popups.
 				cy.get(selector)
+					.first()
 					.invoke("attr", "href")
 					.then((href) => {
 						cy.visit("/wp-admin/" + href);

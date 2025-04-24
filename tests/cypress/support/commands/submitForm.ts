@@ -46,7 +46,7 @@ const submitForm = (options: FormSubmitionSettings): void => {
 
 				cy.wrap($submitButton).click();
 
-				if (Object === settings.expectedResult.constructor) {
+				if (settings.expectedResult) {
 					checkExpectedResult(settings.expectedResult);
 				}
 			});
@@ -123,7 +123,7 @@ const populateFieldValues = (settings: FormSubmitionSettings): void => {
 };
 
 const checkExpectedResult = (expectedResult: ExpectedResult): void => {
-	if (Object === expectedResult.element.constructor) {
+	if (expectedResult.element) {
 		cy.get(expectedResult.element.selector)
 			.should("be.visible")
 			.should("include.text", expectedResult.element.label);

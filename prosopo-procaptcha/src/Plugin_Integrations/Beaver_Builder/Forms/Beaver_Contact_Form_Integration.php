@@ -12,8 +12,12 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
 defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Base {
-
 	public function set_hooks( bool $is_admin_area ): void {
+		// translations aren't available before this hook.
+		add_action( 'init', array( $this, 'extend_contact_form' ) );
+	}
+
+	public function extend_contact_form(): void {
 		$widget = self::get_widget();
 
 		$module_name = 'contact-form';

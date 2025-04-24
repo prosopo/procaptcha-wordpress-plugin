@@ -8,9 +8,9 @@ defined( 'ABSPATH' ) || exit;
 
 use WP_Error;
 
-class WP_Register_Form_Integration_Integration extends WP_Form_Integration_Base {
+class WP_Register_Form_Integration extends WP_Form_Integration_Base {
 	public function verify_submission( WP_Error $errors ): WP_Error {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_verification_token_valid() ) {
 			$widget->get_validation_error( $errors );

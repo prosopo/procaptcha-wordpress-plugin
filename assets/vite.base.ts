@@ -2,6 +2,7 @@ import { UserConfig } from "vite";
 import path from "path";
 import deepmerge from "deepmerge";
 import fs from "fs";
+import checker from "vite-plugin-checker";
 
 class ViteBase {
 	private readonly pluginFileRelativePath =
@@ -13,6 +14,11 @@ class ViteBase {
 		this.defaultConfig = {
 			root: ".",
 			base: "",
+			plugins: [
+				checker({
+					typescript: true,
+				}),
+			],
 			build: {
 				outDir: path.resolve(
 					__dirname,

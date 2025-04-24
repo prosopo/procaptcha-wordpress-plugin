@@ -8,15 +8,15 @@ defined( 'ABSPATH' ) || exit;
 
 use FluentForm\App\Services\FormBuilder\BaseFieldManager;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Integration {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	public function __construct() {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		parent::__construct(
 			$widget->get_field_name(),
@@ -37,7 +37,7 @@ class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Int
 	}
 
 	public function set_field_title(): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$this->title = $widget->get_field_label();
 	}
@@ -62,7 +62,7 @@ class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Int
 				'label'            => $this->title,
 				'validation_rules' => array(
 					'required' => array(
-						'message' => self::get_form_helper()->get_widget()->get_validation_error_message(),
+						'message' => self::get_widget()->get_validation_error_message(),
 						'value'   => true,
 					),
 				),
@@ -87,7 +87,7 @@ class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Int
 	 */
 	public function render( $element, $form ) {
 		echo '<div class="ff-el-group">';
-		self::get_form_helper()->get_widget()->print_form_field(
+		self::get_widget()->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES      => array(
 					'class' => 'ff-el-input--content',
@@ -115,7 +115,7 @@ class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Int
 	public function validate( $error_message, array $field, $form_data, $fields, $form ) {
 		$token = string( $form_data, $this->key );
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! $widget->is_protection_enabled() ||
 		$widget->is_verification_token_valid( $token ) ) {

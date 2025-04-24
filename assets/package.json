@@ -1,11 +1,11 @@
 {
   "type": "module",
   "scripts": {
-    "dev:settings": "vite --config src/settings/vite.config.ts",
-    "dev:integrations": "vite --config src/integrations/vite.config.ts",
-    "build:settings": "vite build --config src/settings/vite.config.ts",
-    "build:integrations": "vite build --config src/integrations/vite.config.ts",
-    "build:all": "yarn build:settings && yarn build:integrations",
+    "integrations:dev": "vite --config src/integrations/vite.config.ts",
+    "integrations:build": "vite build --config src/integrations/vite.config.ts",
+    "settings:dev": "vite --config src/settings/vite.config.ts",
+    "settings:build": "vite build --config src/settings/vite.config.ts",
+    "build": "npm-run-all '*:build'",
     "lint:check": "eslint src",
     "lint:fix": "eslint src --fix",
     "prettier:check": "prettier src --check",
@@ -26,6 +26,7 @@
     "@iconify-json/material-symbols": "^1.2.8",
     "@iconify/tailwind4": "^1.0.6",
     "@tailwindcss/vite": "^4.0.10",
+    "@types/jquery": "^3.5.32",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
@@ -38,6 +39,7 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.49",
     "prettier": "^3.4.1",
     "rollup-plugin-visualizer": "^5.14.0",
@@ -45,6 +47,7 @@
     "tailwindcss": "^4.0.10",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.16.0",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "vite-plugin-checker": "^0.9.1"
   }
 }

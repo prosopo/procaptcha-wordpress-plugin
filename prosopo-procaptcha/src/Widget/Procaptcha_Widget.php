@@ -23,7 +23,6 @@ class Procaptcha_Widget implements Widget {
 
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Widget_Assets_Loader $widget_assets_manager;
-	private Query_Arguments $query_arguments;
 	private ModelRendererInterface $renderer;
 	/**
 	 * @var array<string,bool> token => result
@@ -35,12 +34,10 @@ class Procaptcha_Widget implements Widget {
 	public function __construct(
 		Procaptcha_Settings_Storage $settings_storage,
 		Widget_Assets_Loader $widget_assets_manager,
-		Query_Arguments $query_arguments,
 		ModelRendererInterface $renderer
 	) {
 		$this->settings_storage           = $settings_storage;
 		$this->widget_assets_manager      = $widget_assets_manager;
-		$this->query_arguments            = $query_arguments;
 		$this->renderer                   = $renderer;
 		$this->token_verification_results = array();
 	}
@@ -86,7 +83,7 @@ class Procaptcha_Widget implements Widget {
 	 */
 	public function is_verification_token_valid( ?string $token = null ): bool {
 		$token = null === $token ?
-			$this->query_arguments->get_string_for_non_action( self::FORM_FIELD_NAME, Query_Arguments::POST ) :
+			Query_Arguments::get_non_action_string( self::FORM_FIELD_NAME, Query_Arguments::POST ) :
 			$token;
 
 		// bail early if the token is empty.

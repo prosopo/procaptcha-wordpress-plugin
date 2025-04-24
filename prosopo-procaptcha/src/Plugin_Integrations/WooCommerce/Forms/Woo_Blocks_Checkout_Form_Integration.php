@@ -22,7 +22,7 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 	public function construct(): void {
 		parent::construct();
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$this->field_id       = sprintf(
 			'%s/%s',
@@ -38,7 +38,7 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 			woocommerce_register_additional_checkout_field(
 				array(
 					'id'                         => $this->field_id,
-					'label'                      => self::get_form_helper()->get_widget()->get_field_name(),
+					'label'                      => self::get_widget()->get_field_name(),
 					'location'                   => $this->field_location,
 					'required'                   => true,
 					'show_in_order_confirmation' => false,
@@ -59,7 +59,7 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 			return;
 		}
 
-		$widget                   = self::get_form_helper()->get_widget();
+		$widget                   = self::get_widget();
 		$validation_error_message = $widget->get_validation_error_message();
 
 		throw new Exception( esc_html( $validation_error_message ) );
@@ -94,7 +94,7 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 
 	protected function get_field_markup(): string {
 		// always print, since it's handled via Rest API without the Auth cookie, so we can't get the user id.
-		$form_field = self::get_form_helper()->get_widget()->print_form_field(
+		$form_field = self::get_widget()->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin:-30px 0 30px',
@@ -110,7 +110,7 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 	}
 
 	protected function load_integration_assets(): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$widget->load_plugin_integration_script( 'woocommerce/woocommerce-blocks-checkout-integration.min.js' );
 
@@ -145,7 +145,7 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 	protected function is_verified_order_submission( WC_Order $order ): bool {
 		$token = $this->get_order_submission_token( $order );
 
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		// Without checking ->is_present() because this Woo Rest API doesn't pass the Auth cookie.
 		return $widget->is_verification_token_valid( $token );

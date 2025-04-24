@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integration\Form;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 
 interface Form_Integration {
-	public static function set_form_helper( Form_Integration_Helper $form_helper ): void;
+	public static function set_widget( Widget $widget ): void;
 
-	public static function get_form_helper(): Form_Integration_Helper;
+	public static function get_widget(): Widget;
 }

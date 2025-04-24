@@ -7,14 +7,14 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WPForms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WPForms\Integrations\Stripe\Api\PaymentIntents;
 use WPForms_Field;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class WPForms_Form_Integration extends WPForms_Field implements Form_Integration {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	/**
 	 * Form submission with Stripe, unlike a plain submission, consists of 2 separate requests.
@@ -27,9 +27,9 @@ class WPForms_Form_Integration extends WPForms_Field implements Form_Integration
 	 * @return void
 	 */
 	public function init() {
-		$this->name     = self::get_form_helper()->get_widget()->get_field_label();
+		$this->name     = self::get_widget()->get_field_label();
 		$this->keywords = 'captcha, procaptcha';
-		$this->type     = self::get_form_helper()->get_widget()->get_field_name();
+		$this->type     = self::get_widget()->get_field_name();
 		$this->icon     = 'fa-check-square-o';
 		$this->order    = 180;
 
@@ -68,7 +68,7 @@ class WPForms_Form_Integration extends WPForms_Field implements Form_Integration
 	 */
 	// @phpstan-ignore-next-line
 	public function field_preview( $field ) {
-		$field['label'] = self::get_form_helper()->get_widget()->get_field_label();
+		$field['label'] = self::get_widget()->get_field_label();
 
 		$this->field_preview_option( 'label', $field );
 	}
@@ -83,7 +83,7 @@ class WPForms_Form_Integration extends WPForms_Field implements Form_Integration
 		$id   = string( $field, 'properties.inputs.primary.id' );
 		$name = string( $field, 'properties.inputs.primary.attr.name' );
 
-		self::get_form_helper()->get_widget()->print_form_field(
+		self::get_widget()->print_form_field(
 			array(
 				Widget_Settings::HIDDEN_INPUT_ATTRIBUTES => array(
 					'class' => 'wpforms-field-required',
@@ -108,7 +108,7 @@ class WPForms_Form_Integration extends WPForms_Field implements Form_Integration
 		$token  = is_string( $field_submit ) ?
 			$field_submit :
 			'';
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		// for 'is_payment_submition' explanation see the field's description.
 		if ( ! $widget->is_protection_enabled() ||

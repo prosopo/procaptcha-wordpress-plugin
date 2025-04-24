@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Ninja_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use NF_Abstracts_Input;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
@@ -15,15 +15,15 @@ use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // todo: find a way to make the field required by default.
 class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements Form_Integration {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	public function __construct() {
 		parent::__construct();
 
-		$field_name = self::get_form_helper()->get_widget()->get_field_name();
+		$field_name = self::get_widget()->get_field_name();
 
 		$this->_name      = $field_name;
-		$this->_nicename  = self::get_form_helper()->get_widget()->get_field_label();
+		$this->_nicename  = self::get_widget()->get_field_label();
 		$this->_type      = $field_name;
 		$this->_templates = array( $field_name );
 		$this->_section   = 'misc';
@@ -38,7 +38,7 @@ class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements Form_In
 	 * @return array<int|string,mixed>
 	 */
 	public function render_field( array $field ): array {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$element = $widget->print_form_field(
 			array(
@@ -75,7 +75,7 @@ class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements Form_In
 	 * @return mixed[] $errors
 	 */
 	public function validate( $field, $data ) {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( ! is_array( $field ) ||
 		! is_array( $data ) ||

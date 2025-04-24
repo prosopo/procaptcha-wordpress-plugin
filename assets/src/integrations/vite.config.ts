@@ -1,35 +1,29 @@
 import type { UserConfig } from "vite";
 import path from "path";
 import { makeViteConfig } from "../../vite.base.js";
+import integrations from "./integrations.json" assert { type: "json" };
 
-const pathToProcaptchaIntegration = path.resolve(
-	__dirname,
-	"./procaptcha-integration.ts",
+const integrationFiles = Object.fromEntries(
+	integrations.map((integration) => [
+		`${integration}`,
+		path.resolve(__dirname, `./${integration}.ts`),
+	]),
 );
 
-const widgetConfig: UserConfig = {
+const viteSettings: UserConfig = {
 	build: {
 		rollupOptions: {
-			input: {
-				"procaptcha-integration": pathToProcaptchaIntegration,
-				"plugins/ninja-forms/ninja-forms-integration": path.resolve(
-					__dirname,
-					"./plugins/ninja-forms/ninja-forms-integration.ts",
-				),
-				"plugins/woocommerce/woocommerce-blocks-checkout-integration":
-					path.resolve(
-						__dirname,
-						"./plugins/woocommerce/woocommerce-blocks-checkout-integration.ts",
-					),
-			},
+			input: integrationFiles,
 			output: {
 				manualChunks: {
 					// make sure the integration bundle is single to avoid any extra http requests.
-					"procaptcha-integration": [pathToProcaptchaIntegration],
+					"procaptcha/procaptcha-integration": [
+						integrationFiles["procaptcha/procaptcha-integration"],
+					],
 				},
 			},
 		},
 	},
 };
 
-export default makeViteConfig("integrations", widgetConfig);
+export default makeViteConfig("integrations", viteSettings);

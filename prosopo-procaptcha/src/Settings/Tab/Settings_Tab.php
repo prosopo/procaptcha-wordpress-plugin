@@ -6,7 +6,6 @@ namespace Io\Prosopo\Procaptcha\Settings\Tab;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
@@ -19,7 +18,7 @@ interface Settings_Tab {
 	 */
 	public function get_settings(): array;
 
-	public function process_form( Query_Arguments $query_arguments ): void;
+	public function process_form(): void;
 
 	public function get_tab_name(): string;
 

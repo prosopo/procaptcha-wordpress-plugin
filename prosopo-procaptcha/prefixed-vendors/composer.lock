@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cb195447d1e6c7dbf93085cc4abb0b2",
+    "content-hash": "73b707313e4b736598af3c4dee96f2fd",
     "packages": [
         {
             "name": "prosopo/views",
@@ -57,16 +57,16 @@
         },
         {
             "name": "wplake/typed",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WPLake/PHP-Typed.git",
-                "reference": "c0477d58d4530dba4471a5e64c5523018b2d01d8"
+                "reference": "751701bd49b8a343075a7da19ddb4d9ce9796a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WPLake/PHP-Typed/zipball/c0477d58d4530dba4471a5e64c5523018b2d01d8",
-                "reference": "c0477d58d4530dba4471a5e64c5523018b2d01d8",
+                "url": "https://api.github.com/repos/WPLake/PHP-Typed/zipball/751701bd49b8a343075a7da19ddb4d9ce9796a23",
+                "reference": "751701bd49b8a343075a7da19ddb4d9ce9796a23",
                 "shasum": ""
             },
             "require": {
@@ -106,9 +106,9 @@
             ],
             "support": {
                 "issues": "https://github.com/WPLake/PHP-Typed/issues",
-                "source": "https://github.com/WPLake/PHP-Typed/tree/1.1.1"
+                "source": "https://github.com/WPLake/PHP-Typed/tree/1.2.0"
             },
-            "time": "2024-12-20T22:14:10+00:00"
+            "time": "2025-04-17T13:50:35+00:00"
         }
     ],
     "packages-dev": [],

@@ -13,7 +13,7 @@ abstract class SM_Form_Integration_Base extends Hookable_Form_Integration_Base {
 	protected bool $is_without_client_validation = false;
 
 	public function print_captcha_widget( string $before_submit_area ): string {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		if ( $widget->is_protection_enabled() ) {
 			$before_submit_area .= $widget->print_form_field(
@@ -35,7 +35,7 @@ abstract class SM_Form_Integration_Base extends Hookable_Form_Integration_Base {
 	 * @return mixed
 	 */
 	public function verify_submission( $response ) {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$should_abort_request = $widget->is_protection_enabled() &&
 			! $widget->is_verification_token_valid();

@@ -3,11 +3,11 @@ import type { WebComponent } from "#webComponent/webComponent.js";
 import type { WebComponentSettings } from "#webComponent/webComponentSettings.js";
 
 interface Integration {
-	getIntegrationName(): string;
+	name: string;
 
-	createIntegrationComponent(componentLogger: Logger): WebComponent;
+	createWebComponent(componentLogger: Logger): WebComponent;
 
-	getIntegrationWebComponentSettings(): WebComponentSettings;
+	getWebComponentSettings(): WebComponentSettings;
 }
 
 export { Integration };

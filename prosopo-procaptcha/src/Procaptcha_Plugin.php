@@ -25,7 +25,6 @@ use Io\Prosopo\Procaptcha\Plugin_Integrations\{BBPress\BBPress_Integration,
 	WooCommerce\WooCommerce_Integration,
 	WordPress\WordPress_Integration,
 	WPForms\WPForms_Integration};
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Procaptcha_Form_Integration_Helper;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrator;
@@ -49,7 +48,6 @@ final class Procaptcha_Plugin implements Hookable {
 	private string $plugin_file;
 	private Widget $widget;
 	private Widget_Assets_Loader $widget_assets_manager;
-	private Query_Arguments $query_arguments;
 	private Procaptcha_Settings_Storage $settings_storage;
 	private Settings_Page $settings_page;
 	private Plugin_Integrations $plugin_integrations;
@@ -89,19 +87,15 @@ final class Procaptcha_Plugin implements Hookable {
 			$this->settings_storage->get( General_Settings_Tab::class )
 		);
 
-		$this->query_arguments = new Query_Arguments();
-
 		$this->widget        = new Procaptcha_Widget(
 			$this->settings_storage,
 			$this->widget_assets_manager,
-			$this->query_arguments,
 			$views_manager
 		);
 		$this->settings_page = new Settings_Page(
 			$this,
 			$this->settings_storage,
 			$this->widget,
-			$this->query_arguments,
 			$views_manager,
 			$views_manager,
 			$this->plugin_assets->get_resolver(),
@@ -111,7 +105,7 @@ final class Procaptcha_Plugin implements Hookable {
 		$this->plugin_integrations = new Plugin_Integrations(
 			new Plugin_Integrator(),
 			$this->settings_storage,
-			new Procaptcha_Form_Integration_Helper( $this->widget, $this->query_arguments ),
+			$this->widget,
 			$this->settings_page,
 			is_admin()
 		);
@@ -199,7 +193,7 @@ final class Procaptcha_Plugin implements Hookable {
 	 * @return Plugin_Integration[]
 	 */
 	protected function make_plugin_integrations(): array {
-		return $this->plugin_integrations->make_plugin_integrations( $this->get_integration_classes(), $this->widget );
+		return $this->plugin_integrations->make_plugin_integrations( $this->get_integration_classes() );
 	}
 
 	/**

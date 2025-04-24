@@ -2,6 +2,7 @@
   "plugins": [
     "elementor",
     "elementor-pro",
-    "ultimate-addons-for-gutenberg"
+    "ultimate-addons-for-gutenberg",
+    "bb-plugin"
   ]
 }

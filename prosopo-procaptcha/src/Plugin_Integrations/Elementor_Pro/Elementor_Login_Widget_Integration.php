@@ -9,12 +9,12 @@ defined( 'ABSPATH' ) || exit;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Helper\Form_Integration_Helper_Container;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base {
-	use Form_Integration_Helper_Container;
+	use Widget_Container;
 
 	private string $widget_name = 'login';
 
@@ -29,7 +29,7 @@ class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base 
 	}
 
 	public function register_widget_setting( Controls_Stack $element ): void {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$element->add_control(
 			$widget->get_field_name(),
@@ -55,14 +55,14 @@ class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base 
 	}
 
 	protected function is_active_widget( Widget_Base $widget_base ): bool {
-		$widget     = self::get_form_helper()->get_widget();
+		$widget     = self::get_widget();
 		$field_name = $widget->get_field_name();
 
 		return 'yes' === $widget_base->get_settings( $field_name );
 	}
 
 	protected function inject_captcha_into_form( string $content ): string {
-		$widget = self::get_form_helper()->get_widget();
+		$widget = self::get_widget();
 
 		$widget_field = $widget->print_form_field(
 			array(

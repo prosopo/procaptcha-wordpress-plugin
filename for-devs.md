@@ -59,7 +59,7 @@ Please open your Pull Requests against the `main` branch.
 The plugin assets setup uses [Vite](https://vite.dev/) and supports
 its [Hot Module Replacement](https://vite.dev/guide/features.html#hot-module-replacement) feature. To use HMR:
 
-1. Start Vite dev server: `cd assets; yarn dev:[settings/integrations]`
+1. Start Vite dev server: `cd assets; yarn [settings/integrations]:dev`
 2. Update your local `wp-config.php` to add the dev mode constant: `define("PROSOPO_PROCAPTCHA_DEV_MODE", true);`
 
 The dev mode constant tells the plugin to use the Vite dev server (`http://localhost:5173`) as the assets source,
@@ -83,8 +83,8 @@ JavaScript-related:
 
 `cd assets` and:
 
-1. `yarn build:[all/settings/integrations]` - runs Vite building
-2. `yarn dev:[settings/integrations]` - starts Vite dev server
+1. `yarn [settings/integrations]:build` - runs Vite building
+2. `yarn [settings/integrations]:dev` - starts Vite dev server
 3. `yarn lint:[check/fix]` - runs ESLint static code analyses
 4. `yarn prettier:[check/fix]` - runs Prettier formatter
 

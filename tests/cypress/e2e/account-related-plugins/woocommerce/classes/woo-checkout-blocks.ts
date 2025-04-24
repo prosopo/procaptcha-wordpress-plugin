@@ -1,5 +1,5 @@
 import WooCheckoutClassic from "./woo-checkout-classic";
-import { Settings as SubmitFormSettings } from "@support/commands/submit-form";
+import { FormSubmitionSettings } from "@support/commands/submitForm";
 
 class WooCheckoutBlocks extends WooCheckoutClassic {
 	// Less, cause the form doesn't support auth.
@@ -73,7 +73,7 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 	}
 
 	// On the checkout page, the usual 'input.value=x' approach doesn't work.
-	protected submitForm(settings: SubmitFormSettings): void {
+	protected submitForm(settings: FormSubmitionSettings): void {
 		let captchaValue = settings.captchaValue || "";
 
 		/**

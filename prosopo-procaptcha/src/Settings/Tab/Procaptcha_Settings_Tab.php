@@ -37,8 +37,8 @@ abstract class Procaptcha_Settings_Tab implements Settings_Tab {
 
 	abstract public function get_tab_title(): string;
 
-	public function process_form( Query_Arguments $query_arguments ): void {
-		$this->validate_settings( $query_arguments );
+	public function process_form(): void {
+		$this->validate_settings();
 		$this->update_settings();
 	}
 
@@ -190,9 +190,9 @@ abstract class Procaptcha_Settings_Tab implements Settings_Tab {
 		return '';
 	}
 
-	protected function validate_settings( Query_Arguments $query_arguments ): void {
+	protected function validate_settings(): void {
 		foreach ( array_keys( $this->get_bool_settings() ) as $bool_setting_name ) {
-			$bool_setting_value = $query_arguments->get_bool_for_admin_action(
+			$bool_setting_value = Query_Arguments::get_admin_action_bool(
 				$bool_setting_name,
 				Settings_Page::FORM_NONCE,
 				Query_Arguments::POST
@@ -204,7 +204,7 @@ abstract class Procaptcha_Settings_Tab implements Settings_Tab {
 		$select_inputs = $this->get_select_inputs();
 
 		foreach ( array_keys( $this->get_string_settings() ) as $string_setting_name ) {
-			$string_setting_value = $query_arguments->get_string_for_admin_action(
+			$string_setting_value = Query_Arguments::get_admin_action_string(
 				$string_setting_name,
 				Settings_Page::FORM_NONCE,
 				Query_Arguments::POST

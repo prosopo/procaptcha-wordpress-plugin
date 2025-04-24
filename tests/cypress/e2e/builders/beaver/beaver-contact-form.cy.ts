@@ -1,42 +1,20 @@
 import type {
 	ExpectedResult,
 	FormSubmitionSettings,
-} from "@support/commands/submit-form";
+} from "@support/commands/submitForm";
 import { CaptchaValue, Message } from "@support/form-test";
+import { activatePluginsForTestLifetime } from "@support/pluginsManagement";
 
-(() => {
-	const pluginSlugsToActivate: string[] = ["bb-plugin"];
-	let pluginSlugsToDeactivate: string[] = [];
-
-	before(() => {
-		cy.togglePlugins(true, pluginSlugsToActivate).then(
-			(disabledPluginSlugs) => {
-				pluginSlugsToDeactivate = disabledPluginSlugs;
-			},
-		);
-	});
-
-	after(() => {
-		if (pluginSlugsToDeactivate) {
-			cy.togglePlugins(false, pluginSlugsToDeactivate);
-		}
-	});
-})();
-
-const submitForm = (options: Partial<FormSubmitionSettings>) => {
-	const defaults: Partial<FormSubmitionSettings> = {
+const submitForm = (settings: FormSubmitionSettings) =>
+	cy.submitForm({
 		fieldValues: {
 			"fl-name": "John Doe",
 			"fl-email": "test@gmail.com",
 			"fl-message": "Hey",
 		},
 		submitButtonSelector: "a.fl-button",
-	};
-
-	const settings = { ...defaults, ...options };
-
-	cy.submitForm(settings);
-};
+		...settings,
+	});
 
 const submissionResult = {
 	successful: {
@@ -52,6 +30,8 @@ const submissionResult = {
 		},
 	} as ExpectedResult,
 };
+
+activatePluginsForTestLifetime(["bb-plugin"]);
 
 describe("Default contact form", () => {
 	const page = "/beaver-contact-form/";

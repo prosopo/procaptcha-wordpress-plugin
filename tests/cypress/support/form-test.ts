@@ -1,5 +1,5 @@
 import { IntegrationTest } from "./integration-test";
-import { FormSubmitionSettings } from "@support/commands/submit-form";
+import { FormSubmitionSettings } from "@support/commands/submitForm";
 import AUTWindow = Cypress.AUTWindow;
 
 interface Selectors {

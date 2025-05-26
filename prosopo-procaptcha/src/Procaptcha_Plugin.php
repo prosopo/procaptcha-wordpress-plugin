@@ -17,6 +17,7 @@ use Io\Prosopo\Procaptcha\Plugin_Integrations\{BBPress\BBPress_Integration,
 	Formidable_Forms\Formidable_Forms_Integration,
 	Gravity_Forms\Gravity_Forms_Integration,
 	JetPack\JetPack_Integration,
+	Memberpress\Memberpress_Integration,
 	Ninja_Forms\Ninja_Forms_Integration,
 	Simple_Membership\Simple_Membership_Integration,
 	Spectra\Spectra_Integration,
@@ -186,6 +187,7 @@ final class Procaptcha_Plugin implements Hookable {
 			WordPress_Integration::class,
 			Simple_Membership_Integration::class,
 			Beaver_Builder_Integration::class,
+			Memberpress_Integration::class,
 		);
 	}
 

@@ -32,6 +32,10 @@ abstract class Procaptcha_Plugin_Integration implements Plugin_Integration {
 	public function include_form_integrations(): void {
 	}
 
+	public function get_target_plugin_constants(): array {
+		return array();
+	}
+
 	public function get_active_form_integrations( Settings_Storage $settings_storage ): array {
 		return array_merge(
 			$this->get_form_integrations(),

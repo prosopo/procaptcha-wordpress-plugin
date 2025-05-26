@@ -99,7 +99,7 @@ class Plugin_Integrations {
 	 */
 	protected function initialize_integrations_with_priority( array $plugin_integrations, int $hook_priority ): void {
 		$item_init = function ( Plugin_Integration $plugin_integration ) {
-			if ( ! $this->plugin_integrator->integration_active( $plugin_integration ) ) {
+			if ( ! $this->plugin_integrator->is_integration_active( $plugin_integration ) ) {
 				return;
 			}
 

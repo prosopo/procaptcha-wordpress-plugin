@@ -22,6 +22,14 @@ interface Plugin_Integration {
 	 */
 	public function get_target_plugin_classes(): array;
 
+	/**
+	 * Constant-based plugin active state check alternative.
+	 * Some plugins, like Memberpress, don't have a master class.
+	 *
+	 * @return string[]
+	 */
+	public function get_target_plugin_constants(): array;
+
 	public function requires_late_hooking(): bool;
 
 	/**

@@ -8,10 +8,13 @@ interface FormSubmitionSettings {
 }
 
 interface ExpectedResult {
-	element?: {
-		selector: string;
-		label: string;
-	};
+	element?: ExpectedElement;
+}
+
+interface ExpectedElement {
+	selector: string;
+	label?: string;
+	shouldBeMissing?: boolean;
 }
 
 const submitForm = (options: FormSubmitionSettings): void => {
@@ -129,9 +132,24 @@ const populateFieldValues = (settings: FormSubmitionSettings): void => {
 
 const checkExpectedResult = (expectedResult: ExpectedResult): void => {
 	if (expectedResult.element) {
-		cy.get(expectedResult.element.selector)
-			.should("be.visible")
-			.should("include.text", expectedResult.element.label);
+		checkExpectedElement(expectedResult.element);
+	}
+};
+
+const checkExpectedElement = (expectedElement: ExpectedElement): void => {
+	const shouldBeMissing = expectedElement.shouldBeMissing || false;
+
+	if (shouldBeMissing) {
+		cy.get(expectedElement.selector).should("not.exist");
+	} else {
+		cy.get(expectedElement.selector).should("be.visible");
+	}
+
+	if (expectedElement.label) {
+		cy.get(expectedElement.selector).should(
+			"include.text",
+			expectedElement.label,
+		);
 	}
 };
 

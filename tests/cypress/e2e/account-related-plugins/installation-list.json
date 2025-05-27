@@ -4,6 +4,7 @@
     "bbpress",
     "simple-membership",
     "user-registration",
-    "woocommerce"
+    "woocommerce",
+    "memberpress"
   ]
 }

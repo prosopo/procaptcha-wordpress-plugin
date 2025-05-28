@@ -1,6 +1,6 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Plugin_Integration;
 
@@ -10,13 +10,46 @@ use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
-class Plugin_Integrator {
-	public function integration_active( Plugin_Integration $plugin_integration ): bool {
-		$plugin_classes = $plugin_integration->get_target_plugin_classes();
+final class Plugin_Integrator {
+
+	/**
+	 * @param string[] $classes
+	 */
+	protected static function is_any_class_loaded( array $classes ): bool {
+		foreach ( $classes as $class ) {
+			if ( class_exists( $class, false ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string[] $constants
+	 */
+	protected static function is_any_constant_loaded( array $constants ): bool {
+		foreach ( $constants as $constant ) {
+			if ( defined( $constant ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function is_integration_active( Plugin_Integration $plugin_integration ): bool {
+		$plugin_classes   = $plugin_integration->get_target_plugin_classes();
+		$plugin_constants = $plugin_integration->get_target_plugin_constants();
+
+		if ( count( $plugin_classes ) > 0 ||
+		count( $plugin_constants ) > 0 ) {
+			return self::is_any_class_loaded( $plugin_classes ) ||
+				self::is_any_constant_loaded( $plugin_constants );
+		}
 
 		// No target classes means core WP integration.
-		return array() === $plugin_classes ||
-			$this->is_one_of_classes_is_loaded( $plugin_classes );
+		return true;
 	}
 
 	/**
@@ -51,8 +84,8 @@ class Plugin_Integrator {
 			function ( string $form_integration ) {
 				$class_implements = class_implements( $form_integration );
 				$class_implements = is_array( $class_implements ) ?
-				$class_implements :
-				array();
+					$class_implements :
+					array();
 
 				return in_array( Hookable_Form_Integration::class, $class_implements, true );
 			}
@@ -78,20 +111,5 @@ class Plugin_Integrator {
 			},
 			$hookable_form_instances
 		);
-	}
-
-	/**
-	 * @param string[] $classes
-	 */
-	protected function is_one_of_classes_is_loaded( array $classes ): bool {
-		foreach ( $classes as $class ) {
-			if ( ! class_exists( $class, false ) ) {
-				continue;
-			}
-
-			return true;
-		}
-
-		return false;
 	}
 }

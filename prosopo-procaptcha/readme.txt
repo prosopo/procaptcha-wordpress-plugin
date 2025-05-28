@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.18.0
+Stable tag: 1.19.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,7 @@ Branding:
 Account-related:
 1. [Simple Membership](https://wordpress.org/plugins/simple-membership/)
 2. [User Registration](https://wordpress.org/plugins/user-registration/)
+3. [Memberpress](https://memberpress.com/) - Login, Reset password: via Procaptcha plugin settings -> Account forms. Membership register - via on-membership settings
 
 While only the items above are tested, overall, the Procaptcha plugin supports all the plugins with custom account forms that use the native WordPress account hooks.
 
@@ -133,6 +134,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.19.0 (2025-05-28) =
+- [Memberpress](https://memberpress.com/) forms integration
 
 = 1.18.0 (2025-04-24) =
 - Feature: Beaver builder integration

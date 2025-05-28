@@ -4,7 +4,7 @@ class LostPasswordForm extends WPLostPasswordForm {
 	protected defineSettings() {
 		super.defineSettings();
 
-		this.url = "/lostpassword";
+		this.url = "/theme-lostpassword";
 		this.selectors.formWithCaptcha = ".tml-lostpassword";
 		this.selectors.formWithoutCaptcha = ".tml-lostpassword";
 		this.selectors.errorMessage = ".tml-errors";

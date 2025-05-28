@@ -15,7 +15,7 @@ class FormidableForms extends FormTest {
 			captchaInput: FormSelector.CUSTOM_CAPTCHA_INPUT,
 		};
 		this.submitValues = {
-			"input[type=text][name*=item_meta]": "John Doe",
+			"input[type=text][name*=item_meta]:not(.frm_verify)": "John Doe",
 		};
 		this.messages = {
 			success: "Your responses were successfully submitted. Thank you!\n",

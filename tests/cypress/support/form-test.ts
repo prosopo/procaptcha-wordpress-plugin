@@ -37,6 +37,11 @@ export enum CaptchaValue {
 	RIGHT = "bypass",
 }
 
+export enum FieldError {
+	SELECTOR = ".prosopo-procaptcha-wp-form__error",
+	LABEL = "Please verify that you are human.",
+}
+
 abstract class FormTest {
 	private submitCounter: number;
 
@@ -80,9 +85,7 @@ abstract class FormTest {
 		errorFieldMessageSelector: string,
 	): void {
 		cy.get(formSelector).then(($form) => {
-			let $builtInError = $form.find(
-				".prosopo-procaptcha-wp-form__error",
-			);
+			let $builtInError = $form.find(FieldError.SELECTOR);
 
 			if (
 				true === $builtInError.is(":visible") &&

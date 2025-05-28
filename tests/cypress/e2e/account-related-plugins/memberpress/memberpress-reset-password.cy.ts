@@ -5,7 +5,7 @@ import type {
 import { CaptchaValue, FieldError } from "@support/form-test";
 import { activatePluginsForTestLifetime } from "@support/pluginsManagement";
 import { LoginCredentials } from "@wordpress/login-form";
-import { setProcaptchaOption } from "@support/procaptchaOptions";
+import { toggleProcaptchaOption } from "@support/options";
 
 const submitForm = (settings: FormSubmitionSettings) =>
 	cy.submitForm({
@@ -23,11 +23,11 @@ const successfulSubmissionResult = {
 	},
 } as ExpectedResult;
 
+const formSelector = "#mepr_forgot_password_form";
+
 activatePluginsForTestLifetime(["memberpress"]);
 
 describe("reset password form", () => {
-	const formSelector = "#mepr_forgot_password_form";
-
 	beforeEach(() => cy.visit("/login/?action=forgot_password"));
 
 	context("not protected by default", () => {
@@ -43,7 +43,7 @@ describe("reset password form", () => {
 
 	context("protected when enabled", () => {
 		const toggleProtection = (isEnabled: boolean) =>
-			setProcaptchaOption(
+			toggleProcaptchaOption(
 				"account-forms",
 				"is_on_wp_lost_password_form",
 				isEnabled,

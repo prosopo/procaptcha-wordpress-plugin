@@ -1,6 +1,7 @@
 interface FormSubmitionSettings {
 	captchaValue?: string;
 	fieldValues?: object;
+	valuePrefix?: string;
 	formSelector?: string;
 	captchaInputSelector?: string;
 	submitButtonSelector?: string;
@@ -104,6 +105,8 @@ const setCaptchaValue = (
 };
 
 const populateFieldValues = (settings: FormSubmitionSettings): void => {
+	const valuePrefix = settings.valuePrefix || "";
+
 	for (let fieldName in settings.fieldValues) {
 		let isFieldSelector =
 			-1 !== fieldName.indexOf(".") ||
@@ -125,8 +128,9 @@ const populateFieldValues = (settings: FormSubmitionSettings): void => {
 					fieldName +
 					'"]'
 				: settings.formSelector + " " + fieldName;
+		const inputValue = valuePrefix + settings.fieldValues[fieldName];
 
-		cy.safeType(selector, settings.fieldValues[fieldName]);
+		cy.safeType(selector, inputValue);
 	}
 };
 

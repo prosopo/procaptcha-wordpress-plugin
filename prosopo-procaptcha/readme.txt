@@ -135,8 +135,8 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 
 == Changelog ==
 
-= 1.19.0 (2025-05-27) =
-- [Memberpress](https://memberpress.com/) support
+= 1.19.0 (2025-05-28) =
+- [Memberpress](https://memberpress.com/) forms integration
 
 = 1.18.0 (2025-04-24) =
 - Feature: Beaver builder integration

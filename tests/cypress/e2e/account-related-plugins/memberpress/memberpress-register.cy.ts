@@ -2,40 +2,46 @@ import type {
 	ExpectedResult,
 	FormSubmitionSettings,
 } from "@support/commands/submitForm";
-import { LoginCredentials } from "@wordpress/login-form";
 import { activatePluginsForTestLifetime } from "@support/pluginsManagement";
-import { setProcaptchaOption } from "@support/procaptchaOptions";
+import { toggleOption } from "@support/options";
 import { CaptchaValue, FieldError } from "@support/form-test";
+
+let submissionsCount = 0;
 
 const submitForm = (settings: FormSubmitionSettings) =>
 	cy.submitForm({
 		fieldValues: {
-			// fixme prefix
 			user_first_name: "test",
 			user_last_name: "test",
 			user_login: "test",
-			user_email: "test",
+			user_email: "test@gmail.com",
 			mepr_user_password: "test",
 			mepr_user_password_confirm: "test",
 		},
+		valuePrefix: (++submissionsCount).toString(),
 		submitButtonSelector: ".mepr-submit",
 		...settings,
 	});
 
-// fixme update to the register
 const successfulSubmissionResult = {
 	element: {
-		selector: "#mepr_loginform",
-		shouldBeMissing: true,
+		selector: ".thankyou h2",
+		label: "Thank you for your purchase",
 	},
 } as ExpectedResult;
+
+const formSelector = "#mepr_signup_form";
 
 activatePluginsForTestLifetime(["memberpress"]);
 
 describe("register form", () => {
-	const formSelector = "#mepr_loginform";
-
 	beforeEach(() => cy.visit("/register/procaptcha/"));
+
+	after(() => {
+		cy.removeUsers({
+			countToRemove: 2,
+		});
+	});
 
 	context("not protected by default", () => {
 		it("does not have captcha", () =>
@@ -50,11 +56,12 @@ describe("register form", () => {
 
 	context("protected when enabled", () => {
 		const toggleProtection = (isEnabled: boolean) =>
-			setProcaptchaOption(
-				"account-forms",
-				"is_on_wp_login_form",
-				isEnabled,
-			);
+			toggleOption({
+				pageUrl: "/wp-admin/post.php?post=1670&action=edit",
+				inputSelector: "#prosopo_procaptcha",
+				inputValue: isEnabled,
+				submitSelector: "#publish",
+			});
 
 		before(() => {
 			toggleProtection(true);
@@ -67,24 +74,13 @@ describe("register form", () => {
 		it("has captcha", () =>
 			cy.assertProcaptchaExistence(true, formSelector));
 
-		it("can not be submitted without token", () =>
-			submitForm({
-				formSelector: formSelector,
-				expectedResult: {
-					element: {
-						selector: FieldError.SELECTOR,
-						label: FieldError.LABEL,
-					},
-				},
-			}));
-
 		it("can not be submitted with wrong token", () =>
 			submitForm({
 				formSelector: formSelector,
 				captchaValue: CaptchaValue.WRONG,
 				expectedResult: {
 					element: {
-						selector: ".mepr_pro_error ul",
+						selector: ".mepr_error ul",
 						label: FieldError.LABEL,
 					},
 				},

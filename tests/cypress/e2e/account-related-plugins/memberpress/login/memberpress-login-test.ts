@@ -4,7 +4,7 @@ import type {
 } from "@support/commands/submitForm";
 import { LoginCredentials } from "@wordpress/login-form";
 import { activatePluginsForTestLifetime } from "@support/pluginsManagement";
-import { setProcaptchaOption } from "@support/procaptchaOptions";
+import { toggleProcaptchaOption } from "@support/options";
 import { CaptchaValue, FieldError } from "@support/form-test";
 
 const submitForm = (settings: FormSubmitionSettings) =>
@@ -24,11 +24,11 @@ const successfulSubmissionResult = {
 	},
 } as ExpectedResult;
 
+const formSelector = "#mepr_loginform";
+
 activatePluginsForTestLifetime(["memberpress"]);
 
 describe("login form", () => {
-	const formSelector = "#mepr_loginform";
-
 	// beforeEach(() => cy.visit(pageUrl)); it's present in the end test file.
 
 	context("not protected by default", () => {
@@ -44,7 +44,7 @@ describe("login form", () => {
 
 	context("protected when enabled", () => {
 		const toggleProtection = (isEnabled: boolean) =>
-			setProcaptchaOption(
+			toggleProcaptchaOption(
 				"account-forms",
 				"is_on_wp_login_form",
 				isEnabled,

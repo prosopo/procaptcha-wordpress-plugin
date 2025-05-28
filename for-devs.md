@@ -77,7 +77,7 @@ item with any value to the `localStorage`. It'll enable the debug mode.
 
 Common:
 
-1. `bash tools/check-code-quality.sh` - runs all the code-quality checks, for both PHP and JS
+1. `bash tools/check-code-quality.sh` - runs all the code-quality checks, for both PHP and JavaScript
 
 JavaScript-related:
 

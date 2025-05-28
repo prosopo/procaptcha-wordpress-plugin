@@ -26,7 +26,7 @@ const successfulSubmissionResult = {
 
 const formSelector = "#mepr_loginform";
 
-activatePluginsForTestLifetime(["memberpress"]);
+activatePluginsForTestLifetime(["memberpress-pro"]);
 
 describe("login form", () => {
 	// beforeEach(() => cy.visit(pageUrl)); it's present in the end test file.

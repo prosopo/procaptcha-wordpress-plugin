@@ -25,7 +25,7 @@ const successfulSubmissionResult = {
 
 const formSelector = "#mepr_forgot_password_form";
 
-activatePluginsForTestLifetime(["memberpress"]);
+activatePluginsForTestLifetime(["memberpress-pro"]);
 
 describe("reset password form", () => {
 	beforeEach(() => cy.visit("/login/?action=forgot_password"));

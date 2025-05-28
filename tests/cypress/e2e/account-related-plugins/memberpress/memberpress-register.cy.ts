@@ -32,7 +32,7 @@ const successfulSubmissionResult = {
 
 const formSelector = "#mepr_signup_form";
 
-activatePluginsForTestLifetime(["memberpress"]);
+activatePluginsForTestLifetime(["memberpress-pro"]);
 
 describe("register form", () => {
 	beforeEach(() => cy.visit("/register/procaptcha/"));

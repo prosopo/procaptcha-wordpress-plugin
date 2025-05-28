@@ -4,7 +4,7 @@ class RegisterForm extends WPRegisterForm {
 	protected defineSettings() {
 		super.defineSettings();
 
-		this.url = "/register";
+		this.url = "/theme-register";
 		this.selectors.formWithCaptcha = ".tml-register";
 		this.selectors.formWithoutCaptcha = ".tml-register";
 		this.selectors.errorMessage = ".tml-errors";

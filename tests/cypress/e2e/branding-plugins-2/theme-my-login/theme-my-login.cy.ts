@@ -5,6 +5,6 @@ import { LostPasswordForm } from "./classes/reset-password-form";
 
 new IntegrationTest({
 	targetPluginSlugs: ["theme-my-login"],
-	loginUrl: "/login",
+	loginUrl: "/theme-login",
 	forms: [new LoginForm(), new RegisterForm(), new LostPasswordForm()],
 });

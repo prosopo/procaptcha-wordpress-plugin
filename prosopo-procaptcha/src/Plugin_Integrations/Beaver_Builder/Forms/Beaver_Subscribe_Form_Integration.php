@@ -13,8 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Beaver_Subscribe_Form_Integration extends Hookable_Form_Integration_Base {
 	public function set_hooks( bool $is_admin_area ): void {
-		// translations aren't available before this hook.
-		add_action( 'init', array( $this, 'extend_subscribe_form' ) );
+		$this->extend_subscribe_form();
 	}
 
 	public function extend_subscribe_form(): void {
@@ -26,7 +25,8 @@ final class Beaver_Subscribe_Form_Integration extends Hookable_Form_Integration_
 		Beaver_Modules::add_module_setting(
 			$module_name,
 			array( 'general', 'sections', 'structure', 'fields', $field_name ),
-			array(
+			// callable, as translations are available only after 'init' hook.
+			fn()=>array(
 				'default' => 'disabled',
 				'label'   => __( 'Procaptcha protection', 'prosopo-procaptcha' ),
 				'options' => array(

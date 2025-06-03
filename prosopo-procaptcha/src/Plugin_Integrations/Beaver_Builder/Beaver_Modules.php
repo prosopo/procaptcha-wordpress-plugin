@@ -15,17 +15,17 @@ final class Beaver_Modules {
 
 	/**
 	 * @param string[] $setting_path
-	 * @param array<string,mixed> $setting_options
+	 * @param callable() :array<string,mixed> $get_setting_options callable, as translations are available only after 'init' hook.
 	 */
-	public static function add_module_setting( string $module, array $setting_path, array $setting_options ): void {
+	public static function add_module_setting( string $module, array $setting_path, callable $get_setting_options ): void {
 		add_filter(
 			'fl_builder_register_module_settings_form',
-			function ( array $form, string $slug ) use ( $module, $setting_path, $setting_options ): array {
+			function ( array $form, string $slug ) use ( $module, $setting_path, $get_setting_options ): array {
 				if ( $module === $slug ) {
 					setItem(
 						$form,
 						$setting_path,
-						$setting_options
+						$get_setting_options()
 					);
 				}
 

@@ -25,7 +25,8 @@ final class Beaver_Contact_Form_Integration extends Hookable_Form_Integration_Ba
 		Beaver_Modules::add_module_setting(
 			$module_name,
 			array( 'general', 'sections', 'general', 'fields', $field_name ),
-			array(
+			// callable, as translations are available only after 'init' hook.
+			fn()=>array(
 				'default' => 'disabled',
 				'label'   => __( 'Procaptcha protection', 'prosopo-procaptcha' ),
 				'options' => array(

@@ -25,7 +25,8 @@ final class Beaver_Subscribe_Form_Integration extends Hookable_Form_Integration_
 		Beaver_Modules::add_module_setting(
 			$module_name,
 			array( 'general', 'sections', 'structure', 'fields', $field_name ),
-			array(
+			// callable, as translations are available only after 'init' hook.
+			fn()=>array(
 				'default' => 'disabled',
 				'label'   => __( 'Procaptcha protection', 'prosopo-procaptcha' ),
 				'options' => array(

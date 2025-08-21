@@ -13,7 +13,11 @@ class EverestFormsWithAjax extends EverestForms {
 				'input[name="settings[ajax_form_submission]"][type=checkbox]',
 			);
 
-			true === isActivation ? setting.check() : setting.uncheck();
+			// if the 'settings' tab is not active, then the input is hidden,
+			// so the "force" option is used to avoid the "Element is not visible" error.
+			true === isActivation
+				? setting.check({ force: true })
+				: setting.uncheck({ force: true });
 
 			cy.get(".everest-forms-save-button").click();
 

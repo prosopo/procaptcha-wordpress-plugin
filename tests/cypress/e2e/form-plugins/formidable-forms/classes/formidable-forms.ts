@@ -18,8 +18,8 @@ class FormidableForms extends FormTest {
 			"input[type=text][name*=item_meta]:not(.frm_verify)": "John Doe",
 		};
 		this.messages = {
-			success: "Your responses were successfully submitted. Thank you!\n",
-			fail: "\n\tThere was a problem with your submission. Errors are marked below.",
+			success: "Your responses were successfully submitted. Thank you!",
+			fail: "There was a problem with your submission. Errors are marked below.",
 		};
 	}
 }

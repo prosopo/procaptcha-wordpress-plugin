@@ -79,7 +79,7 @@ into GitHub Actions but can also be run locally.
 
 Launching:
 
-`bash tools/run-tests.sh [all|wordpress|form-plugins] [local]`
+`bash tools/run-tests.sh [all|form-plugins|form-plugins/formidable-forms] [local]`
 
 To open the Cypress app:
 

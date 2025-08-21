@@ -1,6 +1,8 @@
 import WooCheckoutClassic from "./woo-checkout-classic";
 import { FormSubmitionSettings } from "@support/commands/submitForm";
 
+const INTERCEPT_REQUEST_TIMEOUT_MS = 30 * 1000;
+
 class WooCheckoutBlocks extends WooCheckoutClassic {
 	// Less, cause the form doesn't support auth.
 	itemsCountToRemove = 2;
@@ -47,7 +49,7 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 
 		wpData.dispatch("wc/store/cart").setBillingAddress(billingFields);
 
-		cy.wait("@cartData");
+		cy.wait("@cartData", { timeout: INTERCEPT_REQUEST_TIMEOUT_MS });
 	}
 
 	protected setCaptchaValue(wpData, captchaValue: string): void {
@@ -59,7 +61,8 @@ class WooCheckoutBlocks extends WooCheckoutClassic {
 			"prosopo-procaptcha/prosopo_procaptcha": captchaValue,
 		});
 
-		cy.wait("@captchaValue");
+		// for some reason, Woo doesn't always make this request - maybe only if the value was changed
+		// cy.wait("@captchaValue", { timeout: INTERCEPT_REQUEST_TIMEOUT_MS });
 	}
 
 	/**

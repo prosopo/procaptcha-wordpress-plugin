@@ -12,7 +12,17 @@ use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
 class WPForms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
 	public function get_target_plugin_classes(): array {
 		return array(
-			'WPForms\WPForms',
+			/**
+			 * Instead of the main plugin class, we use the main field class.
+			 *
+			 * The reason is that the primary plugin class, 'WPForms\WPForms', itself is always loaded for all requests,
+			 * but since recently contains the 'is_restricted_heartbeat()' method,
+			 * which skips loading of the rest classes for most of the WordPress heartbeat requests.
+			 *
+			 * In this way, usage of the primary class would always create the Integration instances,
+			 * which would try to extend the not-existing 'WPForms_Field' class.
+			 */
+			'WPForms_Field',
 		);
 	}
 

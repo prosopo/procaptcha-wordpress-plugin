@@ -18,8 +18,8 @@ class Jetpack extends FormTest {
 			formWithCaptcha: ".jetpack-form-with-captcha",
 			formWithoutCaptcha: ".jetpack-form-without-captcha",
 			successMessage: "#contact-form-success-header",
-			errorMessage: ".form-error h3",
-			errorFieldMessage: ".form-errors",
+			errorMessage: ".contact-form__error",
+			errorFieldMessage: "",
 			captchaInput: "",
 		};
 		this.submitValues = {
@@ -27,7 +27,8 @@ class Jetpack extends FormTest {
 		};
 		this.messages = {
 			success: "Your message has been sent",
-			fail: "Error!",
+			// as per 14.9.1, Jetpack shows a generic 'internet connection' issue for any form errors...
+			fail: "issue while submitting the form",
 		};
 	}
 

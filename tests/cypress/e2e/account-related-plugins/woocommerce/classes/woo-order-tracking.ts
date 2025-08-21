@@ -16,7 +16,7 @@ class WooOrderTracking extends FormTest {
 			captchaInput: "",
 		};
 		this.submitValues = {
-			orderid: "1602",
+			orderid: "1712",
 			order_email: "test@gmail.com",
 		};
 		this.messages = {

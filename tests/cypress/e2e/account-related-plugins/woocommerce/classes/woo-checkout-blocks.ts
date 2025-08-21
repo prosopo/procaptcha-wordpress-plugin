@@ -1,7 +1,7 @@
 import WooCheckoutClassic from "./woo-checkout-classic";
 import { FormSubmitionSettings } from "@support/commands/submitForm";
 
-const INTERCEPT_REQUEST_TIMEOUT_MS = 60 * 1000;
+const INTERCEPT_REQUEST_TIMEOUT_MS = 30 * 1000;
 
 class WooCheckoutBlocks extends WooCheckoutClassic {
 	// Less, cause the form doesn't support auth.

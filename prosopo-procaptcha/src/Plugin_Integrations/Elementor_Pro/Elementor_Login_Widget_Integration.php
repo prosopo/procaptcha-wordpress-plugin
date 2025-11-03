@@ -18,7 +18,7 @@ class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base 
 
 	private string $widget_name = 'login';
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action(
 			sprintf( 'elementor/element/%s/section_fields_content/before_section_end', $this->widget_name ),
 			array( $this, 'register_widget_setting' )

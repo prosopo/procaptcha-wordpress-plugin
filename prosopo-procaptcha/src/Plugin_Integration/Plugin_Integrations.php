@@ -7,6 +7,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integration;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
@@ -17,20 +18,20 @@ class Plugin_Integrations {
 	private Settings_Storage $settings_storage;
 	private Widget $widget;
 	private Settings_Page $settings_page;
-	private bool $is_admin_area;
+	private Screen_Detector $screen_detector;
 
 	public function __construct(
 		Plugin_Integrator $plugin_integrator,
 		Settings_Storage $settings_storage,
 		Widget $widget,
 		Settings_Page $settings_page,
-		bool $is_admin_area
+		Screen_Detector $screen_detector
 	) {
 		$this->plugin_integrator = $plugin_integrator;
 		$this->settings_storage  = $settings_storage;
 		$this->widget            = $widget;
 		$this->settings_page     = $settings_page;
-		$this->is_admin_area     = $is_admin_area;
+		$this->screen_detector   = $screen_detector;
 	}
 
 	/**
@@ -127,7 +128,7 @@ class Plugin_Integrations {
 		$this->plugin_integrator->set_hooks_for_hookable_form_instances( $hookable_form_integrations, $this->is_admin_area );
 
 		if ( $plugin_integration instanceof Hookable ) {
-			$plugin_integration->set_hooks( $this->is_admin_area );
+			$plugin_integration->set_hooks( $this->screen_detector );
 		}
 
 		$setting_tab_classes = $plugin_integration->get_setting_tab_classes();

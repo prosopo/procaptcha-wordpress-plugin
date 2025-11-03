@@ -7,14 +7,14 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Formidable_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 
-class Formidable_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function get_target_plugin_classes(): array {
+class Formidable_Forms_Integration extends Plugin_Integration_Base implements Hookable {
+	public function get_vendor_classes(): array {
 		return array( 'FrmAppHelper' );
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter( 'frm_get_field_type_class', array( $this, 'get_field_class' ), 10, 2 );
 		add_filter( 'frm_available_fields', array( $this, 'sign_up_field_type' ) );
 	}

@@ -4,34 +4,52 @@ declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+defined( 'ABSPATH' ) || exit;
+
+use Io\Prosopo\Procaptcha\Integration\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Contact_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Subscribe_Form_Integration;
-use Io\Prosopo\Procaptcha\Settings\Account_Forms_Settings_Tab;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Account_Forms_Tab;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
-defined( 'ABSPATH' ) || exit;
+final class Beaver_Builder_Integration extends Plugin_Integration_Base {
+	private Account_Forms_Tab $account_forms_tab;
 
-final class Beaver_Builder_Integration extends Procaptcha_Plugin_Integration {
+	public function __construct( Widget $widget, Account_Forms_Tab $account_forms_tab ) {
+		parent::__construct( $widget );
 
-	public function get_target_plugin_classes(): array {
-		return array( 'FLBuilder' );
+		$this->account_forms_tab = $account_forms_tab;
 	}
 
-	protected function get_form_integrations(): array {
-		return array(
-			Beaver_Contact_Form_Integration::class,
-			Beaver_Subscribe_Form_Integration::class,
-		);
+	public function get_about(): About_Plugin_Integration {
+		$about = new About_Plugin_Integration();
+
+		$about->name     = 'Beaver Builder';
+		$about->docs_url = self::get_docs_url( 'beaver-builder' );
+
+		return $about;
 	}
 
-	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
-		$account_forms = $settings_storage->get( Account_Forms_Settings_Tab::class )->get_settings();
+	public function is_active(): bool {
+		return class_exists( 'FLBuilder' );
+	}
 
-		return array(
-			Beaver_Login_Form_Integration::class => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOGIN_FORM ),
+	protected function get_hookable_integrations(): array {
+		$account_settings = $this->account_forms_tab->get_settings();
+		$is_on_wp_login   = bool( $account_settings, Account_Forms_Tab::IS_ON_WP_LOGIN_FORM );
+
+		$integrations = array(
+			new Beaver_Contact_Form_Integration( $this->widget ),
+			new Beaver_Subscribe_Form_Integration( $this->widget ),
 		);
+
+		if ( $is_on_wp_login ) {
+			$integrations[] = new Beaver_Login_Form_Integration( $this->widget );
+		}
+
+		return $integrations;
 	}
 }

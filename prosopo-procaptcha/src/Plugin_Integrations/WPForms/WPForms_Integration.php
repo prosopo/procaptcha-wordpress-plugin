@@ -7,10 +7,10 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WPForms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 
-class WPForms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function get_target_plugin_classes(): array {
+class WPForms_Integration extends Plugin_Integration_Base implements Hookable {
+	public function get_vendor_classes(): array {
 		return array(
 			/**
 			 * Instead of the main plugin class, we use the main field class.
@@ -26,7 +26,7 @@ class WPForms_Integration extends Procaptcha_Plugin_Integration implements Hooka
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		// translations are used in the constructor, which aren't available before this hook.
 		add_action(
 			'init',

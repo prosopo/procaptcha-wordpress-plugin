@@ -19,7 +19,7 @@ class JetPack_Form_Integration extends Hookable_Form_Integration_Base {
 	 */
 	private array $validated_form_ids = array();
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter( 'jetpack_contact_form_is_spam', array( $this, 'is_spam_submission' ) );
 		add_filter( 'do_shortcode_tag', array( $this, 'run_validation_for_rendering_form' ), 10, 2 );
 	}

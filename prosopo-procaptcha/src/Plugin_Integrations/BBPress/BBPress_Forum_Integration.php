@@ -6,12 +6,13 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\BBPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
-	public function set_hooks( bool $is_admin_area ): void {
+final class BBPress_Forum_Integration extends Widget_Integration_Base {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'add_meta_boxes', array( $this, 'add_settings_metabox' ) );
 		add_action( 'save_post_forum', array( $this, 'update_option' ) );
 
@@ -48,11 +49,9 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	public function add_settings_metabox(): void {
-		$widget = self::get_widget();
-
 		add_meta_box(
-			$widget->get_field_name() . '_bbpress_forum',
-			$widget->get_field_label(),
+			$this->widget->get_field_name() . '_bbpress_forum',
+			$this->widget->get_field_label(),
 			array( $this, 'print_metabox' ),
 			'forum'
 		);
@@ -65,9 +64,7 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 			return;
 		}
 
-		$widget = self::get_widget();
-
-		$widget->print_form_field(
+		$this->widget->print_form_field(
 			array(
 				Widget_Settings::IS_DESIRED_ON_GUESTS => true,
 			)
@@ -77,23 +74,19 @@ class BBPress_Forum_Integration extends Hookable_Form_Integration_Base {
 	public function maybe_validate_captcha(): void {
 		$forum_id = $this->get_current_forum_id();
 
-		$widget = self::get_widget();
-
 		if ( ! $this->is_enabled( $forum_id ) ||
-			! $widget->is_protection_enabled() ||
-			$widget->is_verification_token_valid() ) {
+			! $this->widget->is_protection_enabled() ||
+			$this->widget->is_verification_token_valid() ) {
 			return;
 		}
 
 		if ( function_exists( 'bbp_add_error' ) ) {
-			bbp_add_error( $widget->get_field_name(), $widget->get_validation_error_message() );
+			bbp_add_error( $this->widget->get_field_name(), $this->widget->get_validation_error_message() );
 		}
 	}
 
 	protected function get_meta_key(): string {
-		$widget = self::get_widget();
-
-		return $widget->get_field_name() . '_bbpress_forum_protection';
+		return $this->widget->get_field_name() . '_bbpress_forum_protection';
 	}
 
 	protected function is_enabled( int $forum_id ): bool {

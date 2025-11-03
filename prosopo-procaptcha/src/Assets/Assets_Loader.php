@@ -25,7 +25,7 @@ final class Assets_Loader implements Hookable {
 		$this->loaded_script_handles = array();
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter( 'script_loader_tag', array( $this, 'add_module_attribute_for_loaded_script' ), 10, 2 );
 	}
 

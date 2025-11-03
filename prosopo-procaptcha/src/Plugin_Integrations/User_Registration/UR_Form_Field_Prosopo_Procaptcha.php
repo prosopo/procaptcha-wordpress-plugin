@@ -123,7 +123,7 @@ class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter(
 			sprintf( 'user_registration_form_field_%s', self::get_widget()->get_field_name() ),
 			array( $this, 'render_field' ),

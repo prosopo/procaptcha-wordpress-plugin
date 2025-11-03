@@ -11,6 +11,7 @@ use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
 use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\General\Settings;
 use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
@@ -57,8 +58,8 @@ final class Settings_Page implements Hookable {
 		$this->setting_tabs      = array();
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
-		if ( ! $is_admin_area ) {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
+		if ( ! $screen_detector->is_admin_area() ) {
 			return;
 		}
 

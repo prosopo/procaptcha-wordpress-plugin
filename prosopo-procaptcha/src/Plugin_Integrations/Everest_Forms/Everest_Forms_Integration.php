@@ -7,9 +7,9 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Everest_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 
-class Everest_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
+class Everest_Forms_Integration extends Plugin_Integration_Base implements Hookable {
 	/**
 	 * @param string[] $fields
 	 *
@@ -24,11 +24,11 @@ class Everest_Forms_Integration extends Procaptcha_Plugin_Integration implements
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter( 'everest_forms_fields', array( $this, 'register_field' ) );
 	}
 
-	public function get_target_plugin_classes(): array {
+	public function get_vendor_classes(): array {
 		return array(
 			'EverestForms',
 		);

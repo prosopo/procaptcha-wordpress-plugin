@@ -20,7 +20,7 @@ final class Spectra_Form_Integration extends Hookable_Form_Integration_Base {
 		$this->stub_form_input_name = self::get_widget()->get_field_name();
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter(
 			'render_block_uagb/forms',
 			array( $this, 'integrate_widget_field_into_form_content' )

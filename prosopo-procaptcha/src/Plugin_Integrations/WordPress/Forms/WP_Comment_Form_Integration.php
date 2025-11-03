@@ -48,7 +48,7 @@ class WP_Comment_Form_Integration extends WP_Form_Integration_Base {
 		return $approved;
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		parent::set_hooks( $is_admin_area );
 
 		add_filter( 'comment_form_submit_field', array( $this, 'include_captcha_field' ), 10, 2 );

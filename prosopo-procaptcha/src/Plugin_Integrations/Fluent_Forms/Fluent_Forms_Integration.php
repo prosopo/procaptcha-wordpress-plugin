@@ -7,10 +7,10 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Fluent_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 
-class Fluent_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function set_hooks( bool $is_admin_area ): void {
+class Fluent_Forms_Integration extends Plugin_Integration_Base implements Hookable {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action(
 			'fluentform/loaded',
 			function () {
@@ -22,7 +22,7 @@ class Fluent_Forms_Integration extends Procaptcha_Plugin_Integration implements 
 	/**
 	 * @return string[]
 	 */
-	public function get_target_plugin_classes(): array {
+	public function get_vendor_classes(): array {
 		return array(
 			'\FluentForm\App\Services\FormBuilder\BaseFieldManager',
 		);

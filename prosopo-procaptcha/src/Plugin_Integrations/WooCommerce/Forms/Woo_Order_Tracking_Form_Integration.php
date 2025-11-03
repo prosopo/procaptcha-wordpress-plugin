@@ -75,7 +75,7 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 		return $prefix . $output;
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'woocommerce_order_tracking_form', array( $this, 'print_field' ) );
 		add_filter( 'pre_do_shortcode_tag', array( $this, 'maybe_verify_submission' ), 10, 2 );
 		add_filter( 'do_shortcode_tag', array( $this, 'maybe_add_error' ), 10, 2 );

@@ -7,16 +7,16 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Ninja_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 
-class Ninja_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function get_target_plugin_classes(): array {
+class Ninja_Forms_Integration extends Plugin_Integration_Base implements Hookable {
+	public function get_vendor_classes(): array {
 		return array(
 			'Ninja_Forms',
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter( 'ninja_forms_register_fields', array( $this, 'register_field' ) );
 		add_filter( 'ninja_forms_field_template_file_paths', array( $this, 'register_templates_path' ) );
 	}

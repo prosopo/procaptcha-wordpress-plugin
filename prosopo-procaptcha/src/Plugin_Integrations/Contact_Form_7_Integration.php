@@ -7,18 +7,18 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 // Note: CF7 v5.9.8 calls the RestAPI without the nonce, so we can't omit captcha for authorized users.
-class Contact_Form_7_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function get_target_plugin_classes(): array {
+class Contact_Form_7_Integration extends Plugin_Integration_Base implements Hookable {
+	public function get_vendor_classes(): array {
 		return array(
 			'WPCF7',
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'wpcf7_init', array( $this, 'add_field' ) );
 
 		add_filter(

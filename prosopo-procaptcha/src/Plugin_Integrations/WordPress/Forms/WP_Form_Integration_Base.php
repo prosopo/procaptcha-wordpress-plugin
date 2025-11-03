@@ -20,7 +20,7 @@ abstract class WP_Form_Integration_Base extends Hookable_Form_Integration_Base {
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		$print_field_action = $this->get_print_field_action();
 
 		// it can be missing, if a special approach is required.

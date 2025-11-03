@@ -40,7 +40,7 @@ class WP_Login_Form_Integration extends WP_Form_Integration_Base {
 		$this->print_form_field();
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		parent::set_hooks( $is_admin_area );
 
 		// Called if auth happens via wp_authenticate_username_password(), wp_authenticate() and other functions.

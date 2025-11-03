@@ -39,7 +39,7 @@ class WP_Password_Protected_Form_Integration extends WP_Form_Integration_Base {
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		parent::set_hooks( $is_admin_area );
 
 		add_filter( 'the_password_form', array( $this, 'add_form_field' ), 10, 2 );

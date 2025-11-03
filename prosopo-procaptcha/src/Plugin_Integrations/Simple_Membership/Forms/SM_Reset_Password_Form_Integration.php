@@ -11,7 +11,7 @@ class SM_Reset_Password_Form_Integration extends SM_Form_Integration_Base {
 	// Displaying it along with the client validation may confuse users.
 	protected bool $is_without_client_validation = true;
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter( 'swpm_before_pass_reset_form_submit_button', array( $this, 'print_captcha_widget' ) );
 		add_filter( 'swpm_validate_pass_reset_form_submission', array( $this, 'verify_submission' ) );
 	}

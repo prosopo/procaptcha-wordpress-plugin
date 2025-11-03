@@ -8,16 +8,16 @@ defined( 'ABSPATH' ) || exit;
 
 use GF_Fields;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 
-class Gravity_Forms_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function get_target_plugin_classes(): array {
+class Gravity_Forms_Integration extends Plugin_Integration_Base implements Hookable {
+	public function get_vendor_classes(): array {
 		return array(
 			'GF_Fields',
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		if ( class_exists( 'GF_Fields' ) &&
 		is_callable( array( 'GF_Fields', 'register' ) ) ) {
 			// While we create the object ourselves, don't pass objects directly, as GravityForms will save its class,

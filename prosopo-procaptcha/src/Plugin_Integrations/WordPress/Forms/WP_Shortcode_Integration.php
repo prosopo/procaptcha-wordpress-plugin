@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 // Used as independent part of other integrations, e.g. JetPack Gutenberg Forms.
 class WP_Shortcode_Integration extends Hookable_Form_Integration_Base {
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		$widget = self::get_widget();
 
 		add_shortcode( $widget->get_field_name(), array( $this, 'print_form_field' ) );

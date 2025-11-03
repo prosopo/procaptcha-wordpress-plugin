@@ -12,31 +12,7 @@ use Io\Prosopo\Procaptcha\Widget\Widget;
 
 final class Plugin_Integrator {
 
-	/**
-	 * @param string[] $classes
-	 */
-	protected static function is_any_class_loaded( array $classes ): bool {
-		foreach ( $classes as $class ) {
-			if ( class_exists( $class, false ) ) {
-				return true;
-			}
-		}
 
-		return false;
-	}
-
-	/**
-	 * @param string[] $constants
-	 */
-	protected static function is_any_constant_loaded( array $constants ): bool {
-		foreach ( $constants as $constant ) {
-			if ( defined( $constant ) ) {
-				return true;
-			}
-		}
-
-		return false;
-	}
 
 	public function is_integration_active( Plugin_Integration $plugin_integration ): bool {
 		$plugin_classes   = $plugin_integration->get_target_plugin_classes();

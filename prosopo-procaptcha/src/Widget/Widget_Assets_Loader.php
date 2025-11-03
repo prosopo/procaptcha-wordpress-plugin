@@ -8,6 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
 use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\General\General_Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
@@ -45,8 +46,8 @@ final class Widget_Assets_Loader implements Hookable {
 		$this->integrations_css_code      = '';
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
-		$hook = $is_admin_area ?
+	public function set_hooks( Screen_Detector $screen_detector ): void {
+		$hook = $screen_detector->is_admin_area() ?
 			'admin_print_footer_scripts' :
 			'wp_print_footer_scripts';
 

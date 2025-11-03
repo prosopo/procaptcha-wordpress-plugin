@@ -36,7 +36,7 @@ class Woo_Classic_Checkout_Form_Integration extends Hookable_Form_Integration_Ba
 		$widget->get_validation_error( $errors );
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'woocommerce_review_order_before_submit', array( $this, 'print_field' ) );
 		add_action(
 			'woocommerce_after_checkout_validation',

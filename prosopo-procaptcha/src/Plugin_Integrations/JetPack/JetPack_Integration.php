@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\JetPack;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 
-class JetPack_Integration extends Procaptcha_Plugin_Integration {
-	public function get_target_plugin_classes(): array {
+class JetPack_Integration extends Plugin_Integration_Base {
+	public function get_vendor_classes(): array {
 		return array(
 			'Jetpack',
 		);

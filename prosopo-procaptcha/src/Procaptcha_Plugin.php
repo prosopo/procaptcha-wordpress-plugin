@@ -6,6 +6,8 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
@@ -26,25 +28,25 @@ use Io\Prosopo\Procaptcha\Plugin_Integrations\{BBPress\BBPress_Integration,
 	WooCommerce\WooCommerce_Integration,
 	WordPress\WordPress_Integration,
 	WPForms\WPForms_Integration};
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrator;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
-use Io\Prosopo\Procaptcha\Settings\{Account_Forms_Settings_Tab,
+use Io\Prosopo\Procaptcha\Settings\{Account_Forms_Tab,
+	Compatible_Plugins\Compatible_Plugins_Tab,
 	General\General_Settings_Tab,
 	Settings_Page,
 	Statistics\Statistics_Settings_Tab,
-	Storage\Procaptcha_Settings_Storage
-};
+	Storage\Procaptcha_Settings_Storage};
 
 final class Procaptcha_Plugin implements Hookable {
 
 	const SLUG                     = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
+	const DOCS_URL_BASE            = 'https://docs.prosopo.io/en/wordpress-plugin';
 
 	private string $plugin_file;
 	private Widget $widget;
@@ -108,22 +110,22 @@ final class Procaptcha_Plugin implements Hookable {
 			$this->settings_storage,
 			$this->widget,
 			$this->settings_page,
-			is_admin()
+			Screen_Detector_Base::load()
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'init', array( $this, 'load_translations' ) );
 
-		$this->settings_page->set_hooks( $is_admin_area );
-		$this->widget_assets_manager->set_hooks( $is_admin_area );
+		$this->settings_page->set_hooks( $screen_detector );
+		$this->widget_assets_manager->set_hooks( $screen_detector );
 
 		$plugin_integrations = $this->make_plugin_integrations();
 		$this->plugin_integrations->initialize_integrations( $plugin_integrations );
 
 		$this->settings_page->add_setting_tabs( $this->get_independent_setting_tabs() );
 
-		$this->plugin_assets->set_hooks( $is_admin_area );
+		$this->plugin_assets->set_hooks( $screen_detector );
 	}
 
 	public function clear_data(): void {
@@ -204,8 +206,9 @@ final class Procaptcha_Plugin implements Hookable {
 	protected function get_independent_setting_tabs(): array {
 		return array(
 			General_Settings_Tab::class,
-			Account_Forms_Settings_Tab::class,
+			Account_Forms_Tab::class,
 			Statistics_Settings_Tab::class,
+			Compatible_Plugins_Tab::class,
 		);
 	}
 }

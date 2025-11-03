@@ -7,16 +7,16 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Procaptcha_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration\Forms\UR_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration\Forms\UR_Lost_Password_Form_Integration;
-use Io\Prosopo\Procaptcha\Settings\Account_Forms_Settings_Tab;
+use Io\Prosopo\Procaptcha\Settings\Account_Forms_Tab;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use UR_Form_Field_Prosopo_Procaptcha;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
-class User_Registration_Integration extends Procaptcha_Plugin_Integration implements Hookable {
-	public function get_target_plugin_classes(): array {
+class User_Registration_Integration extends Plugin_Integration_Base implements Hookable {
+	public function get_vendor_classes(): array {
 		return array(
 			'UserRegistration',
 		);
@@ -27,7 +27,7 @@ class User_Registration_Integration extends Procaptcha_Plugin_Integration implem
 		require_once __DIR__ . '/UR_Form_Field_Prosopo_Procaptcha.php';
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_filter( 'user_registration_registered_form_fields', array( $this, 'register_field_type' ) );
 		add_filter(
 			sprintf( '%s_admin_template', UR_Form_Field_Prosopo_Procaptcha::NAME_PREFIX . $this->get_widget()->get_field_name() ),
@@ -69,11 +69,11 @@ class User_Registration_Integration extends Procaptcha_Plugin_Integration implem
 	}
 
 	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
-		$account_forms = $settings_storage->get( Account_Forms_Settings_Tab::class )->get_settings();
+		$account_forms = $settings_storage->get( Account_Forms_Tab::class )->get_settings();
 
 		return array(
-			UR_Login_Form_Integration::class         => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOGIN_FORM ),
-			UR_Lost_Password_Form_Integration::class => bool( $account_forms, Account_Forms_Settings_Tab::IS_ON_WP_LOST_PASSWORD_FORM ),
+			UR_Login_Form_Integration::class         => bool( $account_forms, Account_Forms_Tab::IS_ON_WP_LOGIN_FORM ),
+			UR_Lost_Password_Form_Integration::class => bool( $account_forms, Account_Forms_Tab::IS_ON_WP_LOST_PASSWORD_FORM ),
 		);
 	}
 }

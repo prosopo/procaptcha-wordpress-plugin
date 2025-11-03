@@ -65,7 +65,7 @@ class Woo_Blocks_Checkout_Form_Integration extends Hookable_Form_Integration_Bas
 		throw new Exception( esc_html( $validation_error_message ) );
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'woocommerce_init', array( $this, 'register_field' ) );
 
 		add_filter(

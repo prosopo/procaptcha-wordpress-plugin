@@ -19,7 +19,7 @@ final class Memberpress_Register_Integration extends Hookable_Form_Integration_B
 		$this->membership = new Memberpress_Membership( self::get_widget()->get_field_name() );
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action(
 			'mepr-product-registration-metabox',
 			fn() => $this->membership->print_protection_setting( (int) get_the_ID() )

@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integra
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 final class Memberpress_Login_Integration extends Hookable_Form_Integration_Base {
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action(
 			'mepr-login-form-before-submit',
 			function () {

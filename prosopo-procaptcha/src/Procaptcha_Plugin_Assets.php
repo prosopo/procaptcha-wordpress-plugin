@@ -6,6 +6,7 @@ namespace Io\Prosopo\Procaptcha;
 
 use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
 use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -31,11 +32,11 @@ final class Procaptcha_Plugin_Assets implements Hookable {
 		$this->assets_loader = new Assets_Loader( $this->assets_resolver );
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
-		$this->assets_loader->set_hooks( $is_admin_area );
+	public function set_hooks( Screen_Detector $screen_detector ): void {
+		$this->assets_loader->set_hooks( $screen_detector );
 
 		if ( $this->is_dev_mode ) {
-			$hook = $is_admin_area ?
+			$hook = $screen_detector->is_admin_area() ?
 				'admin_print_footer_scripts' :
 				'wp_print_footer_scripts';
 

@@ -15,7 +15,7 @@ class UR_Login_Form_Integration extends Hookable_Form_Integration_Base {
 
 	// Only print, without validation, as the UR plugin uses the auth hook, so WordPress/Login_Form.php will handle it.
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'user_registration_login_form_before_submit_button', array( $this, 'print_field' ) );
 	}
 }

@@ -3,3 +3,4 @@ event.json
 event-secrets.env
 prosopo-procaptcha/dist/*
 !prosopo-procaptcha/dist/index.php
+.todos

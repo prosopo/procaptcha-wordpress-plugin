@@ -20,7 +20,7 @@ class Woo_Lost_Password_Form_Integration extends Hookable_Form_Integration_Base 
 		);
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
+	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'woocommerce_lostpassword_form', array( $this, 'print_field' ) );
 
 		// validation happens in the WordPress/Lost_Password_Form class.

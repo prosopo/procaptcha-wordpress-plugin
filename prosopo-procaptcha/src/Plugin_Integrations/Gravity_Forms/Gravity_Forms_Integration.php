@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use GF_Fields;
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 
 class Gravity_Forms_Integration extends Plugin_Integration_Base implements Hookable {
 	public function get_vendor_classes(): array {

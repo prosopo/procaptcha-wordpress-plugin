@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration\Forms\UR_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration\Forms\UR_Lost_Password_Form_Integration;
 use Io\Prosopo\Procaptcha\Settings\Account_Forms_Tab;

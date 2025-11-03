@@ -8,13 +8,13 @@ defined( 'ABSPATH' ) || exit;
 
 use ElementorPro\Modules\Forms\Classes;
 use ElementorPro\Modules\Forms\Fields\Field_Base;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Elementor_Form_Integration extends Field_Base implements Form_Integration {
-	use Widget_Container;
+final class Elementor_Form_Integration extends Field_Base implements External_Widget_Integration {
+	use External_Widget_Integration_Trait;
 
 	public function __construct() {
 		parent::__construct();

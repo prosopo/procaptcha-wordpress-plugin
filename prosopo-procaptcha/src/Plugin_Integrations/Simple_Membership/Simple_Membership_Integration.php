@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms\SM_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms\SM_Registration_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms\SM_Reset_Password_Form_Integration;

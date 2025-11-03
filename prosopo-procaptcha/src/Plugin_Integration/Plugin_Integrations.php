@@ -7,12 +7,16 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integration;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
+/**
+ * @depecated some
+ */
 class Plugin_Integrations {
 	private Plugin_Integrator $plugin_integrator;
 	private Settings_Storage $settings_storage;

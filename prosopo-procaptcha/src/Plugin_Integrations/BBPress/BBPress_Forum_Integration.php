@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\BBPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-final class BBPress_Forum_Integration extends Widget_Integration_Base {
+final class BBPress_Forum_Integration extends Widget_Integration {
 	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'add_meta_boxes', array( $this, 'add_settings_metabox' ) );
 		add_action( 'save_post_forum', array( $this, 'update_option' ) );

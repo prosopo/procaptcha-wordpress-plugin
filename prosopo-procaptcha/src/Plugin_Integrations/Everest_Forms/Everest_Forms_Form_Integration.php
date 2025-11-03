@@ -7,13 +7,13 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Everest_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use EVF_Form_Fields;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Everest_Forms_Form_Integration extends EVF_Form_Fields implements Form_Integration {
-	use Widget_Container;
+final class Everest_Forms_Form_Integration extends EVF_Form_Fields implements External_Widget_Integration {
+	use External_Widget_Integration_Trait;
 
 	public function __construct() {
 		$this->name     = self::get_widget()->get_field_label();

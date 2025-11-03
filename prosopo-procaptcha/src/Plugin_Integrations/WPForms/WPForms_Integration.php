@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WPForms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 
 class WPForms_Integration extends Plugin_Integration_Base implements Hookable {
 	public function get_vendor_classes(): array {

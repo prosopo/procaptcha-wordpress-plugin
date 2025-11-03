@@ -2,14 +2,12 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Plugin_Integration\Form;
+namespace Io\Prosopo\Procaptcha\Integration\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
-interface Form_Integration {
+interface External_Widget_Integration {
 	public static function set_widget( Widget $widget ): void;
-
-	public static function get_widget(): Widget;
 }

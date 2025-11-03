@@ -6,13 +6,13 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Beaver_Module_Widget_Field;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Beaver_Modules;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
 
-final class Beaver_Subscribe_Form_Integration extends Widget_Integration_Base {
+final class Beaver_Subscribe_Form_Integration extends Widget_Integration {
 	public function set_hooks( Screen_Detector $screen_detector ): void {
 		$this->extend_subscribe_form();
 	}

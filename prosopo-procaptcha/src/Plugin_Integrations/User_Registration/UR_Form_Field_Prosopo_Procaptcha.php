@@ -6,14 +6,14 @@ declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // Class name must match the UR_Form_Field_{field_type} format.
 class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable_Form_Integration {
-	use Widget_Container;
+	use External_Widget_Integration_Trait;
 
 	const NAME_PREFIX = 'user_registration_';
 

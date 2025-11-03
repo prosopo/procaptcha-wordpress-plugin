@@ -9,13 +9,11 @@ defined( 'ABSPATH' ) || exit;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base {
-	use Widget_Container;
-
+final class Elementor_Login_Widget_Integration extends Widget_Integration {
 	private string $widget_name = 'login';
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {
@@ -29,13 +27,11 @@ class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base 
 	}
 
 	public function register_widget_setting( Controls_Stack $element ): void {
-		$widget = self::get_widget();
-
 		$element->add_control(
-			$widget->get_field_name(),
+			$this->widget->get_field_name(),
 			array(
 				'default' => false,
-				'label'   => $widget->get_field_label(),
+				'label'   => $this->widget->get_field_label(),
 				'type'    => Controls_Manager::SWITCHER,
 			)
 		);
@@ -55,16 +51,13 @@ class Elementor_Login_Widget_Integration extends Hookable_Form_Integration_Base 
 	}
 
 	protected function is_active_widget( Widget_Base $widget_base ): bool {
-		$widget     = self::get_widget();
-		$field_name = $widget->get_field_name();
+		$field_name = $this->widget->get_field_name();
 
 		return 'yes' === $widget_base->get_settings( $field_name );
 	}
 
 	protected function inject_captcha_into_form( string $content ): string {
-		$widget = self::get_widget();
-
-		$widget_field = $widget->print_form_field(
+		$widget_field = $this->widget->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin: 0 0 10px;width:100%;',

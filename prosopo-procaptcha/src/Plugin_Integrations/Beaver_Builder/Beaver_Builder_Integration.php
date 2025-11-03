@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\About_Plugin_Integration;
-use Io\Prosopo\Procaptcha\Integration\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Contact_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Beaver_Builder\Forms\Beaver_Subscribe_Form_Integration;

@@ -6,15 +6,15 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WPForms;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WPForms\Integrations\Stripe\Api\PaymentIntents;
 use WPForms_Field;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class WPForms_Form_Integration extends WPForms_Field implements Form_Integration {
-	use Widget_Container;
+	use External_Widget_Integration_Trait;
 
 	/**
 	 * Form submission with Stripe, unlike a plain submission, consists of 2 separate requests.

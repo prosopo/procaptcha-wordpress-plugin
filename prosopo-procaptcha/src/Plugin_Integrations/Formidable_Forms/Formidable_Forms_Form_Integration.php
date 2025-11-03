@@ -7,14 +7,14 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Formidable_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use FrmFieldType;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Formidable_Forms_Form_Integration extends FrmFieldType implements Form_Integration {
-	use Widget_Container;
+	use External_Widget_Integration_Trait;
 
 	/**
 	 * @var bool

@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Account\Memberpress_Login_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Account\Memberpress_Reset_Password_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Membership\Memberpress_Register_Integration;

@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\WordPress\Forms\{WP_Comment_Form_Integration,
 	WP_Login_Form_Integration,
 	WP_Lost_Password_Form_Integration,

@@ -7,13 +7,13 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Fluent_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use FluentForm\App\Services\FormBuilder\BaseFieldManager;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Widget_Container;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Fluent_Forms_Form_Integration extends BaseFieldManager implements Form_Integration {
-	use Widget_Container;
+	use External_Widget_Integration_Trait;
 
 	public function __construct() {
 		$widget = self::get_widget();

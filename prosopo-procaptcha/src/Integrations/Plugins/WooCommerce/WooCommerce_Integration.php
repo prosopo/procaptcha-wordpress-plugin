@@ -34,7 +34,7 @@ final class WooCommerce_Integration extends Plugin_Integration_Base implements C
 		$this->account_forms_tab = $account_forms_tab;
 		$this->woo_settings_tab  = $woo_settings_tab;
 	}
-	public function get_about(): About_Module_Integration {
+	public function get_about_integration(): About_Module_Integration {
 		$about = new About_Module_Integration();
 
 		$about->name     = 'WooCommerce';

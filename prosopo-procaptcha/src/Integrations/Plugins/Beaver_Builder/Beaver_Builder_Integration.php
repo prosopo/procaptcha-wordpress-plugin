@@ -24,7 +24,7 @@ final class Beaver_Builder_Integration extends Plugin_Integration_Base {
 		$this->account_forms_tab = $account_forms_tab;
 	}
 
-	public function get_about(): About_Module_Integration {
+	public function get_about_integration(): About_Module_Integration {
 		$about = new About_Module_Integration();
 
 		$about->name     = 'Beaver Builder';

@@ -28,7 +28,6 @@ final class Settings_Page implements Hookable {
 	const DEFAULT_TAB = 'general';
 
 	private Procaptcha_Plugin $plugin;
-	private Procaptcha_Settings_Storage $settings_storage;
 	private Widget $widget;
 	private ModelFactoryInterface $component_creator;
 	private ModelRendererInterface $renderer;
@@ -41,7 +40,6 @@ final class Settings_Page implements Hookable {
 
 	public function __construct(
 		Procaptcha_Plugin $plugin,
-		Procaptcha_Settings_Storage $settings_storage,
 		Widget $widget,
 		ModelFactoryInterface $component_creator,
 		ModelRendererInterface $component_renderer,
@@ -49,7 +47,6 @@ final class Settings_Page implements Hookable {
 		Assets_Loader $assets_loader
 	) {
 		$this->plugin            = $plugin;
-		$this->settings_storage  = $settings_storage;
 		$this->widget            = $widget;
 		$this->component_creator = $component_creator;
 		$this->renderer          = $component_renderer;
@@ -168,15 +165,8 @@ final class Settings_Page implements Hookable {
 		return $links;
 	}
 
-	/**
-	 * @param array<class-string<Settings_Tab>> $classes
-	 */
-	public function add_setting_tabs( array $classes ): void {
-		foreach ( $classes as $tab_class ) {
-			$settings_tab = $this->settings_storage->get( $tab_class );
-
-			$this->setting_tabs[ $settings_tab->get_tab_name() ] = $settings_tab;
-		}
+	public function add_tab(Settings_Tab $settings_tab ): void {
+		$this->setting_tabs[ $settings_tab->get_tab_name() ] = $settings_tab;
 	}
 
 	protected function load_tab_script_asset( Settings_Tab $tab ): void {

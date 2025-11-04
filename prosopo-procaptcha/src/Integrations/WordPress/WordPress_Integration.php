@@ -28,7 +28,7 @@ final class WordPress_Integration extends Module_Integration_Base implements Con
 		$this->wordpress_integration_settings = $wordpress_integration_settings;
 	}
 
-	public function get_about(): About_Module_Integration {
+	public function get_about_integration(): About_Module_Integration {
 		$about = new About_Module_Integration();
 
 		$about->name     = 'WordPress Core Forms';

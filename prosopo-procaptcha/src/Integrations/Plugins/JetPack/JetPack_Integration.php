@@ -10,7 +10,7 @@ use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 
 final class JetPack_Integration extends Plugin_Integration_Base {
-	public function get_about(): About_Module_Integration {
+	public function get_about_integration(): About_Module_Integration {
 		$about = new About_Module_Integration();
 
 		$about->name     = 'JetPack';

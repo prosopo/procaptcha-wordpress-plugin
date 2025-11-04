@@ -9,5 +9,5 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Hookable;
 
 interface Module_Integration extends Hookable {
-	public function get_about(): About_Module_Integration;
+	public function get_about_integration(): About_Module_Integration;
 }

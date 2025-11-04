@@ -11,7 +11,7 @@ use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 
 final class Fluent_Forms_Integration extends Plugin_Integration_Base {
-	public function get_about(): About_Module_Integration {
+	public function get_about_integration(): About_Module_Integration {
 		$about = new About_Module_Integration();
 
 		$about->name     = 'Fluent Forms';

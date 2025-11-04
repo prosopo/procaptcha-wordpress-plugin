@@ -6,13 +6,14 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration;
 use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WPForms\Integrations\Stripe\Api\PaymentIntents;
 use WPForms_Field;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class WPForms_Form_Integration extends WPForms_Field implements Form_Integration {
+class WPForms_Form_Integration extends WPForms_Field implements External_Widget_Integration {
 	use External_Widget_Integration_Trait;
 
 	/**

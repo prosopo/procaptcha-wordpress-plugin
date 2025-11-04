@@ -13,7 +13,7 @@ use Io\Prosopo\Procaptcha\Integrations\Plugins\Gravity_Forms\Gravity_Forms_Form_
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 
 final class Gravity_Forms_Integration extends Plugin_Integration_Base {
-	public function get_about(): About_Module_Integration {
+	public function get_about_integration(): About_Module_Integration {
 		$about = new About_Module_Integration();
 
 		$about->name     = 'Gravity Forms';

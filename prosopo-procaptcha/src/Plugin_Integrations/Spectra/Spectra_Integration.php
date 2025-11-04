@@ -6,16 +6,26 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Spectra;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 
 final class Spectra_Integration extends Plugin_Integration_Base {
-	public function get_vendor_classes(): array {
-		return array( 'UAGB_Block' );
+	public function get_about(): About_Plugin_Integration {
+		$about = new About_Plugin_Integration();
+
+		$about->name     = 'Spectra';
+		$about->docs_url = self::get_docs_url( 'spectra' );
+
+		return $about;
 	}
 
-	public function get_form_integrations(): array {
+	public function is_active(): bool {
+		return class_exists( 'UAGB_Block' );
+	}
+
+	public function get_hookable_integrations(): array {
 		return array(
-			Spectra_Form_Integration::class,
+			new Spectra_Form_Integration( $this->widget ),
 		);
 	}
 }

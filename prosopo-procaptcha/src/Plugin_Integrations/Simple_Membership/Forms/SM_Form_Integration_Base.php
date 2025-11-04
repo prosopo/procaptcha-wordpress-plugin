@@ -6,14 +6,14 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-abstract class SM_Form_Integration_Base extends Hookable_Form_Integration_Base {
+abstract class SM_Form_Integration_Base extends Widget_Integration {
 	protected bool $is_without_client_validation = false;
 
 	public function print_captcha_widget( string $before_submit_area ): string {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		if ( $widget->is_protection_enabled() ) {
 			$before_submit_area .= $widget->print_form_field(
@@ -35,7 +35,7 @@ abstract class SM_Form_Integration_Base extends Hookable_Form_Integration_Base {
 	 * @return mixed
 	 */
 	public function verify_submission( $response ) {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		$should_abort_request = $widget->is_protection_enabled() &&
 			! $widget->is_verification_token_valid();

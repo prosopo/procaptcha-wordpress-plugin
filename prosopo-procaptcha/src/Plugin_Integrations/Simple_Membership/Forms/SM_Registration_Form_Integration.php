@@ -6,7 +6,9 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-class SM_Registration_Form_Integration extends SM_Form_Integration_Base {
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+
+final class SM_Registration_Form_Integration extends SM_Form_Integration_Base {
 	// This form doesn't support our JS submit interception.
 	protected bool $is_without_client_validation = true;
 

@@ -6,17 +6,19 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Membership;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-final class Memberpress_Register_Integration extends Hookable_Form_Integration_Base {
+final class Memberpress_Register_Integration extends Widget_Integration {
 	private Memberpress_Membership $membership;
 
-	public function construct(): void {
-		parent::construct();
+	public function __construct( Widget $widget ) {
+		parent::__construct( $widget );
 
-		$this->membership = new Memberpress_Membership( self::get_widget()->get_field_name() );
+		$this->membership = new Memberpress_Membership( $this->widget->get_field_name() );
 	}
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {
@@ -52,14 +54,14 @@ final class Memberpress_Register_Integration extends Hookable_Form_Integration_B
 
 				return array_merge(
 					$errors,
-					array( self::get_widget()->get_validation_error_message() )
+					array( $this->widget->get_validation_error_message() )
 				);
 			}
 		);
 	}
 
 	protected function print_widget_field( int $membership_id ): void {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		if ( $widget->is_protection_enabled() &&
 			$this->membership->is_protected( $membership_id ) ) {
@@ -74,7 +76,7 @@ final class Memberpress_Register_Integration extends Hookable_Form_Integration_B
 	}
 
 	protected function is_valid_submission( int $membership_id ): bool {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		if ( $widget->is_protection_enabled() &&
 			$this->membership->is_protected( $membership_id ) ) {

@@ -7,16 +7,26 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Ninja_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 
-class Ninja_Forms_Integration extends Plugin_Integration_Base implements Hookable {
-	public function get_vendor_classes(): array {
-		return array(
-			'Ninja_Forms',
-		);
+final class Ninja_Forms_Integration extends Plugin_Integration_Base implements Hookable {
+	public function get_about(): About_Plugin_Integration {
+		$about = new About_Plugin_Integration();
+
+		$about->name     = 'Ninja Forms';
+		$about->docs_url = self::get_docs_url( 'ninja-forms' );
+
+		return $about;  }
+
+	public function is_active(): bool {
+		return class_exists( 'Ninja_Forms' );
 	}
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {
+		parent::set_hooks( $screen_detector );
+
 		add_filter( 'ninja_forms_register_fields', array( $this, 'register_field' ) );
 		add_filter( 'ninja_forms_field_template_file_paths', array( $this, 'register_templates_path' ) );
 	}
@@ -33,7 +43,7 @@ class Ninja_Forms_Integration extends Plugin_Integration_Base implements Hookabl
 		return array_merge(
 			$fields,
 			array(
-				$this->get_widget()->get_field_name() => new Ninja_Forms_Form_Integration(),
+				$this->widget->get_field_name() => new Ninja_Forms_Form_Integration(),
 			)
 		);
 	}
@@ -49,7 +59,7 @@ class Ninja_Forms_Integration extends Plugin_Integration_Base implements Hookabl
 		return $paths;
 	}
 
-	protected function get_form_integrations(): array {
+	protected function get_external_integrations(): array {
 		return array(
 			Ninja_Forms_Form_Integration::class,
 		);

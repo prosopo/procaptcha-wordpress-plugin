@@ -6,36 +6,54 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Account\Memberpress_Login_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Account\Memberpress_Reset_Password_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Membership\Memberpress_Register_Integration;
 use Io\Prosopo\Procaptcha\Settings\Account_Forms_Tab;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 final class Memberpress_Integration extends Plugin_Integration_Base {
-	public function get_vendor_classes(): array {
-		// no manager class is present in the main plugin file.
-		return array();
+	private Account_Forms_Tab $account_forms_tab;
+
+	public function __construct( Widget $widget, Account_Forms_Tab $account_forms_tab ) {
+		parent::__construct( $widget );
+
+		$this->account_forms_tab = $account_forms_tab;
 	}
 
-	public function get_vendor_constants(): array {
-		return array( 'MEPR_PLUGIN_SLUG' );
+	public function get_about(): About_Plugin_Integration {
+		$about = new About_Plugin_Integration();
+
+		$about->name     = 'Memberpress';
+		$about->docs_url = self::get_docs_url( 'memberpress' );
+
+		return $about;
 	}
 
-	protected function get_form_integrations(): array {
-		return array(
-			Memberpress_Register_Integration::class,
+	public function is_active(): bool {
+		return defined( 'MEPR_PLUGIN_SLUG' );
+	}
+
+	protected function get_hookable_integrations(): array {
+		$settings           = $this->account_forms_tab->get_settings();
+		$is_on_wp_login     = bool( $settings, Account_Forms_Tab::IS_ON_WP_LOGIN_FORM );
+		$is_on_wp_lost_pass = bool( $settings, Account_Forms_Tab::IS_ON_WP_LOST_PASSWORD_FORM );
+
+		$integrations = array(
+			new Memberpress_Register_Integration( $this->widget ),
 		);
-	}
 
-	protected function get_conditional_form_integrations( Settings_Storage $settings_storage ): array {
-		$account_forms = $settings_storage->get( Account_Forms_Tab::class )->get_settings();
+		if ( $is_on_wp_login ) {
+			$integrations[] = new Memberpress_Login_Integration( $this->widget );
+		}
 
-		return array(
-			Memberpress_Login_Integration::class          => bool( $account_forms, Account_Forms_Tab::IS_ON_WP_LOGIN_FORM ),
-			Memberpress_Reset_Password_Integration::class => bool( $account_forms, Account_Forms_Tab::IS_ON_WP_LOST_PASSWORD_FORM ),
-		);
+		if ( $is_on_wp_lost_pass ) {
+			$integrations[] = new Memberpress_Reset_Password_Integration( $this->widget );
+		}
+
+		return $integrations;
 	}
 }

@@ -6,32 +6,20 @@ declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration;
 use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // Class name must match the UR_Form_Field_{field_type} format.
-class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Hookable_Form_Integration {
+final class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements External_Widget_Integration, Hookable {
 	use External_Widget_Integration_Trait;
 
 	const NAME_PREFIX = 'user_registration_';
 
-	private static ?self $instance = null;
-
-	public static function make_instance(): Hookable_Form_Integration {
-		return self::get_instance();
-	}
-
-	public static function get_instance(): self {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	private function __construct() {
+	public function __construct() {
 		$widget = self::get_widget();
 
 		// @phpstan-ignore-next-line

@@ -6,15 +6,15 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Ninja_Forms;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration;
 use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use NF_Abstracts_Input;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 // todo: find a way to make the field required by default.
-class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements Form_Integration {
+final class Ninja_Forms_Form_Integration extends NF_Abstracts_Input implements External_Widget_Integration {
 	use External_Widget_Integration_Trait;
 
 	public function __construct() {

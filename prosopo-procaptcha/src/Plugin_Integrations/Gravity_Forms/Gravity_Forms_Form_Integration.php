@@ -7,14 +7,13 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Gravity_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use GF_Field;
+use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration;
 use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Form_Integration;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\int;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class Gravity_Forms_Form_Integration extends GF_Field implements Form_Integration {
-
+final class Gravity_Forms_Form_Integration extends GF_Field implements External_Widget_Integration {
 	use External_Widget_Integration_Trait;
 
 	public string $type;

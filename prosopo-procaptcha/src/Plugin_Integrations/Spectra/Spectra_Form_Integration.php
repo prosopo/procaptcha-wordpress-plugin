@@ -6,18 +6,22 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Spectra;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Post;
 
-final class Spectra_Form_Integration extends Hookable_Form_Integration_Base {
+final class Spectra_Form_Integration extends Widget_Integration {
 	private Spectra_Form $spectra_form;
 	private string $stub_form_input_name;
 
-	public function construct(): void {
+	public function __construct( Widget $widget ) {
+		parent::__construct( $widget );
+
 		$this->spectra_form         = new Spectra_Form();
-		$this->stub_form_input_name = self::get_widget()->get_field_name();
+		$this->stub_form_input_name = $widget->get_field_name();
 	}
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {
@@ -47,7 +51,7 @@ final class Spectra_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	public function trigger_verification_for_protected_form_submission(): void {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		if ( $widget->is_protection_enabled() &&
 			$this->is_protected_form_submission() ) {
@@ -56,7 +60,7 @@ final class Spectra_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	protected function replace_stub_form_input_with_widget_field( string $form_content ): string {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		$widget_element = $widget->print_form_field(
 			array(
@@ -91,7 +95,7 @@ final class Spectra_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	protected function verify_form_submission(): void {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		$token_field_name  = $widget->get_field_name();
 		$token_field_value = $this->spectra_form->get_submitted_form_field( $token_field_name );

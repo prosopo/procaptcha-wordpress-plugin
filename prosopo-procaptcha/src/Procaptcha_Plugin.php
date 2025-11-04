@@ -6,6 +6,8 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Integrations_Loader;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\BBPress\BBPress_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Builder_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Pro_Integration;
@@ -23,18 +25,17 @@ use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce_Integrati
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7_Integration};
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrator;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
-use Io\Prosopo\Procaptcha\Settings\{Compatible_Plugins\Compatible_Plugins_Tab,
+use Io\Prosopo\Procaptcha\Settings\{Account_Form_Settings,
+	Compatible_Plugins\Compatible_Plugins_Tab,
 	General\General_Settings_Tab,
 	Settings_Page,
 	Statistics\Statistics_Settings_Tab,
@@ -50,10 +51,11 @@ final class Procaptcha_Plugin implements Hookable {
 	private string $plugin_file;
 	private Widget $widget;
 	private Widget_Assets_Loader $widget_assets_manager;
-	private Procaptcha_Settings_Storage $settings_storage;
+	private Integrations_Loader $integrations_loader;
 	private Settings_Page $settings_page;
 	private Plugin_Integrations $plugin_integrations;
 	private Procaptcha_Plugin_Assets $plugin_assets;
+	private Account_Form_Settings $account_form_settings;
 
 	/**
 	 * @param string $plugin_file Optional, empty if called from the uninstall.php
@@ -81,7 +83,6 @@ final class Procaptcha_Plugin implements Hookable {
 
 		$this->plugin_assets = new Procaptcha_Plugin_Assets( $this->plugin_file, $this->detect_current_version_number(), $is_dev_mode );
 
-		$this->settings_storage      = new Procaptcha_Settings_Storage();
 		$this->widget_assets_manager = new Widget_Assets_Loader(
 			self::SERVICE_SCRIPT_URL,
 			'prosopo-procaptcha',
@@ -103,14 +104,16 @@ final class Procaptcha_Plugin implements Hookable {
 			$this->plugin_assets->get_resolver(),
 			$this->plugin_assets->get_loader()
 		);
+		foreach ( $this->get_standalone_settings_tabs() as $standalone_settings_tab ) {
+			$this->settings_page->add_tab( $standalone_settings_tab );
+		}
 
-		$this->plugin_integrations = new Plugin_Integrations(
-			new Plugin_Integrator(),
-			$this->settings_storage,
-			$this->widget,
-			$this->settings_page,
-			Screen_Detector_Base::load()
-		);
+		$wordpress_integration       = new WordPress_Integration( $this->widget );
+		$this->account_form_settings = $wordpress_integration->get_account_form_settings();
+
+		$this->integrations_loader = new Integrations_Loader( $this->settings_page );
+		$this->integrations_loader->set_module_integrations( array( $wordpress_integration ) );
+		$this->integrations_loader->set_plugin_integrations( $this->get_plugin_integrations() );
 	}
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {
@@ -118,30 +121,16 @@ final class Procaptcha_Plugin implements Hookable {
 
 		$this->settings_page->set_hooks( $screen_detector );
 		$this->widget_assets_manager->set_hooks( $screen_detector );
-
-		$plugin_integrations = $this->make_plugin_integrations();
-		$this->plugin_integrations->initialize_integrations( $plugin_integrations );
-
-		$this->settings_page->add_setting_tabs( $this->get_independent_setting_tabs() );
-
 		$this->plugin_assets->set_hooks( $screen_detector );
+		$this->integrations_loader->set_hooks( $screen_detector );
 	}
 
 	public function clear_data(): void {
-		$independent_setting_tabs = $this->get_independent_setting_tabs();
+		$settings_tabs = $this->integrations_loader->get_all_settings_tabs();
 
-		$plugin_integrations      = $this->make_plugin_integrations();
-		$integration_setting_tabs = $this->plugin_integrations->get_setting_tabs( $plugin_integrations );
-
-		$settings_classes = array_merge( $independent_setting_tabs, $integration_setting_tabs );
-
-		array_map(
-			function ( string $settings_class ) {
-				$settings_tab = $this->settings_storage->get( $settings_class );
-				$settings_tab->clear_data();
-			},
-			$settings_classes
-		);
+		foreach ( $settings_tabs as $settings_tab ) {
+			$settings_tab->clear_data();
+		}
 	}
 
 	public function get_basename(): string {
@@ -168,45 +157,37 @@ final class Procaptcha_Plugin implements Hookable {
 	}
 
 	/**
-	 * @return class-string<Plugin_Integration>[]
+	 * @return Plugin_Integration[]
 	 */
-	protected function get_integration_classes(): array {
+	protected function get_plugin_integrations(): array {
 		return array(
-			BBPress_Integration::class,
-			Contact_Form_7_Integration::class,
-			Elementor_Pro_Integration::class,
-			Everest_Forms_Integration::class,
-			Fluent_Forms_Integration::class,
-			Formidable_Forms_Integration::class,
-			Gravity_Forms_Integration::class,
-			JetPack_Integration::class,
-			Ninja_Forms_Integration::class,
-			Spectra_Integration::class,
-			User_Registration_Integration::class,
-			WPForms_Integration::class,
-			WooCommerce_Integration::class,
-			WordPress_Integration::class,
-			Simple_Membership_Integration::class,
-			Beaver_Builder_Integration::class,
-			Memberpress_Integration::class,
+			new BBPress_Integration( $this->widget ),
+			new Contact_Form_7_Integration( $this->widget ),
+			new Elementor_Pro_Integration( $this->widget, $this->account_form_settings ),
+			new Everest_Forms_Integration( $this->widget ),
+			new Fluent_Forms_Integration( $this->widget ),
+			new Formidable_Forms_Integration( $this->widget ),
+			new Gravity_Forms_Integration( $this->widget ),
+			new JetPack_Integration( $this->widget ),
+			new Ninja_Forms_Integration( $this->widget ),
+			new Spectra_Integration( $this->widget ),
+			new User_Registration_Integration( $this->widget, $this->account_form_settings ),
+			new WPForms_Integration( $this->widget ),
+			new WooCommerce_Integration( $this->widget, $this->account_form_settings ),
+			new Simple_Membership_Integration( $this->widget, $this->account_form_settings ),
+			new Beaver_Builder_Integration( $this->widget, $this->account_form_settings ),
+			new Memberpress_Integration( $this->widget, $this->account_form_settings ),
 		);
 	}
 
 	/**
-	 * @return Plugin_Integration[]
+	 * @return Settings_Tab[]
 	 */
-	protected function make_plugin_integrations(): array {
-		return $this->plugin_integrations->make_plugin_integrations( $this->get_integration_classes() );
-	}
-
-	/**
-	 * @return class-string<Settings_Tab>[]
-	 */
-	protected function get_independent_setting_tabs(): array {
+	protected function get_standalone_settings_tabs(): array {
 		return array(
-			General_Settings_Tab::class,
-			Statistics_Settings_Tab::class,
-			Compatible_Plugins_Tab::class,
+			new General_Settings_Tab(),
+			new Statistics_Settings_Tab(),
+			new Compatible_Plugins_Tab(),
 		);
 	}
 }

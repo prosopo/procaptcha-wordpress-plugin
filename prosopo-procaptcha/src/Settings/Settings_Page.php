@@ -13,7 +13,6 @@ use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
 use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\General\Settings;
-use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
@@ -165,7 +164,7 @@ final class Settings_Page implements Hookable {
 		return $links;
 	}
 
-	public function add_tab(Settings_Tab $settings_tab ): void {
+	public function add_tab( Settings_Tab $settings_tab ): void {
 		$this->setting_tabs[ $settings_tab->get_tab_name() ] = $settings_tab;
 	}
 

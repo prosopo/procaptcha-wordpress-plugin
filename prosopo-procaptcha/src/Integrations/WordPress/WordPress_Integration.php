@@ -13,6 +13,7 @@ use Io\Prosopo\Procaptcha\Integrations\WordPress\Forms\WP_Comment_Form_Integrati
 use Io\Prosopo\Procaptcha\Integrations\WordPress\Forms\WP_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\Forms\WP_Lost_Password_Form_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\Forms\WP_Password_Protected_Form_Integration;
+use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\Forms\{WP_Register_Form_Integration
@@ -20,12 +21,12 @@ use Io\Prosopo\Procaptcha\Integrations\WordPress\Forms\{WP_Register_Form_Integra
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 final class WordPress_Integration extends Module_Integration_Base implements Configurable_Module_Integration {
-	private WordPress_Integration_Settings $wordpress_integration_settings;
+	private WordPress_Integration_Settings $settings_tab;
 
-	public function __construct( Widget $widget, WordPress_Integration_Settings $wordpress_integration_settings ) {
+	public function __construct( Widget $widget ) {
 		parent::__construct( $widget );
 
-		$this->wordpress_integration_settings = $wordpress_integration_settings;
+		$this->settings_tab = new WordPress_Integration_Settings();
 	}
 
 	public function get_about_integration(): About_Module_Integration {
@@ -38,11 +39,16 @@ final class WordPress_Integration extends Module_Integration_Base implements Con
 	}
 
 	public function get_settings_tab(): Settings_Tab {
-		return new WordPress_Integration_Settings();
+		return $this->settings_tab;
+	}
+
+	public function get_account_form_settings(): Account_Form_Settings {
+		return $this->settings_tab;
 	}
 
 	protected function get_hookable_integrations(): array {
-		$settings                = $this->wordpress_integration_settings->get_settings();
+		$settings = $this->settings_tab->get_settings();
+
 		$is_on_wp_comment_form   = bool( $settings, WordPress_Integration_Settings::IS_ON_WP_COMMENT_FORM );
 		$is_on_wp_login_form     = bool( $settings, WordPress_Integration_Settings::IS_ON_WP_LOGIN_FORM );
 		$is_on_wp_lost_pass_form = bool( $settings, WordPress_Integration_Settings::IS_ON_WP_LOST_PASSWORD_FORM );

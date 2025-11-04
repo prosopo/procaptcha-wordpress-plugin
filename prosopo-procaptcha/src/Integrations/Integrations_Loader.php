@@ -10,6 +10,7 @@ use Io\Prosopo\Procaptcha\Integration\Module\Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -28,6 +29,7 @@ final class Integrations_Loader implements Hookable {
 	private array $loaded_integrations;
 
 	private Settings_Page $settings_page;
+
 
 	public function __construct( Settings_Page $settings_page ) {
 		$this->module_integrations = array();
@@ -75,14 +77,24 @@ final class Integrations_Loader implements Hookable {
 	}
 
 	/**
-	 * @return Module_Integration[]
+	 * @return Settings_Tab[]
 	 */
-	public function get_available_integrations(): array {
-		return array_merge(
+	public function get_all_settings_tabs(): array {
+		$available_integrations = array_merge(
 			$this->module_integrations,
 			$this->plugin_integrations,
 			$this->loaded_integrations
 		);
+
+		$settings_tabs = array();
+
+		foreach ( $available_integrations as $available_integration ) {
+			if ( $available_integration instanceof Configurable_Module_Integration ) {
+				$settings_tabs[] = $available_integration->get_settings_tab();
+			}
+		}
+
+		return $settings_tabs;
 	}
 
 	protected function load_plugin_integrations( Screen_Detector $screen_detector ): void {
@@ -110,7 +122,9 @@ final class Integrations_Loader implements Hookable {
 		$integration->set_hooks( $screen_detector );
 
 		if ( $integration instanceof Configurable_Module_Integration ) {
-			$this->settings_page->add_tab( $integration->get_settings_tab() );
+			$settings_tab = $integration->get_settings_tab();
+
+			$this->settings_page->add_tab( $settings_tab );
 		}
 
 		$this->loaded_integrations[] = $integration;

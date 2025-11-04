@@ -11,18 +11,17 @@ use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Form_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Login_Widget_Integration;
-use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration_Settings;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
 use Io\Prosopo\Procaptcha\Widget\Widget;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 final class Elementor_Pro_Integration extends Plugin_Integration_Base {
-	private WordPress_Integration_Settings $account_forms_tab;
+	private Account_Form_Settings $account_form_settings;
 
-	public function __construct( Widget $widget, WordPress_Integration_Settings $account_forms_tab ) {
+	public function __construct( Widget $widget, Account_Form_Settings $account_form_settings ) {
 		parent::__construct( $widget );
 
-		$this->account_forms_tab = $account_forms_tab;
+		$this->account_form_settings = $account_form_settings;
 	}
 
 	public function get_about_integration(): About_Module_Integration {
@@ -50,13 +49,11 @@ final class Elementor_Pro_Integration extends Plugin_Integration_Base {
 	}
 
 	protected function get_hookable_integrations(): array {
-		$settings      = $this->account_forms_tab->get_settings();
-		$is_on_wp_form = bool( $settings, WordPress_Integration_Settings::IS_ON_WP_LOGIN_FORM );
-		$integrations  = array();
+		$integrations = array();
 
 		// Login Widget submits to wp-login.php, so validation happens there,
 		// therefore that option should be active.
-		if ( $is_on_wp_form ) {
+		if ( $this->account_form_settings->is_login_protected() ) {
 			$integrations[] = new Elementor_Login_Widget_Integration( $this->widget );
 		}
 

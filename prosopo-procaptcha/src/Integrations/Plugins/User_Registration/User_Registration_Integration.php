@@ -10,18 +10,17 @@ use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Lost_Password_Form_Integration;
-use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration_Settings;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
 use Io\Prosopo\Procaptcha\Widget\Widget;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 final class User_Registration_Integration extends Plugin_Integration_Base {
-	private WordPress_Integration_Settings $account_forms_tab;
+	private Account_Form_Settings $account_form_settings;
 
-	public function __construct( Widget $widget, WordPress_Integration_Settings $account_forms_tab ) {
+	public function __construct( Widget $widget, Account_Form_Settings $account_form_settings ) {
 		parent::__construct( $widget );
 
-		$this->account_forms_tab = $account_forms_tab;
+		$this->account_form_settings = $account_form_settings;
 	}
 
 	public function get_about_integration(): About_Module_Integration {
@@ -76,19 +75,15 @@ final class User_Registration_Integration extends Plugin_Integration_Base {
 	}
 
 	protected function get_hookable_integrations(): array {
-		$settings                = $this->account_forms_tab->get_settings();
-		$is_on_wp_login_form     = bool( $settings, WordPress_Integration_Settings::IS_ON_WP_LOGIN_FORM );
-		$is_on_wp_lost_pass_form = bool( $settings, WordPress_Integration_Settings::IS_ON_WP_LOST_PASSWORD_FORM );
-
 		$integrations = array(
 			new UR_Form_Field_Prosopo_Procaptcha(),
 		);
 
-		if ( $is_on_wp_login_form ) {
+		if ( $this->account_form_settings->is_login_protected() ) {
 			$integrations[] = new UR_Login_Form_Integration( $this->widget );
 		}
 
-		if ( $is_on_wp_lost_pass_form ) {
+		if ( $this->account_form_settings->is_password_recovery_protected() ) {
 			$integrations[] = new UR_Lost_Password_Form_Integration( $this->widget );
 		}
 

@@ -6,28 +6,28 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integrations\Plugins\BBPress\BBPress_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Builder_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Pro_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Everest_Forms\Everest_Forms_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Fluent_Forms\Fluent_Forms_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Formidable_Forms\Formidable_Forms_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Gravity_Forms\Gravity_Forms_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\JetPack\JetPack_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Memberpress_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Ninja_Forms\Ninja_Forms_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Simple_Membership\Simple_Membership_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Spectra\Spectra_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\User_Registration_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
-use Io\Prosopo\Procaptcha\Plugin_Integrations\{BBPress\BBPress_Integration,
-	Contact_Form_7_Integration,
-	Elementor_Pro\Elementor_Pro_Integration,
-	Everest_Forms\Everest_Forms_Integration,
-	Fluent_Forms\Fluent_Forms_Integration,
-	Formidable_Forms\Formidable_Forms_Integration,
-	Gravity_Forms\Gravity_Forms_Integration,
-	JetPack\JetPack_Integration,
-	Memberpress\Memberpress_Integration,
-	Ninja_Forms\Ninja_Forms_Integration,
-	Simple_Membership\Simple_Membership_Integration,
-	Spectra\Spectra_Integration,
-	User_Registration\User_Registration_Integration,
-	Beaver_Builder\Beaver_Builder_Integration,
-	WooCommerce\WooCommerce_Integration,
-	WPForms\WPForms_Integration};
+use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7_Integration};
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrator;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;

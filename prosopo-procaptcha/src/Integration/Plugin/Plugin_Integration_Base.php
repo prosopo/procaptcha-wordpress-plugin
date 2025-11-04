@@ -6,9 +6,8 @@ namespace Io\Prosopo\Procaptcha\Integration\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Integration_Base;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\Module\Module_Integration_Base;
 
-abstract class Plugin_Integration_Base extends Integration_Base implements Plugin_Integration {
+abstract class Plugin_Integration_Base extends Module_Integration_Base implements Plugin_Integration {
 
 }

@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\About_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integrations\WordPress\Account_Forms_Tab;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms\SM_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms\SM_Registration_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Simple_Membership\Forms\SM_Reset_Password_Form_Integration;
-use Io\Prosopo\Procaptcha\Settings\Account_Forms_Tab;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
@@ -24,8 +24,8 @@ class Simple_Membership_Integration extends Plugin_Integration_Base {
 		$this->account_forms_tab = $account_forms_tab;
 	}
 
-	public function get_about(): About_Plugin_Integration {
-		$about = new About_Plugin_Integration();
+	public function get_about(): About_Integration {
+		$about = new About_Integration();
 
 		$about->name     = 'Simple Membership';
 		$about->docs_url = self::get_docs_url( '#4-supported-account-plugins' );

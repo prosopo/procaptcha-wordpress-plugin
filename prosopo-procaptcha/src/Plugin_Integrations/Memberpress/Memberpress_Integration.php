@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\About_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integrations\WordPress\Account_Forms_Tab;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Account\Memberpress_Login_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Account\Memberpress_Reset_Password_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\Memberpress\Membership\Memberpress_Register_Integration;
-use Io\Prosopo\Procaptcha\Settings\Account_Forms_Tab;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
@@ -24,8 +24,8 @@ final class Memberpress_Integration extends Plugin_Integration_Base {
 		$this->account_forms_tab = $account_forms_tab;
 	}
 
-	public function get_about(): About_Plugin_Integration {
-		$about = new About_Plugin_Integration();
+	public function get_about(): About_Integration {
+		$about = new About_Integration();
 
 		$about->name     = 'Memberpress';
 		$about->docs_url = self::get_docs_url( 'memberpress' );

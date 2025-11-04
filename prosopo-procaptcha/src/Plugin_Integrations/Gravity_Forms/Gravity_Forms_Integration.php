@@ -7,13 +7,13 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Gravity_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use GF_Fields;
-use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\About_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 
 final class Gravity_Forms_Integration extends Plugin_Integration_Base {
-	public function get_about(): About_Plugin_Integration {
-		$about = new About_Plugin_Integration();
+	public function get_about(): About_Integration {
+		$about = new About_Integration();
 
 		$about->name     = 'Gravity Forms';
 		$about->docs_url = self::get_docs_url( 'gravity-forms' );

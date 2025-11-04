@@ -7,13 +7,13 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\Ninja_Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\About_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 
 final class Ninja_Forms_Integration extends Plugin_Integration_Base implements Hookable {
-	public function get_about(): About_Plugin_Integration {
-		$about = new About_Plugin_Integration();
+	public function get_about(): About_Integration {
+		$about = new About_Integration();
 
 		$about->name     = 'Ninja Forms';
 		$about->docs_url = self::get_docs_url( 'ninja-forms' );

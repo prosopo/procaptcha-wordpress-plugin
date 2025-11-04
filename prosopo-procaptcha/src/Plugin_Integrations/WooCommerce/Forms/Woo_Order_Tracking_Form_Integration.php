@@ -6,21 +6,28 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WooCommerce\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base {
+class Woo_Order_Tracking_Form_Integration extends Widget_Integration {
 	private bool $is_invalid = false;
 
+	public function set_hooks( Screen_Detector $screen_detector ): void {
+		add_action( 'woocommerce_order_tracking_form', array( $this, 'print_field' ) );
+		add_filter( 'pre_do_shortcode_tag', array( $this, 'maybe_verify_submission' ), 10, 2 );
+		add_filter( 'do_shortcode_tag', array( $this, 'maybe_add_error' ), 10, 2 );
+	}
+
 	public function print_field(): void {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		if ( ! $widget->is_protection_enabled() ) {
 			return;
 		}
 
-		self::get_widget()->print_form_field(
+		$this->widget->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin:0 0 10px',
@@ -41,7 +48,7 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 		}
 
 		$order_id = Query_Arguments::get_non_action_string( 'orderid', Query_Arguments::POST );
-		$widget   = self::get_widget();
+		$widget   = $this->widget;
 
 		if ( '' === $order_id ||
 		! $widget->is_protection_enabled() ||
@@ -66,18 +73,12 @@ class Woo_Order_Tracking_Form_Integration extends Hookable_Form_Integration_Base
 		$prefix = '';
 
 		if ( function_exists( 'wc_print_notice' ) ) {
-			$validation_error_message = self::get_widget()->get_validation_error_message();
+			$validation_error_message = $this->widget->get_validation_error_message();
 			$prefix                   = wc_print_notice( $validation_error_message, 'error', array(), true );
 		}
 
 		// todo log if function is missing (for some reason).
 
 		return $prefix . $output;
-	}
-
-	public function set_hooks( Screen_Detector $screen_detector ): void {
-		add_action( 'woocommerce_order_tracking_form', array( $this, 'print_field' ) );
-		add_filter( 'pre_do_shortcode_tag', array( $this, 'maybe_verify_submission' ), 10, 2 );
-		add_filter( 'do_shortcode_tag', array( $this, 'maybe_add_error' ), 10, 2 );
 	}
 }

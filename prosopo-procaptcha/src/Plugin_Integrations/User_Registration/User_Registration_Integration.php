@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\About_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
+use Io\Prosopo\Procaptcha\Integrations\WordPress\Account_Forms_Tab;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration\Forms\UR_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Plugin_Integrations\User_Registration\Forms\UR_Lost_Password_Form_Integration;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
-use Io\Prosopo\Procaptcha\Settings\Account_Forms_Tab;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use UR_Form_Field_Prosopo_Procaptcha;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
@@ -24,8 +24,8 @@ final class User_Registration_Integration extends Plugin_Integration_Base {
 
 		$this->account_forms_tab = $account_forms_tab;
 	}
-	public function get_about(): About_Plugin_Integration {
-		$about = new About_Plugin_Integration();
+	public function get_about(): About_Integration {
+		$about = new About_Integration();
 
 		$about->name     = 'User Registration';
 		$about->docs_url = self::get_docs_url( 'user-registration' );

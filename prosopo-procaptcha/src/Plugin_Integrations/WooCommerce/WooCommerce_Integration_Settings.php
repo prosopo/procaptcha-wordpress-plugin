@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Settings;
+namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WooCommerce;
 
 defined( 'ABSPATH' ) || exit;
 

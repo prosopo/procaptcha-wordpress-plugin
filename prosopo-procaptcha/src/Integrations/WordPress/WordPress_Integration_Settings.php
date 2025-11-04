@@ -2,13 +2,13 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Settings;
+namespace Io\Prosopo\Procaptcha\Integrations\WordPress;
 
 use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
 
 defined( 'ABSPATH' ) || exit;
 
-class Account_Forms_Tab extends Procaptcha_Settings_Tab {
+final class WordPress_Integration_Settings extends Procaptcha_Settings_Tab {
 	const IS_ON_WP_LOGIN_FORM         = 'is_on_wp_login_form';
 	const IS_ON_WP_REGISTER_FORM      = 'is_on_wp_register_form';
 	const IS_ON_WP_LOST_PASSWORD_FORM = 'is_on_wp_lost_password_form';

@@ -2,16 +2,17 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WordPress\Forms;
+namespace Io\Prosopo\Procaptcha\Integrations\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-abstract class WP_Form_Integration_Base extends Hookable_Form_Integration_Base {
+abstract class WP_Form_Integration_Base extends Widget_Integration {
 	public function print_form_field(): void {
-		self::get_widget()->print_form_field(
+		$this->widget->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin:0 0 10px',

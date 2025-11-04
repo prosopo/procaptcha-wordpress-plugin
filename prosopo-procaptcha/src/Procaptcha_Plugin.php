@@ -6,6 +6,7 @@ namespace Io\Prosopo\Procaptcha;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
@@ -26,7 +27,6 @@ use Io\Prosopo\Procaptcha\Plugin_Integrations\{BBPress\BBPress_Integration,
 	User_Registration\User_Registration_Integration,
 	Beaver_Builder\Beaver_Builder_Integration,
 	WooCommerce\WooCommerce_Integration,
-	WordPress\WordPress_Integration,
 	WPForms\WPForms_Integration};
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrator;
@@ -34,8 +34,7 @@ use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
-use Io\Prosopo\Procaptcha\Settings\{Account_Forms_Tab,
-	Compatible_Plugins\Compatible_Plugins_Tab,
+use Io\Prosopo\Procaptcha\Settings\{Compatible_Plugins\Compatible_Plugins_Tab,
 	General\General_Settings_Tab,
 	Settings_Page,
 	Statistics\Statistics_Settings_Tab,
@@ -206,7 +205,6 @@ final class Procaptcha_Plugin implements Hookable {
 	protected function get_independent_setting_tabs(): array {
 		return array(
 			General_Settings_Tab::class,
-			Account_Forms_Tab::class,
 			Statistics_Settings_Tab::class,
 			Compatible_Plugins_Tab::class,
 		);

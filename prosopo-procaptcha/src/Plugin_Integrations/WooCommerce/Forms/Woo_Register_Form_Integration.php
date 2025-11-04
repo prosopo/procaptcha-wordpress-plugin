@@ -6,13 +6,14 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\WooCommerce\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Plugin_Integration\Form\Hookable\Hookable_Form_Integration_Base;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Error;
 
-class Woo_Register_Form_Integration extends Hookable_Form_Integration_Base {
+final class Woo_Register_Form_Integration extends Widget_Integration {
 	public function print_field(): void {
-		self::get_widget()->print_form_field(
+		$this->widget->print_form_field(
 			array(
 				Widget_Settings::ELEMENT_ATTRIBUTES => array(
 					'style' => 'margin:0 0 10px',
@@ -22,7 +23,7 @@ class Woo_Register_Form_Integration extends Hookable_Form_Integration_Base {
 	}
 
 	public function verify_submission( WP_Error $error ): WP_Error {
-		$widget = self::get_widget();
+		$widget = $this->widget;
 
 		if ( ! $widget->is_verification_token_valid() ) {
 			$widget->get_validation_error( $error );

@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Plugin_Integrations\BBPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Plugin\About_Plugin_Integration;
+use Io\Prosopo\Procaptcha\Integration\About_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 
 class BBPress_Integration extends Plugin_Integration_Base {
-	public function get_about(): About_Plugin_Integration {
-		$about = new About_Plugin_Integration();
+	public function get_about(): About_Integration {
+		$about = new About_Integration();
 
 		$about->name     = 'BBPress';
 		$about->docs_url = self::get_docs_url( 'bbpress' );

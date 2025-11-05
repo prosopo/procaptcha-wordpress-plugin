@@ -7,14 +7,14 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\JetPack;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Forms\ContactForm\Contact_Form;
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-final class JetPack_Form_Integration extends Widget_Integration {
+final class JetPack_Form_Integration extends Widget_Integration_Base {
 	/**
 	 * @var array<int,string>
 	 */

@@ -35,7 +35,7 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
 use Io\Prosopo\Procaptcha\Settings\{Account_Form_Settings,
-	Compatible_Plugins\Compatible_Plugins_Tab,
+	Active_Integrations\Active_Integrations_Tab,
 	General\General_Settings_Tab,
 	Procaptcha_Settings,
 	Settings_Page,
@@ -68,11 +68,9 @@ final class Procaptcha_Plugin {
 	public function __construct( string $plugin_file, bool $is_dev_mode = false ) {
 		$this->plugin_file = $plugin_file;
 
-		$this->views_manager = $this->get_views_manager();
-
 		$this->procaptcha_settings = new General_Settings_Tab();
-
-		$this->plugin_assets = new Plugin_Assets(
+		$this->views_manager       = $this->get_views_manager();
+		$this->plugin_assets       = new Plugin_Assets(
 			$this->plugin_file,
 			$this->detect_current_version_number(),
 			$is_dev_mode
@@ -80,7 +78,17 @@ final class Procaptcha_Plugin {
 
 		$this->load_widget();
 
-		$this->load_settings_page();
+		$this->settings_page       = new Settings_Page(
+			$this,
+			$this->widget,
+			$this->views_manager,
+			$this->views_manager,
+			$this->plugin_assets->get_resolver(),
+			$this->plugin_assets->get_loader()
+		);
+		$this->integrations_loader = new Integrations_Loader( $this->settings_page );
+
+		$this->load_settings_tabs();
 
 		$this->load_integrations();
 	}
@@ -174,28 +182,33 @@ final class Procaptcha_Plugin {
 		);
 	}
 
-	protected function load_settings_page(): void {
-		$this->settings_page = new Settings_Page(
-			$this,
-			$this->widget,
-			$this->views_manager,
-			$this->views_manager,
-			$this->plugin_assets->get_resolver(),
-			$this->plugin_assets->get_loader()
+	protected function load_settings_tabs(): void {
+		$general_tab             = new General_Settings_Tab();
+		$active_integrations_tab = new Active_Integrations_Tab( $this->integrations_loader );
+		$statistics_tab          = new Statistics_Settings_Tab( $this->procaptcha_settings, $this->views_manager );
+
+		$this->standalone_settings_tabs = array( $general_tab, $active_integrations_tab, $statistics_tab );
+
+		$this->settings_page->add_tab(
+			$general_tab,
+			Settings_Page::TAB_POSITION_BEGIN
 		);
 
-		$this->standalone_settings_tabs = $this->get_standalone_settings_tabs();
+		$this->settings_page->add_tab(
+			$active_integrations_tab,
+			Settings_Page::TAB_POSITION_END
+		);
 
-		foreach ( $this->standalone_settings_tabs as $standalone_settings_tab ) {
-			$this->settings_page->add_tab( $standalone_settings_tab );
-		}
+		$this->settings_page->add_tab(
+			$statistics_tab,
+			Settings_Page::TAB_POSITION_END
+		);
 	}
 
 	protected function load_integrations(): void {
 		$wordpress_integration = new WordPress_Integration( $this->widget );
 
 		$this->account_form_settings = $wordpress_integration->get_account_form_settings();
-		$this->integrations_loader   = new Integrations_Loader( $this->settings_page );
 
 		$this->integrations_loader->set_module_integrations( array( $wordpress_integration ) );
 		$this->integrations_loader->set_plugin_integrations( $this->get_plugin_integrations() );
@@ -233,17 +246,6 @@ final class Procaptcha_Plugin {
 			new Simple_Membership_Integration( $this->widget, $this->account_form_settings ),
 			new Beaver_Builder_Integration( $this->widget, $this->account_form_settings ),
 			new Memberpress_Integration( $this->widget, $this->account_form_settings ),
-		);
-	}
-
-	/**
-	 * @return Settings_Tab[]
-	 */
-	protected function get_standalone_settings_tabs(): array {
-		return array(
-			new General_Settings_Tab(),
-			new Statistics_Settings_Tab( $this->procaptcha_settings, $this->views_manager ),
-			new Compatible_Plugins_Tab(),
 		);
 	}
 }

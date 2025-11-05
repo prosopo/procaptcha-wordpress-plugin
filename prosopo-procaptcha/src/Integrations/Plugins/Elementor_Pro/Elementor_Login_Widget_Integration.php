@@ -1,6 +1,6 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro;
 
@@ -9,11 +9,12 @@ defined( 'ABSPATH' ) || exit;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-final class Elementor_Login_Widget_Integration extends Widget_Integration {
+final class Elementor_Login_Widget_Integration extends Widget_Integration_Base {
+
 	private string $widget_name = 'login';
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {
@@ -39,7 +40,7 @@ final class Elementor_Login_Widget_Integration extends Widget_Integration {
 
 	public function inject_captcha_into_target_widget( string $content, Widget_Base $widget ): string {
 		if ( ! $this->is_target_widget( $widget ) ||
-		! $this->is_active_widget( $widget ) ) {
+			! $this->is_active_widget( $widget ) ) {
 			return $content;
 		}
 

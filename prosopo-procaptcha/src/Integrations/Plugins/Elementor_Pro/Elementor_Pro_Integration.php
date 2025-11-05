@@ -10,7 +10,6 @@ use ElementorPro\Modules\Forms\Registrars\Form_Fields_Registrar;
 use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Form_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Login_Widget_Integration;
 use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget;

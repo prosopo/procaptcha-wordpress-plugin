@@ -20,6 +20,9 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelIn
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
 final class Settings_Page implements Hookable {
+	const TAB_POSITION_BEGIN  = 1;
+	const TAB_POSITION_MIDDLE = 5;
+	const TAB_POSITION_END    = 10;
 
 	const FORM_NONCE  = 'prosopo-captcha__settings';
 	const TAB_NAME    = 'tab';
@@ -36,6 +39,10 @@ final class Settings_Page implements Hookable {
 	 * @var array<string,Settings_Tab>
 	 */
 	private array $setting_tabs;
+	/**
+	 * @var array<string, int>
+	 */
+	private array $tab_orders;
 
 	public function __construct(
 		Procaptcha_Plugin $plugin,
@@ -51,7 +58,9 @@ final class Settings_Page implements Hookable {
 		$this->renderer          = $component_renderer;
 		$this->assets_resolver   = $assets_resolver;
 		$this->assets_loader     = $assets_loader;
-		$this->setting_tabs      = array();
+
+		$this->setting_tabs = array();
+		$this->tab_orders   = array();
 	}
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {
@@ -90,14 +99,14 @@ final class Settings_Page implements Hookable {
 			return null;
 		}
 
-		$tabs = array();
-		foreach ( $this->setting_tabs as $settings_tab ) {
-			$tabs[] = array(
+		$tabs = array_map(
+			fn ( Settings_Tab $settings_tab )=> array(
 				'is_active' => $settings_tab->get_tab_name() === $current_tab,
 				'title'     => $settings_tab->get_tab_title(),
 				'url'       => $this->get_tab_url( $settings_tab->get_tab_name() ),
-			);
-		}
+			),
+			$this->get_ordered_tabs()
+		);
 
 		$tab = $this->setting_tabs[ $current_tab ];
 
@@ -164,8 +173,11 @@ final class Settings_Page implements Hookable {
 		return $links;
 	}
 
-	public function add_tab( Settings_Tab $settings_tab ): void {
-		$this->setting_tabs[ $settings_tab->get_tab_name() ] = $settings_tab;
+	public function add_tab( Settings_Tab $settings_tab, int $order ): void {
+		$tab_name = $settings_tab->get_tab_name();
+
+		$this->setting_tabs[ $tab_name ] = $settings_tab;
+		$this->tab_orders[ $tab_name ]   = $order;
 	}
 
 	protected function load_tab_script_asset( Settings_Tab $tab ): void {
@@ -202,5 +214,24 @@ final class Settings_Page implements Hookable {
 
 	protected function get_tab_url( string $tab_name ): string {
 		return admin_url( sprintf( 'options-general.php?page=%s&tab=%s', self::MENU_SLUG, $tab_name ) );
+	}
+
+	/**
+	 * @return Settings_Tab[]
+	 */
+	protected function get_ordered_tabs(): array {
+		$tabs = array_values( $this->setting_tabs );
+
+		usort(
+			$tabs,
+			function ( Settings_Tab $first, Settings_Tab $second ) {
+				$first_order  = $this->tab_orders[ $first->get_tab_name() ] ?? self::TAB_POSITION_MIDDLE;
+				$second_order = $this->tab_orders[ $second->get_tab_name() ] ?? self::TAB_POSITION_MIDDLE;
+
+				return $first_order <=> $second_order;
+			}
+		);
+
+		return $tabs;
 	}
 }

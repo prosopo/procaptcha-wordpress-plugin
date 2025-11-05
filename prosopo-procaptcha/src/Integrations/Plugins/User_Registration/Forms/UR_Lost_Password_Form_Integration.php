@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
-final class UR_Lost_Password_Form_Integration extends Widget_Integration {
+final class UR_Lost_Password_Form_Integration extends Widget_Integration_Base {
 	// Only print, without validation, as the UR plugin uses the 'lostpassword_post' hook, so WordPress/Lost_Password_Form.php will handle it.
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {

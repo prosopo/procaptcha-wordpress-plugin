@@ -6,11 +6,11 @@ namespace Io\Prosopo\Procaptcha\Integrations\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-abstract class WP_Form_Integration_Base extends Widget_Integration {
+abstract class WP_Form_Integration_Base extends Widget_Integration_Base {
 	public function print_form_field(): void {
 		$this->widget->print_form_field(
 			array(

@@ -33,7 +33,7 @@ final class WordPress_Integration extends Module_Integration_Base implements Con
 		$about = new About_Module_Integration();
 
 		$about->name     = 'WordPress Core Forms';
-		$about->docs_url = self::get_docs_url( 'wordpress-plugin/#3-supported-core-wordpress-forms' );
+		$about->docs_url = self::get_docs_url( '#3-supported-core-wordpress-forms' );
 
 		return $about;
 	}

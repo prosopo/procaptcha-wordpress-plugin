@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Utils\Hookable;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
-abstract class Widget_Integration implements Hookable {
+abstract class Widget_Integration_Base implements Hookable {
 
 	protected Widget $widget;
 

@@ -6,14 +6,13 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Membership;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Membership\Memberpress_Membership;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-final class Memberpress_Register_Integration extends Widget_Integration {
+final class Memberpress_Register_Integration extends Widget_Integration_Base {
 	private Memberpress_Membership $membership;
 
 	public function __construct( Widget $widget ) {

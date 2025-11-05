@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Automattic\WooCommerce\Blocks\Domain\Services\CheckoutFields;
 use Automattic\WooCommerce\Blocks\Package;
 use Exception;
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget;
@@ -17,7 +17,7 @@ use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WC_Order;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-final class Woo_Blocks_Checkout_Form_Integration extends Widget_Integration {
+final class Woo_Blocks_Checkout_Form_Integration extends Widget_Integration_Base {
 	private string $field_id;
 	private string $field_location;
 

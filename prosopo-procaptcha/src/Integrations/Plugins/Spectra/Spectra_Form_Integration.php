@@ -6,15 +6,14 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Spectra;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Spectra\Spectra_Form;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Post;
 
-final class Spectra_Form_Integration extends Widget_Integration {
+final class Spectra_Form_Integration extends Widget_Integration_Base {
 	private Spectra_Form $spectra_form;
 	private string $stub_form_input_name;
 

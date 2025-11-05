@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Simple_Membership\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-abstract class SM_Form_Integration_Base extends Widget_Integration {
+abstract class SM_Form_Integration_Base extends Widget_Integration_Base {
 	protected bool $is_without_client_validation = false;
 
 	public function print_captcha_widget( string $before_submit_area ): string {

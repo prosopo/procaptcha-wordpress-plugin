@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
-final class UR_Login_Form_Integration extends Widget_Integration {
+final class UR_Login_Form_Integration extends Widget_Integration_Base {
 	// Only print, without validation, as the UR plugin uses the auth hook, so WordPress/Login_Form.php will handle it.
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {

@@ -27,9 +27,7 @@ final class Integrations_Loader implements Hookable {
 	 * @var Module_Integration[]
 	 */
 	private array $loaded_integrations;
-
 	private Settings_Page $settings_page;
-
 
 	public function __construct( Settings_Page $settings_page ) {
 		$this->module_integrations = array();
@@ -97,6 +95,13 @@ final class Integrations_Loader implements Hookable {
 		return $settings_tabs;
 	}
 
+	/**
+	 * @return Module_Integration[]
+	 */
+	public function get_loaded_integrations(): array {
+		return $this->loaded_integrations;
+	}
+
 	protected function load_plugin_integrations( Screen_Detector $screen_detector ): void {
 		$active_integrations = array_filter(
 			$this->plugin_integrations,
@@ -107,10 +112,9 @@ final class Integrations_Loader implements Hookable {
 			$this->load_integration( $integration, $screen_detector );
 		}
 
-		$this->plugin_integrations = array_udiff(
+		$this->plugin_integrations = array_filter(
 			$this->plugin_integrations,
-			$active_integrations,
-			fn( Plugin_Integration $first, Plugin_Integration $second )=>$first === $second ? 0 : 1
+			fn( Plugin_Integration $integration ) => ! in_array( $integration, $active_integrations, true )
 		);
 	}
 
@@ -128,7 +132,7 @@ final class Integrations_Loader implements Hookable {
 		if ( $integration instanceof Configurable_Module_Integration ) {
 			$settings_tab = $integration->get_settings_tab();
 
-			$this->settings_page->add_tab( $settings_tab );
+			$this->settings_page->add_tab( $settings_tab, Settings_Page::TAB_POSITION_MIDDLE );
 		}
 
 		$this->loaded_integrations[] = $integration;

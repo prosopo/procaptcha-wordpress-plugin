@@ -6,11 +6,11 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Account;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-final class Memberpress_Login_Integration extends Widget_Integration {
+final class Memberpress_Login_Integration extends Widget_Integration_Base {
 	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action(
 			'mepr-login-form-before-submit',

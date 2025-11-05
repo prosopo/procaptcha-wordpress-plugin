@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use WP_Error;
 
-final class Woo_Register_Form_Integration extends Widget_Integration {
+final class Woo_Register_Form_Integration extends Widget_Integration_Base {
 	public function print_field(): void {
 		$this->widget->print_form_field(
 			array(

@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\Forms;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-class Woo_Order_Tracking_Form_Integration extends Widget_Integration {
+class Woo_Order_Tracking_Form_Integration extends Widget_Integration_Base {
 	private bool $is_invalid = false;
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {

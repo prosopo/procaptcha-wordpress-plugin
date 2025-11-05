@@ -6,12 +6,12 @@ namespace Io\Prosopo\Procaptcha\Integrations\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 // Used as independent part of other integrations, e.g. JetPack Gutenberg Forms.
-final class WP_Shortcode_Integration extends Widget_Integration {
+final class WP_Shortcode_Integration extends Widget_Integration_Base {
 	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_shortcode(
 			$this->widget->get_field_name(), // @phpstan-ignore-line

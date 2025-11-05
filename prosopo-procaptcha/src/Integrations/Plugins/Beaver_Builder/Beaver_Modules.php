@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder;
 
-use Io\Prosopo\Procaptcha\Query_Arguments;
+use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\objectOrNull;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\setItem;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;

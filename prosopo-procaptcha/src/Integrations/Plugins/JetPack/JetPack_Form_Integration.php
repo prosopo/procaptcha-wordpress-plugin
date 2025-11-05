@@ -8,8 +8,8 @@ defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Forms\ContactForm\Contact_Form;
 use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
-use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;

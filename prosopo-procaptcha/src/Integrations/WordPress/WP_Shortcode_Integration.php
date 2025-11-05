@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WordPress;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 // Used as independent part of other integrations, e.g. JetPack Gutenberg Forms.

@@ -6,11 +6,11 @@ namespace Io\Prosopo\Procaptcha\Integration\Module;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration;
 use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 abstract class Module_Integration_Base extends Widget_Integration implements Module_Integration {
 	protected static function get_docs_url( string $slug ): string {

@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha;
+namespace Io\Prosopo\Procaptcha\Utils;
 
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 

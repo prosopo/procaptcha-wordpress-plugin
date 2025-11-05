@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Module_Widget_Field;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Modules;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\boolExtended;
 
 final class Beaver_Contact_Form_Integration extends Widget_Integration {

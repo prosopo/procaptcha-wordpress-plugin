@@ -10,7 +10,7 @@ use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
 use Elementor\Widget_Base;
 use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 final class Elementor_Login_Widget_Integration extends Widget_Integration {

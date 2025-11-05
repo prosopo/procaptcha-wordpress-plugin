@@ -4,13 +4,13 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha\Integrations;
 
-use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Integration\Module\Configurable_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Module\Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -2,10 +2,11 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Assets;
+namespace Io\Prosopo\Procaptcha\Utils\Assets;
 
-use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Assets\Assets_Resolver;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 defined( 'ABSPATH' ) || exit;
 

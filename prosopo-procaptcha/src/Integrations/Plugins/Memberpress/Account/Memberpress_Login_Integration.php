@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Account;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
 final class Memberpress_Login_Integration extends Widget_Integration {

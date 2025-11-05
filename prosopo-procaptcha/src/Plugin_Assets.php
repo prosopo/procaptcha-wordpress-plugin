@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Io\Prosopo\Procaptcha;
 
-use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
-use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
-
 defined( 'ABSPATH' ) || exit;
 
-final class Procaptcha_Plugin_Assets implements Hookable {
-	private string $dev_host            = 'http://localhost:5173';
-	private string $dev_reloader_script = '@vite/client';
+use Io\Prosopo\Procaptcha\Utils\Assets\Assets_Loader;
+use Io\Prosopo\Procaptcha\Utils\Assets\Assets_Resolver;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
+
+final class Plugin_Assets implements Hookable {
+	const DEV_HOST            = 'http://localhost:5173';
+	const DEV_RELOADER_SCRIPT = '@vite/client';
+	const DIST_FOLDER         = 'dist';
+	const SRC_FOLDER          = 'src';
 
 	private string $plugin_file;
 	private string $plugin_version;
@@ -66,13 +69,13 @@ final class Procaptcha_Plugin_Assets implements Hookable {
 	}
 
 	protected function load_dev_reloader_script(): void {
-		$dev_reloader_script_url = $this->dev_host . '/' . $this->dev_reloader_script;
+		$dev_reloader_script_url = self::DEV_HOST . '/' . self::DEV_RELOADER_SCRIPT;
 
-		$this->assets_loader->load_script( $this->dev_reloader_script, $dev_reloader_script_url );
+		$this->assets_loader->load_script( self::DEV_RELOADER_SCRIPT, $dev_reloader_script_url );
 	}
 
 	protected function create_dev_assets_resolver(): Assets_Resolver {
-		$base_assets_url = sprintf( '%s/src', $this->dev_host );
+		$base_assets_url = sprintf( '%s/%s', self::DEV_HOST, self::SRC_FOLDER );
 
 		$assets_resolver = new Assets_Resolver( $base_assets_url );
 
@@ -89,7 +92,7 @@ final class Procaptcha_Plugin_Assets implements Hookable {
 
 	protected function create_assets_resolver(): Assets_Resolver {
 		$base_assets_url = plugin_dir_url( $this->plugin_file ) .
-			sprintf( 'dist/%s', $this->plugin_version );
+			sprintf( '%s/%s', self::DIST_FOLDER, $this->plugin_version );
 
 		return new Assets_Resolver( $base_assets_url );
 	}

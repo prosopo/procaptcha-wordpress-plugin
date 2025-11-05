@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 final class Everest_Forms_Integration extends Plugin_Integration_Base {
 	public function get_about_integration(): About_Module_Integration {

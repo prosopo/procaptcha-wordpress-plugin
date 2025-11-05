@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 
 ( function () {
 	/**
-	 * @var Io\Prosopo\Procaptcha\Procaptcha_Plugin $plugin_instance
+	 * @var \Io\Prosopo\Procaptcha\Procaptcha_Plugin $plugin_instance
 	 */
 	$plugin_instance = require __DIR__ . '/load_plugin.php';
 

@@ -6,14 +6,14 @@ namespace Io\Prosopo\Procaptcha\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
-use Io\Prosopo\Procaptcha\Assets\Assets_Resolver;
-use Io\Prosopo\Procaptcha\Hookable;
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
-use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\General\Settings;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
+use Io\Prosopo\Procaptcha\Utils\Assets\Assets_Loader;
+use Io\Prosopo\Procaptcha\Utils\Assets\Assets_Resolver;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;

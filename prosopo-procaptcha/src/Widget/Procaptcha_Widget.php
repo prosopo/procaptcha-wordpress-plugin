@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Query_Arguments;
 use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
+use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\html_attrs_collection;

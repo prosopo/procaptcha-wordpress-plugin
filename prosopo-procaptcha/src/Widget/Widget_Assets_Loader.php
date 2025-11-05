@@ -6,10 +6,10 @@ namespace Io\Prosopo\Procaptcha\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
-use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
+use Io\Prosopo\Procaptcha\Utils\Assets\Assets_Loader;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 final class Widget_Assets_Loader implements Hookable {
 	private string $service_script_url;

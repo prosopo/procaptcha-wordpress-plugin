@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Simple_Membership\Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Simple_Membership\Forms\SM_Form_Integration_Base;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 final class SM_Login_Form_Integration extends SM_Form_Integration_Base {
 	public function set_hooks( Screen_Detector $screen_detector ): void {

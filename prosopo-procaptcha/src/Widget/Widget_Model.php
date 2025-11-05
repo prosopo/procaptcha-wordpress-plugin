@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Html_Attributes_Collection;
+use Io\Prosopo\Procaptcha\Utils\Html_Attributes_Collection;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\BaseTemplateModel;
 use function Io\Prosopo\Procaptcha\html_attrs_collection;
 

@@ -24,7 +24,8 @@ use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\User_Registrati
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector_Base;
+use Io\Prosopo\Procaptcha\Plugin_Assets;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
@@ -47,13 +48,15 @@ final class Procaptcha_Plugin {
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
 	const DOCS_URL_BASE            = 'https://docs.prosopo.io/en/wordpress-plugin';
 	const TRANSLATIONS_FOLDER      = 'lang';
+	const VIEWS_ROOT_DIR           = __DIR__;
+	const VIEWS_ROOT_NAMESPACE     = 'Io\\Prosopo\\Procaptcha';
 
 	private string $plugin_file;
 	private Widget $widget;
 	private Widget_Assets_Loader $widget_assets_manager;
 	private Integrations_Loader $integrations_loader;
 	private Settings_Page $settings_page;
-	private Procaptcha_Plugin_Assets $plugin_assets;
+	private Plugin_Assets $plugin_assets;
 	private Account_Form_Settings $account_form_settings;
 	private Procaptcha_Settings $procaptcha_settings;
 	private ViewsManager $views_manager;
@@ -69,7 +72,7 @@ final class Procaptcha_Plugin {
 
 		$this->procaptcha_settings = new General_Settings_Tab();
 
-		$this->plugin_assets = new Procaptcha_Plugin_Assets(
+		$this->plugin_assets = new Plugin_Assets(
 			$this->plugin_file,
 			$this->detect_current_version_number(),
 			$is_dev_mode
@@ -83,13 +86,14 @@ final class Procaptcha_Plugin {
 	}
 
 	public function set_hooks(): void {
-		$hookable        = array(
+		$screen_detector = Screen_Detector_Base::load();
+
+		$hookable = array(
 			$this->settings_page,
 			$this->widget_assets_manager,
 			$this->plugin_assets,
 			$this->integrations_loader,
 		);
-		$screen_detector = Screen_Detector_Base::load();
 
 		foreach ( $hookable as $hookable_item ) {
 			$hookable_item->set_hooks( $screen_detector );
@@ -97,19 +101,7 @@ final class Procaptcha_Plugin {
 
 		add_action(
 			'init',
-			function () {
-				$translations_folder = sprintf(
-					'%s/%s',
-					dirname( $this->get_basename() ),
-					self::TRANSLATIONS_FOLDER
-				);
-
-				load_plugin_textdomain(
-					self::PLUGIN_SLUG,
-					false,
-					$translations_folder
-				);
-			}
+			array( $this, 'load_translations' )
 		);
 	}
 
@@ -124,6 +116,23 @@ final class Procaptcha_Plugin {
 		}
 	}
 
+	public function load_translations(): void {
+		$translations_folder = sprintf(
+			'%s/%s',
+			dirname( $this->get_basename() ),
+			self::TRANSLATIONS_FOLDER
+		);
+
+		load_plugin_textdomain(
+			self::PLUGIN_SLUG,
+			false,
+			$translations_folder
+		);
+	}
+
+	/**
+	 * @return string prosopo-procaptcha/prosopo-procaptcha.php
+	 */
 	public function get_basename(): string {
 		return plugin_basename( $this->plugin_file );
 	}
@@ -132,7 +141,7 @@ final class Procaptcha_Plugin {
 		$view_template_renderer = new ViewTemplateRenderer();
 
 		$namespace_config = ( new ViewNamespaceConfig( $view_template_renderer ) )
-			->setTemplatesRootPath( __DIR__ )
+			->setTemplatesRootPath( self::VIEWS_ROOT_DIR )
 			->setTemplateFileExtension( '.blade.php' )
 			->setTemplateErrorHandler(
 				function ( array $event_details ) {
@@ -145,7 +154,7 @@ final class Procaptcha_Plugin {
 			->setEventDispatcher( $view_template_renderer->getModules()->getEventDispatcher() );
 
 		$views_manager = new ViewsManager();
-		$views_manager->registerNamespace( 'Io\\Prosopo\\Procaptcha', $namespace_config );
+		$views_manager->registerNamespace( self::VIEWS_ROOT_NAMESPACE, $namespace_config );
 
 		return $views_manager;
 	}

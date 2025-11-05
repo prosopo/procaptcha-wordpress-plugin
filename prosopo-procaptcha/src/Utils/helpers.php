@@ -4,6 +4,8 @@ declare( strict_types=1 );
 
 namespace Io\Prosopo\Procaptcha;
 
+use Io\Prosopo\Procaptcha\Utils\Html_Attributes_Collection;
+
 defined( 'ABSPATH' ) || exit;
 
 /**

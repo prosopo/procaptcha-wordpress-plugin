@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Forms;
 
 use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Module_Widget_Field;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 defined( 'ABSPATH' ) || exit;
 

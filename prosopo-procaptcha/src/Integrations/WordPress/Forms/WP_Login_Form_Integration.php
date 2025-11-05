@@ -7,7 +7,7 @@ namespace Io\Prosopo\Procaptcha\Integrations\WordPress\Forms;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integrations\WordPress\WP_Form_Integration_Base;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use WP_Error;
 use WP_User;
 

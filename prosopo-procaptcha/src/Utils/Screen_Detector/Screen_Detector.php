@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Screen_Detector;
+namespace Io\Prosopo\Procaptcha\Utils\Screen_Detector;
 
 defined( 'ABSPATH' ) || exit;
 

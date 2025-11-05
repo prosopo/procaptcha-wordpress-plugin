@@ -10,8 +10,8 @@ use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Login_Form_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Lost_Password_Form_Integration;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
 final class User_Registration_Integration extends Plugin_Integration_Base {

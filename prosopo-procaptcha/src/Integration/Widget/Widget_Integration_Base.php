@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Integration\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
 abstract class Widget_Integration implements Hookable {

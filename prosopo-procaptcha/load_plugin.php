@@ -9,11 +9,8 @@ return ( function (): Procaptcha_Plugin {
 	require_once __DIR__ . '/prefixed-vendors/vendor/scoper-autoload.php';
 	require_once __DIR__ . '/src/helpers.php';
 
+	$plugin_file = __DIR__ . '/prosopo-procaptcha.php';
 	$is_dev_mode = defined( 'PROSOPO_PROCAPTCHA_DEV_MODE' ) && PROSOPO_PROCAPTCHA_DEV_MODE;
 
-	$plugin_instance = new Procaptcha_Plugin( __FILE__, $is_dev_mode );
-
-	$plugin_instance->load();
-
-	return $plugin_instance;
+	return new Procaptcha_Plugin( $plugin_file, $is_dev_mode );
 } )();

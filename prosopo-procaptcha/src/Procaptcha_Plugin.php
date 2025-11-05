@@ -24,7 +24,6 @@ use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\User_Registrati
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration;
-use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
@@ -40,7 +39,7 @@ use Io\Prosopo\Procaptcha\Settings\{Account_Form_Settings,
 	Settings_Page,
 	Statistics\Statistics_Settings_Tab,};
 
-final class Procaptcha_Plugin implements Hookable {
+final class Procaptcha_Plugin {
 
 	const SLUG                     = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
@@ -114,13 +113,9 @@ final class Procaptcha_Plugin implements Hookable {
 		$this->integrations_loader->set_plugin_integrations( $this->get_plugin_integrations() );
 	}
 
-	public function load(): void {
+	public function set_hooks(): void {
 		$screen_detector = Screen_Detector_Base::load();
 
-		$this->set_hooks( $screen_detector );
-	}
-
-	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'init', array( $this, 'load_translations' ) );
 
 		$this->settings_page->set_hooks( $screen_detector );

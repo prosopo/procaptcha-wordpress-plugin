@@ -11,4 +11,11 @@
  * Domain Path: /lang
  */
 
-require __DIR__ . '/load_plugin.php';
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * @var \Io\Prosopo\Procaptcha\Procaptcha_Plugin $prosopo_procaptcha
+ */
+$prosopo_procaptcha = require __DIR__ . '/load_plugin.php';
+
+$prosopo_procaptcha->set_hooks();

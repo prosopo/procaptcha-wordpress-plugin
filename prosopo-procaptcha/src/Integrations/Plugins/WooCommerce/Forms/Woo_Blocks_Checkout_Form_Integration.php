@@ -26,7 +26,7 @@ final class Woo_Blocks_Checkout_Form_Integration extends Widget_Integration {
 
 		$this->field_id       = sprintf(
 			'%s/%s',
-			Procaptcha_Plugin::SLUG,
+			Procaptcha_Plugin::PLUGIN_SLUG,
 			$widget->get_field_name()
 		);
 		$this->field_location = 'order';

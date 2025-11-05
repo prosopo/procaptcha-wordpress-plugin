@@ -35,8 +35,8 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
 use Io\Prosopo\Procaptcha\Settings\{Account_Form_Settings,
-	Active_Integrations\Active_Integrations_Tab,
-	General\General_Settings_Tab,
+	General\Active_Integrations\Active_Integrations_Tab,
+	General\Tab\General_Settings_Tab,
 	Procaptcha_Settings,
 	Settings_Page,
 	Statistics\Statistics_Settings_Tab
@@ -47,6 +47,7 @@ final class Procaptcha_Plugin {
 	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
 	const DOCS_URL_BASE            = 'https://docs.prosopo.io/en/wordpress-plugin';
+	const SUPPORT_FORUM_URL        = 'https://wordpress.org/support/plugin/prosopo-procaptcha/';
 	const TRANSLATIONS_FOLDER      = 'lang';
 	const VIEWS_ROOT_DIR           = __DIR__;
 	const VIEWS_ROOT_NAMESPACE     = 'Io\\Prosopo\\Procaptcha';

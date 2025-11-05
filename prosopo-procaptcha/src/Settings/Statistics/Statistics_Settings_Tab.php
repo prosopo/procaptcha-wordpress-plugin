@@ -7,15 +7,15 @@ namespace Io\Prosopo\Procaptcha\Settings\Statistics;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
-use Io\Prosopo\Procaptcha\Settings\General\Upgrade_Tier_Banner;
+use Io\Prosopo\Procaptcha\Settings\General\Upgrade_Tier\Upgrade_Tier_Banner;
 use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
-use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab_Base;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
-class Statistics_Settings_Tab extends Procaptcha_Settings_Tab {
+class Statistics_Settings_Tab extends Settings_Tab_Base {
 	private Procaptcha_Settings $procaptcha_settings;
 	private ModelRendererInterface $model_renderer;
 

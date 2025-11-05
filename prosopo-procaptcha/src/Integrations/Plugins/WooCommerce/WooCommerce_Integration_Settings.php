@@ -6,9 +6,9 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab_Base;
 
-final class WooCommerce_Integration_Settings extends Procaptcha_Settings_Tab {
+final class WooCommerce_Integration_Settings extends Settings_Tab_Base {
 	const IS_ON_CHECKOUT       = 'is_on_checkout';
 	const IS_ON_ORDER_TRACKING = 'is_on_order_tracking';
 

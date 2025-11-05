@@ -6,7 +6,7 @@ namespace Io\Prosopo\Procaptcha\Settings\Tab;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Settings\General\Settings_Form;
+use Io\Prosopo\Procaptcha\Settings\General\Form\Settings_Form;
 use Io\Prosopo\Procaptcha\Settings\Settings_Page;
 use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
@@ -15,7 +15,7 @@ use Io\Prosopo\Procaptcha\Widget\Widget;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-abstract class Procaptcha_Settings_Tab implements Settings_Tab {
+abstract class Settings_Tab_Base implements Settings_Tab {
 	const OPTION_BASE   = 'prosopo-procaptcha__settings';
 	const OPTION_PREFIX = self::OPTION_BASE . '__';
 

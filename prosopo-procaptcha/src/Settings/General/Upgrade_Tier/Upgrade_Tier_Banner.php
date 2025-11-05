@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Settings\General;
+namespace Io\Prosopo\Procaptcha\Settings\General\Upgrade_Tier;
 
 defined( 'ABSPATH' ) || exit;
 

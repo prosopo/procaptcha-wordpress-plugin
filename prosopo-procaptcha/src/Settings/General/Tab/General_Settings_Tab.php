@@ -2,13 +2,13 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Settings\General;
+namespace Io\Prosopo\Procaptcha\Settings\General\Tab;
 
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
 use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
-use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab_Base;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
@@ -16,7 +16,7 @@ use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class General_Settings_Tab extends Procaptcha_Settings_Tab implements Procaptcha_Settings {
+final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha_Settings {
 	const SITE_KEY                  = 'site_key';
 	const SECRET_KEY                = 'secret_key';
 	const THEME                     = 'theme';

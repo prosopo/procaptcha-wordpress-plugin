@@ -5,12 +5,12 @@ declare( strict_types=1 );
 namespace Io\Prosopo\Procaptcha\Integrations\WordPress;
 
 use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
-use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab_Base;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 
 defined( 'ABSPATH' ) || exit;
 
-final class WordPress_Integration_Settings extends Procaptcha_Settings_Tab implements Account_Form_Settings {
+final class WordPress_Integration_Settings extends Settings_Tab_Base implements Account_Form_Settings {
 	const IS_ON_WP_LOGIN_FORM         = 'is_on_wp_login_form';
 	const IS_ON_WP_REGISTER_FORM      = 'is_on_wp_register_form';
 	const IS_ON_WP_LOST_PASSWORD_FORM = 'is_on_wp_lost_password_form';
@@ -18,11 +18,11 @@ final class WordPress_Integration_Settings extends Procaptcha_Settings_Tab imple
 	const IS_ON_WP_POST_FORM          = 'is_on_wp_post_form';
 
 	public function get_tab_title(): string {
-		return __( 'Account Forms', 'prosopo-procaptcha' );
+		return __( 'Core Forms', 'prosopo-procaptcha' );
 	}
 
 	public function get_tab_name(): string {
-		return 'account-forms';
+		return 'core-forms';
 	}
 
 	public function is_login_protected(): bool {

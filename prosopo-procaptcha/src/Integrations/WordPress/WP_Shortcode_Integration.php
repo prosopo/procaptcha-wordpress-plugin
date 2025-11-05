@@ -14,7 +14,7 @@ use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 final class WP_Shortcode_Integration extends Widget_Integration {
 	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_shortcode(
-			$this->widget->get_field_name(),
+			$this->widget->get_field_name(), // @phpstan-ignore-line
 			fn ()=>$this->widget->print_form_field(
 				array(
 					Widget_Settings::IS_DESIRED_ON_GUESTS => true,

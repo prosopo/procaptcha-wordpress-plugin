@@ -57,16 +57,16 @@
         },
         {
             "name": "wplake/typed",
-            "version": "1.2.0",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WPLake/PHP-Typed.git",
-                "reference": "751701bd49b8a343075a7da19ddb4d9ce9796a23"
+                "reference": "681bd7b07bab59ce57472542eb42664d6a4cd2bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WPLake/PHP-Typed/zipball/751701bd49b8a343075a7da19ddb4d9ce9796a23",
-                "reference": "751701bd49b8a343075a7da19ddb4d9ce9796a23",
+                "url": "https://api.github.com/repos/WPLake/PHP-Typed/zipball/681bd7b07bab59ce57472542eb42664d6a4cd2bf",
+                "reference": "681bd7b07bab59ce57472542eb42664d6a4cd2bf",
                 "shasum": ""
             },
             "require": {
@@ -106,9 +106,9 @@
             ],
             "support": {
                 "issues": "https://github.com/WPLake/PHP-Typed/issues",
-                "source": "https://github.com/WPLake/PHP-Typed/tree/1.2.0"
+                "source": "https://github.com/WPLake/PHP-Typed/tree/1.2.2"
             },
-            "time": "2025-04-17T13:50:35+00:00"
+            "time": "2025-11-05T08:23:08+00:00"
         }
     ],
     "packages-dev": [],

@@ -55,17 +55,7 @@ final class JetPack_Form_Integration extends Widget_Integration {
 	}
 
 	protected function run_validation_on_current_form(): void {
-		/**
-		 * @var Contact_Form|null $rendering_form
-		 */
-		$rendering_form = Contact_Form::$current_form;
-
-		if ( null === $rendering_form ) {
-			// todo log. It means breaking changes in the JetPack codebase.
-			return;
-		}
-
-		$this->run_validation_once_per_form( $rendering_form );
+		$this->run_validation_once_per_form( Contact_Form::$current_form );
 	}
 
 	protected function get_submitted_form(): ?Contact_Form {

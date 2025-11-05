@@ -6,8 +6,8 @@ namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Spectra;
 
 defined( 'ABSPATH' ) || exit;
 
+use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Spectra\Spectra_Form_Integration;
 
 final class Spectra_Integration extends Plugin_Integration_Base {
 	public function get_about_integration(): About_Module_Integration {

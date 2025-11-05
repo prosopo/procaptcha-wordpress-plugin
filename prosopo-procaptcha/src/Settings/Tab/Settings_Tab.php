@@ -6,9 +6,7 @@ namespace Io\Prosopo\Procaptcha\Settings\Tab;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
-use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
@@ -33,7 +31,7 @@ interface Settings_Tab {
 	/**
 	 * @return array<string,mixed>
 	 */
-	public function get_tab_js_data( Settings_Storage $settings_storage, ModelRendererInterface $renderer ): array;
+	public function get_tab_js_data(): array;
 
 	public function clear_data(): void;
 }

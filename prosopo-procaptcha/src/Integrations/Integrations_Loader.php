@@ -107,7 +107,11 @@ final class Integrations_Loader implements Hookable {
 			$this->load_integration( $integration, $screen_detector );
 		}
 
-		$this->plugin_integrations = array_diff( $this->plugin_integrations, $active_integrations );
+		$this->plugin_integrations = array_udiff(
+			$this->plugin_integrations,
+			$active_integrations,
+			fn( Plugin_Integration $first, Plugin_Integration $second )=>$first === $second ? 0 : 1
+		);
 	}
 
 	protected function load_module_integrations( Screen_Detector $screen_detector ): void {

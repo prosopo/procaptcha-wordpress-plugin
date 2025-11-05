@@ -113,7 +113,7 @@ final class Gravity_Forms_Form_Integration extends GF_Field implements External_
 		}
 
 		$form_id               = int( $form, 'id' );
-		$validation_message_id = 'validation_message_' . $form_id . '_' . $this->id;
+		$validation_message_id = 'validation_message_' . $form_id . '_' . string( $this->id );
 
 		$validation_message = true === $this->failed_validation &&
 		is_string( $this->validation_message ) &&

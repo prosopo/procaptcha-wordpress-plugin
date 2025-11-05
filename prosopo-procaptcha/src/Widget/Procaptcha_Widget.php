@@ -7,23 +7,21 @@ namespace Io\Prosopo\Procaptcha\Widget;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Query_Arguments;
-use Io\Prosopo\Procaptcha\Settings\General\General_Settings_Tab;
-use Io\Prosopo\Procaptcha\Settings\Storage\Procaptcha_Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use WP_Error;
 use function Io\Prosopo\Procaptcha\html_attrs_collection;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Procaptcha_Widget implements Widget {
 	const API_URL                    = 'https://api.prosopo.io/siteverify';
 	const FORM_FIELD_NAME            = 'procaptcha-response';
 	const ALLOW_BYPASS_CONSTANT_NAME = 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS';
 
-	private Procaptcha_Settings_Storage $settings_storage;
 	private Widget_Assets_Loader $widget_assets_manager;
 	private ModelRendererInterface $renderer;
+	private Procaptcha_Settings $procaptcha_settings;
 	/**
 	 * @var array<string,bool> token => result
 	 * Used to avoid multiple HTTP requests when verification is called several times for the same token.
@@ -32,13 +30,14 @@ class Procaptcha_Widget implements Widget {
 	private array $token_verification_results;
 
 	public function __construct(
-		Procaptcha_Settings_Storage $settings_storage,
 		Widget_Assets_Loader $widget_assets_manager,
-		ModelRendererInterface $renderer
+		ModelRendererInterface $renderer,
+		Procaptcha_Settings $procaptcha_settings
 	) {
-		$this->settings_storage           = $settings_storage;
-		$this->widget_assets_manager      = $widget_assets_manager;
-		$this->renderer                   = $renderer;
+		$this->widget_assets_manager = $widget_assets_manager;
+		$this->renderer              = $renderer;
+		$this->procaptcha_settings   = $procaptcha_settings;
+
 		$this->token_verification_results = array();
 	}
 
@@ -125,22 +124,20 @@ class Procaptcha_Widget implements Widget {
 
 	// Note: this function is available only after the 'set_current_user' hook.
 	public function is_protection_enabled(): bool {
-		$user_authorized = wp_get_current_user()->exists();
+		$is_user_authorized = wp_get_current_user()->exists();
 
-		$general_settings       = $this->settings_storage->get( General_Settings_Tab::class )->get_settings();
-		$enabled_for_authorized = bool( $general_settings, General_Settings_Tab::IS_ENABLED_FOR_AUTHORIZED );
+		$should_bypass_user = $is_user_authorized && $this->procaptcha_settings->should_bypass_authorized_user();
+		$is_captcha_present = ! $should_bypass_user;
 
-		$present = ! $user_authorized ||
-			$enabled_for_authorized;
-
-		return apply_filters( 'prosopo/procaptcha/is_captcha_present', $present );
+		return apply_filters( 'prosopo/procaptcha/is_captcha_present', $is_captcha_present );
 	}
 
 	public function is_available(): bool {
-		$general_settings = $this->settings_storage->get( General_Settings_Tab::class )->get_settings();
+		$secret_key = $this->procaptcha_settings->get_secret_key();
+		$site_key   = $this->procaptcha_settings->get_site_key();
 
-		return '' !== string( $general_settings, General_Settings_Tab::SECRET_KEY ) &&
-			'' !== string( $general_settings, General_Settings_Tab::SITE_KEY );
+		return strlen( $secret_key ) > 0 &&
+			strlen( $site_key ) > 0;
 	}
 
 	public function load_plugin_integration_script( string $integration_name ): void {
@@ -189,8 +186,7 @@ class Procaptcha_Widget implements Widget {
 	}
 
 	protected function verify_token( string $token ): bool {
-		$general_settings = $this->settings_storage->get( General_Settings_Tab::class )->get_settings();
-		$secret_key       = string( $general_settings, General_Settings_Tab::SECRET_KEY );
+		$secret_key = $this->procaptcha_settings->get_secret_key();
 
 		$response = wp_remote_post(
 			self::API_URL,

@@ -8,6 +8,6 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 
-interface Configurable_Module_Integration extends Integration {
+interface Configurable_Module_Integration extends Module_Integration {
 	public function get_settings_tab(): Settings_Tab;
 }

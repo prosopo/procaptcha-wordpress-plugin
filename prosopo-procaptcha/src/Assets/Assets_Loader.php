@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace Io\Prosopo\Procaptcha\Assets;
 
 use Io\Prosopo\Procaptcha\Hookable;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
 
 defined( 'ABSPATH' ) || exit;
 

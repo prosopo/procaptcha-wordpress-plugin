@@ -25,11 +25,11 @@ use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce_Integrati
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms_Integration;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration;
 use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector;
+use Io\Prosopo\Procaptcha\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7_Integration};
-use Io\Prosopo\Procaptcha\Plugin_Integration\Plugin_Integrations;
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
@@ -38,8 +38,7 @@ use Io\Prosopo\Procaptcha\Settings\{Account_Form_Settings,
 	Compatible_Plugins\Compatible_Plugins_Tab,
 	General\General_Settings_Tab,
 	Settings_Page,
-	Statistics\Statistics_Settings_Tab,
-	Storage\Procaptcha_Settings_Storage};
+	Statistics\Statistics_Settings_Tab,};
 
 final class Procaptcha_Plugin implements Hookable {
 
@@ -53,7 +52,6 @@ final class Procaptcha_Plugin implements Hookable {
 	private Widget_Assets_Loader $widget_assets_manager;
 	private Integrations_Loader $integrations_loader;
 	private Settings_Page $settings_page;
-	private Plugin_Integrations $plugin_integrations;
 	private Procaptcha_Plugin_Assets $plugin_assets;
 	private Account_Form_Settings $account_form_settings;
 
@@ -114,6 +112,12 @@ final class Procaptcha_Plugin implements Hookable {
 		$this->integrations_loader = new Integrations_Loader( $this->settings_page );
 		$this->integrations_loader->set_module_integrations( array( $wordpress_integration ) );
 		$this->integrations_loader->set_plugin_integrations( $this->get_plugin_integrations() );
+	}
+
+	public function load(): void {
+		$screen_detector = Screen_Detector_Base::load();
+
+		$this->set_hooks( $screen_detector );
 	}
 
 	public function set_hooks( Screen_Detector $screen_detector ): void {

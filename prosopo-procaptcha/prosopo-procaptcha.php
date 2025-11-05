@@ -11,11 +11,4 @@
  * Domain Path: /lang
  */
 
-namespace Io\Prosopo\Procaptcha;
-
-defined( 'ABSPATH' ) || exit;
-
-require_once __DIR__ . '/autoloader.php';
-
-( new Procaptcha_Plugin( __FILE__, defined( 'PROSOPO_PROCAPTCHA_DEV_MODE' ) && PROSOPO_PROCAPTCHA_DEV_MODE ) )
-	->set_hooks( is_admin() );
+require __DIR__ . '/load_plugin.php';

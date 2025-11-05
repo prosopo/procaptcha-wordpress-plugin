@@ -7,17 +7,25 @@ namespace Io\Prosopo\Procaptcha\Settings\Statistics;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
-use Io\Prosopo\Procaptcha\Settings\General\General_Settings_Tab;
 use Io\Prosopo\Procaptcha\Settings\General\Upgrade_Tier_Banner;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
 use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 class Statistics_Settings_Tab extends Procaptcha_Settings_Tab {
+	private Procaptcha_Settings $procaptcha_settings;
+	private ModelRendererInterface $model_renderer;
+
+	public function __construct( Procaptcha_Settings $procaptcha_settings, ModelRendererInterface $model_renderer ) {
+		parent::__construct();
+
+		$this->procaptcha_settings = $procaptcha_settings;
+		$this->model_renderer      = $model_renderer;
+	}
+
 	public function get_tab_title(): string {
 		return __( 'Statistics', 'prosopo-procaptcha' );
 	}
@@ -43,14 +51,11 @@ class Statistics_Settings_Tab extends Procaptcha_Settings_Tab {
 		return 'settings/statistics/statistics-styles.min.css';
 	}
 
-	public function get_tab_js_data(
-		Settings_Storage $settings_storage,
-		ModelRendererInterface $renderer
-	): array {
-		$general_settings_tab = $settings_storage->get( General_Settings_Tab::class );
-		$general_settings     = $general_settings_tab->get_settings();
+	public function get_tab_js_data(): array {
+		$secret_key = $this->procaptcha_settings->get_secret_key();
+		$site_key   = $this->procaptcha_settings->get_site_key();
 
-		$call_to_upgrade_element_markup = $renderer->renderModel(
+		$call_to_upgrade_element_markup = $this->model_renderer->renderModel(
 			Upgrade_Tier_Banner::class,
 			function ( Upgrade_Tier_Banner $model ) {
 				$model->title = __( 'Unlock Analytics with Pro tier', 'prosopo-procaptcha' );
@@ -85,8 +90,8 @@ class Statistics_Settings_Tab extends Procaptcha_Settings_Tab {
 				'title' => __( 'Whitelisted Domains', 'prosopo-procaptcha' ),
 			),
 			'isDebugMode'                => false, // todo move into settings as 'debug mode' option.
-			'secretKey'                  => string( $general_settings, General_Settings_Tab::SECRET_KEY ),
-			'siteKey'                    => string( $general_settings, General_Settings_Tab::SITE_KEY ),
+			'secretKey'                  => $secret_key,
+			'siteKey'                    => $site_key,
 			'stateLabels'                => array(
 				'failedToLoad'    => __( 'Failed to load. Please try again later.', 'prosopo-procaptcha' ),
 				'lastRefreshedAt' => __( 'Successfully loaded at', 'prosopo-procaptcha' ),

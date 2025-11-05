@@ -7,16 +7,16 @@ namespace Io\Prosopo\Procaptcha\Settings\General;
 defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Procaptcha_Plugin;
-use Io\Prosopo\Procaptcha\Settings\Storage\Settings_Storage;
+use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
 use Io\Prosopo\Procaptcha\Settings\Tab\Procaptcha_Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelFactoryInterface;
-use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\ModelRendererInterface;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelInterface;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
+use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-class General_Settings_Tab extends Procaptcha_Settings_Tab {
+class General_Settings_Tab extends Procaptcha_Settings_Tab implements Procaptcha_Settings {
 	const SITE_KEY                  = 'site_key';
 	const SECRET_KEY                = 'secret_key';
 	const THEME                     = 'theme';
@@ -50,15 +50,34 @@ class General_Settings_Tab extends Procaptcha_Settings_Tab {
 		return 'settings/general/general-settings.min.js';
 	}
 
-	public function get_tab_js_data( Settings_Storage $settings_storage, ModelRendererInterface $renderer ): array {
-		$general_settings_tab = $settings_storage->get( self::class );
-		$general_settings     = $general_settings_tab->get_settings();
-
+	public function get_tab_js_data(): array {
 		return array(
 			'accountApiEndpoint' => Procaptcha_Plugin::ACCOUNT_API_ENDPOINT_URL,
-			'secretKey'          => string( $general_settings, self::SECRET_KEY ),
-			'siteKey'            => string( $general_settings, self::SITE_KEY ),
+			'secretKey'          => $this->get_secret_key(),
+			'siteKey'            => $this->get_site_key(),
 		);
+	}
+
+	public function get_site_key(): string {
+		return string( $this->get_settings(), self::SITE_KEY );
+	}
+
+	public function get_secret_key(): string {
+		return string( $this->get_settings(), self::SECRET_KEY );
+	}
+
+	public function get_theme(): string {
+		return string( $this->get_settings(), self::THEME );
+	}
+
+	public function get_type(): string {
+		return string( $this->get_settings(), self::TYPE );
+	}
+
+	public function should_bypass_authorized_user(): bool {
+		$is_enabled_for_authorized = bool( $this->get_settings(), self::IS_ENABLED_FOR_AUTHORIZED );
+
+		return ! $is_enabled_for_authorized;
 	}
 
 	protected function get_option_name(): string {

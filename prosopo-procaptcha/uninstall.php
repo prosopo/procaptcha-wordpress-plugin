@@ -3,9 +3,11 @@
 // Check for the 'WP_UNINSTALL_PLUGIN' to prevent direct access.
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
-/**
- * @var \Io\Prosopo\Procaptcha\Procaptcha_Plugin $prosopo_procaptcha
- */
-$prosopo_procaptcha = require __DIR__ . '/load_plugin.php';
+( function () {
+	/**
+	 * @var Io\Prosopo\Procaptcha\Procaptcha_Plugin $plugin_instance
+	 */
+	$plugin_instance = require __DIR__ . '/load_plugin.php';
 
-$prosopo_procaptcha->clear_data();
+	$plugin_instance->clear_data();
+} )();

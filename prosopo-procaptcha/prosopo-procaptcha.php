@@ -13,9 +13,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * @var \Io\Prosopo\Procaptcha\Procaptcha_Plugin $prosopo_procaptcha
- */
-$prosopo_procaptcha = require __DIR__ . '/load_plugin.php';
+( function () {
+	/**
+	 * @var Io\Prosopo\Procaptcha\Procaptcha_Plugin $plugin_instance
+	 */
+	$plugin_instance = require __DIR__ . '/load_plugin.php';
 
-$prosopo_procaptcha->set_hooks();
+	$plugin_instance->set_hooks();
+} )();

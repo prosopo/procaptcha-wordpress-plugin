@@ -97,6 +97,7 @@ runChecks(){
 
  for tool in "${!checksList[@]}"; do
    if [ "$type" == "all" ] || [ "$type" == "$tool" ]; then
+     echo "> $tool"
      "${checksList[$tool]}" "$parentPath"
      exitWhenFailed $?
    fi

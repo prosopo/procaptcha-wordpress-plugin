@@ -17,7 +17,7 @@ final class Ur_Field_Integration extends Widget_Integration_Base {
 				'%s_admin_template',
 				UR_Form_Field_Prosopo_Procaptcha::NAME_PREFIX . $this->widget->get_field_name()
 			),
-			fn( string $path )=>__DIR__ . '/admin_template.php'
+			fn() => __DIR__ . '/admin_template.php'
 		);
 		add_filter(
 			'user_registration_field_keys',

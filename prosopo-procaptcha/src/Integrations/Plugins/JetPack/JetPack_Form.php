@@ -11,7 +11,6 @@ use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Query_Arguments;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use WP_Error;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\object;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
 final class JetPack_Form extends Widget_Integration_Base {
@@ -30,8 +29,7 @@ final class JetPack_Form extends Widget_Integration_Base {
 	 * @return bool|WP_Error
 	 */
 	public function is_spam_submission( $current_spam_status ) {
-		$submitted_form = $this->get_submitted_form();
-		$widget         = $this->widget;
+		$widget = $this->widget;
 
 		// adding an error to the form instance here will have no effect on the error displaying.
 
@@ -40,39 +38,25 @@ final class JetPack_Form extends Widget_Integration_Base {
 
 		// returning WP_Error will outright abort form processing.
 		return $widget->is_protection_enabled() &&
-		$submitted_form instanceof Contact_Form &&
-		$this->is_form_submission_unverified( $submitted_form ) ?
+		$this->is_form_submission_unverified( Contact_Form::$current_form ) ?
 			$widget->get_validation_error() :
 			$current_spam_status;
 	}
 
 	public function run_validation_for_rendering_form( string $shortcode_content, string $shortcode_name ): string {
 		if ( 'contact-field' === $shortcode_name ) {
-			$this->run_validation_on_current_form();
+			$this->run_validation_once_per_form( Contact_Form::$current_form );
 		}
 
 		return $shortcode_content;
 	}
 
-	protected function run_validation_on_current_form(): void {
-		$this->run_validation_once_per_form( Contact_Form::$current_form );
-	}
+	protected function is_form_submitted(): bool {
+		$action    = Query_Arguments::get_non_action_string( 'action', 'post' );
+		$form_hash = Query_Arguments::get_non_action_string( 'contact-form-hash', 'post' );
 
-	protected function get_submitted_form(): ?Contact_Form {
-		$current_action      = Query_Arguments::get_non_action_string( 'action', 'post' );
-		$submitted_form_hash = Query_Arguments::get_non_action_string( 'contact-form-hash', 'post' );
-
-		return 'grunion-contact-form' === $current_action ?
-			$this->get_form_by_hash( $submitted_form_hash ) :
-			null;
-	}
-
-	protected function get_form_by_hash( string $form_hash ): ?Contact_Form {
-		$submitted_form = object( Contact_Form::$forms, $form_hash );
-
-		return $submitted_form instanceof Contact_Form ?
-			$submitted_form :
-			null;
+		return 'grunion-contact-form' === $action &&
+			strlen( $form_hash ) > 0;
 	}
 
 	protected function is_form_submission_unverified( Contact_Form $submitted_form ): bool {
@@ -107,10 +91,8 @@ final class JetPack_Form extends Widget_Integration_Base {
 		// we can detect only if any form was submitted, but can't confirm if it's exactly the current one.
 		// For some reason, $form->attributes['id'] and ->hash of the submitted form and the current form always different,
 		// even when they're the same.
-		$is_form_submitted = $this->get_submitted_form() instanceof Contact_Form;
-
 		if ( $widget->is_protection_enabled() &&
-			$is_form_submitted &&
+			$this->is_form_submitted() &&
 			$this->is_form_submission_unverified( $form ) ) {
 			$form->errors = $widget->get_validation_error( $form->errors );
 		}

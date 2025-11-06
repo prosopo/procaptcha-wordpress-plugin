@@ -8,28 +8,28 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Integrations_Loader;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\BBPress\BBPress_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Builder_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Pro_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Everest_Forms\Everest_Forms_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Fluent_Forms\Fluent_Forms_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Formidable_Forms\Formidable_Forms_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Gravity_Forms\Gravity_Forms_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\JetPack\JetPack_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Memberpress_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Ninja_Forms\Ninja_Forms_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Simple_Membership\Simple_Membership_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\Spectra\Spectra_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\User_Registration_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce_Integration;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms_Integration;
-use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress_Integration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\BBPress\BBPress;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Builder;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Pro;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Everest_Forms\Everest_Forms;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Fluent_Forms\Fluent_Forms;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Formidable_Forms\Formidable_Forms;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Gravity_Forms\Gravity_Forms;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\JetPack\JetPack;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Memberpress;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Ninja_Forms\Ninja_Forms;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Simple_Membership\Simple_Membership;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Spectra\Spectra;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\User_Registration;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms;
+use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress;
 use Io\Prosopo\Procaptcha\Plugin_Assets;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7_Integration};
+use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7};
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
@@ -207,7 +207,7 @@ final class Procaptcha_Plugin {
 	}
 
 	protected function load_integrations(): void {
-		$wordpress_integration = new WordPress_Integration( $this->widget );
+		$wordpress_integration = new WordPress( $this->widget );
 
 		$this->account_form_settings = $wordpress_integration->get_account_form_settings();
 
@@ -231,22 +231,22 @@ final class Procaptcha_Plugin {
 	 */
 	protected function get_plugin_integrations(): array {
 		return array(
-			new BBPress_Integration( $this->widget ),
-			new Contact_Form_7_Integration( $this->widget ),
-			new Elementor_Pro_Integration( $this->widget, $this->account_form_settings ),
-			new Everest_Forms_Integration( $this->widget ),
-			new Fluent_Forms_Integration( $this->widget ),
-			new Formidable_Forms_Integration( $this->widget ),
-			new Gravity_Forms_Integration( $this->widget ),
-			new JetPack_Integration( $this->widget ),
-			new Ninja_Forms_Integration( $this->widget ),
-			new Spectra_Integration( $this->widget ),
-			new User_Registration_Integration( $this->widget, $this->account_form_settings ),
-			new WPForms_Integration( $this->widget ),
-			new WooCommerce_Integration( $this->widget, $this->account_form_settings ),
-			new Simple_Membership_Integration( $this->widget, $this->account_form_settings ),
-			new Beaver_Builder_Integration( $this->widget, $this->account_form_settings ),
-			new Memberpress_Integration( $this->widget, $this->account_form_settings ),
+			new BBPress( $this->widget ),
+			new Contact_Form_7( $this->widget ),
+			new Elementor_Pro( $this->widget, $this->account_form_settings ),
+			new Everest_Forms( $this->widget ),
+			new Fluent_Forms( $this->widget ),
+			new Formidable_Forms( $this->widget ),
+			new Gravity_Forms( $this->widget ),
+			new JetPack( $this->widget ),
+			new Ninja_Forms( $this->widget ),
+			new Spectra( $this->widget ),
+			new User_Registration( $this->widget, $this->account_form_settings ),
+			new WPForms( $this->widget ),
+			new WooCommerce( $this->widget, $this->account_form_settings ),
+			new Simple_Membership( $this->widget, $this->account_form_settings ),
+			new Beaver_Builder( $this->widget, $this->account_form_settings ),
+			new Memberpress( $this->widget, $this->account_form_settings ),
 		);
 	}
 }

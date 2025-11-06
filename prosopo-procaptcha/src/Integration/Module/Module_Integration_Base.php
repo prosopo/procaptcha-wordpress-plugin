@@ -17,7 +17,7 @@ abstract class Module_Integration_Base extends Widget_Integration_Base implement
 		return sprintf( '%s/%s', Procaptcha_Plugin::DOCS_URL_BASE, $slug );
 	}
 
-	public function set_hooks( Screen_Detector $screen_detector ): void {
+	final public function set_hooks( Screen_Detector $screen_detector ): void {
 		foreach ( $this->get_hookable_integrations() as $hookable_integration ) {
 			$hookable_integration->set_hooks( $screen_detector );
 		}

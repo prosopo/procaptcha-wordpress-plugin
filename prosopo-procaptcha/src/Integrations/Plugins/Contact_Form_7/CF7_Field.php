@@ -2,31 +2,15 @@
 
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Integrations\Plugins;
+namespace Io\Prosopo\Procaptcha\Integrations\Plugins\Contact_Form_7;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Integration\Module\About_Module_Integration;
-use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
-use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Integration\Widget\Widget_Integration_Base;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
 
-// Note: CF7 v5.9.8 calls the RestAPI without the nonce, so we can't omit captcha for authorized users.
-final class Contact_Form_7 extends Plugin_Integration_Base implements Hookable {
-	public function get_about_integration(): About_Module_Integration {
-		$about = new About_Module_Integration();
-
-		$about->name     = 'Contact Form 7';
-		$about->docs_url = self::get_docs_url( 'contact-form-7' );
-
-		return $about;
-	}
-
-	public function is_active(): bool {
-		return class_exists( 'WPCF7' );
-	}
-
+final class CF7_Field extends Widget_Integration_Base {
 	public function set_hooks( Screen_Detector $screen_detector ): void {
 		add_action( 'wpcf7_init', array( $this, 'add_field' ) );
 

@@ -29,7 +29,7 @@ use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector_Base;
 use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
 use Io\Prosopo\Procaptcha\Widget\Widget;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7};
+use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7\Contact_Form_7};
 use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
 use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;

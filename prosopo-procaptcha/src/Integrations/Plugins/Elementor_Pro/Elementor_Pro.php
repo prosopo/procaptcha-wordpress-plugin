@@ -34,6 +34,12 @@ final class Elementor_Pro extends Plugin_Integration_Base {
 		return class_exists( 'ElementorPro\Plugin' );
 	}
 
+	protected function get_external_integrations(): array {
+		return array(
+			Elementor_Field::class,
+		);
+	}
+
 	protected function get_hookable_integrations(): array {
 		$integrations = array(
 			new Elementor_Field_Integration(),
@@ -46,11 +52,5 @@ final class Elementor_Pro extends Plugin_Integration_Base {
 		}
 
 		return $integrations;
-	}
-
-	protected function get_external_integrations(): array {
-		return array(
-			Elementor_Field::class,
-		);
 	}
 }

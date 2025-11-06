@@ -18,26 +18,32 @@ abstract class Module_Integration_Base extends Widget_Integration_Base implement
 	}
 
 	final public function set_hooks( Screen_Detector $screen_detector ): void {
-		foreach ( $this->get_hookable_integrations() as $hookable_integration ) {
-			$hookable_integration->set_hooks( $screen_detector );
-		}
+		$this->load();
 
 		foreach ( $this->get_external_integrations() as $external_integration ) {
 			$external_integration::set_widget( $this->widget );
 		}
+
+		foreach ( $this->get_hookable_integrations() as $hookable_integration ) {
+			$hookable_integration->set_hooks( $screen_detector );
+		}
 	}
 
-	/**
-	 * @return Hookable[]
-	 */
-	protected function get_hookable_integrations(): array {
-		return array();
+	protected function load(): void {
+		// e.g. for manual class files loading, like in User_Registration.
 	}
 
 	/**
 	 * @return class-string<External_Widget_Integration>[]
 	 */
 	protected function get_external_integrations(): array {
+		return array();
+	}
+
+	/**
+	 * @return Hookable[]
+	 */
+	protected function get_hookable_integrations(): array {
 		return array();
 	}
 }

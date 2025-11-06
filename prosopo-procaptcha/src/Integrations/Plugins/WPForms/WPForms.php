@@ -33,15 +33,15 @@ final class WPForms extends Plugin_Integration_Base {
 		return class_exists( 'WPForms_Field' );
 	}
 
-	protected function get_hookable_integrations(): array {
-		return array(
-			new WPForms_Field_Integration(),
-		);
-	}
-
 	protected function get_external_integrations(): array {
 		return array(
 			WPForms_Field::class,
+		);
+	}
+
+	protected function get_hookable_integrations(): array {
+		return array(
+			new WPForms_Field_Integration(),
 		);
 	}
 }

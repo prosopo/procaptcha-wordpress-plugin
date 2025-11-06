@@ -11,7 +11,6 @@ use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration_Base;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Login;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Password_Recovery;
 use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
-use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget;
 
 final class User_Registration extends Plugin_Integration_Base {
@@ -36,14 +35,15 @@ final class User_Registration extends Plugin_Integration_Base {
 		return class_exists( 'UserRegistration' );
 	}
 
-	public function set_hooks( Screen_Detector $screen_detector ): void {
+	protected function load(): void {
 		// Class in a global namespace, as User Registration plugin will be calling this class by its name.
 		require_once __DIR__ . '/UR_Form_Field_Prosopo_Procaptcha.php';
-
-		parent::set_hooks( $screen_detector );
 	}
 
 
+	protected function get_external_integrations(): array {
+		return array( UR_Form_Field_Prosopo_Procaptcha::class );
+	}
 
 	protected function get_hookable_integrations(): array {
 		$integrations = array(
@@ -60,9 +60,5 @@ final class User_Registration extends Plugin_Integration_Base {
 		}
 
 		return $integrations;
-	}
-
-	protected function get_external_integrations(): array {
-		return array( UR_Form_Field_Prosopo_Procaptcha::class );
 	}
 }

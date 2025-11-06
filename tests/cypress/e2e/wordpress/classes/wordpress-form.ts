@@ -1,29 +1,29 @@
-import { FormTest } from "@support/form-test";
+import {FormTest} from "@support/form-test";
 
 interface Settings {
-	url?: string;
+    url?: string;
 }
 
 abstract class WordpressForm extends FormTest {
-	constructor(settings: Settings = {}) {
-		super();
+    constructor(settings: Settings = {}) {
+        super();
 
-		let url = settings.url || "";
+        let url = settings.url || "";
 
-		if ("" !== url) {
-			this.url = url;
-		}
-	}
+        if ("" !== url) {
+            this.url = url;
+        }
+    }
 
-	protected abstract getSettingName(): string;
+    protected abstract getSettingName(): string;
 
-	protected toggleFeatureSupport(isActivation: boolean): void {
-		this.toggleSetting(
-			"account-forms",
-			this.getSettingName(),
-			isActivation,
-		);
-	}
+    protected toggleFeatureSupport(isActivation: boolean): void {
+        this.toggleSetting(
+            "core-forms",
+            this.getSettingName(),
+            isActivation,
+        );
+    }
 }
 
 export default WordpressForm;

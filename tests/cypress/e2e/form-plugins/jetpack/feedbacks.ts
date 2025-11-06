@@ -12,7 +12,7 @@ const trashFeedbacks = () => {
 
     // notification
     cy.get(".components-snackbar__content")
-        .should("exist");
+        .should("be.visible");
 }
 
 const emptyFeedbacksTrash = () => {
@@ -20,7 +20,12 @@ const emptyFeedbacksTrash = () => {
     cy.visit("/wp-admin/admin.php?page=jetpack-forms-admin#/responses?status=trash");
 
     // delete all
-    cy.get(".jp-forms__layout-header-actions .components-button:nth-child(2)")
+    const deleteButton = ".jp-forms__layout-header-actions .components-button:nth-child(2)";
+    // wait until loaded
+    cy.get(deleteButton)
+        .should("have.text", "Empty trash");
+    // click
+    cy.get(deleteButton)
         .click();
 
     // confirm
@@ -29,7 +34,7 @@ const emptyFeedbacksTrash = () => {
 
     // notification
     cy.get(".components-snackbar__content")
-        .should("exist");
+        .should("be.visible");
 }
 
 export const deleteAllFeedbacks = () => {

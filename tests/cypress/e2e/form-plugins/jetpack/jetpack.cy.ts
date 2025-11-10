@@ -50,14 +50,14 @@ describe("Protected contact form", () => {
         it("can not be submitted with wrong token", () =>
             submitForm({
                 formSelector: formSelector,
-                captchaValue: CaptchaValue.WRONG,
+                captchaValue: CaptchaValue.INVALID,
                 expectedResult: submissionResult.failed,
             }));
 
         it("can be submitted with right token", () =>
             submitForm({
                 formSelector: formSelector,
-                captchaValue: CaptchaValue.RIGHT,
+                captchaValue: CaptchaValue.VALID,
                 expectedResult: submissionResult.successful,
             }));
     });

@@ -1,0 +1,86 @@
+import type {ExpectedResult, FormSubmitionSettings} from "@support/commands/submitForm";
+import {Message} from "@support/form-test";
+import {checkoutSubmissionResult as classicSubmissionResult} from "../classic/classicCheckout";
+
+export const CHECKOUT_PAGE = "/checkout/";
+export const CHECKOUT_FORM = ".wc-block-checkout__form";
+
+export const checkoutFieldValues = {
+    address_1: "Street",
+    city: "City",
+    country: "UA",
+    email: "test@gmail.com",
+    first_name: "John",
+    last_name: "Doe",
+    postcode: "69104",
+    state: "UA23",
+};
+
+export const checkoutSubmissionResult = {
+    successful: classicSubmissionResult.successful,
+    failed: {
+        element: {
+            selector: ".wc-block-components-notice-banner.is-error",
+            label: Message.VALIDATION_ERROR,
+        },
+    } as ExpectedResult,
+};
+
+const INTERCEPT_REQUEST_TIMEOUT_MS = 30_000;
+
+export const submitCheckout = (settings: FormSubmitionSettings) => {
+    const captchaValue = settings.captchaValue || "";
+
+    /**
+     * The waiting workaround must be placed exactly before we access window.wp.data,
+     * otherwise it doesn't work.
+     */
+    if (captchaValue.length > 0) {
+        /**
+         * It's necessary to wait until the captcha is drawn,
+         * otherwise .setAdditionalFields() call will be passed without error but with no effect.
+         *
+         * Note: it would be better to wait generic 'additional fields ready' event, but it isn't present in the Woo's JS.
+         */
+        cy.get("prosopo-procaptcha-wp-widget").should("exist");
+    }
+
+    getWpData((wpData) => {
+        const fieldValues = settings.fieldValues || {};
+
+        // optionally, as authorized users have billing fields pre-populated.
+        if (Object.keys(fieldValues).length > 0) {
+            setInputValues(fieldValues, wpData);
+        }
+
+        if (captchaValue.length > 0) {
+            setCaptchaValue(captchaValue, wpData);
+        }
+
+        cy.get(
+            "button.wc-block-components-checkout-place-order-button",
+        ).click();
+    });
+};
+
+const getWpData = (callback: (wpData) => void) => cy.window()
+    .should("have.property", "wp")
+    .then((wp) => {
+        cy.wrap(wp)
+            .its("data")
+            .should("exist")
+            .then((wpData) => callback(wpData));
+    });
+
+const setInputValues = (inputValues: object, wpData) => {
+    cy.intercept("POST", "/wp-json/wc/store/v1/batch*").as("cartData");
+
+    wpData.dispatch("wc/store/cart").setBillingAddress(inputValues);
+
+    cy.wait("@cartData", {timeout: INTERCEPT_REQUEST_TIMEOUT_MS});
+};
+
+const setCaptchaValue = (captchaValue: string, wpData) =>
+    wpData.dispatch("wc/store/checkout").setAdditionalFields({
+        "prosopo-procaptcha/prosopo_procaptcha": captchaValue,
+    });

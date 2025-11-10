@@ -72,7 +72,7 @@ describe("login form", () => {
         it("can not be submitted with wrong token", () =>
             submitForm({
                 formSelector: formSelector,
-                captchaValue: CaptchaValue.WRONG,
+                captchaValue: CaptchaValue.INVALID,
                 expectedResult: {
                     element: {
                         selector: ".mepr_pro_error ul",
@@ -84,7 +84,7 @@ describe("login form", () => {
         it("can be submitted with right token", () =>
             submitForm({
                 formSelector: formSelector,
-                captchaValue: CaptchaValue.RIGHT,
+                captchaValue: CaptchaValue.VALID,
                 expectedResult: successfulSubmissionResult,
             }));
     });

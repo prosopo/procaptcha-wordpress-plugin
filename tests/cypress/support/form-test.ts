@@ -33,8 +33,8 @@ export enum Message {
 }
 
 export enum CaptchaValue {
-    WRONG = "wrong",
-    RIGHT = "bypass",
+    INVALID = "wrong",
+    VALID = "bypass",
 }
 
 export enum FieldError {

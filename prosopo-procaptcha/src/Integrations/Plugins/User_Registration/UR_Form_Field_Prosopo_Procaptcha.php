@@ -30,7 +30,7 @@ final class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements Ex
 		return self::$instance;
 	}
 
-	// private constructor of the singleton
+	// private constructor of the singleton.
 	private function __construct() {
 		$widget = self::get_widget();
 

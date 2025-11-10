@@ -57,6 +57,16 @@ abstract class UR_Form_Field {
 	abstract public function get_registered_admin_fields();
 
 	/**
+	 * Validation for form field.
+	 *
+	 * @param object $single_form_field The field being validate.
+	 * @param object $form_data Form Data.
+	 * @param string $filter_hook Filter for validation messages.
+	 * @param int    $form_id Form ID.
+	 */
+	abstract public function validation( $single_form_field, $form_data, $filter_hook, $form_id );
+
+	/**
 	 * Get General Setting fields
 	 *
 	 * @param string $key Atrribute of fields.
@@ -84,12 +94,8 @@ abstract class UR_Form_Field {
 		if ( isset( $this->admin_data->advance_setting->$key ) ) {
 			return $this->admin_data->advance_setting->$key;
 		}
-
-		if ( isset( $this->field_defaults[ 'default_' . $key ] ) ) {
-			return $this->field_defaults[ 'default_' . $key ];
-		}
-
-		return '';
+		// fallback to general setting data if advance setting not found.
+		return $this->get_general_setting_data( $key );
 	}
 
 	/**
@@ -122,8 +128,8 @@ abstract class UR_Form_Field {
 		$this->admin_data = array();
 
 		return array(
-			'template' => $template . $settings,
 			'settings' => $settings,
+			'template' => $template . $settings,
 		);
 	}
 
@@ -223,9 +229,9 @@ abstract class UR_Form_Field {
 		if ( isset( $data['advance_setting']->custom_class ) ) {
 			array_push( $form_data['input_class'], $data['advance_setting']->custom_class );
 		}
-
+		$field_name = isset( $data['advance_setting']->field_name ) ? $data['advance_setting']->field_name : ( isset( $data['general_setting']->field_name ) ? $data['general_setting']->field_name : '' );
 		if ( isset( $data['advance_setting']->date_format ) ) {
-			update_option( 'user_registration_' . $data['general_setting']->field_name . '_date_format', $data['advance_setting']->date_format );
+			update_option( 'user_registration_' . $field_name . '_date_format', $data['advance_setting']->date_format );
 			$form_data['custom_attributes']['data-date-format'] = $data['advance_setting']->date_format;
 		}
 
@@ -250,22 +256,23 @@ abstract class UR_Form_Field {
 		}
 
 		if ( isset( $data['advance_setting']->date_localization ) ) {
-			if ( wp_script_is( 'flatpickr' ) && 'en' !== $data['advance_setting']->date_localization ) {
-				wp_enqueue_script( 'flatpickr-localization_' . $data['advance_setting']->date_localization, UR()->plugin_url() . '/assets/js/flatpickr/dist/I10n/' . $data['advance_setting']->date_localization . '.js', array(), UR_VERSION, true );
+			$date_localization = apply_filters( 'user_registration_date_localization', $data['advance_setting']->date_localization );
+			if ( wp_script_is( 'flatpickr' ) && 'en' !== $date_localization ) {
+				wp_enqueue_script( 'flatpickr-localization_' . $date_localization, UR()->plugin_url() . '/assets/js/flatpickr/dist/I10n/' . $date_localization . '.js', array(), UR_VERSION, true );
 			}
-			$form_data['custom_attributes']['data-locale'] = $data['advance_setting']->date_localization;
+			$form_data['custom_attributes']['data-locale'] = $date_localization;
 		}
-
-		$form_data['custom_attributes']['data-label'] = ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_label', $data['general_setting']->label );
+		$field_name                                   = isset( $data['advance_setting']->field_name ) ? $data['advance_setting']->field_name : ( isset( $data['general_setting']->field_name ) ? $data['general_setting']->field_name : '' );
+		$form_data['custom_attributes']['data-label'] = ur_string_translation( $form_id, 'user_registration_' . $field_name . '_label', $data['general_setting']->label );
 
 		if ( isset( $form_data['label'] ) ) {
-			$form_data['label'] = ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_label', $form_data['label'] );
+			$form_data['label'] = ur_string_translation( $form_id, 'user_registration_' . $field_name . '_label', $form_data['label'] );
 		}
 		if ( isset( $form_data['placeholder'] ) ) {
-			$form_data['placeholder'] = ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_placeholder', $form_data['placeholder'] );
+			$form_data['placeholder'] = ur_string_translation( $form_id, 'user_registration_' . $field_name . '_placeholder', $form_data['placeholder'] );
 		}
 		if ( isset( $form_data['description'] ) ) {
-			$form_data['description'] = ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_description', $form_data['description'] );
+			$form_data['description'] = ur_string_translation( $form_id, 'user_registration_' . $field_name . '_description', $form_data['description'] );
 		}
 
 		// Filter only selected countries for `Country` fields.
@@ -305,6 +312,10 @@ abstract class UR_Form_Field {
 			}
 		}
 
+		if ( 'html' === $field_key ) {
+			$form_data['html'] = isset( $data['general_setting']->html ) ? ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name, $data['general_setting']->html ) : '';
+		}
+
 		if ( 'radio' === $field_key ) {
 
 			if ( isset( $data['general_setting']->image_choice ) && ur_string_to_bool( $data['general_setting']->image_choice ) ) {
@@ -314,8 +325,8 @@ abstract class UR_Form_Field {
 				if ( is_array( $option_data ) ) {
 					foreach ( $option_data as $index_data => $option ) {
 						$options[ $option->label ] = array(
-							'label' => ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_option_' . ( ++$index_data ), $option->label ),
 							'image' => $option->image,
+							'label' => ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_option_' . ( ++$index_data ), $option->label ),
 						);
 					}
 
@@ -344,8 +355,8 @@ abstract class UR_Form_Field {
 				if ( is_array( $option_data ) ) {
 					foreach ( $option_data as $index_data => $option ) {
 						$options[ $option->label ] = array(
-							'label' => ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_option_' . ( ++$index_data ), $option->label ),
 							'image' => $option->image,
+							'label' => ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_option_' . ( ++$index_data ), $option->label ),
 						);
 					}
 
@@ -382,8 +393,8 @@ abstract class UR_Form_Field {
 					if ( isset( $option->label ) ) {
 						$options[ $option->label ] = array(
 							'label'      => $option->label,
-							'value'      => $option->value,
 							'sell_value' => $option->sell_value,
+							'value'      => $option->value,
 						);
 					}
 				}
@@ -400,16 +411,16 @@ abstract class UR_Form_Field {
 				foreach ( $option_data as $index_data => $option ) {
 					if ( isset( $data['general_setting']->image_choice ) && ur_string_to_bool( $data['general_setting']->image_choice ) ) {
 						$options[ $option->label ] = array(
-							'label'      => $option->label,
-							'value'      => $option->value,
-							'sell_value' => $option->sell_value,
 							'image'      => $option->image,
+							'label'      => $option->label,
+							'sell_value' => $option->sell_value,
+							'value'      => $option->value,
 						);
 					} else {
 						$options[ $option->label ] = array(
 							'label'      => $option->label,
-							'value'      => $option->value,
 							'sell_value' => $option->sell_value,
+							'value'      => $option->value,
 						);
 					}
 				}
@@ -428,8 +439,8 @@ abstract class UR_Form_Field {
 			if ( is_array( $option_data ) ) {
 				foreach ( $option_data as $index_data => $option ) {
 					$options[ $option->question ] = array(
-						'question' => ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_option_' . ( ++$index_data ), $option->question ),
 						'answer'   => $option->answer,
+						'question' => ur_string_translation( $form_id, 'user_registration_' . $data['general_setting']->field_name . '_option_' . ( ++$index_data ), $option->question ),
 					);
 				}
 
@@ -499,8 +510,8 @@ abstract class UR_Form_Field {
 		/** Redundant Codes End. */
 
 		$filter_data = array(
-			'form_data' => $form_data,
 			'data'      => $data,
+			'form_data' => $form_data,
 		);
 		/**
 		 * Filter the field key based frontend form data .
@@ -509,12 +520,14 @@ abstract class UR_Form_Field {
 		 *
 		 * @param string $filter_data The filtered field data.
 		 */
-		$form_data_array = apply_filters( 'user_registration_' . $field_key . '_frontend_form_data', $filter_data );
+		$form_data_array = apply_filters( 'user_registration_' . $field_key . '_frontend_form_data', $filter_data, false );
 
 		$form_data = isset( $form_data_array['form_data'] ) ? $form_data_array['form_data'] : $form_data;
 
-		if ( isset( $data['general_setting']->field_name ) ) {
-			user_registration_form_field( $data['general_setting']->field_name, $form_data );
+		$field_name = isset( $data['advance_setting']->field_name ) ? $data['advance_setting']->field_name : ( isset( $data['general_setting']->field_name ) ? $data['general_setting']->field_name : '' );
+
+		if ( ! empty( $field_name ) ) {
+			user_registration_form_field( $field_name, $form_data );
 		}
 	}
 
@@ -1031,7 +1044,7 @@ abstract class UR_Form_Field {
 		$class        = 'ur-general-setting-' . $strip_prefix;
 
 		$settings  = "<div class='ur-general-setting-block " . esc_attr( $class ) . "'>";
-		$settings .= '<h2 class="ur-toggle-heading">' . esc_html__( 'General Settings', 'user-registration' ) . '</h2><hr>';
+		$settings .= '<h2 class="ur-toggle-heading closed">' . esc_html__( 'General Settings', 'user-registration' ) . '</h2><hr>';
 		$settings .= '<div class="ur-toggle-content">';
 		$settings .= $this->get_field_general_settings();
 		$settings .= '</div>';
@@ -1040,7 +1053,7 @@ abstract class UR_Form_Field {
 		$advance_settings = $this->get_field_advance_settings();
 
 		if ( ! empty( $advance_settings ) ) {
-			$settings .= "<div class='user-registration-field-option-group ur-advance-setting-block closed'>";
+			$settings .= "<div class='user-registration-field-option-group ur-advance-setting-block'>";
 			$settings .= '<h2 class="ur-toggle-heading closed">' . __( 'Advanced Settings', 'user-registration' ) . '</h2><hr>';
 			$settings .= '<div class="ur-toggle-content">';
 			$settings .= $advance_settings;
@@ -1070,14 +1083,4 @@ abstract class UR_Form_Field {
 		$settings = apply_filters( 'user_registration_after_advance_settings_filter', $settings, $this->id, $this->admin_data );
 		return $settings;
 	}
-
-	/**
-	 * Validation for form field.
-	 *
-	 * @param object $single_form_field The field being validate.
-	 * @param object $form_data Form Data.
-	 * @param string $filter_hook Filter for validation messages.
-	 * @param int    $form_id Form ID.
-	 */
-	abstract public function validation( $single_form_field, $form_data, $filter_hook, $form_id );
 }

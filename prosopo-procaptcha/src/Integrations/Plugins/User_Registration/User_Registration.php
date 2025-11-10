@@ -12,6 +12,7 @@ use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Login;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\Forms\UR_Password_Recovery;
 use Io\Prosopo\Procaptcha\Settings\Account_Form_Settings;
 use Io\Prosopo\Procaptcha\Widget\Widget;
+use UR_Form_Field_Prosopo_Procaptcha;
 
 final class User_Registration extends Plugin_Integration_Base {
 	private Account_Form_Settings $account_form_settings;
@@ -48,7 +49,7 @@ final class User_Registration extends Plugin_Integration_Base {
 	protected function get_hookable_integrations(): array {
 		$integrations = array(
 			new Ur_Field_Integration( $this->widget ),
-			new UR_Form_Field_Prosopo_Procaptcha(),
+			UR_Form_Field_Prosopo_Procaptcha::get_instance(),
 		);
 
 		if ( $this->account_form_settings->is_login_protected() ) {

@@ -1,10 +1,8 @@
 <?php
 
-// Global namespace: as User Registration plugin will be calling this class by its name.
-
 declare( strict_types=1 );
 
-namespace Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration;
+// global namespace: the User Registration plugin will be calling this class by its name.
 
 defined( 'ABSPATH' ) || exit;
 
@@ -13,16 +11,27 @@ use Io\Prosopo\Procaptcha\Integration\Widget\External_Widget_Integration_Trait;
 use Io\Prosopo\Procaptcha\Utils\Hookable;
 use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 use Io\Prosopo\Procaptcha\Widget\Widget_Settings;
-use UR_Form_Field;
 use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
 
-// Class name must match the UR_Form_Field_{field_type} format.
+// the class name must follow the "UR_Form_Field_{field_type}" format.
 final class UR_Form_Field_Prosopo_Procaptcha extends UR_Form_Field implements External_Widget_Integration, Hookable {
 	use External_Widget_Integration_Trait;
 
 	const NAME_PREFIX = 'user_registration_';
 
-	public function __construct() {
+	private static ?self $instance = null;
+
+	// singleton: the User Registration plugin will call this method.
+	public static function get_instance(): self {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	// private constructor of the singleton
+	private function __construct() {
 		$widget = self::get_widget();
 
 		// @phpstan-ignore-next-line

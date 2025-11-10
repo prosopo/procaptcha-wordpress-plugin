@@ -84,4 +84,3 @@ Launching:
 To open the Cypress app:
 
 `cd tests; yarn cy:open`
-

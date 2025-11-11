@@ -6,11 +6,10 @@ namespace Io\Prosopo\Procaptcha\Widget;
 
 defined( 'ABSPATH' ) || exit;
 
-use Io\Prosopo\Procaptcha\Assets\Assets_Loader;
-use Io\Prosopo\Procaptcha\Hookable;
-use Io\Prosopo\Procaptcha\Settings\General\General_Settings_Tab;
-use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
-use function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\string;
+use Io\Prosopo\Procaptcha\Settings\Procaptcha_Settings;
+use Io\Prosopo\Procaptcha\Utils\Assets\Assets_Loader;
+use Io\Prosopo\Procaptcha\Utils\Hookable;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 final class Widget_Assets_Loader implements Hookable {
 	private string $service_script_url;
@@ -26,27 +25,27 @@ final class Widget_Assets_Loader implements Hookable {
 	private string $integrations_css_code;
 
 	private Assets_Loader $assets_loader;
-	private Settings_Tab $general_settings;
+	private Procaptcha_Settings $procaptcha_settings;
 
 	public function __construct(
 		string $service_script_url,
 		string $service_script_handle,
 		Assets_Loader $assets_loader,
-		Settings_Tab $general_settings
+		Procaptcha_Settings $procaptcha_settings
 	) {
 		$this->service_script_url    = $service_script_url;
 		$this->service_script_handle = $service_script_handle;
 
-		$this->general_settings = $general_settings;
-		$this->assets_loader    = $assets_loader;
+		$this->procaptcha_settings = $procaptcha_settings;
+		$this->assets_loader       = $assets_loader;
 
 		$this->is_widget_in_use           = false;
 		$this->plugin_integration_scripts = array();
 		$this->integrations_css_code      = '';
 	}
 
-	public function set_hooks( bool $is_admin_area ): void {
-		$hook = $is_admin_area ?
+	public function set_hooks( Screen_Detector $screen_detector ): void {
+		$hook = $screen_detector->is_admin_area() ?
 			'admin_print_footer_scripts' :
 			'wp_print_footer_scripts';
 
@@ -90,12 +89,10 @@ final class Widget_Assets_Loader implements Hookable {
 	}
 
 	protected function load_widget_script(): void {
-		$general_settings = $this->general_settings->get_settings();
-
 		$widget_attributes = array(
-			'captchaType' => string( $general_settings, General_Settings_Tab::TYPE ),
-			'siteKey'     => string( $general_settings, General_Settings_Tab::SITE_KEY ),
-			'theme'       => string( $general_settings, General_Settings_Tab::THEME ),
+			'captchaType' => $this->procaptcha_settings->get_type(),
+			'siteKey'     => $this->procaptcha_settings->get_site_key(),
+			'theme'       => $this->procaptcha_settings->get_theme(),
 		);
 
 		$widget_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $widget_attributes );

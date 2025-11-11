@@ -2,7 +2,7 @@
 
 namespace Unit;
 
-use Io\Prosopo\Procaptcha\Html_Attributes_Collection;
+use Io\Prosopo\Procaptcha\Utils\Html_Attributes_Collection;
 use Tests\TestCase;
 
 class Html_Attributes_Collection_Test extends TestCase {

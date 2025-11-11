@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.20.1
+Stable tag: 1.20.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,18 +86,18 @@ Branding:
 Account-related:
 1. [Simple Membership](https://wordpress.org/plugins/simple-membership/)
 2. [User Registration](https://wordpress.org/plugins/user-registration/)
-3. [Memberpress](https://memberpress.com/) - Login, Reset password: via Procaptcha plugin settings -> Account forms. Membership register - via on-membership settings
+3. [Memberpress](https://memberpress.com/) - Login, Reset password: via Procaptcha plugin settings -> Core forms. Membership register - via on-membership settings
 
 While only the items above are tested, overall, the Procaptcha plugin supports all the plugins with custom account forms that use the native WordPress account hooks.
 
 **Other Integrations**:
 
 1. [BBPress](https://docs.prosopo.io/en/wordpress-plugin/bbpress/) -  Account forms from [the shortcodes](https://codex.bbpress.org/features/shortcodes/); Forum forms: Open the target forum settings to enable topic and reply forms protection.
-2. [Elementor Pro](https://docs.prosopo.io/en/wordpress-plugin/elementor-pro/) - Form widgets: use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the Procaptcha plugin settings->Account forms).
+2. [Elementor Pro](https://docs.prosopo.io/en/wordpress-plugin/elementor-pro/) - Form widgets: use the `Prosopo Procaptcha` field. Login widgets: use the `Prosopo Procaptcha` checkbox in the `Form Fields` tab (Login must be enabled in the Procaptcha plugin settings->Core forms).
 3. [JetPack](https://wordpress.org/plugins/jetpack/) (Forms) - Gutenberg form block: Add the Group block with the `prosopo_procaptcha` shortcode inside the target form block.
 4. [WooCommerce](https://docs.prosopo.io/en/wordpress-plugin/woocommerce/) - My Account forms; Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
 5. [Spectra](https://docs.prosopo.io/en/wordpress-plugin/spectra/) - Form block: add hidden input with the `prosopo_procaptcha` name
-6. [Beaver Builder](https://wordpress.org/plugins/beaver-builder-lite-version/) - Contact, Subscribe forms: enabled protection in the target form settings; Login form: Procaptcha plugin settings->Account forms.
+6. [Beaver Builder](https://wordpress.org/plugins/beaver-builder-lite-version/) - Contact, Subscribe forms: enabled protection in the target form settings; Login form: Procaptcha plugin settings->Core forms.
 
 **Built-In Integrations**:
 
@@ -112,8 +112,8 @@ More integrations coming soon!
 
 1. Customize the CAPTCHA appearance and behavior through the plugin settings.
 2. Easily manage integration-specific settings.
-3. Monitor usage statistics without leaving the plugin.
-4. Seamless integration with multiple vendors and forms.
+3. Seamless integration with multiple vendors and forms.
+4. Monitor usage statistics without leaving the plugin.
 
 == Frequently Asked Questions ==
 
@@ -134,6 +134,10 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.20.2 (2025-11-11) =
+* Feature: new "Active Integrations" admin page
+* Maintenance: compatibility with the latest JetPack version
 
 = 1.20.1 (2025-08-21) =
 Enhancement: compatibility with the latest WPForms version

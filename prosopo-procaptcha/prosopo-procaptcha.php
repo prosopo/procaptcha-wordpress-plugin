@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Prosopo Procaptcha
  * Description: GDPR compliant, privacy friendly and better value captcha.
- * Version: 1.20.1
+ * Version: 1.20.2
  * Author: Prosopo Team
  * Author URI: https://prosopo.io/
  * License: GPLv2 or later
@@ -11,11 +11,13 @@
  * Domain Path: /lang
  */
 
-namespace Io\Prosopo\Procaptcha;
-
 defined( 'ABSPATH' ) || exit;
 
-require_once __DIR__ . '/autoloader.php';
+( function () {
+	/**
+	 * @var \Io\Prosopo\Procaptcha\Procaptcha_Plugin $plugin_instance
+	 */
+	$plugin_instance = require __DIR__ . '/load_plugin.php';
 
-( new Procaptcha_Plugin( __FILE__, defined( 'PROSOPO_PROCAPTCHA_DEV_MODE' ) && PROSOPO_PROCAPTCHA_DEV_MODE ) )
-	->set_hooks( is_admin() );
+	$plugin_instance->set_hooks();
+} )();

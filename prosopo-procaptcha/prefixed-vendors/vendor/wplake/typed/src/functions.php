@@ -178,7 +178,9 @@ function dateTimeOrNull($source, $keys = null): ?DateTime
     return Typed::dateTimeOrNull($source, $keys);
 }
 /**
- * @param mixed $target
+ * @template Target
+ *
+ * @param Target $target
  * @param int|string|array<int,int|string> $keys
  * @param mixed $value
  */

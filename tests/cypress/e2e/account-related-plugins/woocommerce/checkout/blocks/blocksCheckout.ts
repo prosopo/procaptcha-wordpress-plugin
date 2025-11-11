@@ -29,21 +29,11 @@ export const checkoutSubmissionResult = {
 const INTERCEPT_REQUEST_TIMEOUT_MS = 30_000;
 
 export const submitCheckout = (settings: FormSubmitionSettings) => {
-    const captchaValue = settings.captchaValue || "";
+    // always ensure the checkout data is loaded -
+    // otherwise, ".setBillingAddress()" will have no impact
+    cy.get(".wc-block-components-product-price").should("exist");
 
-    /**
-     * The waiting workaround must be placed exactly before we access window.wp.data,
-     * otherwise it doesn't work.
-     */
-    if (captchaValue.length > 0) {
-        /**
-         * It's necessary to wait until the captcha is drawn,
-         * otherwise .setAdditionalFields() call will be passed without error but with no effect.
-         *
-         * Note: it would be better to wait generic 'additional fields ready' event, but it isn't present in the Woo's JS.
-         */
-        cy.get("prosopo-procaptcha-wp-widget").should("exist");
-    }
+    const captchaValue = settings.captchaValue || "";
 
     getWpData((wpData) => {
         const fieldValues = settings.fieldValues || {};

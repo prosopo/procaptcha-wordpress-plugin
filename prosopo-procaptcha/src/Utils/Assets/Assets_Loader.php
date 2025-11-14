@@ -49,7 +49,7 @@ final class Assets_Loader implements Hookable {
 
 		$script_settings = array(
 			'in_footer' => true,
-			'strategy ' => $has_dependencies ?
+			'strategy' => $has_dependencies ?
 				'defer' :
 				'async',
 		);
@@ -125,7 +125,11 @@ final class Assets_Loader implements Hookable {
 		return in_array( $script_handle, $this->loaded_script_handles, true );
 	}
 
-	protected function get_asset_handle( string $relative_asset_path ): string {
+	public function get_asset_handle( string $relative_asset_path ): string {
 		return 'prosopo-procaptcha-' . $relative_asset_path;
+	}
+
+	public function resolve_asset_url( string $relative_asset_path ): string {
+		return $this->assets_resolver->resolve_asset_url( $relative_asset_path );
 	}
 }

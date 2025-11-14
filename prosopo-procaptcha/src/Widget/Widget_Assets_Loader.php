@@ -97,12 +97,18 @@ final class Widget_Assets_Loader implements Hookable {
 
 		$widget_attributes = apply_filters( 'prosopo/procaptcha/captcha_attributes', $widget_attributes );
 
-		$this->assets_loader->load_script_asset(
-			'integrations/procaptcha/procaptcha-integration.min.js',
-			array(),
-			'procaptchaWpAttributes',
-			$widget_attributes
-		);
+		$relative_script_path = 'integrations/procaptcha/procaptcha-integration.min.js';
+		$script_url           = $this->assets_loader->resolve_asset_url( $relative_script_path );
+		$handle               = $this->assets_loader->get_asset_handle( $relative_script_path );
+
+		// Add Elementor frontend as dependency if it's enqueued to ensure proper loading order.
+		$dependencies = array();
+		if ( wp_script_is( 'elementor-frontend', 'enqueued' ) || wp_script_is( 'elementor-frontend', 'registered' ) ) {
+			$dependencies[] = 'elementor-frontend';
+		}
+
+		$this->assets_loader->mark_asset_as_loaded( $relative_script_path );
+		$this->assets_loader->load_script( $handle, $script_url, $dependencies, 'procaptchaWpAttributes', $widget_attributes );
 	}
 
 	protected function load_plugin_integration_scripts(): void {

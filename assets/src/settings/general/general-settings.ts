@@ -1,20 +1,19 @@
-import { WebComponentRegistrar } from "#webComponent/webComponentRegistrar.js";
+import { WebComponentRegistrar } from "../../utils/webComponent/webComponentRegistrar.js";
 import { GeneralSettingsWebComponent } from "./generalSettingsWebComponent.js";
 import { GeneralSettingsConfig } from "./generalSettingsConfig.js";
-import type Logger from "#logger/logger.js";
-import type { AccountApiResolver } from "#settings/account/api/accountApiResolver.js";
-import type { ApiCredentials } from "#settings/apiCredentials.js";
-import LoggerFactory from "#logger/loggerFactory.js";
-import PluginModuleLogger from "#logger/plugin/pluginModuleLogger.js";
-import { ProsopoAccountApi } from "#settings/account/api/prosopoAccountApi.js";
-import { AccountApiCredentials } from "#settings/account/api/accountApiCredentials.js";
+import type Logger from "../../utils/logger/logger.js";
+import { SiteApiCredentials } from "#settings/api/siteApiCredentials.js";
+import LoggerFactory from "../../utils/logger/loggerFactory.js";
+import PluginModuleLogger from "../../utils/logger/plugin/pluginModuleLogger.js";
+import { ApiClient } from "#settings/api/apiClient.js";
+import type { ProcaptchaAccountResolver } from "#settings/api/procaptchaAccount.js";
 
 class GeneralSettings {
 	private readonly logger: Logger;
 	private readonly webComponentRegistrar: WebComponentRegistrar;
 	private readonly config: GeneralSettingsConfig;
-	private readonly accountApiResolver: AccountApiResolver;
-	private readonly accountApiCredentials: ApiCredentials;
+	private readonly accountApiResolver: ProcaptchaAccountResolver;
+	private readonly apiUser: SiteApiCredentials;
 
 	public constructor() {
 		const loggerFactory = new LoggerFactory();
@@ -28,12 +27,12 @@ class GeneralSettings {
 
 		this.config = new GeneralSettingsConfig();
 
-		this.accountApiResolver = new ProsopoAccountApi(
+		this.accountApiResolver = new ApiClient(
 			this.config.getAccountApiEndpoint(),
 			this.logger,
 		);
 
-		this.accountApiCredentials = new AccountApiCredentials(
+		this.apiUser = new SiteApiCredentials(
 			this.config.getSiteKey(),
 			this.config.getSecretKey(),
 		);
@@ -41,7 +40,7 @@ class GeneralSettings {
 
 	public setupWebComponent(): void {
 		const generalSettingsWebComponent = new GeneralSettingsWebComponent(
-			this.accountApiCredentials,
+			this.apiUser,
 			this.accountApiResolver,
 		);
 

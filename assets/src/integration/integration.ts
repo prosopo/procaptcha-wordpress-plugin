@@ -1,6 +1,6 @@
-import type Logger from "#logger/logger.js";
-import type { WebComponent } from "#webComponent/webComponent.js";
-import type { WebComponentSettings } from "#webComponent/webComponentSettings.js";
+import type Logger from "../utils/logger/logger.js";
+import type { WebComponent } from "../utils/webComponent/webComponent.js";
+import type { WebComponentSettings } from "../utils/webComponent/webComponentSettings.js";
 
 interface Integration {
 	name: string;

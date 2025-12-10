@@ -11,7 +11,7 @@
     "prettier:check": "prettier src --check",
     "prettier:fix": "prettier src --write"
   },
-  "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90",
+  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8",
   "dependencies": {
     "@polkadot/util": "^13.2.3",
     "@prosopo/keyring": "^2.4.2",

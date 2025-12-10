@@ -1,6 +1,6 @@
-import type Logger from "#logger/logger.js";
-import type ModuleLogger from "#logger/moduleLogger.js";
-import logLevel from "#logger/logLevel.js";
+import type Logger from "../logger.js";
+import type ModuleLogger from "../moduleLogger.js";
+import logLevel from "../logLevel.js";
 
 class PluginLogger implements Logger {
 	private readonly module: string;

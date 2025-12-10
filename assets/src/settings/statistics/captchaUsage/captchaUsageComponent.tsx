@@ -1,8 +1,8 @@
 import * as React from "react";
 import CaptchaUsageNumberUtils from "./captchaUsageNumberUtils.js";
-import type { CaptchaUsage } from "./captchaUsage.js";
 import type { UsageLabels } from "#settings/statistics/config.js";
 import { SectionComponent } from "#settings/statistics/components/sectionComponent.js";
+import type { CaptchaUsage } from "#settings/api/procaptchaSite.js";
 
 interface CaptchaUsageComponentProperties {
 	limits: {

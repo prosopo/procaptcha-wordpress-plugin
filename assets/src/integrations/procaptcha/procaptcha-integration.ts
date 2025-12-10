@@ -1,6 +1,6 @@
 import { createIntegrationConnector } from "#integration/connector/integrationConnectorFactory.js";
 import type { Integration } from "#integration/integration.js";
-import type Logger from "#logger/logger.js";
+import type Logger from "../../utils/logger/logger.js";
 import FormIntegrationComponent from "#integrations/procaptcha/formIntegrationComponent.js";
 import WidgetIntegrationComponent from "#integrations/procaptcha/widgetIntegrationComponent.js";
 

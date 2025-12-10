@@ -2,7 +2,7 @@
 Contributors: 1prosopo
 Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 1.20.2
 License: GPLv2 or later

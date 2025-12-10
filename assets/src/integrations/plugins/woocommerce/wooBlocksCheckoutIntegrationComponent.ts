@@ -1,5 +1,5 @@
-import { WebComponent } from "#webComponent/webComponent.js";
-import type Logger from "#logger/logger.js";
+import { WebComponent } from "../../../utils/webComponent/webComponent.js";
+import type Logger from "../../../utils/logger/logger.js";
 
 declare global {
 	interface Window {

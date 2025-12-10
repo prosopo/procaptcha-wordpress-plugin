@@ -92,10 +92,15 @@ export class ApiClient
 		}
 
 		this.logger.warning("Endpoint request failed", {
-			url,
-			headers,
-			fields,
-			statusCode: response.status,
+			request: {
+				url,
+				headers,
+				fields,
+			},
+			response: {
+				code: response.status,
+				text: await response.text(),
+			},
 		});
 
 		throw Error("Endpoint request failed");

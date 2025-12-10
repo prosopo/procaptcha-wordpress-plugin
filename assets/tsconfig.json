@@ -14,14 +14,11 @@
       "#integrations/*": [
         "./src/integrations/*"
       ],
-      "#logger/*": [
-        "./src/logger/*"
-      ],
       "#settings/*": [
         "./src/settings/*"
       ],
-      "#webComponent/*": [
-        "./src/webComponent/*"
+      "#utils/*": [
+        "./src/utils/*"
       ]
     }
   }

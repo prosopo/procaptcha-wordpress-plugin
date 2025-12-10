@@ -1,4 +1,12 @@
-export class SiteApiCredentials {
+export type ApiCredentials = {
+	publicKey: string;
+
+	canSign(): boolean;
+
+	signMessage(message: string): Promise<string>;
+};
+
+export class SiteApiCredentials implements ApiCredentials {
 	constructor(
 		public readonly publicKey: string,
 		private readonly privateKey: string,

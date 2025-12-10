@@ -1,14 +1,12 @@
-import type { WebComponent } from "../../utils/webComponent/webComponent.js";
-import type { SiteApiCredentials } from "#settings/api/siteApiCredentials.js";
+import type { WebComponent } from "#utils/webComponent/webComponent.js";
+import type { ApiCredentials } from "#settings/procaptcha/api/apiCredentials.js";
 
-import {
-	type ProcaptchaAccountResolver,
-	ProcaptchaAccountTiers,
-} from "#settings/api/procaptchaAccount.js";
+import { ProcaptchaAccountTiers } from "#settings/procaptcha/procaptchaAccount.js";
+import type { ProcaptchaAccountResolver } from "#settings/procaptcha/api/apiClient.js";
 
 class GeneralSettingsWebComponent implements WebComponent {
 	public constructor(
-		private readonly apiCredentials: SiteApiCredentials,
+		private readonly apiCredentials: ApiCredentials,
 		private readonly accountApiResolver: ProcaptchaAccountResolver,
 	) {}
 

@@ -1,8 +1,7 @@
 import {
 	type ProcaptchaAccount,
 	procaptchaAccountSchema,
-} from "#settings/api/procaptchaAccount.js";
-import type { SiteApiCredentials } from "#settings/api/siteApiCredentials.js";
+} from "#settings/procaptcha/procaptchaAccount.js";
 import { z, type ZodType } from "zod";
 
 export interface ProcaptchaSite {
@@ -27,12 +26,6 @@ export interface CaptchaUsage {
 	submissions: number;
 	verifications: number;
 	total: number;
-}
-
-export interface ProcaptchaSiteResolver {
-	resolveSite(
-		siteCredentials: SiteApiCredentials,
-	): Promise<ProcaptchaSite | null>;
 }
 
 export const siteSettingsSchema = z.object({

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { SectionComponent } from "./sectionComponent.js";
 import { CallToActionComponent } from "./callToActionComponent.js";
-import type Logger from "../../../utils/logger/logger.js";
+import type Logger from "#utils/logger/logger.js";
 import type { TrafficDataLabels } from "#settings/statistics/config.js";
 
-import { ProcaptchaAccountTiers } from "#settings/api/procaptchaAccount.js";
+import { ProcaptchaAccountTiers } from "#settings/procaptcha/procaptchaAccount.js";
 
 interface TrafficAnalyticsComponentProperties {
 	accountTier: string;

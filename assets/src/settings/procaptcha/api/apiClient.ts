@@ -1,13 +1,17 @@
-import type Logger from "../../utils/logger/logger.js";
-import type { SiteApiCredentials } from "#settings/api/siteApiCredentials.js";
-import type {
-	ProcaptchaAccount,
-	ProcaptchaAccountResolver,
-} from "#settings/api/procaptchaAccount.js";
-import type {
-	ProcaptchaSite,
-	ProcaptchaSiteResolver,
-} from "#settings/api/procaptchaSite.js";
+import type Logger from "#utils/logger/logger.js";
+import type { ApiCredentials } from "#settings/procaptcha/api/apiCredentials.js";
+import type { ProcaptchaAccount } from "#settings/procaptcha/procaptchaAccount.js";
+import type { ProcaptchaSite } from "#settings/procaptcha/procaptchaSite.js";
+
+export type ProcaptchaAccountResolver = {
+	resolveAccount(
+		apiCredentials: ApiCredentials,
+	): Promise<ProcaptchaAccount | null>;
+};
+
+export type ProcaptchaSiteResolver = {
+	resolveSite(apiCredentials: ApiCredentials): Promise<ProcaptchaSite | null>;
+};
 
 export class ApiClient
 	implements ProcaptchaAccountResolver, ProcaptchaSiteResolver
@@ -18,14 +22,14 @@ export class ApiClient
 	) {}
 
 	public async resolveAccount(
-		siteCredentials: SiteApiCredentials,
+		apiCredentials: ApiCredentials,
 	): Promise<ProcaptchaAccount | null> {
 		try {
-			return this.fetchAccount(siteCredentials);
+			return this.fetchAccount(apiCredentials);
 		} catch (error) {
 			this.logger.warning("Account can not be resolved", {
 				error: error,
-				siteCredentials,
+				apiCredentials,
 			});
 
 			return null;
@@ -33,14 +37,14 @@ export class ApiClient
 	}
 
 	public async resolveSite(
-		siteCredentials: SiteApiCredentials,
+		apiCredentials: ApiCredentials,
 	): Promise<ProcaptchaSite | null> {
 		try {
-			return this.fetchSite(siteCredentials);
+			return this.fetchSite(apiCredentials);
 		} catch (error) {
 			this.logger.warning("Account can not be resolved", {
 				error: error,
-				siteCredentials,
+				apiCredentials,
 			});
 
 			return null;
@@ -48,13 +52,13 @@ export class ApiClient
 	}
 
 	protected async fetchAccount(
-		siteCredentials: SiteApiCredentials,
+		apiCredentials: ApiCredentials,
 	): Promise<ProcaptchaAccount> {
-		if (siteCredentials.canSign()) {
-			const accountData = await this.callAccountEndpoint(siteCredentials);
+		if (apiCredentials.canSign()) {
+			const accountData = await this.callAccountEndpoint(apiCredentials);
 
 			const { procaptchaAccountSchema } = await import(
-				"./procaptchaAccount.js"
+				"../procaptchaAccount.js"
 			);
 
 			return procaptchaAccountSchema.parse(accountData);
@@ -64,10 +68,10 @@ export class ApiClient
 	}
 
 	protected async fetchSite(
-		siteCredentials: SiteApiCredentials,
+		apiCredentials: ApiCredentials,
 	): Promise<ProcaptchaSite> {
-		if (siteCredentials.canSign()) {
-			const accountData = await this.callAccountEndpoint(siteCredentials);
+		if (apiCredentials.canSign()) {
+			const accountData = await this.callAccountEndpoint(apiCredentials);
 
 			const siteData =
 				Object === accountData?.constructor
@@ -78,7 +82,7 @@ export class ApiClient
 					: {};
 
 			const { procaptchaSiteSchema } = await import(
-				"./procaptchaSite.js"
+				"../procaptchaSite.js"
 			);
 
 			return procaptchaSiteSchema.parse(siteData);
@@ -88,25 +92,25 @@ export class ApiClient
 	}
 
 	protected async callAccountEndpoint(
-		siteCredentials: SiteApiCredentials,
+		apiCredentials: ApiCredentials,
 	): Promise<unknown> {
 		return await this.callApiEndpoint(
 			this.accountEndpointUrl,
-			siteCredentials,
+			apiCredentials,
 			{
-				siteKey: siteCredentials.publicKey,
+				siteKey: apiCredentials.publicKey,
 			},
 		);
 	}
 
 	protected async callApiEndpoint(
 		endpointUrl: string,
-		siteCredentials: SiteApiCredentials,
+		apiCredentials: ApiCredentials,
 		bodyFields: object,
 	): Promise<unknown> {
 		const timestamp = Date.now();
 
-		const messageSignature = await siteCredentials.signMessage(
+		const messageSignature = await apiCredentials.signMessage(
 			timestamp.toString(),
 		);
 

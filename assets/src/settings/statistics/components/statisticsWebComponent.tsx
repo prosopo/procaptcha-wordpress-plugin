@@ -1,8 +1,8 @@
 import * as ReactDOM from "react-dom/client";
 import * as React from "react";
 import { AppComponent } from "./appComponent.js";
-import type { WebComponent } from "../../../utils/webComponent/webComponent.js";
-import type Logger from "../../../utils/logger/logger.js";
+import type { WebComponent } from "#utils/webComponent/webComponent.js";
+import type Logger from "#utils/logger/logger.js";
 
 class StatisticsWebComponent implements WebComponent {
 	constructor(private readonly logger: Logger) {}

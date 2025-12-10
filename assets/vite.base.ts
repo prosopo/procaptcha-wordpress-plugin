@@ -42,12 +42,8 @@ class ViteBase {
 						__dirname,
 						"./src/integrations",
 					),
-					"#logger": path.resolve(__dirname, "./src/logger"),
 					"#settings": path.resolve(__dirname, "./src/settings"),
-					"#webComponent": path.resolve(
-						__dirname,
-						"./src/webComponent",
-					),
+					"#utils": path.resolve(__dirname, "./src/utils"),
 				},
 			},
 		};

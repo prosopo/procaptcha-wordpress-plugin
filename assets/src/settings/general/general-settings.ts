@@ -1,19 +1,24 @@
-import { WebComponentRegistrar } from "../../utils/webComponent/webComponentRegistrar.js";
+import { WebComponentRegistrar } from "#utils/webComponent/webComponentRegistrar.js";
 import { GeneralSettingsWebComponent } from "./generalSettingsWebComponent.js";
 import { GeneralSettingsConfig } from "./generalSettingsConfig.js";
-import type Logger from "../../utils/logger/logger.js";
-import { SiteApiCredentials } from "#settings/api/siteApiCredentials.js";
-import LoggerFactory from "../../utils/logger/loggerFactory.js";
-import PluginModuleLogger from "../../utils/logger/plugin/pluginModuleLogger.js";
-import { ApiClient } from "#settings/api/apiClient.js";
-import type { ProcaptchaAccountResolver } from "#settings/api/procaptchaAccount.js";
+import type Logger from "#utils/logger/logger.js";
+import {
+	type ApiCredentials,
+	SiteApiCredentials,
+} from "#settings/procaptcha/api/apiCredentials.js";
+import LoggerFactory from "#utils/logger/loggerFactory.js";
+import PluginModuleLogger from "#utils/logger/plugin/pluginModuleLogger.js";
+import {
+	ApiClient,
+	type ProcaptchaAccountResolver,
+} from "#settings/procaptcha/api/apiClient.js";
 
 class GeneralSettings {
 	private readonly logger: Logger;
 	private readonly webComponentRegistrar: WebComponentRegistrar;
 	private readonly config: GeneralSettingsConfig;
 	private readonly accountApiResolver: ProcaptchaAccountResolver;
-	private readonly apiUser: SiteApiCredentials;
+	private readonly apiUser: ApiCredentials;
 
 	public constructor() {
 		const loggerFactory = new LoggerFactory();

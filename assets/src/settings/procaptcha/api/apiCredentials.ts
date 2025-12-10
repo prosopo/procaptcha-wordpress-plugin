@@ -3,7 +3,7 @@ export type ApiCredentials = {
 
 	canSign(): boolean;
 
-	issueJwt(): Promise<string>;
+	getJwt(): Promise<string>;
 };
 
 export class SiteApiCredentials implements ApiCredentials {
@@ -16,7 +16,7 @@ export class SiteApiCredentials implements ApiCredentials {
 		return this.publicKey.length > 0 && this.privateKey.length > 0;
 	}
 
-	async issueJwt(): Promise<string> {
+	async getJwt(): Promise<string> {
 		if (this.canSign()) {
 			return this.createJwt();
 		}

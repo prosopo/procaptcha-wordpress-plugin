@@ -56,7 +56,7 @@ export class ApiClient
 		apiCredentials: ApiCredentials,
 		fields: Record<string, unknown>,
 	): Promise<unknown> {
-		const jwt = await apiCredentials.issueJwt();
+		const jwt = await apiCredentials.getJwt();
 
 		return this.requestEndpoint(
 			endpointUrl,

@@ -12,16 +12,16 @@ export class SiteApiCredentials implements ApiCredentials {
 		private readonly privateKey: string,
 	) {}
 
-	public canSign(): boolean {
+	canSign(): boolean {
 		return this.publicKey.length > 0 && this.privateKey.length > 0;
 	}
 
-	public async issueJwt(): Promise<string> {
-		const getPair = (await import("@prosopo/keyring")).getPair;
+	async issueJwt(): Promise<string> {
+		if (this.canSign()) {
+			return this.createJwt();
+		}
 
-		const keypair = getPair(this.privateKey, undefined, "sr25519", 42);
-
-		return keypair.jwtIssue();
+		throw Error("JWT issuing requires complete credentials");
 	}
 
 	toString() {
@@ -29,5 +29,13 @@ export class SiteApiCredentials implements ApiCredentials {
 			`public key: ${this.publicKey}`,
 			this.canSign() ? "can sign" : "cannot sign",
 		].join(", ");
+	}
+
+	protected async createJwt(): Promise<string> {
+		const getPair = (await import("@prosopo/keyring")).getPair;
+
+		const keypair = getPair(this.privateKey, undefined, "sr25519", 42);
+
+		return keypair.jwtIssue();
 	}
 }

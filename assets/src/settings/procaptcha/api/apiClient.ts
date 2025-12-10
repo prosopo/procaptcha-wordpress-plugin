@@ -37,7 +37,7 @@ export class ApiClient
 
 			return procaptchaSiteSchema.parse(siteData);
 		} catch (error) {
-			this.logger.warning("Site can not be resolved", {
+			this.logger.warning("Site cannot be resolved", {
 				error,
 				apiCredentials: String(apiCredentials),
 			});

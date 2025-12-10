@@ -43,8 +43,9 @@ use Io\Prosopo\Procaptcha\Settings\{Account_Form_Settings,
 };
 
 final class Procaptcha_Plugin {
-	const PLUGIN_SLUG              = 'prosopo-procaptcha';
-	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
+	const PLUGIN_SLUG        = 'prosopo-procaptcha';
+	const SERVICE_SCRIPT_URL = 'https://js.prosopo.io/js/procaptcha.bundle.js';
+	// fixme
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
 	const DOCS_URL_BASE            = 'https://docs.prosopo.io/en/wordpress-plugin';
 	const SUPPORT_FORUM_URL        = 'https://wordpress.org/support/plugin/prosopo-procaptcha/';

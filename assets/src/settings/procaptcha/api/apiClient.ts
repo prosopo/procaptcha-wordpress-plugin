@@ -16,159 +16,110 @@ export type ProcaptchaSiteResolver = {
 export class ApiClient
 	implements ProcaptchaAccountResolver, ProcaptchaSiteResolver
 {
-	public constructor(
-		protected readonly accountEndpointUrl: string,
+	constructor(
+		protected readonly siteEndpointUrl: string,
 		protected readonly logger: Logger,
 	) {}
 
-	public async resolveAccount(
-		apiCredentials: ApiCredentials,
-	): Promise<ProcaptchaAccount | null> {
-		try {
-			return this.fetchAccount(apiCredentials);
-		} catch (error) {
-			this.logger.warning("Account can not be resolved", {
-				error: error,
-				apiCredentials,
-			});
-
-			return null;
-		}
-	}
-
-	public async resolveSite(
+	async resolveSite(
 		apiCredentials: ApiCredentials,
 	): Promise<ProcaptchaSite | null> {
+		const { procaptchaSiteSchema } = await import("../procaptchaSite.js");
+
 		try {
-			return this.fetchSite(apiCredentials);
-		} catch (error) {
-			this.logger.warning("Account can not be resolved", {
-				error: error,
+			const siteData = await this.makeApiRequest(
+				this.siteEndpointUrl,
 				apiCredentials,
-			});
-
-			return null;
-		}
-	}
-
-	protected async fetchAccount(
-		apiCredentials: ApiCredentials,
-	): Promise<ProcaptchaAccount> {
-		if (apiCredentials.canSign()) {
-			const accountData = await this.callAccountEndpoint(apiCredentials);
-
-			const { procaptchaAccountSchema } = await import(
-				"../procaptchaAccount.js"
-			);
-
-			return procaptchaAccountSchema.parse(accountData);
-		}
-
-		throw new Error("Provided site credentials cannot sign");
-	}
-
-	protected async fetchSite(
-		apiCredentials: ApiCredentials,
-	): Promise<ProcaptchaSite> {
-		if (apiCredentials.canSign()) {
-			const accountData = await this.callAccountEndpoint(apiCredentials);
-
-			const siteData =
-				Object === accountData?.constructor
-					? {
-							...accountData,
-							account: accountData,
-						}
-					: {};
-
-			const { procaptchaSiteSchema } = await import(
-				"../procaptchaSite.js"
+				{
+					siteKey: apiCredentials.publicKey,
+				},
 			);
 
 			return procaptchaSiteSchema.parse(siteData);
-		}
+		} catch (error) {
+			this.logger.warning("Site can not be resolved", {
+				error,
+				apiCredentials: String(apiCredentials),
+			});
 
-		throw new Error("Provided site credentials cannot sign messages");
+			return null;
+		}
 	}
 
-	protected async callAccountEndpoint(
+	resolveAccount = async (
 		apiCredentials: ApiCredentials,
+	): Promise<ProcaptchaAccount | null> =>
+		(await this.resolveSite(apiCredentials))?.account ?? null;
+
+	protected async makeApiRequest(
+		endpointUrl: string,
+		apiCredentials: ApiCredentials,
+		fields: Record<string, unknown>,
 	): Promise<unknown> {
-		return await this.callApiEndpoint(
-			this.accountEndpointUrl,
-			apiCredentials,
+		const jwt = await apiCredentials.issueJwt();
+
+		return this.requestEndpoint(
+			endpointUrl,
 			{
-				siteKey: apiCredentials.publicKey,
+				Authorization: `Bearer ${jwt}`,
 			},
+			fields,
 		);
 	}
 
-	protected async callApiEndpoint(
-		endpointUrl: string,
-		apiCredentials: ApiCredentials,
-		bodyFields: object,
+	protected async requestEndpoint(
+		url: string,
+		headers: Record<string, string>,
+		fields: Record<string, unknown>,
 	): Promise<unknown> {
-		const timestamp = Date.now();
-
-		const messageSignature = await apiCredentials.signMessage(
-			timestamp.toString(),
-		);
-
-		bodyFields = {
-			...bodyFields,
-			signature: messageSignature,
-			timestamp: timestamp,
-		};
-
-		return await this.callEndpoint(endpointUrl, bodyFields);
-	}
-
-	protected async callEndpoint(
-		endpointUrl: string,
-		bodyFields: object,
-	): Promise<unknown> {
-		this.logger.debug("Requesting endpoint", {
-			endpointUrl: endpointUrl,
-			bodyFields: bodyFields,
+		const response = await this.requestUrl(url, {
+			method: "POST",
+			headers: {
+				...headers,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(fields),
 		});
-
-		let response: Response;
-
-		try {
-			response = await fetch(endpointUrl, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(bodyFields),
-			});
-		} catch (networkError) {
-			this.logger.warning("Network error", {
-				networkError: networkError,
-				endpointUrl: endpointUrl,
-				bodyFields: bodyFields,
-			});
-
-			throw networkError;
-		}
 
 		if (200 === response.status) {
 			const jsonResponse = await response.json();
 
-			this.logger.debug("Endpoint request is successfully completed", {
-				endpointUrl: endpointUrl,
-				jsonResponse: jsonResponse,
+			this.logger.debug("Endpoint request completed", {
+				jsonResponse,
 			});
 
 			return jsonResponse;
-		} else {
-			this.logger.warning("Endpoint request has failed", {
-				statusCode: response.status,
-				endpointUrl: endpointUrl,
-				bodyFields: bodyFields,
+		}
+
+		this.logger.warning("Endpoint request failed", {
+			url,
+			headers,
+			fields,
+			statusCode: response.status,
+		});
+
+		throw Error("Endpoint request failed");
+	}
+
+	protected async requestUrl(
+		url: string,
+		request: RequestInit,
+	): Promise<Response> {
+		this.logger.debug("Requesting url", {
+			url,
+			request,
+		});
+
+		try {
+			return await fetch(url, request);
+		} catch (networkError) {
+			this.logger.warning("Network error", {
+				url,
+				request,
+				networkError,
 			});
 
-			throw Error("Endpoint request has failed");
+			throw networkError;
 		}
 	}
 }

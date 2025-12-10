@@ -3,7 +3,7 @@ export type ApiCredentials = {
 
 	canSign(): boolean;
 
-	signMessage(message: string): Promise<string>;
+	issueJwt(): Promise<string>;
 };
 
 export class SiteApiCredentials implements ApiCredentials {
@@ -16,25 +16,18 @@ export class SiteApiCredentials implements ApiCredentials {
 		return this.publicKey.length > 0 && this.privateKey.length > 0;
 	}
 
-	public async signMessage(message: string): Promise<string> {
-		const getPairAsync = (await import("@prosopo/keyring")).getPairAsync;
-		const { stringToU8a, u8aToHex } = await import("@polkadot/util");
+	public async issueJwt(): Promise<string> {
+		const getPair = (await import("@prosopo/keyring")).getPair;
 
-		const keypair = await getPairAsync(
-			this.privateKey,
-			undefined,
-			"sr25519",
-			42,
-		);
+		const keypair = getPair(this.privateKey, undefined, "sr25519", 42);
 
-		const sign = keypair.sign(stringToU8a(message));
-
-		return u8aToHex(sign);
+		return keypair.jwtIssue();
 	}
 
-	public toString(): string {
-		return {
-			publicSiteKey: this.publicKey,
-		}.toString();
+	toString() {
+		return [
+			`public key: ${this.publicKey}`,
+			this.canSign() ? "can sign" : "cannot sign",
+		].join(", ");
 	}
 }

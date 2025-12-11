@@ -30,14 +30,11 @@ export class ApiClient
 			const siteData = await this.makeApiRequest(
 				this.siteEndpointUrl,
 				apiCredentials,
-				{
-					siteKey: apiCredentials.publicKey,
-				},
 			);
 
 			return procaptchaSiteSchema.parse(siteData);
 		} catch (error) {
-			this.logger.warning("Site cannot be resolved", {
+			this.logger.warning("Site api request failed", {
 				error,
 				apiCredentials: String(apiCredentials),
 			});
@@ -54,7 +51,7 @@ export class ApiClient
 	protected async makeApiRequest(
 		endpointUrl: string,
 		apiCredentials: ApiCredentials,
-		fields: Record<string, unknown>,
+		fields: Record<string, unknown> = {},
 	): Promise<unknown> {
 		const jwt = await apiCredentials.getJwt();
 
@@ -69,8 +66,8 @@ export class ApiClient
 
 	protected async requestEndpoint(
 		url: string,
-		headers: Record<string, string>,
-		fields: Record<string, unknown>,
+		headers: Record<string, string> = {},
+		fields: Record<string, unknown> = {},
 	): Promise<unknown> {
 		const response = await this.requestUrl(url, {
 			method: "POST",

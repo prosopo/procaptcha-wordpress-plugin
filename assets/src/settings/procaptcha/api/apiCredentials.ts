@@ -1,6 +1,4 @@
 export type ApiCredentials = {
-	publicKey: string;
-
 	canSign(): boolean;
 
 	getJwt(): Promise<string>;
@@ -34,7 +32,9 @@ export class SiteApiCredentials implements ApiCredentials {
 	protected async createJwt(): Promise<string> {
 		const getPair = (await import("@prosopo/keyring")).getPair;
 
-		const keypair = getPair(this.privateKey, undefined, "sr25519", 42);
+		const keypair = getPair(this.privateKey);
+
+		// fixme jwt verification fails on the server side, verify here to see if it's right
 
 		return keypair.jwtIssue();
 	}

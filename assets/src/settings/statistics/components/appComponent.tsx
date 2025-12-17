@@ -1,20 +1,36 @@
 import * as React from "react";
-import { AppStatusComponent, AppStatusComponentProperties, StatCurrentState } from "./appStatusComponent.js";
+import {
+	AppStatusComponent,
+	AppStatusComponentProperties,
+	StatCurrentState,
+} from "./appStatusComponent.js";
 import { ListComponent, ListComponentProperties } from "./listComponent.js";
-import { TrafficAnalyticsComponent, TrafficAnalyticsComponentProperties } from "./trafficAnalyticsComponent.js";
+import {
+	TrafficAnalyticsComponent,
+	TrafficAnalyticsComponentProperties,
+} from "./trafficAnalyticsComponent.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
-import { type ApiCredentials, SiteApiCredentials } from "#settings/procaptcha/api/apiCredentials.js";
+import {
+	type ApiCredentials,
+	SiteApiCredentials,
+} from "#settings/procaptcha/api/apiCredentials.js";
 import {
 	CaptchaUsageComponent,
-	type CaptchaUsageComponentProperties
+	type CaptchaUsageComponentProperties,
 } from "#settings/statistics/captchaUsage/captchaUsageComponent.js";
 import type Logger from "#utils/logger/logger.js";
 import { type Config, ConfigClass } from "#settings/statistics/config.js";
 import CaptchaUsageNumberUtils from "#settings/statistics/captchaUsage/captchaUsageNumberUtils.js";
-import type { ProcaptchaSite, SiteSettings } from "#settings/procaptcha/procaptchaSite.js";
+import type {
+	ProcaptchaSite,
+	SiteSettings,
+} from "#settings/procaptcha/procaptchaSite.js";
 
 import type { ProcaptchaAccount } from "#settings/procaptcha/procaptchaAccount.js";
-import { ApiClient, type ProcaptchaSiteResolver } from "#settings/procaptcha/api/apiClient.js";
+import {
+	ApiClient,
+	type ProcaptchaSiteResolver,
+} from "#settings/procaptcha/api/apiClient.js";
 
 interface AppComponentProperties {
 	logger: Logger;

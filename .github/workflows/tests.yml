@@ -1,9 +1,7 @@
 name: Tests (Code Quality & E2E Cypress)
 
 on:
-  pull_request:
-    branches:
-      - release
+  pull_request
 
 jobs:
   check-code-quality:

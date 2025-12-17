@@ -34,8 +34,8 @@ export class SiteApiCredentials implements ApiCredentials {
 
 		const keypair = getPair(this.privateKey);
 
-		// fixme jwt verification fails on the server side, verify here to see if it's right
-
+		// fixme change the keyring package version when it's released
+		// @ts-expect-error tmp
 		return keypair.jwtIssue();
 	}
 }

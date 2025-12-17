@@ -8,6 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Io\Prosopo\Procaptcha\Integration\Plugin\Plugin_Integration;
 use Io\Prosopo\Procaptcha\Integrations\Integrations_Loader;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7\Contact_Form_7};
 use Io\Prosopo\Procaptcha\Integrations\Plugins\BBPress\BBPress;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Builder;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Pro;
@@ -24,28 +25,24 @@ use Io\Prosopo\Procaptcha\Integrations\Plugins\User_Registration\User_Registrati
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WooCommerce\WooCommerce;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\WPForms\WPForms;
 use Io\Prosopo\Procaptcha\Integrations\WordPress\WordPress;
-use Io\Prosopo\Procaptcha\Plugin_Assets;
-use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector_Base;
-use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
-use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
-use Io\Prosopo\Procaptcha\Widget\Widget;
-use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7\Contact_Form_7};
-use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
-use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
-use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
-use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
 use Io\Prosopo\Procaptcha\Settings\{Account_Form_Settings,
 	General\Active_Integrations\Active_Integrations_Tab,
 	General\Tab\General_Settings_Tab,
 	Procaptcha_Settings,
 	Settings_Page,
-	Statistics\Statistics_Settings_Tab
-};
+	Statistics\Statistics_Settings_Tab};
+use Io\Prosopo\Procaptcha\Settings\Tab\Settings_Tab;
+use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector_Base;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewNamespaceConfig;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\View\ViewTemplateRenderer;
+use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\ViewsManager;
+use Io\Prosopo\Procaptcha\Widget\Procaptcha_Widget;
+use Io\Prosopo\Procaptcha\Widget\Widget;
+use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 
 final class Procaptcha_Plugin {
-	const PLUGIN_SLUG        = 'prosopo-procaptcha';
-	const SERVICE_SCRIPT_URL = 'https://js.prosopo.io/js/procaptcha.bundle.js';
-	// fixme
+	const PLUGIN_SLUG              = 'prosopo-procaptcha';
+	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
 	const DOCS_URL_BASE            = 'https://docs.prosopo.io/en/wordpress-plugin';
 	const SUPPORT_FORUM_URL        = 'https://wordpress.org/support/plugin/prosopo-procaptcha/';

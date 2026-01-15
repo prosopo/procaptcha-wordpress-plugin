@@ -34,8 +34,6 @@ export class SiteApiCredentials implements ApiCredentials {
 
 		const keypair = getPair(this.privateKey);
 
-		// fixme change the keyring package version when it's released
-		// @ts-expect-error tmp
 		return keypair.jwtIssue();
 	}
 }

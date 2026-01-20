@@ -13,7 +13,7 @@ const settingsConfig: UserConfig = {
 		}),
 		visualizer(),
 		tailwindcss(),
-		nodePolyfills()
+		nodePolyfills(),
 	],
 	build: {
 		rollupOptions: {

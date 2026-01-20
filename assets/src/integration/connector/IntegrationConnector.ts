@@ -1,6 +1,6 @@
-import { WebComponentRegistrar } from "#webComponent/webComponentRegistrar.js";
-import type LoggerFactory from "#logger/loggerFactory.js";
-import type PluginModuleLogger from "#logger/plugin/pluginModuleLogger.js";
+import { WebComponentRegistrar } from "../../utils/webComponent/webComponentRegistrar.js";
+import type LoggerFactory from "../../utils/logger/loggerFactory.js";
+import type PluginModuleLogger from "../../utils/logger/plugin/pluginModuleLogger.js";
 import type { Integration } from "#integration/integration.js";
 
 class IntegrationConnector {

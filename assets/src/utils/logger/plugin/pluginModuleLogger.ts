@@ -1,5 +1,5 @@
-import logLevel from "#logger/logLevel.js";
-import type ModuleLogger from "#logger/moduleLogger.js";
+import logLevel from "../logLevel.js";
+import type ModuleLogger from "../moduleLogger.js";
 
 class PluginModuleLogger implements ModuleLogger {
 	public log(

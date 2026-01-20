@@ -1,9 +1,10 @@
 import * as React from "react";
 import { SectionComponent } from "./sectionComponent.js";
 import { CallToActionComponent } from "./callToActionComponent.js";
-import type Logger from "#logger/logger.js";
-import { AccountTiers } from "#settings/account/accountTiers.js";
+import type Logger from "#utils/logger/logger.js";
 import type { TrafficDataLabels } from "#settings/statistics/config.js";
+
+import { ProcaptchaAccountTiers } from "#settings/procaptcha/procaptchaAccount.js";
 
 interface TrafficAnalyticsComponentProperties {
 	accountTier: string;
@@ -38,7 +39,7 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalyticsComponen
 			return null;
 		}
 
-		return AccountTiers.FREE === this.props.accountTier
+		return ProcaptchaAccountTiers.FREE === this.props.accountTier
 			? this.getCallToUpgradeElement()
 			: this.getCallToVisitPortalElement();
 	}

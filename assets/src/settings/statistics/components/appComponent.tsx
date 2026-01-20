@@ -1,31 +1,36 @@
 import * as React from "react";
 import {
-	StatCurrentState,
 	AppStatusComponent,
 	AppStatusComponentProperties,
+	StatCurrentState,
 } from "./appStatusComponent.js";
-
 import { ListComponent, ListComponentProperties } from "./listComponent.js";
 import {
 	TrafficAnalyticsComponent,
 	TrafficAnalyticsComponentProperties,
 } from "./trafficAnalyticsComponent.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
-import type { SiteApiResolver } from "#settings/statistics/site/api/siteApiResolver.js";
-import type { ApiCredentials } from "#settings/apiCredentials.js";
+import {
+	type ApiCredentials,
+	SiteApiCredentials,
+} from "#settings/procaptcha/api/apiCredentials.js";
 import {
 	CaptchaUsageComponent,
 	type CaptchaUsageComponentProperties,
 } from "#settings/statistics/captchaUsage/captchaUsageComponent.js";
-import type Logger from "#logger/logger.js";
+import type Logger from "#utils/logger/logger.js";
 import { type Config, ConfigClass } from "#settings/statistics/config.js";
 import CaptchaUsageNumberUtils from "#settings/statistics/captchaUsage/captchaUsageNumberUtils.js";
-import { ProsopoSiteApi } from "#settings/statistics/site/api/prosopoSiteApi.js";
-import { SiteApiCredentials } from "#settings/statistics/site/api/siteApiCredentials.js";
-import { AccountApiCredentials } from "#settings/account/api/accountApiCredentials.js";
-import type { Site } from "#settings/statistics/site/site.js";
-import type { SiteSettings } from "#settings/statistics/site/settings/siteSettings.js";
-import type { Account } from "#settings/account/account.js";
+import type {
+	ProcaptchaSite,
+	SiteSettings,
+} from "#settings/procaptcha/procaptchaSite.js";
+
+import type { ProcaptchaAccount } from "#settings/procaptcha/procaptchaAccount.js";
+import {
+	ApiClient,
+	type ProcaptchaSiteResolver,
+} from "#settings/procaptcha/api/apiClient.js";
 
 interface AppComponentProperties {
 	logger: Logger;
@@ -41,7 +46,7 @@ interface AppState {
 }
 
 class AppComponent extends React.Component<AppComponentProperties, AppState> {
-	private readonly siteApiResolver: SiteApiResolver;
+	private readonly siteResolver: ProcaptchaSiteResolver;
 	private readonly siteApiCredentials: ApiCredentials;
 	private readonly config: Config;
 	private readonly numberUtils: CaptchaUsageNumberUtils;
@@ -54,15 +59,13 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		this.logger = props.logger;
 		this.numberUtils = new CaptchaUsageNumberUtils();
 
-		this.siteApiResolver = new ProsopoSiteApi(
+		this.siteResolver = new ApiClient(
 			this.config.getAccountApiEndpoint(),
 			this.logger,
 		);
 		this.siteApiCredentials = new SiteApiCredentials(
-			new AccountApiCredentials(
-				this.config.getSiteKey(),
-				this.config.getSecretKey(),
-			),
+			this.config.getSiteKey(),
+			this.config.getSecretKey(),
 		);
 
 		this.state = this.getInitialState();
@@ -161,7 +164,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		}));
 	}
 
-	protected refreshUserData(site: Site): void {
+	protected refreshUserData(site: ProcaptchaSite): void {
 		this.setState((actualState) => ({
 			...actualState,
 			accountInformation: {
@@ -273,7 +276,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		}));
 	}
 
-	protected refreshTrafficData(account: Account): void {
+	protected refreshTrafficData(account: ProcaptchaAccount): void {
 		this.setState((actualState) => ({
 			...actualState,
 			trafficData: {
@@ -287,7 +290,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	}
 
 	protected async refreshData(): Promise<void> {
-		const site = await this.siteApiResolver.resolveSite(
+		const site = await this.siteResolver.resolveSite(
 			this.siteApiCredentials,
 		);
 

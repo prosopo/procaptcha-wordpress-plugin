@@ -4,6 +4,7 @@ import { makeViteConfig } from "../../vite.base.js";
 import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import tailwindcss from "@tailwindcss/vite";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const settingsConfig: UserConfig = {
 	plugins: [
@@ -12,6 +13,7 @@ const settingsConfig: UserConfig = {
 		}),
 		visualizer(),
 		tailwindcss(),
+		nodePolyfills(),
 	],
 	build: {
 		rollupOptions: {

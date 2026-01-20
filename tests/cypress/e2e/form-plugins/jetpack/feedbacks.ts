@@ -7,7 +7,7 @@ const trashFeedbacks = () => {
         .click();
 
     // remove
-    cy.get(".dataviews-bulk-actions-footer__action-buttons .components-button:nth-child(4)")
+    cy.get(".dataviews-bulk-actions-footer__action-buttons .components-button:contains('Trash')")
         .click();
 
     // notification
@@ -20,7 +20,8 @@ const emptyFeedbacksTrash = () => {
     cy.visit("/wp-admin/admin.php?page=jetpack-forms-admin#/responses?status=trash");
 
     // delete all
-    const deleteButton = ".jp-forms__layout-header-actions .components-button:nth-child(2)";
+    const deleteButton = ".jp-forms-stack.admin-ui-page__header .components-button:contains('Empty')";
+
     // wait until loaded
     cy.get(deleteButton)
         .should("have.text", "Empty trash");
@@ -29,7 +30,7 @@ const emptyFeedbacksTrash = () => {
         .click();
 
     // confirm
-    cy.get(".components-modal__content .components-button:nth-child(2)")
+    cy.get(".components-modal__content .components-button:contains('Delete')")
         .click();
 
     // notification

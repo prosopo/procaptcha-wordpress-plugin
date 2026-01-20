@@ -1,12 +1,13 @@
-import type { WebComponent } from "#webComponent/webComponent.js";
-import type { ApiCredentials } from "#settings/apiCredentials.js";
-import type { AccountApiResolver } from "#settings/account/api/accountApiResolver.js";
-import { AccountTiers } from "#settings/account/accountTiers.js";
+import type { WebComponent } from "#utils/webComponent/webComponent.js";
+import type { ApiCredentials } from "#settings/procaptcha/api/apiCredentials.js";
+
+import { ProcaptchaAccountTiers } from "#settings/procaptcha/procaptchaAccount.js";
+import type { ProcaptchaAccountResolver } from "#settings/procaptcha/api/apiClient.js";
 
 class GeneralSettingsWebComponent implements WebComponent {
 	public constructor(
 		private readonly apiCredentials: ApiCredentials,
-		private readonly accountApiResolver: AccountApiResolver,
+		private readonly accountApiResolver: ProcaptchaAccountResolver,
 	) {}
 
 	constructComponent(element: HTMLElement): void {
@@ -27,7 +28,7 @@ class GeneralSettingsWebComponent implements WebComponent {
 		);
 		const accountTier = account?.tier || "";
 
-		if (AccountTiers.FREE === accountTier) {
+		if (ProcaptchaAccountTiers.FREE === accountTier) {
 			tierUpgradeBanner.setAttribute("data-visible", "true");
 		}
 	}

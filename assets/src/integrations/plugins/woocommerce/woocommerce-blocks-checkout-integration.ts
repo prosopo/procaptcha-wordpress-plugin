@@ -1,5 +1,5 @@
 import { createIntegrationConnector } from "#integration/connector/integrationConnectorFactory.js";
-import type Logger from "#logger/logger.js";
+import type Logger from "../../../utils/logger/logger.js";
 import { WooBlocksCheckoutIntegrationComponent } from "#integrations/plugins/woocommerce/wooBlocksCheckoutIntegrationComponent.js";
 import type { Integration } from "#integration/integration.js";
 

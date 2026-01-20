@@ -1,5 +1,9 @@
-// fixme uncomment when fixed https://wordpress.org/support/topic/php-fatal-error-uncaught-typeerror-hash_equals-argument-1-known_string/
-/*new IntegrationTest({
+import {IntegrationTest} from "@support/integration-test";
+import {LoginForm} from "@wordpress/login-form";
+import {RegisterForm} from "@wordpress/register-form";
+import {LostPasswordForm} from "@wordpress/lost-password-form";
+
+new IntegrationTest({
     targetPluginSlugs: [
         'change-wp-admin-login',
     ],
@@ -15,4 +19,4 @@
             url: '/login/?action=lostpassword',
         }),
     ],
-});*/
+});

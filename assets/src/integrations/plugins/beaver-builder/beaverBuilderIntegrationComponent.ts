@@ -1,5 +1,5 @@
-import { WebComponent } from "#webComponent/webComponent.js";
-import Logger from "#logger/logger.js";
+import { WebComponent } from "../../../utils/webComponent/webComponent.js";
+import Logger from "../../../utils/logger/logger.js";
 
 class BeaverBuilderIntegrationComponent implements WebComponent {
 	private readonly logger: Logger;

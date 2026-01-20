@@ -1,3 +1,5 @@
 .yarn
 node_modules
 stats.html
+src/**/*.js
+vite.base.js

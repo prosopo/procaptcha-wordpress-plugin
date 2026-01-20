@@ -20,7 +20,7 @@ const emptyFeedbacksTrash = () => {
     cy.visit("/wp-admin/admin.php?page=jetpack-forms-admin#/responses?status=trash");
 
     // delete all
-    const deleteButton = ".jp-forms-stack.admin-ui-page__header-actions .components-button:contains('Empty')";
+    const deleteButton = ".jp-forms-stack.admin-ui-page__header .components-button:contains('Empty')";
 
     // wait until loaded
     cy.get(deleteButton)

@@ -135,7 +135,7 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 
 == Changelog ==
 
-= 1.20.3 (2025-) =
+= 1.20.3 (2026-01-20) =
 * Maintenance: compatibility with the latest Procaptcha statistics API
 
 = 1.20.2 (2025-11-11) =

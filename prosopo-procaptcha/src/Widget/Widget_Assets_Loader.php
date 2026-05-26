@@ -15,6 +15,7 @@ final class Widget_Assets_Loader implements Hookable {
 	private string $service_script_url;
 	private string $service_script_iife_url;
 	private string $service_script_handle;
+	private string $service_script_iife_handle;
 
 	private bool $is_widget_in_use;
 	/**
@@ -35,9 +36,10 @@ final class Widget_Assets_Loader implements Hookable {
 		Assets_Loader $assets_loader,
 		Procaptcha_Settings $procaptcha_settings
 	) {
-		$this->service_script_url      = $service_script_url;
-		$this->service_script_iife_url = $service_script_iife_url;
-		$this->service_script_handle   = $service_script_handle;
+		$this->service_script_url         = $service_script_url;
+		$this->service_script_iife_url    = $service_script_iife_url;
+		$this->service_script_handle      = $service_script_handle;
+		$this->service_script_iife_handle = $service_script_handle . '-iife';
 
 		$this->procaptcha_settings = $procaptcha_settings;
 		$this->assets_loader       = $assets_loader;
@@ -55,20 +57,18 @@ final class Widget_Assets_Loader implements Hookable {
 		// priority must be less than 10, to make sure the wp_enqueue_script still has effect.
 		add_action( $hook, array( $this, 'enqueue_assets_when_in_use' ), 1 );
 
-		add_filter( 'script_loader_tag', array( $this, 'append_nomodule_service_script' ), 11, 2 );
+		add_filter( 'script_loader_tag', array( $this, 'add_nomodule_attribute_to_iife_script' ), 11, 2 );
 	}
 
-	public function append_nomodule_service_script( string $script_tag, string $script_handle ): string {
-		if ( $script_handle !== $this->service_script_handle ) {
+	public function add_nomodule_attribute_to_iife_script( string $script_tag, string $script_handle ): string {
+		if ( $script_handle !== $this->service_script_iife_handle ) {
 			return $script_tag;
 		}
 
-		$nomodule_tag = sprintf(
-			'<script nomodule src="%s" async defer></script>',
-			esc_url( $this->service_script_iife_url )
-		);
+		// for old WP versions.
+		$script_tag = str_replace( ' type="text/javascript"', '', $script_tag );
 
-		return $script_tag . $nomodule_tag;
+		return str_replace( '<script ', '<script nomodule async defer ', $script_tag );
 	}
 
 	public function load_integration_script( string $integration_name ): void {
@@ -104,6 +104,18 @@ final class Widget_Assets_Loader implements Hookable {
 
 	protected function load_service_script(): void {
 		$this->assets_loader->load_script( $this->service_script_handle, $this->service_script_url );
+
+		// Enqueue the IIFE fallback directly (bypassing Assets_Loader::load_script) so it
+		// does NOT inherit the type="module" attribute applied to loaded handles.
+		wp_enqueue_script(
+			$this->service_script_iife_handle,
+			$this->service_script_iife_url,
+			array(),
+			// external CDN URL, no version needed.
+			// @phpcs:ignore
+			null,
+			array( 'in_footer' => true )
+		);
 	}
 
 	protected function load_widget_script(): void {

@@ -43,6 +43,7 @@ use Io\Prosopo\Procaptcha\Widget\Widget_Assets_Loader;
 final class Procaptcha_Plugin {
 	const PLUGIN_SLUG              = 'prosopo-procaptcha';
 	const SERVICE_SCRIPT_URL       = 'https://js.prosopo.io/js/procaptcha.bundle.js';
+	const SERVICE_SCRIPT_IIFE_URL  = 'https://js.prosopo.io/js/procaptcha.bundle.iife.js';
 	const ACCOUNT_API_ENDPOINT_URL = 'https://api.prosopo.io/sites/wp-details';
 	const DOCS_URL_BASE            = 'https://docs.prosopo.io/en/wordpress-plugin';
 	const SUPPORT_FORUM_URL        = 'https://wordpress.org/support/plugin/prosopo-procaptcha/';
@@ -169,6 +170,7 @@ final class Procaptcha_Plugin {
 	protected function load_widget(): void {
 		$this->widget_assets_manager = new Widget_Assets_Loader(
 			self::SERVICE_SCRIPT_URL,
+			self::SERVICE_SCRIPT_IIFE_URL,
 			'prosopo-procaptcha',
 			$this->plugin_assets->get_loader(),
 			$this->procaptcha_settings

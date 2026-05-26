@@ -13,6 +13,7 @@ use Io\Prosopo\Procaptcha\Utils\Screen_Detector\Screen_Detector;
 
 final class Widget_Assets_Loader implements Hookable {
 	private string $service_script_url;
+	private string $service_script_iife_url;
 	private string $service_script_handle;
 
 	private bool $is_widget_in_use;
@@ -29,12 +30,14 @@ final class Widget_Assets_Loader implements Hookable {
 
 	public function __construct(
 		string $service_script_url,
+		string $service_script_iife_url,
 		string $service_script_handle,
 		Assets_Loader $assets_loader,
 		Procaptcha_Settings $procaptcha_settings
 	) {
-		$this->service_script_url    = $service_script_url;
-		$this->service_script_handle = $service_script_handle;
+		$this->service_script_url      = $service_script_url;
+		$this->service_script_iife_url = $service_script_iife_url;
+		$this->service_script_handle   = $service_script_handle;
 
 		$this->procaptcha_settings = $procaptcha_settings;
 		$this->assets_loader       = $assets_loader;
@@ -51,6 +54,21 @@ final class Widget_Assets_Loader implements Hookable {
 
 		// priority must be less than 10, to make sure the wp_enqueue_script still has effect.
 		add_action( $hook, array( $this, 'enqueue_assets_when_in_use' ), 1 );
+
+		add_filter( 'script_loader_tag', array( $this, 'append_nomodule_service_script' ), 11, 2 );
+	}
+
+	public function append_nomodule_service_script( string $script_tag, string $script_handle ): string {
+		if ( $script_handle !== $this->service_script_handle ) {
+			return $script_tag;
+		}
+
+		$nomodule_tag = sprintf(
+			'<script nomodule src="%s" async defer></script>',
+			esc_url( $this->service_script_iife_url )
+		);
+
+		return $script_tag . $nomodule_tag;
 	}
 
 	public function load_integration_script( string $integration_name ): void {

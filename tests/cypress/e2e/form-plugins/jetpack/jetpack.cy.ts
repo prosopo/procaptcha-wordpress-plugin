@@ -31,7 +31,7 @@ activatePluginsForTestLifetime(["jetpack"]);
 
 describe("Protected contact form", () => {
     const page = "/jetpack-with-captcha/";
-    const formSelector = "form.wp-block-jetpack-contact-form";
+    const formSelector = "form:has(input.grunion-field)";
 
     after(() => deleteAllFeedbacks());
 
@@ -81,7 +81,7 @@ describe("Protected contact form", () => {
 
 describe("Default contact form is not affected", () => {
     const page = "/jetpack-without-captcha/";
-    const formSelector = "form.wp-block-jetpack-contact-form";
+    const formSelector = "form:has(input.grunion-field)";
 
     after(() => deleteAllFeedbacks());
 

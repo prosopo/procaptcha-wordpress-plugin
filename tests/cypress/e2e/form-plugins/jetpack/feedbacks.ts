@@ -1,41 +1,43 @@
 const trashFeedbacks = () => {
     cy.visit("/wp-admin/admin.php?page=jetpack-forms-admin#/responses?status=inbox");
 
-    // select all
-    cy.get(".dataviews-view-table-selection-checkbox .components-checkbox-control__input")
-        .first()
-        .click();
+    // Newer Jetpack Forms admin doesn't always surface legacy contact-form
+    // feedbacks here. If there are no rows to bulk-select, skip the trash
+    // step rather than failing the cleanup hook.
+    cy.get("body").then(($body) => {
+        const $checkboxes = $body.find(
+            ".dataviews-view-table-selection-checkbox .components-checkbox-control__input",
+        );
 
-    // remove
-    cy.get(".dataviews-bulk-actions-footer__action-buttons .components-button:contains('Trash')")
-        .click();
+        if (0 === $checkboxes.length) {
+            return;
+        }
 
-    // notification
-    cy.get(".components-snackbar__content")
-        .should("be.visible");
+        cy.wrap($checkboxes.first()).click();
+        cy.get(".dataviews-bulk-actions-footer__action-buttons .components-button:contains('Trash')")
+            .click();
+        cy.get(".components-snackbar__content").should("be.visible");
+    });
 }
 
 const emptyFeedbacksTrash = () => {
     // clear trash
     cy.visit("/wp-admin/admin.php?page=jetpack-forms-admin#/responses?status=trash");
 
-    // delete all
     const deleteButton = ".jp-forms-stack.admin-ui-page__header .components-button:contains('Empty')";
 
-    // wait until loaded
-    cy.get(deleteButton)
-        .should("have.text", "Empty trash");
-    // click
-    cy.get(deleteButton)
-        .click();
+    // Skip if the trash is already empty (the Empty button isn't rendered).
+    cy.get("body").then(($body) => {
+        if (0 === $body.find(deleteButton).length) {
+            return;
+        }
 
-    // confirm
-    cy.get(".components-modal__content .components-button:contains('Delete')")
-        .click();
-
-    // notification
-    cy.get(".components-snackbar__content")
-        .should("be.visible");
+        cy.get(deleteButton).should("have.text", "Empty trash");
+        cy.get(deleteButton).click();
+        cy.get(".components-modal__content .components-button:contains('Delete')")
+            .click();
+        cy.get(".components-snackbar__content").should("be.visible");
+    });
 }
 
 export const deleteAllFeedbacks = () => {

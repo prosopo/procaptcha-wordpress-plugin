@@ -19,13 +19,15 @@ runs:
       shell: bash
 
     - name: Wait for WordPress to start
-      run: npx wait-on http://procaptcha.local --timeout 10000
+      run: npx wait-on https://procaptcha.local --timeout 10000
       shell: bash
+      env:
+        NODE_TLS_REJECT_UNAUTHORIZED: "0"
 
     - name: Run WordPress database upgrade
-      run: curl -sSL "http://procaptcha.local/wp-admin/upgrade.php?step=upgrade_db" > /dev/null
+      run: curl -sSL "https://procaptcha.local/wp-admin/upgrade.php?step=upgrade_db" > /dev/null
       shell: bash
 
     - name: Check domain resolution
-      run: curl -I http://procaptcha.local
+      run: curl -I https://procaptcha.local
       shell: bash

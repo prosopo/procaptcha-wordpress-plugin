@@ -12,6 +12,12 @@ module.exports = defineConfig({
                     "logs|html": "html",
                 },
             });
+            on('before:browser:launch', (browser, launchOptions) => {
+                if (browser.family === 'chromium') {
+                    launchOptions.args.push('--ignore-certificate-errors');
+                }
+                return launchOptions;
+            });
             on(
                 'after:spec',
                 (spec, results) => {
@@ -31,7 +37,7 @@ module.exports = defineConfig({
                 }
             )
         },
-        baseUrl: "http://procaptcha.local",
+        baseUrl: "https://procaptcha.local",
         watchForFileChanges: false, // Disable auto-run on file changes.
         defaultCommandTimeout: 6000, // default 4000.
         viewportWidth: 1280, // default 1000.

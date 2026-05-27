@@ -8,24 +8,51 @@ runs:
       run: echo "127.0.0.1 localhost procaptcha.local" | sudo tee /etc/hosts
       shell: bash
 
+    - name: Generate self-signed TLS cert for procaptcha.local
+      run: |
+        sudo mkdir -p /etc/ssl/procaptcha
+        sudo openssl req -x509 -newkey rsa:4096 -nodes -days 365 \
+          -keyout /etc/ssl/procaptcha/server.key \
+          -out /etc/ssl/procaptcha/server.crt \
+          -subj "/CN=procaptcha.local" \
+          -addext "subjectAltName=DNS:procaptcha.local,DNS:localhost,IP:127.0.0.1"
+        sudo chmod 644 /etc/ssl/procaptcha/server.crt
+        sudo chmod 640 /etc/ssl/procaptcha/server.key
+      shell: bash
+
+    - name: Install cert in system + Chrome trust stores
+      run: |
+        sudo cp /etc/ssl/procaptcha/server.crt /usr/local/share/ca-certificates/procaptcha-dev.crt
+        sudo update-ca-certificates
+        sudo apt-get install -y libnss3-tools >/dev/null
+        mkdir -p "$HOME/.pki/nssdb"
+        certutil -d sql:"$HOME/.pki/nssdb" -N --empty-password 2>/dev/null || true
+        certutil -A -n "Procaptcha Dev" -t "CT,C,C" -i /etc/ssl/procaptcha/server.crt -d sql:"$HOME/.pki/nssdb"
+      shell: bash
+
     - name: Configure Nginx
       run: |
         sudo bash -c 'cat > /etc/nginx/sites-available/default <<EOF
         server {
             listen 80;
+            listen 443 ssl;
             server_name localhost procaptcha.local;
-        
+
+            ssl_certificate     /etc/ssl/procaptcha/server.crt;
+            ssl_certificate_key /etc/ssl/procaptcha/server.key;
+
             root /var/www/procaptcha;
             index index.php index.html index.htm;
-        
+
             location / {
                 try_files \$uri \$uri/ /index.php?\$args;
             }
-        
+
             location ~ \.php$ {
                 include snippets/fastcgi-php.conf;
                 fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
                 fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+                fastcgi_param HTTPS \$https if_not_empty;
                 include fastcgi_params;
             }
         }

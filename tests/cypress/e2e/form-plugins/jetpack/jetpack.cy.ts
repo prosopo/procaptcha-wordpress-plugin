@@ -11,18 +11,24 @@ const submitForm = (settings: FormSubmitionSettings) =>
         ...settings,
     });
 
+// Newer Jetpack renders the success state as "Thank you for your response. ✨"
+// without the legacy #contact-form-success-header id. Match the body when it
+// contains that text so we work on both old and new Jetpack templates.
+const successMessageSelector = "body:contains('Thank you for your response')";
+
 const submissionResult = {
     successful: {
         element: {
-            selector: "#contact-form-success-header",
-            label: "Your message has been sent",
+            selector: successMessageSelector,
+            label: "Thank you for your response",
         },
     } as ExpectedResult,
     failed: {
         element: {
-            // as per Jetpack v15.2 no error message for 'spammy' submission (which we mark as) is shown
-            selector: "#contact-form-success-header",
-            shouldBeHidden: true,
+            // 'spammy' submissions are rejected before Jetpack renders any
+            // success template, so no "Thank you for your response" appears.
+            selector: successMessageSelector,
+            shouldBeMissing: true,
         },
     } as ExpectedResult,
 };

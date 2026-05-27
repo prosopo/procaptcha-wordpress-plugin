@@ -22,6 +22,10 @@ runs:
       run: npx wait-on http://procaptcha.local --timeout 10000
       shell: bash
 
+    - name: Run WordPress database upgrade
+      run: curl -sSL "http://procaptcha.local/wp-admin/upgrade.php?step=upgrade_db" > /dev/null
+      shell: bash
+
     - name: Check domain resolution
       run: curl -I http://procaptcha.local
       shell: bash

@@ -47,7 +47,7 @@ installAssets(){
     return 1
   }
 
-  corepack use yarn@latest
+  yarn install --immutable
 
   return $?
 }
@@ -60,7 +60,7 @@ installTests(){
     return 1
   }
 
-  corepack use yarn@latest
+  yarn install --immutable
 
   return $?
 }

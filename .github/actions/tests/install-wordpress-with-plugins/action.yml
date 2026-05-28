@@ -19,7 +19,7 @@ runs:
         sed -i "s/username_here/root/" wp-config.php
         sed -i "s/password_here/wordpress/" wp-config.php
         sed -i "s/localhost/127.0.0.1/" wp-config.php
-        sed -i "s/define( 'WP_DEBUG', false );/define( 'WP_DEBUG', true );\ndefine( 'WP_DEBUG_DISPLAY', false );\ndefine( 'WP_DEBUG_LOG', true );error_reporting( E_ALL );/" wp-config.php
+        sed -i "s|define( 'WP_DEBUG', false );|define( 'WP_DEBUG', true );\ndefine( 'WP_DEBUG_DISPLAY', false );\ndefine( 'WP_DEBUG_LOG', true );error_reporting( E_ALL );\ndefine( 'WP_HOME', 'https://procaptcha.local' );\ndefine( 'WP_SITEURL', 'https://procaptcha.local' );\n\$_SERVER['HTTPS'] = 'on';|" wp-config.php
         cp -r ${{ github.workspace }}/prosopo-procaptcha ${{ github.workspace }}/wp-content/plugins/
         mkdir -p ${{ github.workspace }}/wp-content/mu-plugins
         cp ${{ github.workspace }}/data-for-tests/mu-plugin.php ${{ github.workspace }}/wp-content/mu-plugins/mu-plugin.php

@@ -22,6 +22,23 @@ class UrLostPasswordForm extends WpLostPasswordForm {
 	protected getFailSubmitMessageSelector(): string {
 		return ".user-registration-error";
 	}
+
+	// Newer User Registration versions redirect to the home URL with the error
+	// message in the ?ur-lp-error=&message= query params instead of rendering
+	// it into .user-registration-error. Submit the form then assert on the URL.
+	protected checkServerSideValidation(
+		captchaValue: string,
+		role: string,
+	): void {
+		this.submitForm({
+			captchaValue: captchaValue,
+			fieldValues: this.getSubmitValues(role),
+			formSelector: this.selectors.formWithCaptcha,
+			captchaInputSelector: this.selectors.captchaInput,
+		});
+
+		cy.url().should("include", "ur-lp-error=invalid");
+	}
 }
 
 export default UrLostPasswordForm;

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Prosopo Procaptcha
  * Description: GDPR compliant, privacy friendly and better value captcha.
- * Version: 1.20.3
+ * Version: 1.20.4
  * Author: Prosopo Team
  * Author URI: https://prosopo.io/
  * License: GPLv2 or later

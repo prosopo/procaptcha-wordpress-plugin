@@ -49,7 +49,7 @@ final class Assets_Loader implements Hookable {
 
 		$script_settings = array(
 			'in_footer' => true,
-			'strategy ' => $has_dependencies ?
+			'strategy'  => $has_dependencies ?
 				'defer' :
 				'async',
 		);

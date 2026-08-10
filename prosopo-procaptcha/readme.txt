@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.20.3
+Stable tag: 1.20.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.20.4 (2026-08-10) =
+* Fix: fatal error on load when using Gravity Forms 3.0.2+ (get_field_label signature mismatch)
 
 = 1.20.3 (2026-01-20) =
 * Maintenance: compatibility with the latest Procaptcha statistics API

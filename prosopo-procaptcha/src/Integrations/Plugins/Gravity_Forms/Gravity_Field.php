@@ -62,7 +62,7 @@ final class Gravity_Field extends GF_Field implements External_Widget_Integratio
 	 *
 	 * @since unknown
 	 */
-	public function get_field_label( $force_frontend_label, $value ) {
+	public function get_field_label( $force_frontend_label = true, $value = '' ) {
 		return self::get_widget()->get_field_label();
 	}
 

@@ -19,7 +19,7 @@ add_filter(
 add_action(
 	'fluentform/before_submission_confirmation',
 	function ( $insertId, $formData, $form ) {
-		\FluentForm\App\Models\Submission::remove( array( $insertId ) );
+		\FluentForm\App\Models\Submission::remove( array( $insertId ), $form->id );
 	},
 	10,
 	3

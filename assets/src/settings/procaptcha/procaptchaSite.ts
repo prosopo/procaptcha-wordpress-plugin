@@ -24,10 +24,11 @@ export interface SiteSettings {
 	frictionlessThreshold: number;
 	/**
 	 * Upper rung: the score at or above which a session gets an image captcha
-	 * rather than a puzzle. Optional because portals older than the ladder
-	 * release do not send it.
+	 * rather than a puzzle. Named `imageThreshold` on the wire, which is the
+	 * name the portal's own settings schema uses. Optional because portals
+	 * older than the ladder release do not send it.
 	 */
-	frictionlessImageThreshold?: number;
+	imageThreshold?: number;
 	powDifficulty: number;
 	captchaType: string;
 	domains: string[];
@@ -94,7 +95,7 @@ const frictionlessThresholdSchema = z
 
 export const siteSettingsSchema = z.object({
 	frictionlessThreshold: frictionlessThresholdSchema,
-	frictionlessImageThreshold: z.number().optional(),
+	imageThreshold: z.number().optional(),
 	powDifficulty: z.number(),
 	captchaType: z.string(),
 	domains: z.string().array(),

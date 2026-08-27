@@ -44,10 +44,8 @@ export interface CaptchaUsage {
  * to its lower rung. Declared separately because the schema below transforms
  * on parse, so its input and output types differ and `ZodType` needs both.
  */
-export interface SiteSettingsInput extends Omit<
-	SiteSettings,
-	"frictionlessThreshold"
-> {
+export interface SiteSettingsInput
+	extends Omit<SiteSettings, "frictionlessThreshold"> {
 	frictionlessThreshold:
 		| number
 		| {

@@ -124,6 +124,11 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 					},
 					{
 						label: this.config.getCaptchaSettingsLabels()
+							.frictionlessImageThreshold,
+						value: "...",
+					},
+					{
+						label: this.config.getCaptchaSettingsLabels()
 							.powDifficulty,
 						value: "...",
 					},
@@ -221,6 +226,32 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		return frictionlessThreshold < 0.4 ? levelLabels.high : levelLabels.low;
 	}
 
+	/**
+	 * Upper rung of the score ladder, shown as a level rather than a raw
+	 * score to match its sibling above. A lower rung means more sessions
+	 * reach an image captcha instead of a puzzle, so it reads as stricter.
+	 *
+	 * Portals older than the ladder release do not send this at all, in
+	 * which case the row shows an em dash rather than inventing a value.
+	 */
+	protected getFrictionlessImageThresholdLabel(
+		frictionlessImageThreshold: number | undefined,
+	): string {
+		if (undefined === frictionlessImageThreshold) {
+			return "—";
+		}
+
+		const levelLabels = this.config.getCaptchaSettingsLabels().level;
+
+		if (frictionlessImageThreshold < 1) {
+			return levelLabels.high;
+		}
+
+		return 1 === frictionlessImageThreshold
+			? levelLabels.normal
+			: levelLabels.low;
+	}
+
 	protected getTypeLabel(type: string): string {
 		const typeLabels = this.config.getCaptchaSettingsLabels().types;
 
@@ -258,6 +289,13 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 							.frictionlessThreshold,
 						value: this.getFrictionlessThresholdLabel(
 							siteSettings.frictionlessThreshold,
+						),
+					},
+					{
+						label: this.config.getCaptchaSettingsLabels()
+							.frictionlessImageThreshold,
+						value: this.getFrictionlessImageThresholdLabel(
+							siteSettings.frictionlessImageThreshold,
 						),
 					},
 					{

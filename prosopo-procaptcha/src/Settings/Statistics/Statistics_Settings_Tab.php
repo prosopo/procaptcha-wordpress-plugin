@@ -71,6 +71,7 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 			),
 			'callToUpgradeElementMarkup' => $call_to_upgrade_element_markup,
 			'captchaSettingsLabels'      => array(
+				'frictionlessImageThreshold' => __( 'Image Challenge Threshold:', 'prosopo-procaptcha' ),
 				'frictionlessThreshold' => __( 'Frictionless Threshold:', 'prosopo-procaptcha' ),
 				'level'                 => array(
 					'high'   => __( 'High', 'prosopo-procaptcha' ),

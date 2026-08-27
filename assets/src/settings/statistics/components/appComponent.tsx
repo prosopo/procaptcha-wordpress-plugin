@@ -231,27 +231,30 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	 * score to match its sibling above. A lower rung means more sessions
 	 * reach an image captcha instead of a puzzle, so it reads as stricter.
 	 *
-	 * Banded around the portal's 0.8 default the same way the sibling is
-	 * banded around its 0.5 one. The score is constrained to 0..1, so the
-	 * bands have to sit inside that range to stay reachable.
+	 * Banded on the portal's 1.0 default rather than a range: unlike the
+	 * lower rung this one is deliberately allowed above 1, because the score
+	 * it is compared against is a total that server-side penalties add to.
 	 *
-	 * Portals older than the ladder release do not send this at all, in
-	 * which case the row shows an em dash rather than inventing a value.
+	 * An API still sending the pre-ladder bare `frictionlessThreshold` gives
+	 * no upper rung at all, in which case the row shows an em dash rather
+	 * than inventing a value.
 	 */
-	protected getImageThresholdLabel(
-		imageThreshold: number | undefined,
+	protected getFrictionlessImageThresholdLabel(
+		frictionlessImageThreshold: number | undefined,
 	): string {
-		if (undefined === imageThreshold) {
+		if (undefined === frictionlessImageThreshold) {
 			return "—";
 		}
 
 		const levelLabels = this.config.getCaptchaSettingsLabels().level;
 
-		if (imageThreshold >= 0.7 && imageThreshold <= 0.9) {
-			return levelLabels.normal;
+		if (frictionlessImageThreshold < 1) {
+			return levelLabels.high;
 		}
 
-		return imageThreshold < 0.7 ? levelLabels.high : levelLabels.low;
+		return 1 === frictionlessImageThreshold
+			? levelLabels.normal
+			: levelLabels.low;
 	}
 
 	protected getTypeLabel(type: string): string {
@@ -296,8 +299,8 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 					{
 						label: this.config.getCaptchaSettingsLabels()
 							.frictionlessImageThreshold,
-						value: this.getImageThresholdLabel(
-							siteSettings.imageThreshold,
+						value: this.getFrictionlessImageThresholdLabel(
+							siteSettings.frictionlessImageThreshold,
 						),
 					},
 					{

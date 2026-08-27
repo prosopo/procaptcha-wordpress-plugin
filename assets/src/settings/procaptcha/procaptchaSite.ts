@@ -24,11 +24,14 @@ export interface SiteSettings {
 	frictionlessThreshold: number;
 	/**
 	 * Upper rung: the score at or above which a session gets an image captcha
-	 * rather than a puzzle. Named `imageThreshold` on the wire, which is the
-	 * name the portal's own settings schema uses. Optional because portals
-	 * older than the ladder release do not send it.
+	 * rather than a puzzle. Arrives nested inside `frictionlessThreshold`, not
+	 * as a sibling of it, and is absent whenever that field is still the bare
+	 * number the pre-ladder API sends.
+	 *
+	 * Not to be confused with the settings' own `imageThreshold`, which is an
+	 * unrelated image-captcha setting on a 0..1 scale.
 	 */
-	imageThreshold?: number;
+	frictionlessImageThreshold?: number;
 	powDifficulty: number;
 	captchaType: string;
 	domains: string[];
@@ -41,12 +44,16 @@ export interface CaptchaUsage {
 }
 
 /**
- * `SiteSettings` as it arrives on the wire, before the ladder is collapsed
- * to its lower rung. Declared separately because the schema below transforms
- * on parse, so its input and output types differ and `ZodType` needs both.
+ * `SiteSettings` as it arrives on the wire, before the ladder is split into
+ * the two flat fields the rest of the plugin reads. Declared separately
+ * because the schema below transforms on parse, so its input and output
+ * types differ and `ZodType` needs both.
  */
 export interface SiteSettingsInput
-	extends Omit<SiteSettings, "frictionlessThreshold"> {
+	extends Omit<
+		SiteSettings,
+		"frictionlessThreshold" | "frictionlessImageThreshold"
+	> {
 	frictionlessThreshold:
 		| number
 		| {
@@ -67,39 +74,43 @@ export interface ProcaptchaSiteInput extends Omit<ProcaptchaSite, "settings"> {
 const DEFAULT_FRICTIONLESS_THRESHOLD = 0.5;
 
 /**
- * The API sends `frictionlessThreshold` as a plain number, and will keep
- * doing so — the plugin ships independently of the portal, so that field's
- * type is part of a contract the portal cannot change from under an install
- * that updates on its own schedule.
- *
- * It is nonetheless read here as "number, or the two-rung object", because
- * internally the portal did move to the object and a future endpoint (or a
- * self-hosted one) may pass it straight through. Both collapse to the puzzle
- * rung, which is what this field has always meant, so the rest of the plugin
- * keeps seeing a number.
+ * `frictionlessThreshold` is read as "number, or the two-rung ladder object"
+ * because both are live at once: the portal moved the field to the ladder,
+ * but records migrate in the background and the plugin ships independently
+ * of the portal, so an install can be talking to either shape. A bare number
+ * means what it always meant — the puzzle rung — and carries no image rung.
  */
-const frictionlessThresholdSchema = z
-	.union([
-		z.number(),
-		z.object({
-			frictionlessPuzzleThreshold: z.number().optional(),
-			frictionlessImageThreshold: z.number().optional(),
-		}),
-	])
-	.transform((value) =>
-		"number" === typeof value
-			? value
-			: (value.frictionlessPuzzleThreshold ??
-				DEFAULT_FRICTIONLESS_THRESHOLD),
-	);
+const frictionlessThresholdSchema = z.union([
+	z.number(),
+	z.object({
+		frictionlessPuzzleThreshold: z.number().optional(),
+		frictionlessImageThreshold: z.number().optional(),
+	}),
+]);
 
-export const siteSettingsSchema = z.object({
-	frictionlessThreshold: frictionlessThresholdSchema,
-	imageThreshold: z.number().optional(),
-	powDifficulty: z.number(),
-	captchaType: z.string(),
-	domains: z.string().array(),
-}) satisfies ZodType<SiteSettings, ZodTypeDef, SiteSettingsInput>;
+/**
+ * Split the ladder into the two flat fields the rest of the plugin reads, so
+ * nothing downstream has to know which of the two wire shapes arrived.
+ */
+export const siteSettingsSchema = z
+	.object({
+		frictionlessThreshold: frictionlessThresholdSchema,
+		powDifficulty: z.number(),
+		captchaType: z.string(),
+		domains: z.string().array(),
+	})
+	.transform(({ frictionlessThreshold, ...settings }) => ({
+		...settings,
+		frictionlessThreshold:
+			"number" === typeof frictionlessThreshold
+				? frictionlessThreshold
+				: (frictionlessThreshold.frictionlessPuzzleThreshold ??
+					DEFAULT_FRICTIONLESS_THRESHOLD),
+		frictionlessImageThreshold:
+			"number" === typeof frictionlessThreshold
+				? undefined
+				: frictionlessThreshold.frictionlessImageThreshold,
+	})) satisfies ZodType<SiteSettings, ZodTypeDef, SiteSettingsInput>;
 
 export const captchaUsageSchema = z.object({
 	submissions: z.number(),

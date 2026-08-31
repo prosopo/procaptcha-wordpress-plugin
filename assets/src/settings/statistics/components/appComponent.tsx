@@ -4,7 +4,6 @@ import {
 	AppStatusComponentProperties,
 	StatCurrentState,
 } from "./appStatusComponent.js";
-import { ListComponent, ListComponentProperties } from "./listComponent.js";
 import {
 	TrafficAnalyticsComponent,
 	TrafficAnalyticsComponentProperties,
@@ -21,10 +20,7 @@ import {
 import type Logger from "#utils/logger/logger.js";
 import { type Config, ConfigClass } from "#settings/statistics/config.js";
 import CaptchaUsageNumberUtils from "#settings/statistics/captchaUsage/captchaUsageNumberUtils.js";
-import type {
-	ProcaptchaSite,
-	SiteSettings,
-} from "#settings/procaptcha/procaptchaSite.js";
+import type { ProcaptchaSite } from "#settings/procaptcha/procaptchaSite.js";
 
 import type { ProcaptchaAccount } from "#settings/procaptcha/procaptchaAccount.js";
 import {
@@ -39,9 +35,6 @@ interface AppComponentProperties {
 interface AppState {
 	statState: AppStatusComponentProperties;
 	usageInfo: CaptchaUsageComponentProperties;
-	accountInformation: ListComponentProperties;
-	captchaSettings: ListComponentProperties;
-	domains: ListComponentProperties;
 	trafficData: TrafficAnalyticsComponentProperties;
 }
 
@@ -95,45 +88,6 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 				},
 				labels: this.config.getUsageLabels(),
 			},
-			accountInformation: {
-				title: this.config.getAccountLabels().title,
-				icon: "icon-[material-symbols--account-circle]",
-				items: [
-					{
-						label: this.config.getAccountLabels().tier,
-						value: "...",
-					},
-					{
-						label: this.config.getAccountLabels().name,
-						value: "...",
-					},
-				],
-			},
-			captchaSettings: {
-				title: this.config.getCaptchaSettingsLabels().title,
-				icon: "icon-[material-symbols--settings]",
-				items: [
-					{
-						label: this.config.getCaptchaSettingsLabels().type,
-						value: "...",
-					},
-					{
-						label: this.config.getCaptchaSettingsLabels()
-							.frictionlessThreshold,
-						value: "...",
-					},
-					{
-						label: this.config.getCaptchaSettingsLabels()
-							.powDifficulty,
-						value: "...",
-					},
-				],
-			},
-			domains: {
-				title: this.config.getDomainLabels().title,
-				icon: "icon-[material-symbols--domain]",
-				items: [],
-			},
 			trafficData: {
 				accountTier: "",
 				logger: this.logger,
@@ -164,22 +118,9 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		}));
 	}
 
-	protected refreshUserData(site: ProcaptchaSite): void {
+	protected refreshUsage(site: ProcaptchaSite): void {
 		this.setState((actualState) => ({
 			...actualState,
-			accountInformation: {
-				...actualState.accountInformation,
-				items: [
-					{
-						label: this.config.getAccountLabels().tier,
-						value: site.account.tier.toUpperCase(),
-					},
-					{
-						label: this.config.getAccountLabels().name,
-						value: site.name,
-					},
-				],
-			},
 			usageInfo: {
 				...actualState.usageInfo,
 				limits: {
@@ -195,83 +136,6 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 					verifications: site.monthlyUsage.pow.verifications,
 					total: site.monthlyUsage.pow.total,
 				},
-			},
-		}));
-	}
-
-	protected getPowDifficultyLabel(powDifficulty: number): string {
-		const levelLabels = this.config.getCaptchaSettingsLabels().level;
-
-		if (powDifficulty === 4) {
-			return levelLabels.normal;
-		}
-
-		return powDifficulty < 4 ? levelLabels.low : levelLabels.high;
-	}
-
-	protected getFrictionlessThresholdLabel(
-		frictionlessThreshold: number,
-	): string {
-		const levelLabels = this.config.getCaptchaSettingsLabels().level;
-
-		if (frictionlessThreshold >= 0.4 && frictionlessThreshold <= 0.6) {
-			return levelLabels.normal;
-		}
-
-		return frictionlessThreshold < 0.4 ? levelLabels.high : levelLabels.low;
-	}
-
-	protected getTypeLabel(type: string): string {
-		const typeLabels = this.config.getCaptchaSettingsLabels().types;
-
-		switch (type) {
-			case "image":
-				return typeLabels.image;
-			case "pow":
-				return typeLabels.proofOfWork;
-			default:
-				return typeLabels.frictionless;
-		}
-	}
-
-	protected refreshSiteSettings(siteSettings: SiteSettings): void {
-		const domains = siteSettings.domains
-			.filter((domain) => "*" !== domain)
-			.map((domain, index) => {
-				return {
-					label: "#" + (index + 1),
-					value: domain,
-				};
-			});
-
-		this.setState((actualState) => ({
-			...actualState,
-			captchaSettings: {
-				...actualState.captchaSettings,
-				items: [
-					{
-						label: this.config.getCaptchaSettingsLabels().type,
-						value: this.getTypeLabel(siteSettings.captchaType),
-					},
-					{
-						label: this.config.getCaptchaSettingsLabels()
-							.frictionlessThreshold,
-						value: this.getFrictionlessThresholdLabel(
-							siteSettings.frictionlessThreshold,
-						),
-					},
-					{
-						label: this.config.getCaptchaSettingsLabels()
-							.powDifficulty,
-						value: this.getPowDifficultyLabel(
-							siteSettings.powDifficulty,
-						),
-					},
-				],
-			},
-			domains: {
-				...actualState.domains,
-				items: domains,
 			},
 		}));
 	}
@@ -295,8 +159,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		);
 
 		if (site) {
-			this.refreshUserData(site);
-			this.refreshSiteSettings(site.settings);
+			this.refreshUsage(site);
 			this.refreshTrafficData(site.account);
 
 			this.markAsLoaded();
@@ -318,14 +181,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	}
 
 	public render() {
-		const {
-			statState,
-			usageInfo,
-			accountInformation,
-			captchaSettings,
-			domains,
-			trafficData,
-		} = this.state;
+		const { statState, usageInfo, trafficData } = this.state;
 
 		return (
 			<div className="flex flex-col gap-5">
@@ -342,21 +198,6 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 						limits={usageInfo.limits}
 						image={usageInfo.image}
 						pow={usageInfo.pow}
-					/>
-					<ListComponent
-						title={accountInformation.title}
-						icon={accountInformation.icon}
-						items={accountInformation.items}
-					/>
-					<ListComponent
-						title={captchaSettings.title}
-						icon={captchaSettings.icon}
-						items={captchaSettings.items}
-					/>
-					<ListComponent
-						title={domains.title}
-						icon={domains.icon}
-						items={domains.items}
 					/>
 					<TrafficAnalyticsComponent
 						classes="col-span-2"

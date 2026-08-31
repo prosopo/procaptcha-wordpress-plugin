@@ -136,7 +136,7 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 == Changelog ==
 
 = 1.20.6 (2026-08-31) =
-* Maintenance: remove the image challenge threshold from the statistics page
+* Maintenance: simplify the statistics page to the monthly captcha counts and the traffic chart
 
 = 1.20.5 (2026-08-31) =
 * Feature: show the frictionless score ladder's image challenge threshold on the statistics page

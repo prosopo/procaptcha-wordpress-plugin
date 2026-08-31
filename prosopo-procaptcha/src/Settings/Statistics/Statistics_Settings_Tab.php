@@ -64,32 +64,7 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 
 		return array(
 			'accountApiEndpoint'         => Procaptcha_Plugin::ACCOUNT_API_ENDPOINT_URL,
-			'accountLabels'              => array(
-				'name'  => __( 'Name:', 'prosopo-procaptcha' ),
-				'tier'  => __( 'Tier:', 'prosopo-procaptcha' ),
-				'title' => __( 'Account Information', 'prosopo-procaptcha' ),
-			),
 			'callToUpgradeElementMarkup' => $call_to_upgrade_element_markup,
-			'captchaSettingsLabels'      => array(
-				'frictionlessImageThreshold' => __( 'Image Challenge Threshold:', 'prosopo-procaptcha' ),
-				'frictionlessThreshold'      => __( 'Frictionless Threshold:', 'prosopo-procaptcha' ),
-				'level'                      => array(
-					'high'   => __( 'High', 'prosopo-procaptcha' ),
-					'low'    => __( 'Low', 'prosopo-procaptcha' ),
-					'normal' => __( 'Normal', 'prosopo-procaptcha' ),
-				),
-				'powDifficulty'              => __( 'Proof of Work Difficulty:', 'prosopo-procaptcha' ),
-				'title'                      => __( 'Captcha Settings', 'prosopo-procaptcha' ),
-				'type'                       => __( 'Type:', 'prosopo-procaptcha' ),
-				'types'                      => array(
-					'frictionless' => __( 'Frictionless', 'prosopo-procaptcha' ),
-					'image'        => __( 'Image', 'prosopo-procaptcha' ),
-					'proofOfWork'  => __( 'Proof of Work', 'prosopo-procaptcha' ),
-				),
-			),
-			'domainLabels'               => array(
-				'title' => __( 'Whitelisted Domains', 'prosopo-procaptcha' ),
-			),
 			'isDebugMode'                => false, // todo move into settings as 'debug mode' option.
 			'secretKey'                  => $secret_key,
 			'siteKey'                    => $site_key,

@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.20.5
+Stable tag: 1.20.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,9 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.20.6 (2026-08-31) =
+* Maintenance: simplify the statistics page to the monthly captcha counts and the traffic chart
 
 = 1.20.5 (2026-08-31) =
 * Feature: show the frictionless score ladder's image challenge threshold on the statistics page

@@ -1,11 +1,5 @@
 import Collection from "./collection.js";
 
-interface AccountLabels {
-	title: string;
-	name: string;
-	tier: string;
-}
-
 interface UsageLabels {
 	title: string;
 	total: string;
@@ -18,28 +12,6 @@ interface StateLabels {
 	refreshNow: string;
 	failedToLoad: string;
 	loading: string;
-}
-
-interface CaptchaSettingsLabels {
-	title: string;
-	type: string;
-	frictionlessThreshold: string;
-	frictionlessImageThreshold: string;
-	powDifficulty: string;
-	level: {
-		low: string;
-		normal: string;
-		high: string;
-	};
-	types: {
-		proofOfWork: string;
-		image: string;
-		frictionless: string;
-	};
-}
-
-interface DomainLabels {
-	title: string;
 }
 
 interface TrafficDataLabels {
@@ -56,15 +28,9 @@ interface Config {
 
 	getSecretKey(): string;
 
-	getAccountLabels(): AccountLabels;
-
 	getUsageLabels(): UsageLabels;
 
 	getStateLabels(): StateLabels;
-
-	getCaptchaSettingsLabels(): CaptchaSettingsLabels;
-
-	getDomainLabels(): DomainLabels;
 
 	getTrafficDataLabels(): TrafficDataLabels;
 
@@ -102,16 +68,6 @@ class ConfigClass implements Config {
 		return this.data.getString("secretKey");
 	}
 
-	public getAccountLabels(): AccountLabels {
-		const accountLabels = this.data.getSubCollection("accountLabels");
-
-		return {
-			title: accountLabels.getString("title"),
-			name: accountLabels.getString("name"),
-			tier: accountLabels.getString("tier"),
-		};
-	}
-
 	public getUsageLabels(): UsageLabels {
 		const usageLabels = this.data.getSubCollection("usageLabels");
 
@@ -138,45 +94,6 @@ class ConfigClass implements Config {
 		};
 	}
 
-	public getCaptchaSettingsLabels(): CaptchaSettingsLabels {
-		const captchaSettingsLabels = this.data.getSubCollection(
-			"captchaSettingsLabels",
-		);
-
-		const level = captchaSettingsLabels.getSubCollection("level");
-		const types = captchaSettingsLabels.getSubCollection("types");
-
-		return {
-			title: captchaSettingsLabels.getString("title"),
-			type: captchaSettingsLabels.getString("type"),
-			frictionlessThreshold: captchaSettingsLabels.getString(
-				"frictionlessThreshold",
-			),
-			frictionlessImageThreshold: captchaSettingsLabels.getString(
-				"frictionlessImageThreshold",
-			),
-			powDifficulty: captchaSettingsLabels.getString("powDifficulty"),
-			level: {
-				low: level.getString("low"),
-				normal: level.getString("normal"),
-				high: level.getString("high"),
-			},
-			types: {
-				proofOfWork: types.getString("proofOfWork"),
-				image: types.getString("image"),
-				frictionless: types.getString("frictionless"),
-			},
-		};
-	}
-
-	public getDomainLabels(): DomainLabels {
-		const domainLabels = this.data.getSubCollection("domainLabels");
-
-		return {
-			title: domainLabels.getString("title"),
-		};
-	}
-
 	public getTrafficDataLabels(): TrafficDataLabels {
 		const trafficDataLabels =
 			this.data.getSubCollection("trafficDataLabels");
@@ -200,11 +117,4 @@ class ConfigClass implements Config {
 	}
 }
 
-export {
-	Config,
-	ConfigClass,
-	AccountLabels,
-	UsageLabels,
-	StateLabels,
-	TrafficDataLabels,
-};
+export { Config, ConfigClass, UsageLabels, StateLabels, TrafficDataLabels };

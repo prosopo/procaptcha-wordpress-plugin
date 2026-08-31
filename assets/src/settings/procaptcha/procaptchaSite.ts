@@ -22,16 +22,6 @@ export interface SiteSettings {
 	 * plugin has always shown as "Frictionless Threshold".
 	 */
 	frictionlessThreshold: number;
-	/**
-	 * Upper rung: the score at or above which a session gets an image captcha
-	 * rather than a puzzle. Arrives nested inside `frictionlessThreshold`, not
-	 * as a sibling of it, and is absent whenever that field is still the bare
-	 * number the pre-ladder API sends.
-	 *
-	 * Not to be confused with the settings' own `imageThreshold`, which is an
-	 * unrelated image-captcha setting on a 0..1 scale.
-	 */
-	frictionlessImageThreshold?: number;
 	powDifficulty: number;
 	captchaType: string;
 	domains: string[];
@@ -44,16 +34,13 @@ export interface CaptchaUsage {
 }
 
 /**
- * `SiteSettings` as it arrives on the wire, before the ladder is split into
- * the two flat fields the rest of the plugin reads. Declared separately
- * because the schema below transforms on parse, so its input and output
- * types differ and `ZodType` needs both.
+ * `SiteSettings` as it arrives on the wire, before the ladder is collapsed to
+ * the single number the rest of the plugin reads. Declared separately because
+ * the schema below transforms on parse, so its input and output types differ
+ * and `ZodType` needs both.
  */
 export interface SiteSettingsInput
-	extends Omit<
-		SiteSettings,
-		"frictionlessThreshold" | "frictionlessImageThreshold"
-	> {
+	extends Omit<SiteSettings, "frictionlessThreshold"> {
 	frictionlessThreshold:
 		| number
 		| {
@@ -77,40 +64,34 @@ const DEFAULT_FRICTIONLESS_THRESHOLD = 0.5;
  * `frictionlessThreshold` is read as "number, or the two-rung ladder object"
  * because both are live at once: the portal moved the field to the ladder,
  * but records migrate in the background and the plugin ships independently
- * of the portal, so an install can be talking to either shape. A bare number
- * means what it always meant — the puzzle rung — and carries no image rung.
+ * of the portal, so an install can be talking to either shape.
+ *
+ * The plugin only displays the puzzle rung, so the ladder collapses to it and
+ * the image rung is ignored. The union still has to be here: without it a
+ * ladder object fails `z.number()`, and because the whole site response is one
+ * parse, that failure takes out the entire statistics tab rather than one row.
  */
-const frictionlessThresholdSchema = z.union([
-	z.number(),
-	z.object({
-		frictionlessPuzzleThreshold: z.number().optional(),
-		frictionlessImageThreshold: z.number().optional(),
-	}),
-]);
+const frictionlessThresholdSchema = z
+	.union([
+		z.number(),
+		z.object({
+			frictionlessPuzzleThreshold: z.number().optional(),
+			frictionlessImageThreshold: z.number().optional(),
+		}),
+	])
+	.transform((value) =>
+		"number" === typeof value
+			? value
+			: (value.frictionlessPuzzleThreshold ??
+				DEFAULT_FRICTIONLESS_THRESHOLD),
+	);
 
-/**
- * Split the ladder into the two flat fields the rest of the plugin reads, so
- * nothing downstream has to know which of the two wire shapes arrived.
- */
-export const siteSettingsSchema = z
-	.object({
-		frictionlessThreshold: frictionlessThresholdSchema,
-		powDifficulty: z.number(),
-		captchaType: z.string(),
-		domains: z.string().array(),
-	})
-	.transform(({ frictionlessThreshold, ...settings }) => ({
-		...settings,
-		frictionlessThreshold:
-			"number" === typeof frictionlessThreshold
-				? frictionlessThreshold
-				: (frictionlessThreshold.frictionlessPuzzleThreshold ??
-					DEFAULT_FRICTIONLESS_THRESHOLD),
-		frictionlessImageThreshold:
-			"number" === typeof frictionlessThreshold
-				? undefined
-				: frictionlessThreshold.frictionlessImageThreshold,
-	})) satisfies ZodType<SiteSettings, ZodTypeDef, SiteSettingsInput>;
+export const siteSettingsSchema = z.object({
+	frictionlessThreshold: frictionlessThresholdSchema,
+	powDifficulty: z.number(),
+	captchaType: z.string(),
+	domains: z.string().array(),
+}) satisfies ZodType<SiteSettings, ZodTypeDef, SiteSettingsInput>;
 
 export const captchaUsageSchema = z.object({
 	submissions: z.number(),

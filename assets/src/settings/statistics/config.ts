@@ -24,6 +24,7 @@ interface CaptchaSettingsLabels {
 	title: string;
 	type: string;
 	frictionlessThreshold: string;
+	frictionlessImageThreshold: string;
 	powDifficulty: string;
 	level: {
 		low: string;
@@ -150,6 +151,9 @@ class ConfigClass implements Config {
 			type: captchaSettingsLabels.getString("type"),
 			frictionlessThreshold: captchaSettingsLabels.getString(
 				"frictionlessThreshold",
+			),
+			frictionlessImageThreshold: captchaSettingsLabels.getString(
+				"frictionlessImageThreshold",
 			),
 			powDifficulty: captchaSettingsLabels.getString("powDifficulty"),
 			level: {

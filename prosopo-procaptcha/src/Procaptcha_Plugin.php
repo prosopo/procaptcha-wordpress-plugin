@@ -11,12 +11,17 @@ use Io\Prosopo\Procaptcha\Integrations\Integrations_Loader;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\{Contact_Form_7\Contact_Form_7};
 use Io\Prosopo\Procaptcha\Integrations\Plugins\BBPress\BBPress;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Beaver_Builder\Beaver_Builder;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Blocksy\Blocksy;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Bricks\Bricks;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Divi\Divi;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Elementor_Pro\Elementor_Pro;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Everest_Forms\Everest_Forms;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Fluent_Forms\Fluent_Forms;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Formidable_Forms\Formidable_Forms;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Gravity_Forms\Gravity_Forms;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\Jet_Form_Builder\Jet_Form_Builder;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\JetPack\JetPack;
+use Io\Prosopo\Procaptcha\Integrations\Plugins\LearnDash\LearnDash;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Memberpress\Memberpress;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Ninja_Forms\Ninja_Forms;
 use Io\Prosopo\Procaptcha\Integrations\Plugins\Simple_Membership\Simple_Membership;
@@ -238,6 +243,7 @@ final class Procaptcha_Plugin {
 			new Fluent_Forms( $this->widget ),
 			new Formidable_Forms( $this->widget ),
 			new Gravity_Forms( $this->widget ),
+			new Jet_Form_Builder( $this->widget ),
 			new JetPack( $this->widget ),
 			new Ninja_Forms( $this->widget ),
 			new Spectra( $this->widget ),
@@ -247,6 +253,10 @@ final class Procaptcha_Plugin {
 			new Simple_Membership( $this->widget, $this->account_form_settings ),
 			new Beaver_Builder( $this->widget, $this->account_form_settings ),
 			new Memberpress( $this->widget, $this->account_form_settings ),
+			new LearnDash( $this->widget, $this->account_form_settings ),
+			new Divi( $this->widget, $this->account_form_settings ),
+			new Bricks( $this->widget ),
+			new Blocksy( $this->widget ),
 		);
 	}
 }

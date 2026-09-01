@@ -15,6 +15,16 @@ final class Query_Arguments {
 	const POST   = 'post';
 	const SERVER = 'server';
 
+	/**
+	 * Tells whether the argument is present, regardless of its value.
+	 * Some plugins mark their submissions with an empty-valued input.
+	 */
+	public static function has_non_action_arg( string $arg_name, string $from = self::GET ): bool {
+		$source = self::get_source( $from );
+
+		return key_exists( $arg_name, $source );
+	}
+
 	public static function get_non_action_string( string $arg_name, string $from = self::GET ): string {
 		$source = self::get_source( $from );
 

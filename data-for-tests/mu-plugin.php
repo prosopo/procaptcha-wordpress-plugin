@@ -3,17 +3,19 @@
 define( 'PROSOPO_PROCAPTCHA_ALLOW_BYPASS', true );
 
 /**
- * Reserved Prosopo test site keys, see https://docs.prosopo.io/en/basics/test-keys/
+ * Reserved Prosopo test site key, see https://docs.prosopo.io/en/basics/test-keys/
  *
- * They're constant across all the Prosopo environments, require no registration,
+ * The reserved keys are constant across all the Prosopo environments, require no registration,
  * and their requests aren't billed, so the test suite doesn't depend on any personal account.
  *
- * The always-pass key is used, as the always-fail one emits no token at all,
- * while the suite needs to submit both valid and invalid tokens.
+ * The always-fail key is the one we need: the suite submits its own tokens
+ * ('bypass' and 'wrong', see the ALLOW_BYPASS constant above), so the widget must not
+ * emit a token of its own and overwrite them. The always-pass key would do exactly that.
+ *
  * The secret is ignored for the reserved keys, but it must be non-empty
  * for the plugin to consider itself configured.
  */
-define( 'PROSOPO_PROCAPTCHA_TEST_SITE_KEY', '5EARALUe4HXQwKo5KanZSGGKqJV4VTaytpezFwv8ZHbZewmh' );
+define( 'PROSOPO_PROCAPTCHA_TEST_SITE_KEY', '5ETtechmZkn3CUVeJX7Z511oiuiu742aHLm91D5ZZw4fqoAG' );
 define( 'PROSOPO_PROCAPTCHA_TEST_SECRET_KEY', 'test-secret-key-is-ignored-for-reserved-site-keys' );
 
 add_filter(

@@ -4,10 +4,18 @@ import {
 } from "#settings/procaptcha/procaptchaAccount.js";
 import { z, type ZodType } from "zod";
 
+/**
+ * Only the parts of the site response the statistics page actually renders:
+ * the monthly captcha counts and the account tier the traffic chart gates on.
+ *
+ * `settings` is deliberately absent. Zod strips keys a schema does not
+ * declare, so whatever shape the portal sends for the captcha settings — and
+ * `frictionlessThreshold` has already changed shape once — is ignored rather
+ * than validated. The whole response is a single parse, so a field the page
+ * does not display has no business being able to fail it.
+ */
 export interface ProcaptchaSite {
 	account: ProcaptchaAccount;
-	name: string;
-	settings: SiteSettings;
 	monthlyUsage: {
 		limit: number;
 		image: CaptchaUsage;
@@ -15,25 +23,11 @@ export interface ProcaptchaSite {
 	};
 }
 
-export interface SiteSettings {
-	frictionlessThreshold: number;
-	powDifficulty: number;
-	captchaType: string;
-	domains: string[];
-}
-
 export interface CaptchaUsage {
 	submissions: number;
 	verifications: number;
 	total: number;
 }
-
-export const siteSettingsSchema = z.object({
-	frictionlessThreshold: z.number(),
-	powDifficulty: z.number(),
-	captchaType: z.string(),
-	domains: z.string().array(),
-}) satisfies ZodType<SiteSettings>;
 
 export const captchaUsageSchema = z.object({
 	submissions: z.number(),
@@ -43,8 +37,6 @@ export const captchaUsageSchema = z.object({
 
 export const procaptchaSiteSchema = z.object({
 	account: procaptchaAccountSchema,
-	name: z.string(),
-	settings: siteSettingsSchema,
 	monthlyUsage: z.object({
 		limit: z.number(),
 		image: captchaUsageSchema,

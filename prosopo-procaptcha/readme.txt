@@ -4,7 +4,7 @@ Tags: Captcha, Procaptcha, antispam, anibot, spam.
 Requires at least: 5.5
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.20.4
+Stable tag: 1.21.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,8 +46,9 @@ Please review the [Prosopo Privacy Policy](https://prosopo.io/privacy-policy/) a
 4. [Formidable Forms](https://docs.prosopo.io/en/wordpress-plugin/formidable/) - Add the `Prosopo Procaptcha` field to your form.
 5. [Gravity Forms](https://docs.prosopo.io/en/wordpress-plugin/gravity-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Advanced Fields` group).
 6. [Ninja Forms](https://docs.prosopo.io/en/wordpress-plugin/ninja-forms/) - Add the `Prosopo Procaptcha` field to your form (the `Miscellaneous` group).
-7. [User Registration](https://docs.prosopo.io/en/wordpress-plugin/user-registration/) - Add the `Prosopo Procaptcha` field to your form (the `Extra Fields` group).
-8. [WP Forms](https://docs.prosopo.io/en/wordpress-plugin/wpforms/) - Add the `Prosopo Procaptcha` field to your form (the `Standard Fields` group).
+7. [JetFormBuilder](https://jetformbuilder.com/) - Open the form settings and pick `Prosopo Procaptcha` as the `Captcha Provider`.
+8. [User Registration](https://docs.prosopo.io/en/wordpress-plugin/user-registration/) - Add the `Prosopo Procaptcha` field to your form (the `Extra Fields` group).
+9. [WP Forms](https://docs.prosopo.io/en/wordpress-plugin/wpforms/) - Add the `Prosopo Procaptcha` field to your form (the `Standard Fields` group).
 
 **WordPress Core Forms**:
 
@@ -87,8 +88,13 @@ Account-related:
 1. [Simple Membership](https://wordpress.org/plugins/simple-membership/)
 2. [User Registration](https://wordpress.org/plugins/user-registration/)
 3. [Memberpress](https://memberpress.com/) - Login, Reset password: via Procaptcha plugin settings -> Core forms. Membership register - via on-membership settings
+4. [LearnDash LMS](https://www.learndash.com/) - Registration form: enabled automatically. Login, Reset password: via Procaptcha plugin settings -> Core forms
 
-While only the items above are tested, overall, the Procaptcha plugin supports all the plugins with custom account forms that use the native WordPress account hooks.
+Themes:
+1. [Blocksy](https://creativethemes.com/blocksy/) - Account modal (Login, Register, Lost password): via Procaptcha plugin settings -> Core forms
+2. [Astra](https://wpastra.com/) and [Zakra](https://zakratheme.com/) - Account forms: via Procaptcha plugin settings -> Core forms
+
+While only the items above are tested, overall, the Procaptcha plugin supports all the plugins and themes with custom account forms that use the native WordPress account hooks.
 
 **Other Integrations**:
 
@@ -98,6 +104,9 @@ While only the items above are tested, overall, the Procaptcha plugin supports a
 4. [WooCommerce](https://docs.prosopo.io/en/wordpress-plugin/woocommerce/) - My Account forms; Classic Checkout, Blocks Checkout, Order Tracking forms: enable protection in the `WooCommerce` tab of the plugin settings.
 5. [Spectra](https://docs.prosopo.io/en/wordpress-plugin/spectra/) - Form block: add hidden input with the `prosopo_procaptcha` name
 6. [Beaver Builder](https://wordpress.org/plugins/beaver-builder-lite-version/) - Contact, Subscribe forms: enabled protection in the target form settings; Login form: Procaptcha plugin settings->Core forms.
+7. [Divi](https://www.elegantthemes.com/gallery/divi/) - Contact Form module: enable the built-in `Use Basic Captcha` option of the target module, and Procaptcha replaces the Divi arithmetic captcha; Login module: Procaptcha plugin settings->Core forms.
+8. [Bricks](https://bricksbuilder.io/) (2.0+) - Form element: add a `Hidden` field with the `prosopo_procaptcha` label.
+9. [Blocksy](https://creativethemes.com/blocksy/) - Newsletter subscribe block and shortcode: enabled automatically.
 
 **Built-In Integrations**:
 
@@ -134,6 +143,20 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.21.0 (2026-09-01) =
+* Feature: [JetFormBuilder](https://jetformbuilder.com/) integration - Procaptcha is selectable as a form's Captcha Provider
+* Feature: [LearnDash LMS](https://www.learndash.com/) integration - registration, login and password recovery forms
+* Feature: [Divi](https://www.elegantthemes.com/gallery/divi/) integration - Contact Form and Login modules
+* Feature: [Bricks](https://bricksbuilder.io/) integration - form element
+* Feature: [Blocksy](https://creativethemes.com/blocksy/) integration - newsletter subscribe form
+* Maintenance: documented that the Blocksy, Astra and Zakra account forms are covered by the WordPress Core Forms integration
+
+= 1.20.6 (2026-08-31) =
+* Maintenance: simplify the statistics page to the monthly captcha counts and the traffic chart
+
+= 1.20.5 (2026-08-31) =
+* Feature: show the frictionless score ladder's image challenge threshold on the statistics page
 
 = 1.20.4 (2026-08-10) =
 * Fix: fatal error on load when using Gravity Forms 3.0.2+ (get_field_label signature mismatch)

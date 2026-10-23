@@ -13,7 +13,7 @@
                     {{ __( 'Prosopo Procaptcha', 'prosopo-procaptcha' ) }}
                 </h1>
                 <a class="text-[13px] mt-1 text-blue underline transition
-                hover:text-black" href="https://prosopo.io/" target="_blank">
+                hover:text-black" href="https://prosopo.io/?utm_source=procaptcha-wp&amp;utm_medium=plugin&amp;utm_campaign=settings&amp;utm_content=header" target="_blank">
                     {{ __( 'Visit Website', 'prosopo-procaptcha' ) }}
                 </a>
                 <a class="text-[13px] mt-1 text-blue underline transition
@@ -22,7 +22,7 @@
                     {{ __( 'Open Docs', 'prosopo-procaptcha' ) }}
                 </a>
                 <a class="text-[13px] mt-1 text-blue underline transition
-                hover:text-black" href="https://portal.prosopo.io/"
+                hover:text-black" href="https://portal.prosopo.io/?utm_source=procaptcha-wp&amp;utm_medium=plugin&amp;utm_campaign=settings&amp;utm_content=header"
                    target="_blank">
                     {{ __( 'Visit Portal', 'prosopo-procaptcha' ) }}
                 </a>

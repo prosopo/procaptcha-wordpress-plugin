@@ -63,7 +63,7 @@ class TrafficAnalyticsComponent extends React.Component<TrafficAnalyticsComponen
 				}
 				buttonComponentProperties={{
 					label: "View the traffic analytics",
-					href: "https://portal.prosopo.io/traffic",
+					href: "https://portal.prosopo.io/traffic?utm_source=procaptcha-wp&utm_medium=plugin&utm_campaign=settings&utm_content=statistics-traffic",
 					icon: "icon-[material-symbols--insert-chart]",
 				}}
 			/>

@@ -16,7 +16,7 @@ class AboutAppComponent extends React.Component {
 					}
 					buttonComponentProperties={{
 						label: "Open the Portal",
-						href: "https://portal.prosopo.io",
+						href: "https://portal.prosopo.io/?utm_source=procaptcha-wp&utm_medium=plugin&utm_campaign=settings&utm_content=statistics-about",
 						icon: "icon-[material-symbols--settings-account-box-outline]",
 					}}
 				/>

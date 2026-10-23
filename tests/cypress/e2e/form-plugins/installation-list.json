@@ -1,6 +1,6 @@
 {
 	"plugins": [
-		"contact-form-7",
+		"contact-form-7@6.1.4",
 		"everest-forms",
 		"fluentform",
 		"formidable",

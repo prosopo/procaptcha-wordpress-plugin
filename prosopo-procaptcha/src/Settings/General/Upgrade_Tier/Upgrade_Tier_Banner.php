@@ -31,6 +31,6 @@ class Upgrade_Tier_Banner extends BaseTemplateModel {
 		);
 
 		$this->button_label = __( 'Upgrade', 'prosopo-procaptcha' );
-		$this->button_url   = 'https://portal.prosopo.io/';
+		$this->button_url   = 'https://portal.prosopo.io/?utm_source=procaptcha-wp&utm_medium=plugin&utm_campaign=settings&utm_content=upgrade-banner';
 	}
 }

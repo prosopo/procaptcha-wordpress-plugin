@@ -29,17 +29,24 @@ runs:
       run: |
         cd ${{ github.workspace }}/tests/cypress/e2e/${{ matrix.cypress-target }}
         plugins=$(cat ./installation-list.json | jq -r '.plugins[]')
-        for plugin in $plugins; do
-          echo "Installing $plugin plugin"
-        
+        for entry in $plugins; do
+          # Entries are "slug" or "slug@version" to pin a WordPress.org release.
+          plugin="${entry%@*}"
+          version="latest-stable"
+          if [[ "$entry" == *@* ]]; then
+            version="${entry#*@}"
+          fi
+
+          echo "Installing $plugin plugin ($version)"
+
           paid_plugin_path="${{ inputs.paid_plugins_dir }}/$plugin.zip"
-        
+
           if [[ -f "$paid_plugin_path" ]]; then
             echo "Found paid plugin ZIP for $plugin in the paid plugins directory."
             unzip "$paid_plugin_path" -d ${{ github.workspace }}/wp-content/plugins/
           else
             echo "No local ZIP for $plugin, downloading from WordPress repository."
-            curl -L -o "$plugin.zip" "https://downloads.wordpress.org/plugin/$plugin.latest-stable.zip"
+            curl -fL -o "$plugin.zip" "https://downloads.wordpress.org/plugin/$plugin.$version.zip"
             unzip "$plugin.zip" -d ${{ github.workspace }}/wp-content/plugins/
             rm "$plugin.zip"
           fi

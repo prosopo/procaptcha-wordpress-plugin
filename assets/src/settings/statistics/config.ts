@@ -5,6 +5,9 @@ interface UsageLabels {
 	total: string;
 	proofOfWork: string;
 	image: string;
+	slider: string;
+	iconOrder: string;
+	audio: string;
 }
 
 interface StateLabels {
@@ -16,11 +19,23 @@ interface StateLabels {
 
 interface TrafficDataLabels {
 	title: string;
-	chartTitle: string;
-	powSubmissions: string;
-	imageSubmissions: string;
-	time: string;
-	submissionsCount: string;
+	message: string;
+	buttonLabel: string;
+}
+
+interface AboutLabels {
+	title: string;
+	message: string;
+	buttonLabel: string;
+}
+
+interface ChallengeLabels {
+	title: string;
+	current: string;
+	changeOnPaidPlan: string;
+	changeInPortal: string;
+	buttonLabel: string;
+	types: Record<string, string>;
 }
 
 interface Config {
@@ -33,6 +48,10 @@ interface Config {
 	getStateLabels(): StateLabels;
 
 	getTrafficDataLabels(): TrafficDataLabels;
+
+	getChallengeLabels(): ChallengeLabels;
+
+	getAboutLabels(): AboutLabels;
 
 	getCallToUpgradeElementMarkup(): string;
 
@@ -76,6 +95,9 @@ class ConfigClass implements Config {
 			total: usageLabels.getString("total"),
 			proofOfWork: usageLabels.getString("proofOfWork"),
 			image: usageLabels.getString("image"),
+			slider: usageLabels.getString("slider"),
+			iconOrder: usageLabels.getString("iconOrder"),
+			audio: usageLabels.getString("audio"),
 		};
 	}
 
@@ -100,11 +122,44 @@ class ConfigClass implements Config {
 
 		return {
 			title: trafficDataLabels.getString("title"),
-			chartTitle: trafficDataLabels.getString("chartTitle"),
-			powSubmissions: trafficDataLabels.getString("powSubmissions"),
-			imageSubmissions: trafficDataLabels.getString("imageSubmissions"),
-			time: trafficDataLabels.getString("time"),
-			submissionsCount: trafficDataLabels.getString("submissionsCount"),
+			message: trafficDataLabels.getString("message"),
+			buttonLabel: trafficDataLabels.getString("buttonLabel"),
+		};
+	}
+
+	public getAboutLabels(): AboutLabels {
+		const aboutLabels = this.data.getSubCollection("aboutLabels");
+
+		return {
+			title: aboutLabels.getString("title"),
+			message: aboutLabels.getString("message"),
+			buttonLabel: aboutLabels.getString("buttonLabel"),
+		};
+	}
+
+	public getChallengeLabels(): ChallengeLabels {
+		const challengeLabels = this.data.getSubCollection("challengeLabels");
+		const types = challengeLabels.getSubCollection("types");
+
+		return {
+			title: challengeLabels.getString("title"),
+			current: challengeLabels.getString("current"),
+			changeOnPaidPlan: challengeLabels.getString("changeOnPaidPlan"),
+			changeInPortal: challengeLabels.getString("changeInPortal"),
+			buttonLabel: challengeLabels.getString("buttonLabel"),
+			types: Object.fromEntries(
+				[
+					"frictionless",
+					"pow",
+					"image",
+					"puzzle",
+					"iconOrder",
+					"audio",
+				].map((type: string): [string, string] => [
+					type,
+					types.getString(type),
+				]),
+			),
 		};
 	}
 
@@ -117,4 +172,12 @@ class ConfigClass implements Config {
 	}
 }
 
-export { Config, ConfigClass, UsageLabels, StateLabels, TrafficDataLabels };
+export {
+	Config,
+	ConfigClass,
+	UsageLabels,
+	StateLabels,
+	TrafficDataLabels,
+	ChallengeLabels,
+	AboutLabels,
+};

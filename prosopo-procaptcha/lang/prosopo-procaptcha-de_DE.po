@@ -2,22 +2,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Prosopo ProCaptcha 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prosopo-procaptcha\n"
+"POT-Creation-Date: 2026-10-27T12:45:17+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-09T12:21:23+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Language: \n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: prosopo-procaptcha\n"
 
+#. Plugin Name of the plugin
+#: prosopo-procaptcha.php src/Widget/Procaptcha_Widget.php:77
+msgid "Prosopo Procaptcha"
+msgstr "Prosopo Procaptcha"
+
 #. Description of the plugin
 #: prosopo-procaptcha.php
-#: src/Settings/General/settings.blade.php:37
-msgid "GDPR compliant, privacy friendly and better value captcha."
-msgstr "DSGVO-konform, datenschutzfreundlich und kostengünstigeres Captcha."
+msgid "Free, GDPR-compliant CAPTCHA that stops spam bots on WordPress core forms and 21 form plugins, page builders and themes. No cookies."
+msgstr "Kostenloses, DSGVO-konformes CAPTCHA gegen Spam-Bots für die WordPress-Kernformulare und 21 Formular-Plugins, Page-Builder und Themes. Ohne Cookies."
 
 #. Author of the plugin
 #: prosopo-procaptcha.php
@@ -29,285 +33,380 @@ msgstr "Prosopo-Team"
 msgid "https://prosopo.io/"
 msgstr "https://prosopo.io/"
 
-#: src/Widget/Procaptcha_Widget.php:49
-msgid "Please verify that you are human."
-msgstr "Bitte bestätigen Sie, dass Sie ein Mensch sind."
-
-#: src/Settings/Settings_Page.php:165
-msgid "Settings"
-msgstr "Einstellungen"
-
-#: src/Settings/General/settings_form.blade.php:72
-msgid "Save"
-msgstr "Speichern"
-
-#: src/Settings/General/general_settings.blade.php:6
-msgid "Preview: if the credentials are valid, you should be able to complete the captcha below:"
-msgstr "Vorschau: Wenn die Anmeldedaten gültig sind, sollten Sie in der Lage sein, das Captcha unten zu vervollständigen:"
-
-#. Plugin Name of the plugin
-#: prosopo-procaptcha.php
-#: src/Widget/Procaptcha_Widget.php:81
-#: src/Settings/General/settings.blade.php:14
-msgid "Prosopo Procaptcha"
-msgstr "Prosopo Procaptcha"
-
-#: src/Settings/Settings_Page.php:141
-msgid "Procaptcha Settings"
-msgstr "Procaptcha-Einstellungen"
-
-#: src/Settings/Settings_Page.php:142
-msgid "Procaptcha"
-msgstr "Procaptcha"
-
-#: src/Settings/General/General_Settings_Tab.php:95
-#: src/Widget/Procaptcha_Widget.php:60
-msgid "Light"
-msgstr "Hell"
-
-#: src/Settings/General/General_Settings_Tab.php:94
-#: src/Widget/Procaptcha_Widget.php:59
-msgid "Dark"
-msgstr "Dunkel"
-
-#: src/Settings/General/General_Settings_Tab.php:98
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:79
-#: src/Widget/Procaptcha_Widget.php:69
-msgid "Frictionless"
-msgstr "Reibungslos"
-
-#: src/Settings/General/General_Settings_Tab.php:100
-#: src/Widget/Procaptcha_Widget.php:71
-msgid "Pow"
-msgstr "Pow"
-
-#: src/Settings/General/General_Settings_Tab.php:99
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:80
-#: src/Widget/Procaptcha_Widget.php:70
-msgid "Image"
-msgstr "Bild"
-
-#: src/Settings/General/settings.blade.php:61
-msgid "Settings successfully saved."
-msgstr "Einstellungen erfolgreich gespeichert."
-
-#: src/Plugin_Integrations/BBPress/BBPress_Forum_Integration.php:47
+#: src/Integrations/Plugins/BBPress/BBPress_Forum.php:46
 msgid "Enable form protection for this forum (new topic, reply)"
 msgstr "Formularschutz für dieses Forum aktivieren (neues Thema, Antwort)"
 
-#: src/Settings/General/General_Settings_Tab.php:110
-msgid "Behavior"
-msgstr "Verhalten"
+#: src/Integrations/Plugins/Beaver_Builder/Forms/Beaver_Contact.php:30
+#: src/Integrations/Plugins/Beaver_Builder/Forms/Beaver_Subscribe.php:30
+msgid "Procaptcha protection"
+msgstr "Procaptcha-Schutz"
 
-#: src/Settings/General/settings.blade.php:25
-msgid "Open Docs"
-msgstr "Dokumentation öffnen"
+#: src/Integrations/Plugins/Beaver_Builder/Forms/Beaver_Contact.php:32
+#: src/Integrations/Plugins/Beaver_Builder/Forms/Beaver_Subscribe.php:32
+msgid "Disabled"
+msgstr "Deaktiviert"
 
-#: src/Settings/Account_Forms_Settings_Tab.php:19
-msgid "Account Forms"
-msgstr "Kontenformulare"
+#: src/Integrations/Plugins/Beaver_Builder/Forms/Beaver_Contact.php:33
+#: src/Integrations/Plugins/Beaver_Builder/Forms/Beaver_Subscribe.php:33
+msgid "Enabled"
+msgstr "Aktiviert"
 
-#: src/Settings/General/General_Settings_Tab.php:27
-msgid "General"
-msgstr "Allgemein"
+#: src/Integrations/Plugins/Memberpress/Membership/Memberpress_Membership.php:33
+msgid "Enable Procaptcha form protection"
+msgstr "Procaptcha-Formularschutz aktivieren"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:22
-msgid "Statistics"
-msgstr "Statistiken"
-
-#: src/Settings/WooCommerce_Settings_Tab.php:29
-msgid "Protect the checkout form"
-msgstr "Schützen Sie das Checkout-Formular"
-
-#: src/Settings/WooCommerce_Settings_Tab.php:30
-msgid "Protect the order tracking form"
-msgstr "Schützen Sie das Formular zur Bestellverfolgung"
-
-#: src/Settings/WooCommerce_Settings_Tab.php:16
+#: src/Integrations/Plugins/WooCommerce/WooCommerce_Tab.php:16
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: src/Settings/Account_Forms_Settings_Tab.php:33
+#: src/Integrations/Plugins/WooCommerce/WooCommerce_Tab.php:29
+msgid "Protect the checkout form"
+msgstr "Schützen Sie das Checkout-Formular"
+
+#: src/Integrations/Plugins/WooCommerce/WooCommerce_Tab.php:30
+msgid "Protect the order tracking form"
+msgstr "Schützen Sie das Formular zur Bestellverfolgung"
+
+#: src/Integrations/WordPress/WordPress_Tab.php:21
+msgid "Core Forms"
+msgstr "Kernformulare"
+
+#: src/Integrations/WordPress/WordPress_Tab.php:47
 msgid "Protect the comment form:"
 msgstr "Schützen Sie das Kommentarfeld:"
 
-#: src/Settings/Account_Forms_Settings_Tab.php:34
+#: src/Integrations/WordPress/WordPress_Tab.php:48
 msgid "Protect the login form:"
 msgstr "Schützen Sie das Anmeldeformular:"
 
-#: src/Settings/Account_Forms_Settings_Tab.php:35
+#: src/Integrations/WordPress/WordPress_Tab.php:49
 msgid "Protect the lost password form:"
 msgstr "Schützen Sie das Formular für vergessenes Passwort:"
 
-#: src/Settings/Account_Forms_Settings_Tab.php:36
+#: src/Integrations/WordPress/WordPress_Tab.php:50
 msgid "Protect the post/page password form:"
 msgstr "Schützen Sie das Beitrags-/Seitenpasswort-Formular:"
 
-#: src/Settings/Account_Forms_Settings_Tab.php:37
+#: src/Integrations/WordPress/WordPress_Tab.php:51
 msgid "Protect the register form:"
 msgstr "Schützen Sie das Registrierungsformular:"
 
-#: src/Settings/General/General_Settings_Tab.php:71
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:49
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:68
+msgid "Active Integrations"
+msgstr "Aktive Integrationen"
+
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:70
+msgid "The Procaptcha plugin automatically detects compatible plugins on your site and enables their integrations. Click any item below to open a corresponding Docs page."
+msgstr "Das Procaptcha-Plugin erkennt kompatible Plugins auf Ihrer Website automatisch und aktiviert deren Integrationen. Klicken Sie auf einen Eintrag, um die passende Dokumentationsseite zu öffnen."
+
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:75
+msgid "Note: Inactive plugins, even if compatible, are excluded."
+msgstr "Hinweis: Inaktive Plugins werden nicht berücksichtigt, auch wenn sie kompatibel sind."
+
+#. translators: %1$s: opening link tag, %2$s: closing link tag.
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:80
+#, php-format
+msgid "Your favourite plugin is not listed? %1$s Start a thread %2$s in our support forum and we will consider adding the new integration."
+msgstr "Ihr Lieblings-Plugin fehlt? %1$s Starten Sie ein Thema %2$s in unserem Support-Forum, und wir prüfen eine neue Integration."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:30
+msgid "General"
+msgstr "Allgemein"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:99
 msgid "Your Secret Key:"
 msgstr "Ihr geheimer Schlüssel:"
 
-#: src/Settings/General/General_Settings_Tab.php:72
+#: src/Settings/General/Tab/General_Settings_Tab.php:100
 msgid "Your Site Key:"
 msgstr "Ihr Website-Schlüssel:"
 
-#: src/Settings/General/General_Settings_Tab.php:73
+#: src/Settings/General/Tab/General_Settings_Tab.php:101
 msgid "Theme:"
 msgstr "Design:"
 
-#: src/Settings/General/General_Settings_Tab.php:74
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:77
-msgid "Type:"
-msgstr "Typ:"
+#: src/Settings/General/Tab/General_Settings_Tab.php:102
+msgid "Language:"
+msgstr "Sprache:"
 
-#: src/Settings/General/General_Settings_Tab.php:80
+#: src/Settings/General/Tab/General_Settings_Tab.php:108
 msgid "Require from authorized users:"
 msgstr "Von autorisierten Benutzern verlangen:"
 
+#: src/Settings/General/Tab/General_Settings_Tab.php:122
+#: src/Widget/Procaptcha_Widget.php:55
+msgid "Dark"
+msgstr "Dunkel"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:123
+#: src/Widget/Procaptcha_Widget.php:56
+msgid "Light"
+msgstr "Hell"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:126
+msgid "Same as the site"
+msgstr "Wie die Website"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:127
+msgid "Visitor's browser language"
+msgstr "Browsersprache des Besuchers"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:137
+msgid "Behavior"
+msgstr "Verhalten"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:23
+msgid "Upgrade to Professional"
+msgstr "Auf Professional upgraden"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:25
+msgid "Spam Filter: blocks disposable and throwaway email addresses"
+msgstr "Spam-Filter: blockiert Wegwerf-E-Mail-Adressen"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:26
+msgid "VPN, proxy and datacenter filtering"
+msgstr "Filterung von VPNs, Proxys und Rechenzentren"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:27
+msgid "Choose your challenge type, plus icon-order and audio challenges"
+msgstr "Wählen Sie den Challenge-Typ, dazu Symbol-Reihenfolge- und Audio-Challenges"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:28
+msgid "A risk score and block reason for every decision"
+msgstr "Risikowert und Sperrgrund für jede Entscheidung"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:29
+msgid "Up to 1M requests a month and 50 sites"
+msgstr "Bis zu 1 Mio. Anfragen pro Monat und 50 Websites"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:30
+msgid "Email and Discord support, 99.9% uptime"
+msgstr "Support per E-Mail und Discord, 99,9 % Verfügbarkeit"
+
+#: src/Settings/General/Upgrade_Tier/Upgrade_Tier_Banner.php:32
+msgid "Start a 30-day free trial"
+msgstr "30 Tage kostenlos testen"
+
+#: src/Settings/Settings_Page.php:144
+msgid "Procaptcha Settings"
+msgstr "Procaptcha-Einstellungen"
+
+#: src/Settings/Settings_Page.php:145
+msgid "Procaptcha"
+msgstr "Procaptcha"
+
+#: src/Settings/Settings_Page.php:168
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:30
+msgid "Statistics"
+msgstr "Statistiken"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:62
+msgid "Open the Portal"
+msgstr "Portal öffnen"
+
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:63
-msgid "Name:"
-msgstr "Name:"
+msgid "Usage and settings for your site key. Manage your account and site settings in the Prosopo portal."
+msgstr "Nutzung und Einstellungen Ihres Site-Keys. Konto und Website-Einstellungen verwalten Sie im Prosopo-Portal."
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:64
-msgid "Tier:"
-msgstr "Stufe:"
-
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:65
-msgid "Account Information"
-msgstr "Kontoinformationen"
+msgid "Your Site Key"
+msgstr "Ihr Site-Key"
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:69
-msgid "Frictionless Threshold:"
-msgstr "Reibungsloser Schwellenwert:"
+msgid "Change in the portal"
+msgstr "Im Portal ändern"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:70
+msgid "Your plan lets you choose the challenge type for this site key in the Prosopo portal."
+msgstr "Mit Ihrem Tarif wählen Sie den Challenge-Typ für diesen Site-Key im Prosopo-Portal."
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:71
-msgid "High"
-msgstr "Hoch"
+msgid "Procaptcha shows a challenge only to visitors who look like bots, and picks a Proof of Work, image or slider challenge for them. Choosing a single challenge type is part of the Professional plan."
+msgstr "Procaptcha zeigt nur Besuchern, die wie Bots wirken, eine Challenge und wählt dafür Proof of Work, Bild oder Schieberegler. Einen einzelnen Challenge-Typ festlegen können Sie im Professional-Tarif."
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:72
-msgid "Low"
-msgstr "Niedrig"
+msgid "Challenge type:"
+msgstr "Challenge-Typ:"
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:73
-msgid "Normal"
-msgstr "Normal"
+msgid "Your Challenges"
+msgstr "Ihre Challenges"
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:75
-msgid "Proof of Work Difficulty:"
-msgstr "Schwierigkeit des Arbeitsnachweises:"
+msgid "Audio"
+msgstr "Audio"
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:76
-msgid "Captcha Settings"
-msgstr "Captcha-Einstellungen"
+msgid "Frictionless (challenge only when needed)"
+msgstr "Frictionless (Challenge nur bei Bedarf)"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:81
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:77
+msgid "Icon order"
+msgstr "Symbol-Reihenfolge"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:78
+#: src/Widget/Procaptcha_Widget.php:66
+msgid "Image"
+msgstr "Bild"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:79
 msgid "Proof of Work"
 msgstr "Arbeitsnachweis"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:85
-msgid "Whitelisted Domains"
-msgstr "Zugelassene Domains"
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:80
+msgid "Slider"
+msgstr "Schieberegler"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:91
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:87
 msgid "Failed to load. Please try again later."
 msgstr "Fehler beim Laden. Bitte versuchen Sie es später erneut."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:92
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:88
 msgid "Successfully loaded at"
 msgstr "Erfolgreich geladen um"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:89
 msgid "Loading, please wait."
 msgstr "Laden, bitte warten."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:90
 msgid "Refresh now"
 msgstr "Jetzt aktualisieren"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:97
-msgid "Traffic Data Over Time"
-msgstr "Verkehrsdaten über die Zeit"
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
+msgid "View traffic analytics"
+msgstr "Traffic-Analysen ansehen"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
-msgid "Image Submissions"
-msgstr "Bildeinsendungen"
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
+msgid "Traffic analytics are included on every plan. See the charts in the Prosopo portal."
+msgstr "Traffic-Analysen sind in jedem Tarif enthalten. Die Diagramme finden Sie im Prosopo-Portal."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
-msgid "Proof of Work Submissions"
-msgstr "Einsendungen zum Arbeitsnachweis"
-
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
-msgid "Submissions Count"
-msgstr "Anzahl der Einsendungen"
-
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
-msgid "Time"
-msgstr "Zeit"
-
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:95
 msgid "Traffic Analytics"
 msgstr "Verkehrsanalysen"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:105
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
+msgid "Audio:"
+msgstr "Audio:"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
+msgid "Icon order:"
+msgstr "Symbol-Reihenfolge:"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
 msgid "Image:"
 msgstr "Bild:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:106
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
 msgid "Proof of Work:"
 msgstr "Arbeitsnachweis:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:107
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
+msgid "Slider:"
+msgstr "Schieberegler:"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:103
 msgid "Monthly Usage"
 msgstr "Monatliche Nutzung"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:108
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:104
 msgid "Total Verification Requests:"
 msgstr "Gesamte Verifizierungsanfragen:"
 
-#: src/Settings/General/settings.blade.php:19
-msgid "Visit Website"
-msgstr "Website besuchen"
+#: src/Widget/Procaptcha_Widget.php:45
+msgid "Please verify that you are human."
+msgstr "Bitte bestätigen Sie, dass Sie ein Mensch sind."
 
-#: src/Settings/General/settings.blade.php:31
-msgid "Visit Portal"
-msgstr "Portal besuchen"
+#: src/Widget/Procaptcha_Widget.php:65
+msgid "Frictionless"
+msgstr "Reibungslos"
+
+#: src/Widget/Procaptcha_Widget.php:67
+msgid "Pow"
+msgstr "Pow"
+
+#: src/Settings/General/Form/settings_form.blade.php:72
+msgid "Save"
+msgstr "Speichern"
+
+#: src/Settings/General/settings.blade.php:18
+msgid "Procaptcha for WordPress"
+msgstr "Procaptcha für WordPress"
+
+#: src/Settings/General/settings.blade.php:22
+msgid "Free, GDPR-compliant CAPTCHA that stops spam bots. No cookies."
+msgstr "Kostenloses, DSGVO-konformes CAPTCHA gegen Spam-Bots. Ohne Cookies."
+
+#: src/Settings/General/settings.blade.php:30
+msgid "Docs"
+msgstr "Dokumentation"
+
+#: src/Settings/General/settings.blade.php:34
+msgid "Website"
+msgstr "Website"
+
+#: src/Settings/General/settings.blade.php:40
+msgid "Prosopo portal"
+msgstr "Prosopo-Portal"
+
+#: src/Settings/General/settings.blade.php:65
+msgid "Settings successfully saved."
+msgstr "Einstellungen erfolgreich gespeichert."
+
+#: src/Settings/General/Tab/general_settings.blade.php:8
+#: src/Settings/General/Tab/general_settings.blade.php:19
+msgid "Get your free site key"
+msgstr "Kostenlosen Site-Key holen"
+
+#: src/Settings/General/Tab/general_settings.blade.php:12
+msgid "Sign up for a free Prosopo account."
+msgstr "Registrieren Sie sich kostenlos bei Prosopo."
+
+#: src/Settings/General/Tab/general_settings.blade.php:13
+msgid "Copy your Site Key and Secret Key from the Prosopo portal."
+msgstr "Kopieren Sie Site-Key und Secret-Key aus dem Prosopo-Portal."
+
+#: src/Settings/General/Tab/general_settings.blade.php:14
+msgid "Paste them here, save, and turn on the forms you want to protect."
+msgstr "Fügen Sie beide hier ein, speichern Sie und aktivieren Sie die Formulare, die Sie schützen möchten."
+
+#: src/Settings/General/Tab/general_settings.blade.php:23
+msgid "Free for 10,000 requests a month. No credit card."
+msgstr "Kostenlos für 10.000 Anfragen pro Monat. Keine Kreditkarte nötig."
+
+#: src/Settings/General/Tab/general_settings.blade.php:30
+msgid "Preview: if the credentials are valid, you should be able to complete the captcha below:"
+msgstr "Vorschau: Wenn die Anmeldedaten gültig sind, sollten Sie in der Lage sein, das Captcha unten zu vervollständigen:"
+
+#: src/Settings/General/Tab/general_settings.blade.php:42
+msgid "What protects your forms"
+msgstr "Was Ihre Formulare schützt"
+
+#: src/Settings/General/Tab/general_settings.blade.php:48
+msgid "An invisible check: most visitors see nothing to solve, and only visitors who look like bots get a challenge."
+msgstr "Eine unsichtbare Prüfung: Die meisten Besucher müssen nichts lösen, nur Besucher, die wie Bots wirken, erhalten eine Challenge."
+
+#: src/Settings/General/Tab/general_settings.blade.php:52
+msgid "A hidden honeypot trap, and blocking of known abusive networks."
+msgstr "Eine versteckte Honeypot-Falle und die Sperrung bekannter missbräuchlicher Netzwerke."
+
+#: src/Settings/General/Tab/general_settings.blade.php:56
+msgid "No cookies and no tracking."
+msgstr "Keine Cookies und kein Tracking."
+
+#: src/Settings/General/Tab/general_settings.blade.php:60
+msgid "All included on the free plan."
+msgstr "Alles im kostenlosen Tarif enthalten."
+
+#: src/Settings/General/Tab/general_settings.blade.php:64
+msgid "Data processing agreement"
+msgstr "Auftragsverarbeitungsvertrag"
 
 #: src/Settings/Statistics/statistics_settings.blade.php:34
 msgid "Please setup your keys to see the statistics."
 msgstr "Bitte richten Sie Ihre Schlüssel ein, um die Statistiken zu sehen."
-
-#: src/Settings/General/Upgrade_Tier_Banner.php:23
-msgid "Unlock more with Pro tier"
-msgstr "Schalte mehr mit der Pro-Stufe frei"
-
-#: src/Settings/General/Upgrade_Tier_Banner.php:26
-msgid "Up to 1M monthly requests"
-msgstr "Bis zu 1 Mio. Anfragen pro Monat"
-
-#: src/Settings/General/Upgrade_Tier_Banner.php:27
-msgid "Rapid technical support"
-msgstr "Schneller technischer Support"
-
-#: src/Settings/General/Upgrade_Tier_Banner.php:28
-msgid "Unlimited number of sites"
-msgstr "Unbegrenzte Anzahl von Websites"
-
-#: src/Settings/General/Upgrade_Tier_Banner.php:29
-msgid "Advanced user management"
-msgstr "Erweiterte Benutzerverwaltung"
-
-#: src/Settings/General/Upgrade_Tier_Banner.php:30
-msgid "Traffic analytics and statistics"
-msgstr "Traffic-Analysen und Statistiken"
-
-#: src/Settings/General/Upgrade_Tier_Banner.php:33
-msgid "Upgrade"
-msgstr "Upgrade"
-
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:56
-msgid "Unlock Analytics with Pro tier"
-msgstr "Schalte Analysen mit der Pro-Stufe frei"

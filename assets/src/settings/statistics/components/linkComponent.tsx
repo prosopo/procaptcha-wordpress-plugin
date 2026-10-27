@@ -15,8 +15,8 @@ class LinkComponent extends React.Component<LinkComponentProperties> {
 				target="_blank"
 				rel="noreferrer"
 				href={href}
-				className="flex items-center gap-2 px-4 py-2 text-sm rounded text-white bg-indigo-800 transition cursor-pointer
-    hover:bg-indigo-700"
+				className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded text-white bg-blue no-underline transition cursor-pointer
+    hover:bg-blue-dark"
 			>
 				<span>{label}</span>
 				{icon && <span className={`${icon} w-6 h-6`}></span>}

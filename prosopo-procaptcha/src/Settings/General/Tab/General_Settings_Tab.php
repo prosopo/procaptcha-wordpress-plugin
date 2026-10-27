@@ -20,8 +20,11 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 	const SITE_KEY                  = 'site_key';
 	const SECRET_KEY                = 'secret_key';
 	const THEME                     = 'theme';
-	const TYPE                      = 'type';
+	const WIDGET_LANGUAGE           = 'widget_language';
 	const IS_ENABLED_FOR_AUTHORIZED = 'is_enabled_for_authorized';
+
+	const LANGUAGE_SITE    = 'site';
+	const LANGUAGE_VISITOR = 'visitor';
 
 	public function get_tab_title(): string {
 		return __( 'General', 'prosopo-procaptcha' );
@@ -35,7 +38,8 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 		return $factory->createModel(
 			General_Settings::class,
 			function ( General_Settings $general_settings_tab ) use ( $factory, $widget ) {
-				$general_settings_tab->form = parent::make_tab_component( $factory, $widget );
+				$general_settings_tab->form     = parent::make_tab_component( $factory, $widget );
+				$general_settings_tab->has_keys = '' !== $this->get_site_key() && '' !== $this->get_secret_key();
 
 				$general_settings_tab->widget_preview = $widget->print_form_field(
 					array(
@@ -70,8 +74,13 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 		return string( $this->get_settings(), self::THEME );
 	}
 
-	public function get_type(): string {
-		return string( $this->get_settings(), self::TYPE );
+	public function get_language(): string {
+		if ( self::LANGUAGE_VISITOR === string( $this->get_settings(), self::WIDGET_LANGUAGE ) ) {
+			return '';
+		}
+
+		// The widget takes BCP 47 tags (pt-BR), WordPress locales use an underscore (pt_BR).
+		return str_replace( '_', '-', determine_locale() );
 	}
 
 	public function should_bypass_authorized_user(): bool {
@@ -87,10 +96,10 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 
 	protected function get_string_settings(): array {
 		return array(
-			self::SECRET_KEY => __( 'Your Secret Key:', 'prosopo-procaptcha' ),
-			self::SITE_KEY   => __( 'Your Site Key:', 'prosopo-procaptcha' ),
-			self::THEME      => __( 'Theme:', 'prosopo-procaptcha' ),
-			self::TYPE       => __( 'Type:', 'prosopo-procaptcha' ),
+			self::SECRET_KEY      => __( 'Your Secret Key:', 'prosopo-procaptcha' ),
+			self::SITE_KEY        => __( 'Your Site Key:', 'prosopo-procaptcha' ),
+			self::THEME           => __( 'Theme:', 'prosopo-procaptcha' ),
+			self::WIDGET_LANGUAGE => __( 'Language:', 'prosopo-procaptcha' ),
 		);
 	}
 
@@ -102,21 +111,20 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 
 	protected function get_default_values(): array {
 		return array(
-			self::THEME => 'light',
-			self::TYPE  => 'frictionless',
+			self::THEME           => 'light',
+			self::WIDGET_LANGUAGE => self::LANGUAGE_SITE,
 		);
 	}
 
 	protected function get_select_inputs(): array {
 		return array(
-			self::THEME => array(
+			self::THEME           => array(
 				'dark'  => __( 'Dark', 'prosopo-procaptcha' ),
 				'light' => __( 'Light', 'prosopo-procaptcha' ),
 			),
-			self::TYPE  => array(
-				'frictionless' => __( 'Frictionless', 'prosopo-procaptcha' ),
-				'image'        => __( 'Image', 'prosopo-procaptcha' ),
-				'pow'          => __( 'Pow', 'prosopo-procaptcha' ),
+			self::WIDGET_LANGUAGE => array(
+				self::LANGUAGE_SITE    => __( 'Same as the site', 'prosopo-procaptcha' ),
+				self::LANGUAGE_VISITOR => __( "Visitor's browser language", 'prosopo-procaptcha' ),
 			),
 		);
 	}

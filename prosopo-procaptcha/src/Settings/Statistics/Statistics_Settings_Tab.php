@@ -55,16 +55,31 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 		$secret_key = $this->procaptcha_settings->get_secret_key();
 		$site_key   = $this->procaptcha_settings->get_site_key();
 
-		$call_to_upgrade_element_markup = $this->model_renderer->renderModel(
-			Upgrade_Tier_Banner::class,
-			function ( Upgrade_Tier_Banner $model ) {
-				$model->title = __( 'Unlock Analytics with Pro tier', 'prosopo-procaptcha' );
-			}
-		);
+		$call_to_upgrade_element_markup = $this->model_renderer->renderModel( Upgrade_Tier_Banner::class );
 
 		return array(
+			'aboutLabels'                => array(
+				'buttonLabel' => __( 'Open the Portal', 'prosopo-procaptcha' ),
+				'message'     => __( 'Usage and settings for your site key. Manage your account and site settings in the Prosopo portal.', 'prosopo-procaptcha' ),
+				'title'       => __( 'Your Site Key', 'prosopo-procaptcha' ),
+			),
 			'accountApiEndpoint'         => Procaptcha_Plugin::ACCOUNT_API_ENDPOINT_URL,
 			'callToUpgradeElementMarkup' => $call_to_upgrade_element_markup,
+			'challengeLabels'            => array(
+				'buttonLabel'      => __( 'Change in the portal', 'prosopo-procaptcha' ),
+				'changeInPortal'   => __( 'Your plan lets you choose the challenge type for this site key in the Prosopo portal.', 'prosopo-procaptcha' ),
+				'changeOnPaidPlan' => __( 'Procaptcha shows a challenge only to visitors who look like bots, and picks a Proof of Work, image or slider challenge for them. Choosing a single challenge type is part of the Professional plan.', 'prosopo-procaptcha' ),
+				'current'          => __( 'Challenge type:', 'prosopo-procaptcha' ),
+				'title'            => __( 'Your Challenges', 'prosopo-procaptcha' ),
+				'types'            => array(
+					'audio'        => __( 'Audio', 'prosopo-procaptcha' ),
+					'frictionless' => __( 'Frictionless (challenge only when needed)', 'prosopo-procaptcha' ),
+					'iconOrder'    => __( 'Icon order', 'prosopo-procaptcha' ),
+					'image'        => __( 'Image', 'prosopo-procaptcha' ),
+					'pow'          => __( 'Proof of Work', 'prosopo-procaptcha' ),
+					'puzzle'       => __( 'Slider', 'prosopo-procaptcha' ),
+				),
+			),
 			'isDebugMode'                => false, // todo move into settings as 'debug mode' option.
 			'secretKey'                  => $secret_key,
 			'siteKey'                    => $site_key,
@@ -75,16 +90,16 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 				'refreshNow'      => __( 'Refresh now', 'prosopo-procaptcha' ),
 			),
 			'trafficDataLabels'          => array(
-				'chartTitle'       => __( 'Traffic Data Over Time', 'prosopo-procaptcha' ),
-				'imageSubmissions' => __( 'Image Submissions', 'prosopo-procaptcha' ),
-				'powSubmissions'   => __( 'Proof of Work Submissions', 'prosopo-procaptcha' ),
-				'submissionsCount' => __( 'Submissions Count', 'prosopo-procaptcha' ),
-				'time'             => __( 'Time', 'prosopo-procaptcha' ),
-				'title'            => __( 'Traffic Analytics', 'prosopo-procaptcha' ),
+				'buttonLabel' => __( 'View traffic analytics', 'prosopo-procaptcha' ),
+				'message'     => __( 'Traffic analytics are included on every plan. See the charts in the Prosopo portal.', 'prosopo-procaptcha' ),
+				'title'       => __( 'Traffic Analytics', 'prosopo-procaptcha' ),
 			),
 			'usageLabels'                => array(
+				'audio'       => __( 'Audio:', 'prosopo-procaptcha' ),
+				'iconOrder'   => __( 'Icon order:', 'prosopo-procaptcha' ),
 				'image'       => __( 'Image:', 'prosopo-procaptcha' ),
 				'proofOfWork' => __( 'Proof of Work:', 'prosopo-procaptcha' ),
+				'slider'      => __( 'Slider:', 'prosopo-procaptcha' ),
 				'title'       => __( 'Monthly Usage', 'prosopo-procaptcha' ),
 				'total'       => __( 'Total Verification Requests:', 'prosopo-procaptcha' ),
 			),

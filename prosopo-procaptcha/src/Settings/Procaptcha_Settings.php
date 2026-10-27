@@ -13,7 +13,10 @@ interface Procaptcha_Settings {
 
 	public function get_theme(): string;
 
-	public function get_type(): string;
+	/**
+	 * Empty when the widget should follow the visitor's browser.
+	 */
+	public function get_language(): string;
 
 	public function should_bypass_authorized_user(): bool;
 }

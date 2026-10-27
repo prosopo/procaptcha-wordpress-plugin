@@ -6,21 +6,41 @@ import { z, type ZodType } from "zod";
 
 /**
  * Only the parts of the site response the statistics page actually renders:
- * the monthly captcha counts and the account tier the traffic chart gates on.
+ * the monthly captcha counts, the account tier and the site's challenge type.
  *
- * `settings` is deliberately absent. Zod strips keys a schema does not
- * declare, so whatever shape the portal sends for the captcha settings — and
- * `frictionlessThreshold` has already changed shape once — is ignored rather
- * than validated. The whole response is a single parse, so a field the page
- * does not display has no business being able to fail it.
+ * Zod strips keys a schema does not declare, and the whole response is a
+ * single parse, so everything beyond the original image and PoW counts is
+ * optional and falls back to undefined rather than failing it: older API
+ * deployments do not send the newer counts, and `settings` has changed shape
+ * before (`frictionlessThreshold`).
  */
 export interface ProcaptchaSite {
 	account: ProcaptchaAccount;
+	settings?: {
+		captchaType?: string;
+	};
 	monthlyUsage: {
 		limit: number;
 		image: CaptchaUsage;
 		pow: CaptchaUsage;
+		puzzle?: CaptchaUsage;
+		iconOrder?: CaptchaUsage;
+		audio?: CaptchaUsage;
 	};
+	monthlySessions?: MonthlySessions;
+	dailyRequests?: DailyRequests[];
+}
+
+export interface MonthlySessions {
+	total: number;
+	blocked: number;
+	rejected: number;
+	passedInvisibly: number;
+}
+
+export interface DailyRequests {
+	day: string;
+	requests: number;
 }
 
 export interface CaptchaUsage {
@@ -35,11 +55,33 @@ export const captchaUsageSchema = z.object({
 	total: z.number(),
 }) satisfies ZodType<CaptchaUsage>;
 
+const optionalUsageSchema = captchaUsageSchema.optional().catch(undefined);
+
+const monthlySessionsSchema = z.object({
+	total: z.number(),
+	blocked: z.number(),
+	rejected: z.number(),
+	passedInvisibly: z.number(),
+}) satisfies ZodType<MonthlySessions>;
+
+const dailyRequestsSchema = z.array(
+	z.object({ day: z.string(), requests: z.number() }),
+) satisfies ZodType<DailyRequests[]>;
+
 export const procaptchaSiteSchema = z.object({
 	account: procaptchaAccountSchema,
+	settings: z
+		.object({ captchaType: z.string().optional() })
+		.optional()
+		.catch(undefined),
 	monthlyUsage: z.object({
 		limit: z.number(),
 		image: captchaUsageSchema,
 		pow: captchaUsageSchema,
+		puzzle: optionalUsageSchema,
+		iconOrder: optionalUsageSchema,
+		audio: optionalUsageSchema,
 	}),
-}) satisfies ZodType<ProcaptchaSite>;
+	monthlySessions: monthlySessionsSchema.optional().catch(undefined),
+	dailyRequests: dailyRequestsSchema.optional().catch(undefined),
+}) satisfies ZodType<ProcaptchaSite, z.ZodTypeDef, unknown>;

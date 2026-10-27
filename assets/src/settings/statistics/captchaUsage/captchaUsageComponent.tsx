@@ -10,26 +10,72 @@ interface CaptchaUsageComponentProperties {
 	};
 	image: CaptchaUsage;
 	pow: CaptchaUsage;
+	puzzle?: CaptchaUsage;
+	iconOrder?: CaptchaUsage;
+	audio?: CaptchaUsage;
 	labels: UsageLabels;
 	numberUtils: CaptchaUsageNumberUtils;
 }
 
+interface UsageRow {
+	label: string;
+	colorClass: string;
+	verifications: number;
+}
+
 class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentProperties> {
+	// Free plans can be served PoW, image and jigsaw puzzle challenges, so those always
+	// show; icon order and audio are paid-plan types and only show once used.
+	protected getRows(): UsageRow[] {
+		const { labels, pow, image, puzzle, iconOrder, audio } = this.props;
+
+		const rows: UsageRow[] = [
+			{
+				label: labels.proofOfWork,
+				colorClass: "bg-success",
+				verifications: pow.verifications,
+			},
+			{
+				label: labels.image,
+				colorClass: "bg-warning",
+				verifications: image.verifications,
+			},
+			{
+				label: labels.puzzle,
+				colorClass: "bg-danger",
+				verifications: puzzle?.verifications ?? 0,
+			},
+		];
+
+		if (iconOrder && iconOrder.verifications > 0) {
+			rows.push({
+				label: labels.iconOrder,
+				colorClass: "bg-purple",
+				verifications: iconOrder.verifications,
+			});
+		}
+
+		if (audio && audio.verifications > 0) {
+			rows.push({
+				label: labels.audio,
+				colorClass: "bg-navy",
+				verifications: audio.verifications,
+			});
+		}
+
+		return rows;
+	}
+
 	render() {
 		const numberUtils = this.props.numberUtils;
 		const limit = this.props.limits.verifications;
-		const totalSubmissions =
-			this.props.image.verifications + this.props.pow.verifications;
+		const rows = this.getRows();
+		const totalVerifications = rows.reduce(
+			(sum: number, row: UsageRow): number => sum + row.verifications,
+			0,
+		);
 
-		const commonPercent = numberUtils.getPercent(totalSubmissions, limit);
-		const powPercent = numberUtils.getPercent(
-			this.props.pow.verifications,
-			totalSubmissions,
-		);
-		const imagePercent = numberUtils.getPercent(
-			this.props.image.verifications,
-			totalSubmissions,
-		);
+		const commonPercent = numberUtils.getPercent(totalVerifications, limit);
 
 		const labels = this.props.labels;
 
@@ -44,58 +90,61 @@ class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentPropert
 						<div className="flex justify-between">
 							<p className="text-gray">{labels.total}</p>
 							<p className="font-medium">
-								{numberUtils.formatNumber(totalSubmissions)} /{" "}
+								{numberUtils.formatNumber(totalVerifications)} /{" "}
 								{numberUtils.formatNumber(limit)} (
 								{commonPercent}%)
 							</p>
 						</div>
 
-						<div className="bg-gray rounded overflow-hidden h-2">
+						<div className="bg-gray-light rounded overflow-hidden h-2">
 							<div
-								className="h-full flex"
+								className="h-full flex gap-0.5 bg-white"
 								style={{
 									width: `${numberUtils.visualizePercent(commonPercent)}%`,
 								}}
 							>
-								<div
-									className="h-full bg-green-500"
-									style={{
-										width: `${numberUtils.visualizePercent(powPercent)}%`,
-									}}
-								></div>
-								<div
-									className="h-full bg-yellow-500"
-									style={{
-										width: `${numberUtils.visualizePercent(imagePercent)}%`,
-									}}
-								></div>
+								{rows.map((row: UsageRow) => (
+									<div
+										key={row.label}
+										className={`h-full ${row.colorClass}`}
+										style={{
+											width: `${numberUtils.visualizePercent(
+												numberUtils.getPercent(
+													row.verifications,
+													totalVerifications,
+												),
+											)}%`,
+										}}
+									></div>
+								))}
 							</div>
 						</div>
 					</div>
 
 					{/*Legend*/}
 					<div className="flex flex-col gap-1">
-						<div className="flex items-center gap-2">
-							<div className="bg-green-500 w-2 h-2"></div>
-							<p>{labels.proofOfWork}</p>
-							<p className="">
-								{numberUtils.formatNumber(
-									this.props.pow.verifications,
-								)}{" "}
-								({powPercent}%)
-							</p>
-						</div>
-
-						<div className="flex items-center gap-2">
-							<div className="bg-yellow-500 w-2 h-2"></div>
-							<p>{labels.image}</p>
-							<p className="">
-								{numberUtils.formatNumber(
-									this.props.image.verifications,
-								)}{" "}
-								({imagePercent}%)
-							</p>
-						</div>
+						{rows.map((row: UsageRow) => (
+							<div
+								key={row.label}
+								className="flex items-center gap-2"
+							>
+								<div
+									className={`${row.colorClass} w-2 h-2`}
+								></div>
+								<p>{row.label}</p>
+								<p>
+									{numberUtils.formatNumber(
+										row.verifications,
+									)}{" "}
+									(
+									{numberUtils.getPercent(
+										row.verifications,
+										totalVerifications,
+									)}
+									%)
+								</p>
+							</div>
+						))}
 					</div>
 				</div>
 			</SectionComponent>

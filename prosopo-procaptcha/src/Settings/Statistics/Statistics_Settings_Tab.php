@@ -55,36 +55,74 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 		$secret_key = $this->procaptcha_settings->get_secret_key();
 		$site_key   = $this->procaptcha_settings->get_site_key();
 
-		$call_to_upgrade_element_markup = $this->model_renderer->renderModel(
-			Upgrade_Tier_Banner::class,
-			function ( Upgrade_Tier_Banner $model ) {
-				$model->title = __( 'Unlock Analytics with Pro tier', 'prosopo-procaptcha' );
-			}
-		);
+		$call_to_upgrade_element_markup = $this->model_renderer->renderModel( Upgrade_Tier_Banner::class );
 
 		return array(
+			'aboutLabels'                => array(
+				'buttonLabel' => __( 'Open the Portal', 'prosopo-procaptcha' ),
+				'message'     => __( 'Usage and settings for your site key. Manage your account and site settings in the Prosopo portal.', 'prosopo-procaptcha' ),
+				'title'       => __( 'Your Site Key', 'prosopo-procaptcha' ),
+			),
 			'accountApiEndpoint'         => Procaptcha_Plugin::ACCOUNT_API_ENDPOINT_URL,
 			'callToUpgradeElementMarkup' => $call_to_upgrade_element_markup,
+			'challengeLabels'            => array(
+				'buttonLabel'      => __( 'Change in the portal', 'prosopo-procaptcha' ),
+				'changeInPortal'   => __( 'Your plan lets you choose the challenge type for this site key in the Prosopo portal.', 'prosopo-procaptcha' ),
+				'changeOnPaidPlan' => __( 'Procaptcha shows a challenge only to visitors who look like bots, and picks a Proof of Work, image or jigsaw puzzle challenge for them. Choosing a single challenge type is part of the Professional plan.', 'prosopo-procaptcha' ),
+				'current'          => __( 'Challenge type:', 'prosopo-procaptcha' ),
+				'title'            => __( 'Your Challenges', 'prosopo-procaptcha' ),
+				'types'            => array(
+					'audio'        => __( 'Audio', 'prosopo-procaptcha' ),
+					'frictionless' => __( 'Frictionless (challenge only when needed)', 'prosopo-procaptcha' ),
+					'iconOrder'    => __( 'Icon order', 'prosopo-procaptcha' ),
+					'image'        => __( 'Image', 'prosopo-procaptcha' ),
+					'pow'          => __( 'Proof of Work', 'prosopo-procaptcha' ),
+					'puzzle'       => __( 'Jigsaw puzzle', 'prosopo-procaptcha' ),
+				),
+			),
+			'insightsLabels'             => array(
+				'botsCaption'       => __( 'out of {total} visits checked this month', 'prosopo-procaptcha' ),
+				'botsTitle'         => __( 'Bots stopped this month', 'prosopo-procaptcha' ),
+				'checked'           => __( 'Checked by your server', 'prosopo-procaptcha' ),
+				'dailyForecast'     => __( 'On track for about {forecast} of {limit} by the end of the month.', 'prosopo-procaptcha' ),
+				'dailyForecastOver' => __( 'On track for about {forecast} by the end of the month, over your limit of {limit}.', 'prosopo-procaptcha' ),
+				'dailyTitle'        => __( 'Requests this month', 'prosopo-procaptcha' ),
+				'dailyUsed'         => __( '{used} of {limit} requests used', 'prosopo-procaptcha' ),
+				'dayColumn'         => __( 'Day', 'prosopo-procaptcha' ),
+				'hideTable'         => __( 'Hide the table', 'prosopo-procaptcha' ),
+				'invisibleCaption'  => __( '{percent}% of visitors passed the invisible check without a challenge.', 'prosopo-procaptcha' ),
+				'invisibleTitle'    => __( 'Visitors who saw nothing to solve', 'prosopo-procaptcha' ),
+				'requestsColumn'    => __( 'Requests', 'prosopo-procaptcha' ),
+				'served'            => __( 'Challenges served', 'prosopo-procaptcha' ),
+				'setupOk'           => __( 'Your server checks {percent}% of solved captchas.', 'prosopo-procaptcha' ),
+				'setupTitle'        => __( 'Setup check', 'prosopo-procaptcha' ),
+				'setupWarn'         => __( 'Only {percent}% of solved captchas were checked by your server. A form may be accepting submissions without verifying the Procaptcha token, which lets bots skip it.', 'prosopo-procaptcha' ),
+				'setupWarnLink'     => __( 'How verification works', 'prosopo-procaptcha' ),
+				'showTable'         => __( 'Show as a table', 'prosopo-procaptcha' ),
+				'solved'            => __( 'Solved by visitors', 'prosopo-procaptcha' ),
+				'totalRow'          => __( 'Total', 'prosopo-procaptcha' ),
+			),
 			'isDebugMode'                => false, // todo move into settings as 'debug mode' option.
 			'secretKey'                  => $secret_key,
 			'siteKey'                    => $site_key,
 			'stateLabels'                => array(
-				'failedToLoad'    => __( 'Failed to load. Please try again later.', 'prosopo-procaptcha' ),
+				'failedToLoad'    => __( 'Your statistics could not be loaded. Check that the Site Key and Secret Key on the General tab are correct and saved, then try again.', 'prosopo-procaptcha' ),
 				'lastRefreshedAt' => __( 'Successfully loaded at', 'prosopo-procaptcha' ),
 				'loading'         => __( 'Loading, please wait.', 'prosopo-procaptcha' ),
 				'refreshNow'      => __( 'Refresh now', 'prosopo-procaptcha' ),
+				'tryAgain'        => __( 'Try again', 'prosopo-procaptcha' ),
 			),
 			'trafficDataLabels'          => array(
-				'chartTitle'       => __( 'Traffic Data Over Time', 'prosopo-procaptcha' ),
-				'imageSubmissions' => __( 'Image Submissions', 'prosopo-procaptcha' ),
-				'powSubmissions'   => __( 'Proof of Work Submissions', 'prosopo-procaptcha' ),
-				'submissionsCount' => __( 'Submissions Count', 'prosopo-procaptcha' ),
-				'time'             => __( 'Time', 'prosopo-procaptcha' ),
-				'title'            => __( 'Traffic Analytics', 'prosopo-procaptcha' ),
+				'buttonLabel' => __( 'View traffic analytics', 'prosopo-procaptcha' ),
+				'message'     => __( 'Traffic analytics are included on every plan. See the charts in the Prosopo portal.', 'prosopo-procaptcha' ),
+				'title'       => __( 'Traffic Analytics', 'prosopo-procaptcha' ),
 			),
 			'usageLabels'                => array(
+				'audio'       => __( 'Audio:', 'prosopo-procaptcha' ),
+				'iconOrder'   => __( 'Icon order:', 'prosopo-procaptcha' ),
 				'image'       => __( 'Image:', 'prosopo-procaptcha' ),
 				'proofOfWork' => __( 'Proof of Work:', 'prosopo-procaptcha' ),
+				'puzzle'      => __( 'Jigsaw puzzle:', 'prosopo-procaptcha' ),
 				'title'       => __( 'Monthly Usage', 'prosopo-procaptcha' ),
 				'total'       => __( 'Total Verification Requests:', 'prosopo-procaptcha' ),
 			),

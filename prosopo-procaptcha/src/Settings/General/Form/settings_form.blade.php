@@ -22,7 +22,7 @@
                 @case('password')
                     <input name="{{ string($input, 'name') }}" type="{{ string($input, 'type') }}" required
                            class="bg-white w-64 py-1.5 px-3 border border-solid border-gray rounded transition shadow-none outline-none
-                           focus:border-blue"
+                           focus:border-blue focus:ring-2 focus:ring-blue/20"
                            placeholder="{{ string($input, 'label') }}" value="{{ string($input, 'value') }}">
                     @break
                 @case('select')
@@ -54,7 +54,7 @@
                        type="checkbox"
                        class="peer opacity-0 w-0 h-0"
                         @checked(bool($checkbox, 'value'))>
-                <div class="absolute inset-0 bg-[#ccc] transition-all duration-500 rounded-3xl peer-checked:bg-[#2196F3]"></div>
+                <div class="absolute inset-0 bg-[#ccc] transition-all duration-500 rounded-3xl peer-checked:bg-pink"></div>
                 <div class="absolute h-5 w-5 top-1/2 left-1/2 -translate-x-full -translate-y-1/2 bg-white transition-all transition-500 rounded-full peer-checked:translate-x-0"></div>
             </div>
         </label>
@@ -62,8 +62,8 @@
 
     <br>
 
-    <input class="py-1.5 px-3 bg-blue text-white rounded transition cursor-pointer
-    hover:bg-blue-dark" type="submit"
+    <input class="py-2 px-4 bg-pink text-white font-semibold rounded transition cursor-pointer border-0
+    hover:bg-pink-dark" type="submit"
            name="prosopo-captcha__submit"
            value="{{ __('Save','prosopo-procaptcha') }}">
 

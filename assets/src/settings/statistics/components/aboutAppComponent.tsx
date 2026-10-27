@@ -1,21 +1,25 @@
 import * as React from "react";
 import { SectionComponent } from "./sectionComponent.js";
 import { CallToActionComponent } from "./callToActionComponent.js";
+import type { AboutLabels } from "#settings/statistics/config.js";
 
-class AboutAppComponent extends React.Component {
+interface AboutAppComponentProperties {
+	labels: AboutLabels;
+}
+
+class AboutAppComponent extends React.Component<AboutAppComponentProperties> {
 	render() {
+		const { labels } = this.props;
+
 		return (
-			/*fixme translate*/
 			<SectionComponent
-				title="Information By Your Site Key"
+				title={labels.title}
 				icon="icon-[material-symbols--preview]"
 			>
 				<CallToActionComponent
-					message={
-						"This page displays general statistics and information by your site key. To manage your account and site settings visit the Prosopo portal."
-					}
+					message={labels.message}
 					buttonComponentProperties={{
-						label: "Open the Portal",
+						label: labels.buttonLabel,
 						href: "https://portal.prosopo.io/?utm_source=procaptcha-wp&utm_medium=plugin&utm_campaign=settings&utm_content=statistics-about",
 						icon: "icon-[material-symbols--settings-account-box-outline]",
 					}}

@@ -1,7 +1,7 @@
 <div class="flex flex-col bg-white rounded w-full p-4">
 
     <div class="flex items-center gap-2">
-        <span class="text-yellow icon-[material-symbols--activity-zone] w-6 h-6"></span>
+        <span class="text-blue icon-[material-symbols--activity-zone] w-6 h-6"></span>
         <h2 class="font-medium text-base">{{ $label }}</h2>
     </div>
 
@@ -10,7 +10,7 @@
     <div class="my-8 flex flex-col gap-2">
         @foreach($active_integrations as $active_integration)
             <div class="flex items-center gap-2">
-                <span class="text-green-700 icon-[material-symbols--check-box] w-6 h-6"></span>
+                <span class="text-success-dark icon-[material-symbols--check-box] w-6 h-6"></span>
                 <a class="text-sm font-medium text-blue hover:text-black transition"
                    href="{{$active_integration->docs_url}}" target="_blank">
                     {{ $active_integration->name }}

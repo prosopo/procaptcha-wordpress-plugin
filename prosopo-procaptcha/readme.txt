@@ -1,6 +1,6 @@
 === Prosopo Procaptcha ===
 Contributors: 1prosopo
-Tags: Captcha, Procaptcha, antispam, anibot, spam.
+Tags: captcha, antispam, spam, gdpr, recaptcha
 Requires at least: 5.5
 Tested up to: 6.9
 Requires PHP: 7.4
@@ -8,31 +8,41 @@ Stable tag: 1.21.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-GDPR compliant, privacy-friendly, and better-value CAPTCHA for your WordPress website.
+Free, GDPR-compliant CAPTCHA that stops spam bots on WordPress core forms and 21 form plugins, page builders and themes.
 
 == Description ==
 
-[Prosopo Procaptcha](https://prosopo.io/) is a GDPR-compliant, privacy-first CAPTCHA solution, offering seamless bot protection without compromising user data.
+[Prosopo Procaptcha](https://prosopo.io/) is a GDPR-compliant CAPTCHA that stops bots submitting your forms. Most visitors see nothing to solve: Procaptcha only shows a challenge to visitors who look like bots.
 
 == Key Features of Procaptcha ==
 
-* **Private & GDPR Friendly** - [No data storage](https://prosopo.io/articles/stop-giving-your-website-data-away/) ensures full compliance with privacy laws.
-* **Seamless Integration** - A drop-in replacement for reCaptcha and hCaptcha, allowing setup within minutes.
-* **Customizable Defense** - Easily adjust bot protection settings to meet your site's specific needs.
-* **Affordable** - Enjoy a top-value CAPTCHA solution with a generous [free tier](https://prosopo.io/pricing/).
+* **Private & GDPR Friendly** - No cookies and no tracking.
+* **Invisible by default** - Most visitors see nothing to solve. Visitors who look like bots get a Proof of Work, image or slider challenge. On paid plans you can pick a single challenge type in the Prosopo portal.
+* **Drop-in replacement** - Replaces reCAPTCHA and hCaptcha, and takes a few minutes to set up.
+* **Free tier** - 10,000 requests a month free. See [pricing](https://prosopo.io/pricing/) for higher limits.
+* **Honeypot and abusive networks** - A hidden honeypot trap and blocking of known abusive networks are included on the free plan.
+* **Statistics** - See your monthly captcha counts and traffic without leaving WordPress.
 
 == Why Use Procaptcha in WordPress? ==
 
-* **Official WordPress Plugin** - Specifically built for WordPress, ensuring secure and reliable integration.
-* **Multiple Built-In Integrations** - Works seamlessly with core WordPress forms and popular form plugins. Supported list provided below.
-* **Multilingual** - Completely translated into German (DE), Spanish (ES), French (FR), Italian (IT), and Portuguese (PT).
+* **Official WordPress Plugin** - Built and maintained by Prosopo.
+* **Multiple Built-In Integrations** - Protects the WordPress core forms and 21 form plugins, page builders and themes. The full list is below.
+* **Multilingual** - Translated into German (DE), Spanish (ES), French (FR), Italian (IT), and Portuguese (PT).
 * **Documentation** - [Plugin documentation](https://docs.prosopo.io/en/wordpress-plugin/) is available to help you get the most out of the plugin.
+
+== Getting Started ==
+
+1. [Sign up for a free Prosopo account](https://prosopo.io/register/) and copy your Site Key and Secret Key from the Prosopo portal.
+2. In WordPress, go to Settings -> Procaptcha and paste both keys.
+3. Turn on protection for the forms you want, using the steps for each plugin below.
 
 == Third-Party Service Notice ==
 
 For proper functionality, the plugin loads the [Prosopo Procaptcha](https://prosopo.io/) JavaScript on your chosen forms to display the CAPTCHA on the client side.
 
 Upon form submission, the plugin communicates with the [Prosopo Procaptcha](https://prosopo.io/) API server-side to verify the CAPTCHA response.
+
+The plugin's settings and statistics pages request your account details and usage figures from the [Prosopo Procaptcha](https://prosopo.io/) API (`api.prosopo.io`), using the keys you entered.
 
 Please review the [Prosopo Privacy Policy](https://prosopo.io/privacy-policy/) and [Terms and Conditions](https://prosopo.io/terms-and-conditions/) to fully understand data handling practices.
 

@@ -1,0 +1,82 @@
+name: Update wordpress.org Listing
+
+# The listing's images live in the SVN assets/ folder, and its description is
+# read from readme.txt in the stable tag. wordpress.org allows both to change
+# without a release, so they ship as soon as they change on main.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "wordpress-org-assets/**"
+      - "prosopo-procaptcha/readme.txt"
+  workflow_dispatch:
+
+concurrency:
+  group: wordpress-org-listing
+  cancel-in-progress: false
+
+jobs:
+  update-listing:
+    runs-on: ubuntu-latest
+
+    env:
+      SVN_URL: https://plugins.svn.wordpress.org/prosopo-procaptcha
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make sure SVN_USERNAME and SVN_PASSWORD are present
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          if [ -z "$SVN_USERNAME" ] || [ -z "$SVN_PASSWORD" ]; then
+            echo "Set the SVN_USERNAME and SVN_PASSWORD secrets"
+            exit 1
+          fi
+
+      - name: Install Subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
+
+      - name: Check out the listing files
+        run: |
+          svn co --depth empty "$SVN_URL" "$RUNNER_TEMP/svn"
+          cd "$RUNNER_TEMP/svn"
+          svn up --set-depth infinity assets
+          svn up --set-depth empty trunk tags
+
+      - name: Copy assets
+        run: |
+          cp wordpress-org-assets/* "$RUNNER_TEMP/svn/assets/"
+          svn add --force "$RUNNER_TEMP/svn/assets"
+
+      # A readme whose stable tag is not in SVN yet belongs to an unreleased
+      # version; the release workflow publishes it with that version's code.
+      - name: Copy readme
+        run: |
+          STABLE_TAG=$(grep -m1 '^Stable tag:' prosopo-procaptcha/readme.txt | awk '{print $3}' | tr -d '\r')
+          if ! svn ls "$SVN_URL/tags/$STABLE_TAG/readme.txt" > /dev/null 2>&1; then
+            echo "Stable tag $STABLE_TAG is not released yet; leaving the readme to the release."
+            exit 0
+          fi
+          cd "$RUNNER_TEMP/svn"
+          svn up --set-depth empty "tags/$STABLE_TAG"
+          svn up trunk/readme.txt "tags/$STABLE_TAG/readme.txt"
+          cp "$GITHUB_WORKSPACE/prosopo-procaptcha/readme.txt" trunk/readme.txt
+          cp "$GITHUB_WORKSPACE/prosopo-procaptcha/readme.txt" "tags/$STABLE_TAG/readme.txt"
+
+      - name: Commit changes
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          cd "$RUNNER_TEMP/svn"
+          svn status
+          if [ -z "$(svn status)" ]; then
+            echo "The wordpress.org listing is already up to date."
+            exit 0
+          fi
+          svn ci -m "Update listing from ${GITHUB_SHA::7}" --non-interactive --no-auth-cache \
+            --username "$SVN_USERNAME" --password "$SVN_PASSWORD"

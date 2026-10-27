@@ -9,6 +9,11 @@ import {
 	TrafficAnalyticsComponentProperties,
 } from "./trafficAnalyticsComponent.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
+import { BotsStoppedComponent } from "#settings/statistics/insights/botsStoppedComponent.js";
+import { InvisibleShareComponent } from "#settings/statistics/insights/invisibleShareComponent.js";
+import { DailyRequestsComponent } from "#settings/statistics/insights/dailyRequestsComponent.js";
+import { SetupCheckComponent } from "#settings/statistics/insights/setupCheckComponent.js";
+import type { CaptchaUsage } from "#settings/procaptcha/procaptchaSite.js";
 import {
 	ChallengeComponent,
 	type ChallengeComponentProperties,
@@ -39,7 +44,26 @@ interface AppState {
 	usageInfo: CaptchaUsageComponentProperties;
 	trafficData: TrafficAnalyticsComponentProperties;
 	challenge: ChallengeComponentProperties;
+	site: ProcaptchaSite | null;
 }
+
+const usageOf = (site: ProcaptchaSite): CaptchaUsage[] =>
+	[
+		site.monthlyUsage.pow,
+		site.monthlyUsage.image,
+		site.monthlyUsage.puzzle,
+		site.monthlyUsage.iconOrder,
+		site.monthlyUsage.audio,
+	].filter((usage): usage is CaptchaUsage => undefined !== usage);
+
+const sumOf = (
+	usages: CaptchaUsage[],
+	pick: (usage: CaptchaUsage) => number,
+): number =>
+	usages.reduce(
+		(sum: number, usage: CaptchaUsage): number => sum + pick(usage),
+		0,
+	);
 
 class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	private readonly siteResolver: ProcaptchaSiteResolver;
@@ -94,6 +118,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 			trafficData: {
 				labels: this.config.getTrafficDataLabels(),
 			},
+			site: null,
 			challenge: {
 				labels: this.config.getChallengeLabels(),
 				accountTier: "",
@@ -152,6 +177,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	protected refreshChallenge(site: ProcaptchaSite): void {
 		this.setState((actualState) => ({
 			...actualState,
+			site,
 			challenge: {
 				...actualState.challenge,
 				accountTier: site.account.tier,
@@ -187,8 +213,45 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 		await this.refreshData();
 	}
 
+	protected renderInsights(site: ProcaptchaSite): React.ReactNode {
+		const labels = this.config.getInsightsLabels();
+		const usages = usageOf(site);
+
+		return (
+			<>
+				{site.monthlySessions && (
+					<div className="grid gap-8 grid-cols-2">
+						<BotsStoppedComponent
+							sessions={site.monthlySessions}
+							labels={labels}
+							numberUtils={this.numberUtils}
+						/>
+						<InvisibleShareComponent
+							sessions={site.monthlySessions}
+							labels={labels}
+							numberUtils={this.numberUtils}
+						/>
+					</div>
+				)}
+				<DailyRequestsComponent
+					days={site.dailyRequests ?? []}
+					used={sumOf(
+						usages,
+						(usage: CaptchaUsage) => usage.verifications,
+					)}
+					limit={site.monthlyUsage.limit}
+					now={new Date()}
+					labels={labels}
+					numberUtils={this.numberUtils}
+				/>
+			</>
+		);
+	}
+
 	public render() {
-		const { statState, usageInfo, trafficData, challenge } = this.state;
+		const { statState, usageInfo, trafficData, challenge, site } =
+			this.state;
+		const usages = site ? usageOf(site) : [];
 
 		return (
 			<div className="flex flex-col gap-5">
@@ -198,24 +261,43 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 					state={statState.state}
 					reload={statState.reload}
 				/>
-				{StatCurrentState.LOADED === statState.state && (
-					<div className="grid gap-8 grid-cols-2">
-						<CaptchaUsageComponent
-							numberUtils={usageInfo.numberUtils}
-							labels={usageInfo.labels}
-							limits={usageInfo.limits}
-							image={usageInfo.image}
-							pow={usageInfo.pow}
-							puzzle={usageInfo.puzzle}
-							iconOrder={usageInfo.iconOrder}
-							audio={usageInfo.audio}
-						/>
-						<ChallengeComponent {...challenge} />
-						<TrafficAnalyticsComponent
-							classes="col-span-2"
-							labels={trafficData.labels}
-						/>
-					</div>
+				{StatCurrentState.LOADED === statState.state && site && (
+					<>
+						{this.renderInsights(site)}
+						<div className="grid gap-8 grid-cols-2">
+							<CaptchaUsageComponent
+								numberUtils={usageInfo.numberUtils}
+								labels={usageInfo.labels}
+								limits={usageInfo.limits}
+								image={usageInfo.image}
+								pow={usageInfo.pow}
+								puzzle={usageInfo.puzzle}
+								iconOrder={usageInfo.iconOrder}
+								audio={usageInfo.audio}
+							/>
+							<ChallengeComponent {...challenge} />
+							<SetupCheckComponent
+								served={sumOf(
+									usages,
+									(usage: CaptchaUsage) => usage.total,
+								)}
+								solved={sumOf(
+									usages,
+									(usage: CaptchaUsage) => usage.submissions,
+								)}
+								checked={sumOf(
+									usages,
+									(usage: CaptchaUsage) =>
+										usage.verifications,
+								)}
+								labels={this.config.getInsightsLabels()}
+								numberUtils={this.numberUtils}
+							/>
+							<TrafficAnalyticsComponent
+								labels={trafficData.labels}
+							/>
+						</div>
+					</>
 				)}
 			</div>
 		);

@@ -24,6 +24,29 @@ interface TrafficDataLabels {
 	buttonLabel: string;
 }
 
+interface InsightsLabels {
+	botsTitle: string;
+	botsCaption: string;
+	invisibleTitle: string;
+	invisibleCaption: string;
+	dailyTitle: string;
+	dailyUsed: string;
+	dailyForecast: string;
+	dailyForecastOver: string;
+	showTable: string;
+	hideTable: string;
+	dayColumn: string;
+	requestsColumn: string;
+	totalRow: string;
+	setupTitle: string;
+	served: string;
+	solved: string;
+	checked: string;
+	setupOk: string;
+	setupWarn: string;
+	setupWarnLink: string;
+}
+
 interface AboutLabels {
 	title: string;
 	message: string;
@@ -53,6 +76,8 @@ interface Config {
 	getChallengeLabels(): ChallengeLabels;
 
 	getAboutLabels(): AboutLabels;
+
+	getInsightsLabels(): InsightsLabels;
 
 	getCallToUpgradeElementMarkup(): string;
 
@@ -139,6 +164,33 @@ class ConfigClass implements Config {
 		};
 	}
 
+	public getInsightsLabels(): InsightsLabels {
+		const labels = this.data.getSubCollection("insightsLabels");
+
+		return {
+			botsTitle: labels.getString("botsTitle"),
+			botsCaption: labels.getString("botsCaption"),
+			invisibleTitle: labels.getString("invisibleTitle"),
+			invisibleCaption: labels.getString("invisibleCaption"),
+			dailyTitle: labels.getString("dailyTitle"),
+			dailyUsed: labels.getString("dailyUsed"),
+			dailyForecast: labels.getString("dailyForecast"),
+			dailyForecastOver: labels.getString("dailyForecastOver"),
+			showTable: labels.getString("showTable"),
+			hideTable: labels.getString("hideTable"),
+			dayColumn: labels.getString("dayColumn"),
+			requestsColumn: labels.getString("requestsColumn"),
+			totalRow: labels.getString("totalRow"),
+			setupTitle: labels.getString("setupTitle"),
+			served: labels.getString("served"),
+			solved: labels.getString("solved"),
+			checked: labels.getString("checked"),
+			setupOk: labels.getString("setupOk"),
+			setupWarn: labels.getString("setupWarn"),
+			setupWarnLink: labels.getString("setupWarnLink"),
+		};
+	}
+
 	public getChallengeLabels(): ChallengeLabels {
 		const challengeLabels = this.data.getSubCollection("challengeLabels");
 		const types = challengeLabels.getSubCollection("types");
@@ -182,4 +234,5 @@ export {
 	TrafficDataLabels,
 	ChallengeLabels,
 	AboutLabels,
+	InsightsLabels,
 };

@@ -27,6 +27,20 @@ export interface ProcaptchaSite {
 		iconOrder?: CaptchaUsage;
 		audio?: CaptchaUsage;
 	};
+	monthlySessions?: MonthlySessions;
+	dailyRequests?: DailyRequests[];
+}
+
+export interface MonthlySessions {
+	total: number;
+	blocked: number;
+	rejected: number;
+	passedInvisibly: number;
+}
+
+export interface DailyRequests {
+	day: string;
+	requests: number;
 }
 
 export interface CaptchaUsage {
@@ -43,6 +57,17 @@ export const captchaUsageSchema = z.object({
 
 const optionalUsageSchema = captchaUsageSchema.optional().catch(undefined);
 
+const monthlySessionsSchema = z.object({
+	total: z.number(),
+	blocked: z.number(),
+	rejected: z.number(),
+	passedInvisibly: z.number(),
+}) satisfies ZodType<MonthlySessions>;
+
+const dailyRequestsSchema = z.array(
+	z.object({ day: z.string(), requests: z.number() }),
+) satisfies ZodType<DailyRequests[]>;
+
 export const procaptchaSiteSchema = z.object({
 	account: procaptchaAccountSchema,
 	settings: z
@@ -57,4 +82,6 @@ export const procaptchaSiteSchema = z.object({
 		iconOrder: optionalUsageSchema,
 		audio: optionalUsageSchema,
 	}),
+	monthlySessions: monthlySessionsSchema.optional().catch(undefined),
+	dailyRequests: dailyRequestsSchema.optional().catch(undefined),
 }) satisfies ZodType<ProcaptchaSite, z.ZodTypeDef, unknown>;

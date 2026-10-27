@@ -132,7 +132,7 @@ More integrations coming soon!
 1. Add your keys, and choose the widget theme and language.
 2. Turn on protection for the WordPress login, registration, password and comment forms.
 3. See which of your form plugins Procaptcha protects.
-4. Check your monthly usage and challenge type without leaving WordPress.
+4. See bots stopped, requests per day and a setup check without leaving WordPress.
 
 == Frequently Asked Questions ==
 
@@ -159,6 +159,7 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 * Feature: a "Get your free site key" panel when no keys are set, and a summary of what the free plan protects against
 * Feature: widget language setting - match the site's language (default) or the visitor's browser
 * Feature: statistics show jigsaw puzzle, icon-order and audio challenges, and the site key's challenge type
+* Feature: statistics dashboard - bots stopped this month, the share of visitors with nothing to solve, requests per day with a month-end forecast, and a setup check that warns when solved captchas aren't being verified by your server
 * Feature: traffic analytics link shown on every plan, Free included
 * Fix: removed the "Type" setting, which had no effect - the challenge type is set per site key in the Prosopo portal
 * Fix: upgrade banner lists what the Professional plan actually adds, and offers the 30-day free trial

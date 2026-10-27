@@ -12,14 +12,15 @@ Free, GDPR-compliant CAPTCHA that stops spam bots on WordPress core forms and 21
 
 == Description ==
 
-[Prosopo Procaptcha](https://prosopo.io/) is a GDPR-compliant CAPTCHA that stops bots submitting your forms. In its default Frictionless mode most visitors see nothing to solve: Procaptcha only shows a challenge to visitors who look like bots.
+[Prosopo Procaptcha](https://prosopo.io/) is a GDPR-compliant CAPTCHA that stops bots submitting your forms. Most visitors see nothing to solve: Procaptcha only shows a challenge to visitors who look like bots.
 
 == Key Features of Procaptcha ==
 
 * **Private & GDPR Friendly** - No cookies and no tracking.
-* **Three captcha types** - Frictionless (the default, recommended), Proof of Work (the visitor's browser does a short calculation, nothing to click) or Image (every visitor picks matching images).
+* **Invisible by default** - Most visitors see nothing to solve. Visitors who look like bots get a Proof of Work, image or slider challenge. On paid plans you can pick a single challenge type in the Prosopo portal.
 * **Drop-in replacement** - Replaces reCAPTCHA and hCaptcha, and takes a few minutes to set up.
 * **Free tier** - 10,000 requests a month free. See [pricing](https://prosopo.io/pricing/) for higher limits.
+* **Honeypot and abusive networks** - A hidden honeypot trap and blocking of known abusive networks are included on the free plan.
 * **Statistics** - See your monthly captcha counts and traffic without leaving WordPress.
 
 == Why Use Procaptcha in WordPress? ==

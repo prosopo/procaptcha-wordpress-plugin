@@ -1,0 +1,56 @@
+name: Update wordpress.org Assets
+
+# The listing's banner, icon and screenshots live in the SVN assets/ folder,
+# which is versioned separately from the plugin, so they can ship without a release.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "wordpress-org-assets/**"
+  workflow_dispatch:
+
+concurrency:
+  group: wordpress-org-assets
+  cancel-in-progress: false
+
+jobs:
+  update-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make sure SVN_USERNAME and SVN_PASSWORD are present
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          if [ -z "$SVN_USERNAME" ] || [ -z "$SVN_PASSWORD" ]; then
+            echo "Set the SVN_USERNAME and SVN_PASSWORD secrets"
+            exit 1
+          fi
+
+      - name: Install Subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
+
+      - name: Copy assets into SVN
+        run: |
+          svn co https://plugins.svn.wordpress.org/prosopo-procaptcha/assets "$RUNNER_TEMP/assets"
+          cp wordpress-org-assets/* "$RUNNER_TEMP/assets/"
+          svn add --force "$RUNNER_TEMP/assets"
+          svn status "$RUNNER_TEMP/assets"
+
+      - name: Commit changes
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          cd "$RUNNER_TEMP/assets"
+          if [ -z "$(svn status)" ]; then
+            echo "wordpress.org assets are already up to date."
+            exit 0
+          fi
+          svn ci -m "Update assets from ${GITHUB_SHA::7}" --non-interactive --no-auth-cache \
+            --username "$SVN_USERNAME" --password "$SVN_PASSWORD"

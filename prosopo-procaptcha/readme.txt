@@ -17,7 +17,7 @@ Free, GDPR-compliant CAPTCHA that stops spam bots on WordPress core forms and 21
 == Key Features of Procaptcha ==
 
 * **Private & GDPR Friendly** - No cookies and no tracking.
-* **Invisible by default** - Most visitors see nothing to solve. Visitors who look like bots get a Proof of Work, image or slider challenge. On paid plans you can pick a single challenge type in the Prosopo portal.
+* **Invisible by default** - Most visitors see nothing to solve. Visitors who look like bots get a Proof of Work, image or jigsaw puzzle challenge. On paid plans you can pick a single challenge type in the Prosopo portal.
 * **Drop-in replacement** - Replaces reCAPTCHA and hCaptcha, and takes a few minutes to set up.
 * **Free tier** - 10,000 requests a month free. See [pricing](https://prosopo.io/pricing/) for higher limits.
 * **Honeypot and abusive networks** - A hidden honeypot trap and blocking of known abusive networks are included on the free plan.
@@ -158,7 +158,7 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 * Feature: settings pages restyled in Prosopo's colours
 * Feature: a "Get your free site key" panel when no keys are set, and a summary of what the free plan protects against
 * Feature: widget language setting - match the site's language (default) or the visitor's browser
-* Feature: statistics show slider, icon-order and audio challenges, and the site key's challenge type
+* Feature: statistics show jigsaw puzzle, icon-order and audio challenges, and the site key's challenge type
 * Feature: traffic analytics link shown on every plan, Free included
 * Fix: removed the "Type" setting, which had no effect - the challenge type is set per site key in the Prosopo portal
 * Fix: upgrade banner lists what the Professional plan actually adds, and offers the 30-day free trial

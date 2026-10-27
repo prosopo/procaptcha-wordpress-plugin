@@ -68,7 +68,7 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 			'challengeLabels'            => array(
 				'buttonLabel'      => __( 'Change in the portal', 'prosopo-procaptcha' ),
 				'changeInPortal'   => __( 'Your plan lets you choose the challenge type for this site key in the Prosopo portal.', 'prosopo-procaptcha' ),
-				'changeOnPaidPlan' => __( 'Procaptcha shows a challenge only to visitors who look like bots, and picks a Proof of Work, image or slider challenge for them. Choosing a single challenge type is part of the Professional plan.', 'prosopo-procaptcha' ),
+				'changeOnPaidPlan' => __( 'Procaptcha shows a challenge only to visitors who look like bots, and picks a Proof of Work, image or jigsaw puzzle challenge for them. Choosing a single challenge type is part of the Professional plan.', 'prosopo-procaptcha' ),
 				'current'          => __( 'Challenge type:', 'prosopo-procaptcha' ),
 				'title'            => __( 'Your Challenges', 'prosopo-procaptcha' ),
 				'types'            => array(
@@ -77,7 +77,7 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 					'iconOrder'    => __( 'Icon order', 'prosopo-procaptcha' ),
 					'image'        => __( 'Image', 'prosopo-procaptcha' ),
 					'pow'          => __( 'Proof of Work', 'prosopo-procaptcha' ),
-					'puzzle'       => __( 'Slider', 'prosopo-procaptcha' ),
+					'puzzle'       => __( 'Jigsaw puzzle', 'prosopo-procaptcha' ),
 				),
 			),
 			'isDebugMode'                => false, // todo move into settings as 'debug mode' option.
@@ -100,7 +100,7 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 				'iconOrder'   => __( 'Icon order:', 'prosopo-procaptcha' ),
 				'image'       => __( 'Image:', 'prosopo-procaptcha' ),
 				'proofOfWork' => __( 'Proof of Work:', 'prosopo-procaptcha' ),
-				'slider'      => __( 'Slider:', 'prosopo-procaptcha' ),
+				'puzzle'      => __( 'Jigsaw puzzle:', 'prosopo-procaptcha' ),
 				'title'       => __( 'Monthly Usage', 'prosopo-procaptcha' ),
 				'total'       => __( 'Total Verification Requests:', 'prosopo-procaptcha' ),
 			),

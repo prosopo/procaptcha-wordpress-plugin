@@ -24,7 +24,7 @@ interface UsageRow {
 }
 
 class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentProperties> {
-	// Free plans can be served PoW, image and slider challenges, so those always
+	// Free plans can be served PoW, image and jigsaw puzzle challenges, so those always
 	// show; icon order and audio are paid-plan types and only show once used.
 	protected getRows(): UsageRow[] {
 		const { labels, pow, image, puzzle, iconOrder, audio } = this.props;
@@ -41,7 +41,7 @@ class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentPropert
 				verifications: image.verifications,
 			},
 			{
-				label: labels.slider,
+				label: labels.puzzle,
 				colorClass: "bg-pink",
 				verifications: puzzle?.verifications ?? 0,
 			},

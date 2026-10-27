@@ -5,7 +5,7 @@ interface UsageLabels {
 	total: string;
 	proofOfWork: string;
 	image: string;
-	slider: string;
+	puzzle: string;
 	iconOrder: string;
 	audio: string;
 }
@@ -96,7 +96,7 @@ class ConfigClass implements Config {
 			total: usageLabels.getString("total"),
 			proofOfWork: usageLabels.getString("proofOfWork"),
 			image: usageLabels.getString("image"),
-			slider: usageLabels.getString("slider"),
+			puzzle: usageLabels.getString("puzzle"),
 			iconOrder: usageLabels.getString("iconOrder"),
 			audio: usageLabels.getString("audio"),
 		};

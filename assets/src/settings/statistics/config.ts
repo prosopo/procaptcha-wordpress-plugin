@@ -13,6 +13,7 @@ interface UsageLabels {
 interface StateLabels {
 	lastRefreshedAt: string;
 	refreshNow: string;
+	tryAgain: string;
 	failedToLoad: string;
 	loading: string;
 }
@@ -111,6 +112,7 @@ class ConfigClass implements Config {
 		return {
 			lastRefreshedAt: stateLabels.getString("lastRefreshedAt"),
 			refreshNow: stateLabels.getString("refreshNow"),
+			tryAgain: stateLabels.getString("tryAgain"),
 			failedToLoad: stateLabels.getString("failedToLoad"),
 			loading: stateLabels.getString("loading"),
 		};

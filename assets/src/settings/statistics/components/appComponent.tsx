@@ -198,23 +198,25 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 					state={statState.state}
 					reload={statState.reload}
 				/>
-				<div className="grid gap-8 grid-cols-2">
-					<CaptchaUsageComponent
-						numberUtils={usageInfo.numberUtils}
-						labels={usageInfo.labels}
-						limits={usageInfo.limits}
-						image={usageInfo.image}
-						pow={usageInfo.pow}
-						puzzle={usageInfo.puzzle}
-						iconOrder={usageInfo.iconOrder}
-						audio={usageInfo.audio}
-					/>
-					<ChallengeComponent {...challenge} />
-					<TrafficAnalyticsComponent
-						classes="col-span-2"
-						labels={trafficData.labels}
-					/>
-				</div>
+				{StatCurrentState.LOADED === statState.state && (
+					<div className="grid gap-8 grid-cols-2">
+						<CaptchaUsageComponent
+							numberUtils={usageInfo.numberUtils}
+							labels={usageInfo.labels}
+							limits={usageInfo.limits}
+							image={usageInfo.image}
+							pow={usageInfo.pow}
+							puzzle={usageInfo.puzzle}
+							iconOrder={usageInfo.iconOrder}
+							audio={usageInfo.audio}
+						/>
+						<ChallengeComponent {...challenge} />
+						<TrafficAnalyticsComponent
+							classes="col-span-2"
+							labels={trafficData.labels}
+						/>
+					</div>
+				)}
 			</div>
 		);
 	}

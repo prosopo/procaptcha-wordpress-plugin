@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Prosopo ProCaptcha 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prosopo-procaptcha\n"
-"POT-Creation-Date: 2026-10-27T12:45:17+00:00\n"
+"POT-Creation-Date: 2026-10-27T12:58:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -263,8 +263,8 @@ msgid "Slider"
 msgstr "Deslizar"
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:87
-msgid "Failed to load. Please try again later."
-msgstr "Falha ao carregar. Tente novamente mais tarde."
+msgid "Your statistics could not be loaded. Check that the Site Key and Secret Key on the General tab are correct and saved, then try again."
+msgstr "Não foi possível carregar as suas estatísticas. Verifique se a chave do site e a chave secreta no separador Geral estão corretas e guardadas e tente novamente."
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:88
 msgid "Successfully loaded at"
@@ -278,43 +278,47 @@ msgstr "Carregando, por favor aguarde."
 msgid "Refresh now"
 msgstr "Atualizar agora"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:91
+msgid "Try again"
+msgstr "Tentar novamente"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
 msgid "View traffic analytics"
 msgstr "Ver a análise de tráfego"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:95
 msgid "Traffic analytics are included on every plan. See the charts in the Prosopo portal."
 msgstr "A análise de tráfego está incluída em todos os planos. Consulte os gráficos no portal Prosopo."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:95
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:96
 msgid "Traffic Analytics"
 msgstr "Análise de tráfego"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
 msgid "Audio:"
 msgstr "Áudio:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
 msgid "Icon order:"
 msgstr "Ordem dos ícones:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
 msgid "Image:"
 msgstr "Imagem:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
 msgid "Proof of Work:"
 msgstr "Prova de trabalho:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:103
 msgid "Slider:"
 msgstr "Deslizar:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:103
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:104
 msgid "Monthly Usage"
 msgstr "Uso mensal"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:104
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:105
 msgid "Total Verification Requests:"
 msgstr "Total de solicitações de verificação:"
 

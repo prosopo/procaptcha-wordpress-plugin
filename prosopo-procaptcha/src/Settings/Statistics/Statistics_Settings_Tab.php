@@ -84,10 +84,11 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 			'secretKey'                  => $secret_key,
 			'siteKey'                    => $site_key,
 			'stateLabels'                => array(
-				'failedToLoad'    => __( 'Failed to load. Please try again later.', 'prosopo-procaptcha' ),
+				'failedToLoad'    => __( 'Your statistics could not be loaded. Check that the Site Key and Secret Key on the General tab are correct and saved, then try again.', 'prosopo-procaptcha' ),
 				'lastRefreshedAt' => __( 'Successfully loaded at', 'prosopo-procaptcha' ),
 				'loading'         => __( 'Loading, please wait.', 'prosopo-procaptcha' ),
 				'refreshNow'      => __( 'Refresh now', 'prosopo-procaptcha' ),
+				'tryAgain'        => __( 'Try again', 'prosopo-procaptcha' ),
 			),
 			'trafficDataLabels'          => array(
 				'buttonLabel' => __( 'View traffic analytics', 'prosopo-procaptcha' ),

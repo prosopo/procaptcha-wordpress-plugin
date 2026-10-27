@@ -1,7 +1,7 @@
 <div class="flex flex-col bg-white rounded w-full p-4">
 
     <div class="flex items-center gap-2">
-        <span class="text-yellow icon-[material-symbols--activity-zone] w-6 h-6"></span>
+        <span class="text-blue icon-[material-symbols--activity-zone] w-6 h-6"></span>
         <h2 class="font-medium text-base">{{ $label }}</h2>
     </div>
 

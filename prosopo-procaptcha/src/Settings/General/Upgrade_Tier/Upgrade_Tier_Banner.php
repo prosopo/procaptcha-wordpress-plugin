@@ -20,17 +20,16 @@ class Upgrade_Tier_Banner extends BaseTemplateModel {
 	protected function setCustomDefaults(): void {
 		parent::setCustomDefaults();
 
-		$this->title = __( 'Unlock more with Pro tier', 'prosopo-procaptcha' );
-
-		$this->benefits = array(
-			__( 'Up to 1M monthly requests', 'prosopo-procaptcha' ),
-			__( 'Rapid technical support', 'prosopo-procaptcha' ),
-			__( 'Unlimited number of sites', 'prosopo-procaptcha' ),
-			__( 'Advanced user management', 'prosopo-procaptcha' ),
-			__( 'Traffic analytics and statistics', 'prosopo-procaptcha' ),
+		$this->title        = __( 'Upgrade to Professional', 'prosopo-procaptcha' );
+		$this->benefits     = array(
+			__( 'Spam Filter: blocks disposable and throwaway email addresses', 'prosopo-procaptcha' ),
+			__( 'VPN, proxy and datacenter filtering', 'prosopo-procaptcha' ),
+			__( 'Choose your challenge type, plus icon-order and audio challenges', 'prosopo-procaptcha' ),
+			__( 'A risk score and block reason for every decision', 'prosopo-procaptcha' ),
+			__( 'Up to 1M requests a month and 50 sites', 'prosopo-procaptcha' ),
+			__( 'Email and Discord support, 99.9% uptime', 'prosopo-procaptcha' ),
 		);
-
-		$this->button_label = __( 'Upgrade', 'prosopo-procaptcha' );
+		$this->button_label = __( 'Start a 30-day free trial', 'prosopo-procaptcha' );
 		$this->button_url   = 'https://portal.prosopo.io/?utm_source=procaptcha-wp&utm_medium=plugin&utm_campaign=settings&utm_content=upgrade-banner';
 	}
 }

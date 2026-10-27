@@ -13,5 +13,6 @@ use Io\Prosopo\Procaptcha\Vendors\Prosopo\Views\Interfaces\Model\TemplateModelIn
 class General_Settings extends BaseTemplateModel {
 	public TemplateModelInterface $form;
 	public string $widget_preview;
+	public bool $has_keys;
 	public Upgrade_Tier_Banner $tier_upgrade_banner;
 }

@@ -2,9 +2,9 @@
 Contributors: 1prosopo
 Tags: captcha, antispam, spam, gdpr, recaptcha
 Requires at least: 5.5
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.21.1
+Stable tag: 1.22.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,10 +129,10 @@ More integrations coming soon!
 
 == Screenshots ==
 
-1. Customize the CAPTCHA appearance and behavior through the plugin settings.
-2. Easily manage integration-specific settings.
-3. Seamless integration with multiple vendors and forms.
-4. Monitor usage statistics without leaving the plugin.
+1. Add your keys, and choose the widget theme and language.
+2. Turn on protection for the WordPress login, registration, password and comment forms.
+3. See which of your form plugins Procaptcha protects.
+4. Check your monthly usage and challenge type without leaving WordPress.
 
 == Frequently Asked Questions ==
 
@@ -153,6 +153,17 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.22.0 (2026-10-27) =
+* Feature: settings pages restyled in Prosopo's colours
+* Feature: a "Get your free site key" panel when no keys are set, and a summary of what the free plan protects against
+* Feature: widget language setting - match the site's language (default) or the visitor's browser
+* Feature: statistics show slider, icon-order and audio challenges, and the site key's challenge type
+* Feature: traffic analytics link shown on every plan, Free included
+* Fix: removed the "Type" setting, which had no effect - the challenge type is set per site key in the Prosopo portal
+* Fix: upgrade banner lists what the Professional plan actually adds, and offers the 30-day free trial
+* Maintenance: German, Spanish, French, Italian and Portuguese translations completed for every string
+* Maintenance: tested with WordPress 7.1
 
 = 1.21.1 (2026-10-23) =
 * Maintenance: links from the settings and statistics pages to prosopo.io and the Prosopo portal now carry UTM parameters

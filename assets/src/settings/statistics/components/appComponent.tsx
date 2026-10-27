@@ -10,6 +10,10 @@ import {
 } from "./trafficAnalyticsComponent.js";
 import { AboutAppComponent } from "./aboutAppComponent.js";
 import {
+	ChallengeComponent,
+	type ChallengeComponentProperties,
+} from "./challengeComponent.js";
+import {
 	type ApiCredentials,
 	SiteApiCredentials,
 } from "#settings/procaptcha/api/apiCredentials.js";
@@ -21,8 +25,6 @@ import type Logger from "#utils/logger/logger.js";
 import { type Config, ConfigClass } from "#settings/statistics/config.js";
 import CaptchaUsageNumberUtils from "#settings/statistics/captchaUsage/captchaUsageNumberUtils.js";
 import type { ProcaptchaSite } from "#settings/procaptcha/procaptchaSite.js";
-
-import type { ProcaptchaAccount } from "#settings/procaptcha/procaptchaAccount.js";
 import {
 	ApiClient,
 	type ProcaptchaSiteResolver,
@@ -36,6 +38,7 @@ interface AppState {
 	statState: AppStatusComponentProperties;
 	usageInfo: CaptchaUsageComponentProperties;
 	trafficData: TrafficAnalyticsComponentProperties;
+	challenge: ChallengeComponentProperties;
 }
 
 class AppComponent extends React.Component<AppComponentProperties, AppState> {
@@ -89,9 +92,12 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 				labels: this.config.getUsageLabels(),
 			},
 			trafficData: {
-				accountTier: "",
-				logger: this.logger,
 				labels: this.config.getTrafficDataLabels(),
+			},
+			challenge: {
+				labels: this.config.getChallengeLabels(),
+				accountTier: "",
+				captchaType: "",
 				callToUpgradeElementMarkup:
 					this.config.getCallToUpgradeElementMarkup(),
 			},
@@ -136,19 +142,20 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 					verifications: site.monthlyUsage.pow.verifications,
 					total: site.monthlyUsage.pow.total,
 				},
+				puzzle: site.monthlyUsage.puzzle,
+				iconOrder: site.monthlyUsage.iconOrder,
+				audio: site.monthlyUsage.audio,
 			},
 		}));
 	}
 
-	protected refreshTrafficData(account: ProcaptchaAccount): void {
+	protected refreshChallenge(site: ProcaptchaSite): void {
 		this.setState((actualState) => ({
 			...actualState,
-			trafficData: {
-				...actualState.trafficData,
-				accountTier: account.tier,
-				labels: this.config.getTrafficDataLabels(),
-				callToUpgradeElementMarkup:
-					this.config.getCallToUpgradeElementMarkup(),
+			challenge: {
+				...actualState.challenge,
+				accountTier: site.account.tier,
+				captchaType: site.settings?.captchaType ?? "",
 			},
 		}));
 	}
@@ -160,7 +167,7 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 
 		if (site) {
 			this.refreshUsage(site);
-			this.refreshTrafficData(site.account);
+			this.refreshChallenge(site);
 
 			this.markAsLoaded();
 
@@ -181,34 +188,35 @@ class AppComponent extends React.Component<AppComponentProperties, AppState> {
 	}
 
 	public render() {
-		const { statState, usageInfo, trafficData } = this.state;
+		const { statState, usageInfo, trafficData, challenge } = this.state;
 
 		return (
 			<div className="flex flex-col gap-5">
-				<AboutAppComponent />
+				<AboutAppComponent labels={this.config.getAboutLabels()} />
 				<AppStatusComponent
 					labels={statState.labels}
 					state={statState.state}
 					reload={statState.reload}
 				/>
-				<div className="grid gap-8 grid-cols-2">
-					<CaptchaUsageComponent
-						numberUtils={usageInfo.numberUtils}
-						labels={usageInfo.labels}
-						limits={usageInfo.limits}
-						image={usageInfo.image}
-						pow={usageInfo.pow}
-					/>
-					<TrafficAnalyticsComponent
-						classes="col-span-2"
-						logger={trafficData.logger}
-						accountTier={trafficData.accountTier}
-						labels={trafficData.labels}
-						callToUpgradeElementMarkup={
-							trafficData.callToUpgradeElementMarkup
-						}
-					/>
-				</div>
+				{StatCurrentState.LOADED === statState.state && (
+					<div className="grid gap-8 grid-cols-2">
+						<CaptchaUsageComponent
+							numberUtils={usageInfo.numberUtils}
+							labels={usageInfo.labels}
+							limits={usageInfo.limits}
+							image={usageInfo.image}
+							pow={usageInfo.pow}
+							puzzle={usageInfo.puzzle}
+							iconOrder={usageInfo.iconOrder}
+							audio={usageInfo.audio}
+						/>
+						<ChallengeComponent {...challenge} />
+						<TrafficAnalyticsComponent
+							classes="col-span-2"
+							labels={trafficData.labels}
+						/>
+					</div>
+				)}
 			</div>
 		);
 	}

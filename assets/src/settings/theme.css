@@ -1,7 +1,16 @@
 @theme {
-	--color-blue: #2271b1;
-	--color-blue-dark: #135e96;
+	/* Prosopo brand, as on prosopo.io. `blue` keeps its name because every tab,
+	   link and focus ring already uses it. */
+	--color-blue: #4e439f;
+	--color-blue-dark: #332c67;
+	--color-navy: #1f1b40;
+	--color-purple: #695fad;
+	--color-purple-light: #edecf5;
+	--color-pink: #eb427e;
+	--color-pink-dark: #c8386b;
+	--color-pink-light: #fdecf2;
 	--color-gray: #8c8f94;
+	--color-gray-light: #e5e4ee;
 	--color-yellow: #f0b100;
 
 	--font-sans: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,

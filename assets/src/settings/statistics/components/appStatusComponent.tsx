@@ -47,9 +47,17 @@ class AppStatusComponent extends React.Component<AppStatusComponentProperties> {
 
 	protected getLoadingFailedElement(): React.ReactNode {
 		return (
-			<div className="flex items-center gap-1.5 text-red-500">
-				<span className="icon-[eos-icons--critical-bug] w-5 h-5"></span>
-				<p>{this.props.labels.failedToLoad}</p>
+			<div className="flex items-start gap-3 rounded py-4 px-5 bg-pink-light text-navy">
+				<span className="icon-[material-symbols--error-outline] w-5 h-5 shrink-0 text-pink-dark"></span>
+				<div className="flex flex-col items-start gap-2">
+					<p className="m-0">{this.props.labels.failedToLoad}</p>
+					<button
+						onClick={this.props.reload}
+						className="underline cursor-pointer bg-transparent [border:none] p-0 text-blue transition hover:text-blue-dark"
+					>
+						{this.props.labels.tryAgain}
+					</button>
+				</div>
 			</div>
 		);
 	}

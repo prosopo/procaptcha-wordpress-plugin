@@ -38,7 +38,7 @@ class AppStatusComponent extends React.Component<AppStatusComponentProperties> {
 
 	protected getLoadingInProgressElement(): React.ReactNode {
 		return (
-			<div className="flex items-center gap-1.5 text-yellow-500">
+			<div className="flex items-center gap-1.5 text-warning-dark">
 				<span className="icon-[eos-icons--arrow-rotate] w-5 h-5"></span>
 				<p>{this.props.labels.loading}</p>
 			</div>
@@ -68,14 +68,14 @@ class AppStatusComponent extends React.Component<AppStatusComponentProperties> {
 		const currentDateTimeLabel = this.getDateTimeLabel(new Date());
 
 		return (
-			<div className="flex gap-1.5 items-center text-green-500">
+			<div className="flex gap-1.5 items-center text-success-dark">
 				<span className="icon-[material-symbols--check-circle-outline] w-5 h-5"></span>
 				<p className="">{labels.lastRefreshedAt}</p>
 				<p className="font-medium">{currentDateTimeLabel}</p>
 				<p>-</p>
 				<button
 					onClick={this.props.reload}
-					className="underline cursor-pointer transition hover:text-green-700"
+					className="underline cursor-pointer transition hover:text-navy"
 				>
 					{labels.refreshNow}
 				</button>

@@ -9,6 +9,12 @@
 	--color-pink: #eb427e;
 	--color-pink-dark: #c8386b;
 	--color-pink-light: #fdecf2;
+	/* Status colours, as the Prosopo portal's progreen / proamber / prored. */
+	--color-success: #22c55e;
+	--color-success-dark: #15803d;
+	--color-warning: #f59e0b;
+	--color-warning-dark: #b45309;
+	--color-danger: #ef4444;
 	--color-gray: #8c8f94;
 	--color-gray-light: #e5e4ee;
 	--color-yellow: #f0b100;

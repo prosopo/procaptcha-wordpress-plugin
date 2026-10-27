@@ -53,7 +53,7 @@
             </ul>
 
             @if ($is_just_saved)
-                <div class="mt-7 text-green-700 font-medium">
+                <div class="mt-7 text-success-dark font-medium">
                     {{ __( 'Settings successfully saved.', 'prosopo-procaptcha' ) }}
                 </div>
             @endif

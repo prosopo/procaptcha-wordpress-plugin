@@ -32,17 +32,17 @@ class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentPropert
 		const rows: UsageRow[] = [
 			{
 				label: labels.proofOfWork,
-				colorClass: "bg-green-500",
+				colorClass: "bg-success",
 				verifications: pow.verifications,
 			},
 			{
 				label: labels.image,
-				colorClass: "bg-yellow-500",
+				colorClass: "bg-warning",
 				verifications: image.verifications,
 			},
 			{
 				label: labels.puzzle,
-				colorClass: "bg-pink",
+				colorClass: "bg-danger",
 				verifications: puzzle?.verifications ?? 0,
 			},
 		];
@@ -58,7 +58,7 @@ class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentPropert
 		if (audio && audio.verifications > 0) {
 			rows.push({
 				label: labels.audio,
-				colorClass: "bg-sky-500",
+				colorClass: "bg-navy",
 				verifications: audio.verifications,
 			});
 		}

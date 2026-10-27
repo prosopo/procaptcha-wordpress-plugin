@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Prosopo ProCaptcha 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prosopo-procaptcha\n"
-"POT-Creation-Date: 2026-10-27T13:09:49+00:00\n"
+"POT-Creation-Date: 2026-10-27T13:57:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -262,63 +262,143 @@ msgstr "Prueba de trabajo"
 msgid "Jigsaw puzzle"
 msgstr "Rompecabezas"
 
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:84
+msgid "out of {total} visits checked this month"
+msgstr "de {total} visitas comprobadas este mes"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:85
+msgid "Bots stopped this month"
+msgstr "Bots detenidos este mes"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:86
+msgid "Checked by your server"
+msgstr "Comprobados por tu servidor"
+
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:87
+msgid "On track for about {forecast} of {limit} by the end of the month."
+msgstr "Al ritmo actual, unas {forecast} de {limit} a final de mes."
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:88
+msgid "On track for about {forecast} by the end of the month, over your limit of {limit}."
+msgstr "Al ritmo actual, unas {forecast} a final de mes, por encima de tu límite de {limit}."
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:89
+msgid "Requests this month"
+msgstr "Solicitudes este mes"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:90
+msgid "{used} of {limit} requests used"
+msgstr "{used} de {limit} solicitudes usadas"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:91
+msgid "Day"
+msgstr "Día"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:92
+msgid "Hide the table"
+msgstr "Ocultar la tabla"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
+msgid "{percent}% of visitors passed the invisible check without a challenge."
+msgstr "El {percent} % de los visitantes superó la comprobación invisible sin desafío."
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
+msgid "Visitors who saw nothing to solve"
+msgstr "Visitantes que no tuvieron nada que resolver"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:95
+msgid "Requests"
+msgstr "Solicitudes"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:96
+msgid "Challenges served"
+msgstr "Desafíos mostrados"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:97
+msgid "Your server checks {percent}% of solved captchas."
+msgstr "Tu servidor comprueba el {percent} % de los captchas resueltos."
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
+msgid "Setup check"
+msgstr "Comprobación de la configuración"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
+msgid "Only {percent}% of solved captchas were checked by your server. A form may be accepting submissions without verifying the Procaptcha token, which lets bots skip it."
+msgstr "Tu servidor solo comprobó el {percent} % de los captchas resueltos. Puede que un formulario acepte envíos sin verificar el token de Procaptcha, lo que permite a los bots saltárselo."
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
+msgid "How verification works"
+msgstr "Cómo funciona la verificación"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
+msgid "Show as a table"
+msgstr "Ver como tabla"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
+msgid "Solved by visitors"
+msgstr "Resueltos por los visitantes"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:103
+msgid "Total"
+msgstr "Total"
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:109
 msgid "Your statistics could not be loaded. Check that the Site Key and Secret Key on the General tab are correct and saved, then try again."
 msgstr "No se han podido cargar tus estadísticas. Comprueba que la clave de sitio y la clave secreta de la pestaña General son correctas y están guardadas, y vuelve a intentarlo."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:88
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:110
 msgid "Successfully loaded at"
 msgstr "Cargado exitosamente a las"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:89
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:111
 msgid "Loading, please wait."
 msgstr "Cargando, por favor espere."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:90
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:112
 msgid "Refresh now"
 msgstr "Actualizar ahora"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:91
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:113
 msgid "Try again"
 msgstr "Reintentar"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:116
 msgid "View traffic analytics"
 msgstr "Ver la analítica de tráfico"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:95
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:117
 msgid "Traffic analytics are included on every plan. See the charts in the Prosopo portal."
 msgstr "La analítica de tráfico está incluida en todos los planes. Consulta los gráficos en el portal de Prosopo."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:96
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:118
 msgid "Traffic Analytics"
 msgstr "Análisis de tráfico"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:121
 msgid "Audio:"
 msgstr "Audio:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:122
 msgid "Icon order:"
 msgstr "Orden de iconos:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:123
 msgid "Image:"
 msgstr "Imagen:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:124
 msgid "Proof of Work:"
 msgstr "Prueba de trabajo:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:103
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:125
 msgid "Jigsaw puzzle:"
 msgstr "Rompecabezas:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:104
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:126
 msgid "Monthly Usage"
 msgstr "Uso mensual"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:105
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:127
 msgid "Total Verification Requests:"
 msgstr "Solicitudes totales de verificación:"
 

@@ -17,7 +17,9 @@ class CaptchaUsageNumberUtils {
 	}
 
 	public formatNumber(value: number): string {
-		return new Intl.NumberFormat("en-GB").format(value);
+		return new Intl.NumberFormat(
+			document.documentElement.lang || "en-GB",
+		).format(value);
 	}
 }
 

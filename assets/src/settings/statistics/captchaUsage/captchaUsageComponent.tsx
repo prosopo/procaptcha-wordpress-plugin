@@ -98,7 +98,7 @@ class CaptchaUsageComponent extends React.Component<CaptchaUsageComponentPropert
 
 						<div className="bg-gray-light rounded overflow-hidden h-2">
 							<div
-								className="h-full flex"
+								className="h-full flex gap-0.5 bg-white"
 								style={{
 									width: `${numberUtils.visualizePercent(commonPercent)}%`,
 								}}

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-27T13:09:49+00:00\n"
+"POT-Creation-Date: 2026-10-27T13:57:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: prosopo-procaptcha\n"
@@ -264,63 +264,143 @@ msgstr ""
 msgid "Jigsaw puzzle"
 msgstr ""
 
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:84
+msgid "out of {total} visits checked this month"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:85
+msgid "Bots stopped this month"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:86
+msgid "Checked by your server"
+msgstr ""
+
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:87
-msgid "Your statistics could not be loaded. Check that the Site Key and Secret Key on the General tab are correct and saved, then try again."
+msgid "On track for about {forecast} of {limit} by the end of the month."
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:88
-msgid "Successfully loaded at"
+msgid "On track for about {forecast} by the end of the month, over your limit of {limit}."
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:89
-msgid "Loading, please wait."
+msgid "Requests this month"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:90
-msgid "Refresh now"
+msgid "{used} of {limit} requests used"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:91
-msgid "Try again"
+msgid "Day"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:92
+msgid "Hide the table"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
+msgid "{percent}% of visitors passed the invisible check without a challenge."
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:94
-msgid "View traffic analytics"
+msgid "Visitors who saw nothing to solve"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:95
-msgid "Traffic analytics are included on every plan. See the charts in the Prosopo portal."
+msgid "Requests"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:96
-msgid "Traffic Analytics"
+msgid "Challenges served"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:97
+msgid "Your server checks {percent}% of solved captchas."
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
+msgid "Setup check"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:99
-msgid "Audio:"
+msgid "Only {percent}% of solved captchas were checked by your server. A form may be accepting submissions without verifying the Procaptcha token, which lets bots skip it."
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:100
-msgid "Icon order:"
+msgid "How verification works"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:101
-msgid "Image:"
+msgid "Show as a table"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:102
-msgid "Proof of Work:"
+msgid "Solved by visitors"
 msgstr ""
 
 #: src/Settings/Statistics/Statistics_Settings_Tab.php:103
+msgid "Total"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:109
+msgid "Your statistics could not be loaded. Check that the Site Key and Secret Key on the General tab are correct and saved, then try again."
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:110
+msgid "Successfully loaded at"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:111
+msgid "Loading, please wait."
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:112
+msgid "Refresh now"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:113
+msgid "Try again"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:116
+msgid "View traffic analytics"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:117
+msgid "Traffic analytics are included on every plan. See the charts in the Prosopo portal."
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:118
+msgid "Traffic Analytics"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:121
+msgid "Audio:"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:122
+msgid "Icon order:"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:123
+msgid "Image:"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:124
+msgid "Proof of Work:"
+msgstr ""
+
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:125
 msgid "Jigsaw puzzle:"
 msgstr ""
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:104
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:126
 msgid "Monthly Usage"
 msgstr ""
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:105
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:127
 msgid "Total Verification Requests:"
 msgstr ""
 

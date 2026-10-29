@@ -1,10 +1,15 @@
 import { WebComponent } from "../../utils/webComponent/webComponent.js";
 import type Logger from "../../utils/logger/logger.js";
+import {
+	LEGACY_FILLED_EVENT,
+	WIDGET_EVENTS,
+} from "#integrations/procaptcha/widgetEvents.js";
 
 declare global {
 	interface Window {
 		procaptcha: {
 			render: (element: HTMLElement, args: object) => unknown;
+			reset?: (widgetId?: string) => unknown;
 		};
 		procaptchaWpAttributes: object;
 	}
@@ -39,7 +44,49 @@ class WidgetIntegrationComponent implements WebComponent {
 			captchaAttributes: captchaAttributes,
 		});
 
-		procaptchaServiceCallback(captchaElement, captchaAttributes);
+		// Recent service versions return a promise with the widget id, older ones return nothing.
+		const widgetId = Promise.resolve(
+			procaptchaServiceCallback(captchaElement, captchaAttributes),
+		);
+
+		// Capture phase, so it also catches non-bubbling events: the target may be the widget,
+		// its form, any other ancestor, or the document (to reset every widget).
+		document.addEventListener(
+			WIDGET_EVENTS.reset,
+			(event: Event) => {
+				const target = event.target;
+
+				if (
+					target === document ||
+					(target instanceof Node &&
+						target.contains(integrationElement))
+				) {
+					widgetId.then((id) => this.resetWidget(id));
+				}
+			},
+			true,
+		);
+	}
+
+	/**
+	 * Tokens can be verified only once, so forms that submit without a page reload
+	 * must reset the widget after each submission, to let the visitor get a new one.
+	 */
+	protected resetWidget(widgetId: unknown): void {
+		const reset = window.procaptcha?.reset;
+
+		if ("string" !== typeof widgetId || "function" !== typeof reset) {
+			this.logger.warning("Widget reset is not supported", {
+				widgetId: widgetId,
+			});
+			return;
+		}
+
+		this.logger.debug("Resetting widget", {
+			widgetId: widgetId,
+		});
+
+		reset(widgetId);
 	}
 
 	public updateRelatedFormOnSuccessfulValidation(
@@ -188,21 +235,23 @@ class WidgetIntegrationComponent implements WebComponent {
 
 		// allow third-party listen to this event.
 		origin.dispatchEvent(
-			new CustomEvent("_prosopo-procaptcha__cleared", {
+			new CustomEvent(WIDGET_EVENTS.cleared, {
 				bubbles: true,
 			}),
 		);
 	}
 
 	protected dispatchFilledEvent(origin: HTMLElement, token: string): void {
-		origin.dispatchEvent(
-			new CustomEvent("_prosopo-procaptcha__filled", {
-				bubbles: true,
-				detail: {
-					token: token,
-				},
-			}),
-		);
+		for (const eventName of [WIDGET_EVENTS.filled, LEGACY_FILLED_EVENT]) {
+			origin.dispatchEvent(
+				new CustomEvent(eventName, {
+					bubbles: true,
+					detail: {
+						token: token,
+					},
+				}),
+			);
+		}
 
 		this.logger.debug("Dispatched filled event", {
 			token: token,

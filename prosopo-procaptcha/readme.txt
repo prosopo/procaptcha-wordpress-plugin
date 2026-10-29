@@ -4,7 +4,7 @@ Tags: captcha, antispam, spam, gdpr, recaptcha
 Requires at least: 5.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.23.0
+Stable tag: 1.24.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,11 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.24.0 (2026-10-29) =
+* Fix: forms that submit without reloading the page get a fresh captcha after each submission, as a solved captcha can be verified only once. Previously, resubmitting after another field failed validation was rejected. Covers Contact Form 7, WPForms, Fluent Forms, Formidable Forms, Ninja Forms, Elementor Pro, Everest Forms, JetFormBuilder, User Registration, Beaver Builder, WooCommerce checkout and the Blocksy newsletter form
+* Feature: public JavaScript events - `prosopo-procaptcha:filled` (with the token) and `prosopo-procaptcha:cleared` are dispatched on the widget, and dispatching `prosopo-procaptcha:reset` on a form resets its captcha
+* Feature: failed verifications are written to the debug log when WP_DEBUG is on, with the API's status and reason, and the new `prosopo/procaptcha/verification_result` action receives every verification response, including the score
 
 = 1.23.0 (2026-10-29) =
 * Fix: when a solved captcha expires, errors or is reset, the token is now cleared from Ninja Forms, WooCommerce block checkout, Beaver Builder and other JavaScript-driven forms, so visitors are asked to solve it again instead of seeing a failed submission

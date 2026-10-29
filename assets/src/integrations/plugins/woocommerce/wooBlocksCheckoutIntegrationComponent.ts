@@ -1,3 +1,4 @@
+import { WIDGET_EVENTS } from "#integrations/procaptcha/widgetEvents.js";
 import { WebComponent } from "../../../utils/webComponent/webComponent.js";
 import type Logger from "../../../utils/logger/logger.js";
 
@@ -27,14 +28,11 @@ class WooBlocksCheckoutIntegrationComponent implements WebComponent {
 		// otherwise it's confusing as the input is hidden.
 		this.updateInputValue("default");
 
-		form?.addEventListener(
-			"_prosopo-procaptcha__filled",
-			(event: Event) => {
-				this.updateInputValue((event as CustomEvent).detail.token);
-			},
-		);
+		form?.addEventListener(WIDGET_EVENTS.filled, (event: Event) => {
+			this.updateInputValue((event as CustomEvent).detail.token);
+		});
 		// back to the stub, so the server rejects the expired token with a clear message.
-		form?.addEventListener("_prosopo-procaptcha__cleared", () => {
+		form?.addEventListener(WIDGET_EVENTS.cleared, () => {
 			this.updateInputValue("default");
 		});
 	}

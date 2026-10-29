@@ -3,6 +3,7 @@ import type { Integration } from "#integration/integration.js";
 import type Logger from "../../utils/logger/logger.js";
 import FormIntegrationComponent from "#integrations/procaptcha/formIntegrationComponent.js";
 import WidgetIntegrationComponent from "#integrations/procaptcha/widgetIntegrationComponent.js";
+import { resetWidgetsAfterAjaxSubmissions } from "#integrations/procaptcha/ajaxFormsReset.js";
 
 const integrationConnector = createIntegrationConnector();
 
@@ -37,3 +38,5 @@ const widgetIntegration: Integration = {
 
 integrationConnector.connectIntegration(formIntegration);
 integrationConnector.connectIntegration(widgetIntegration);
+
+resetWidgetsAfterAjaxSubmissions();

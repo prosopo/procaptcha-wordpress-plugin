@@ -212,22 +212,58 @@ class Procaptcha_Widget implements Widget {
 			)
 		);
 
-		if ( is_wp_error( $response ) ||
-			200 !== wp_remote_retrieve_response_code( $response ) ) {
+		if ( is_wp_error( $response ) ) {
 			// something went wrong, maybe connection issue, but we still shouldn't allow the request.
-			// todo log.
+			$this->log_verification_failure( 'request error: ' . $response->get_error_message() );
+			do_action( 'prosopo/procaptcha/verification_result', false, array() );
+
 			return false;
 		}
 
-		$body = wp_remote_retrieve_body( $response );
+		$status_code = wp_remote_retrieve_response_code( $response );
 
-		$body = json_decode( $body, true );
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		$body = is_array( $body ) ?
 			$body :
 			array();
 
-		return bool( $body, 'verified' );
+		$is_verified = 200 === $status_code &&
+			bool( $body, 'verified' );
+
+		if ( ! $is_verified ) {
+			$this->log_verification_failure(
+				sprintf(
+					'HTTP %s, status: %s, reason: %s, error: %s',
+					$status_code,
+					wp_json_encode( $body['status'] ?? null ),
+					wp_json_encode( $body['reason'] ?? null ),
+					wp_json_encode( $body['error'] ?? null )
+				)
+			);
+		}
+
+		/**
+		 * Fires after each verification request, e.g. to record the score or the failure reason.
+		 *
+		 * @param bool $is_verified
+		 * @param array<string,mixed> $body The API response: verified, status, score, reason, error, sessionId.
+		 */
+		do_action( 'prosopo/procaptcha/verification_result', $is_verified, $body );
+
+		return $is_verified;
+	}
+
+	/**
+	 * Written to the debug log (when WP_DEBUG is on), so site owners can see why submissions are rejected.
+	 */
+	protected function log_verification_failure( string $details ): void {
+		if ( ! defined( 'WP_DEBUG' ) || true !== WP_DEBUG ) {
+			return;
+		}
+
+		// @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		error_log( 'Prosopo Procaptcha: token verification failed. ' . $details );
 	}
 
 	/**

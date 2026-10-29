@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Prosopo Procaptcha 1.24.0\n"
+"Project-Id-Version: Prosopo Procaptcha 1.24.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prosopo-procaptcha\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-29T15:26:27+00:00\n"
+"POT-Creation-Date: 2026-10-29T17:00:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: prosopo-procaptcha\n"
@@ -152,7 +152,7 @@ msgid "Light"
 msgstr ""
 
 #: src/Settings/General/Tab/General_Settings_Tab.php:145
-msgid "Off (recommended)"
+msgid "Off"
 msgstr ""
 
 #: src/Settings/General/Tab/General_Settings_Tab.php:146
@@ -175,7 +175,11 @@ msgstr ""
 msgid "Visitor's browser language"
 msgstr ""
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:162
+#: src/Settings/General/Tab/General_Settings_Tab.php:159
+msgid "Only has an effect when IP validation is turned on for your site key in the Prosopo portal (Professional plan and above). Pick where your server sees the visitor's real IP: the wrong source makes IP validation reject real visitors."
+msgstr ""
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:168
 msgid "Behavior"
 msgstr ""
 
@@ -436,7 +440,7 @@ msgstr ""
 msgid "Pow"
 msgstr ""
 
-#: src/Settings/General/Form/settings_form.blade.php:72
+#: src/Settings/General/Form/settings_form.blade.php:76
 msgid "Save"
 msgstr ""
 

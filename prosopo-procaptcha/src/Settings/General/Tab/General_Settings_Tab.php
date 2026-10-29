@@ -142,7 +142,7 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 			),
 			// phpcs:ignore SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys.IncorrectKeyOrder -- Off first, as it's the default.
 			self::VISITOR_IP_MATCHING => array(
-				self::VISITOR_IP_OFF             => __( 'Off (recommended)', 'prosopo-procaptcha' ),
+				self::VISITOR_IP_OFF             => __( 'Off', 'prosopo-procaptcha' ),
 				self::VISITOR_IP_CLOUDFLARE      => __( 'On - site is behind Cloudflare', 'prosopo-procaptcha' ),
 				self::VISITOR_IP_REMOTE_ADDR     => __( 'On - visitors connect directly (REMOTE_ADDR)', 'prosopo-procaptcha' ),
 				self::VISITOR_IP_X_FORWARDED_FOR => __( 'On - site is behind another proxy (X-Forwarded-For)', 'prosopo-procaptcha' ),
@@ -151,6 +151,12 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 				self::LANGUAGE_SITE    => __( 'Same as the site', 'prosopo-procaptcha' ),
 				self::LANGUAGE_VISITOR => __( "Visitor's browser language", 'prosopo-procaptcha' ),
 			),
+		);
+	}
+
+	protected function get_input_descriptions(): array {
+		return array(
+			self::VISITOR_IP_MATCHING => __( 'Only has an effect when IP validation is turned on for your site key in the Prosopo portal (Professional plan and above). Pick where your server sees the visitor\'s real IP: the wrong source makes IP validation reject real visitors.', 'prosopo-procaptcha' ),
 		);
 	}
 

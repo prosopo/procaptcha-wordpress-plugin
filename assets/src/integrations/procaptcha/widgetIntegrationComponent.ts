@@ -161,10 +161,6 @@ class WidgetIntegrationComponent implements WebComponent {
 				clearToken,
 				globalAttributes["expired-callback"],
 			),
-			"error-callback": this.chainCallback(
-				clearToken,
-				globalAttributes["error-callback"],
-			),
 			"reset-callback": this.chainCallback(
 				clearToken,
 				globalAttributes["reset-callback"],
@@ -219,7 +215,8 @@ class WidgetIntegrationComponent implements WebComponent {
 	}
 
 	/**
-	 * Called when the token expires, the widget errors or is reset:
+	 * Called when the token expires or the widget is reset (not on errors: those include failed
+	 * background requests, which don't invalidate a token the visitor already has):
 	 * the Procaptcha's JS removes its own input, but the custom one must be cleared manually,
 	 * otherwise JS-based forms keep submitting a token that the server will reject.
 	 */

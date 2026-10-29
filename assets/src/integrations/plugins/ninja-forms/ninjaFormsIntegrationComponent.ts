@@ -1,3 +1,4 @@
+import { WIDGET_EVENTS } from "#integrations/procaptcha/widgetEvents.js";
 import { WebComponent } from "../../../utils/webComponent/webComponent.js";
 import Logger from "../../../utils/logger/logger.js";
 
@@ -38,7 +39,7 @@ class NinjaFormsIntegrationComponent implements WebComponent {
 
 		integrationElement.parentElement
 			?.closest("form")
-			?.addEventListener("_prosopo-procaptcha__filled", () => {
+			?.addEventListener(WIDGET_EVENTS.filled, () => {
 				this.clearValidationError(modelId);
 			});
 	}

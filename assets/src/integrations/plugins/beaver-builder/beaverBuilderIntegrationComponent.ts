@@ -1,3 +1,4 @@
+import { WIDGET_EVENTS } from "#integrations/procaptcha/widgetEvents.js";
 import { WebComponent } from "../../../utils/webComponent/webComponent.js";
 import Logger from "../../../utils/logger/logger.js";
 
@@ -99,13 +100,13 @@ const createTokenValueResolver = (
 ): (() => string) => {
 	let tokenEventValue = "";
 
-	element.addEventListener("_prosopo-procaptcha__filled", (event) => {
+	element.addEventListener(WIDGET_EVENTS.filled, (event) => {
 		if (event instanceof CustomEvent) {
 			tokenEventValue = event.detail.token;
 		}
 	});
 
-	element.addEventListener("_prosopo-procaptcha__cleared", () => {
+	element.addEventListener(WIDGET_EVENTS.cleared, () => {
 		tokenEventValue = "";
 	});
 

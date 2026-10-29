@@ -212,33 +212,88 @@ class Procaptcha_Widget implements Widget {
 			)
 		);
 
-		if ( is_wp_error( $response ) ||
-			200 !== wp_remote_retrieve_response_code( $response ) ) {
+		if ( is_wp_error( $response ) ) {
 			// something went wrong, maybe connection issue, but we still shouldn't allow the request.
-			// todo log.
+			$this->log_verification_failure( 'request error: ' . $response->get_error_message() );
+			do_action( 'prosopo/procaptcha/verification_result', false, array() );
+
 			return false;
 		}
 
-		$body = wp_remote_retrieve_body( $response );
+		$status_code = wp_remote_retrieve_response_code( $response );
 
-		$body = json_decode( $body, true );
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		$body = is_array( $body ) ?
 			$body :
 			array();
 
-		return bool( $body, 'verified' );
+		$is_verified = 200 === $status_code &&
+			bool( $body, 'verified' );
+
+		if ( ! $is_verified ) {
+			$this->log_verification_failure(
+				sprintf(
+					'HTTP %s, status: %s, reason: %s, error: %s',
+					$status_code,
+					wp_json_encode( $body['status'] ?? null ),
+					wp_json_encode( $body['reason'] ?? null ),
+					wp_json_encode( $body['error'] ?? null )
+				)
+			);
+		}
+
+		/**
+		 * Fires after each verification request, e.g. to record the score or the failure reason.
+		 *
+		 * @param bool $is_verified
+		 * @param array<string,mixed> $body The API response: verified, status, score, reason, error, sessionId.
+		 */
+		do_action( 'prosopo/procaptcha/verification_result', $is_verified, $body );
+
+		return $is_verified;
 	}
 
 	/**
-	 * Sent to the verification API to improve bot detection.
-	 * REMOTE_ADDR is used as it can't be spoofed; sites behind a proxy (e.g. Cloudflare)
-	 * can supply the real visitor IP via the filter.
+	 * Written to the debug log (when WP_DEBUG is on), so site owners can see why submissions are rejected.
+	 */
+	protected function log_verification_failure( string $details ): void {
+		if ( ! defined( 'WP_DEBUG' ) || true !== WP_DEBUG ) {
+			return;
+		}
+
+		// @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		error_log( 'Prosopo Procaptcha: token verification failed. ' . $details );
+	}
+
+	/**
+	 * Opt-in (Visitor IP matching setting): when sent, the verification API requires the token
+	 * to be solved from the same IP, which rejects real visitors if the wrong IP is sent,
+	 * e.g. the proxy's address on sites behind Cloudflare.
 	 */
 	protected function get_visitor_ip(): string {
 		$remote_addr = Query_Arguments::get_non_action_string( 'REMOTE_ADDR', Query_Arguments::SERVER );
 
-		$visitor_ip = apply_filters( 'prosopo/procaptcha/visitor_ip', $remote_addr );
+		switch ( $this->procaptcha_settings->get_visitor_ip_source() ) {
+			case Procaptcha_Settings::VISITOR_IP_CLOUDFLARE:
+				$visitor_ip = Query_Arguments::get_non_action_string( 'HTTP_CF_CONNECTING_IP', Query_Arguments::SERVER );
+				break;
+			case Procaptcha_Settings::VISITOR_IP_X_FORWARDED_FOR:
+				$forwarded_for = Query_Arguments::get_non_action_string( 'HTTP_X_FORWARDED_FOR', Query_Arguments::SERVER );
+				// The first address is the client, the rest are proxies.
+				$visitor_ip = trim( explode( ',', $forwarded_for )[0] );
+				break;
+			case Procaptcha_Settings::VISITOR_IP_REMOTE_ADDR:
+				$visitor_ip = $remote_addr;
+				break;
+			default:
+				$visitor_ip = '';
+				break;
+		}
+
+		// Overrides the IP sent for matching, return an empty string to send none.
+		// Receives the IP from the Visitor IP matching setting (empty when it's off) and REMOTE_ADDR.
+		$visitor_ip = apply_filters( 'prosopo/procaptcha/visitor_ip', $visitor_ip, $remote_addr );
 
 		return is_string( $visitor_ip ) && false !== filter_var( $visitor_ip, FILTER_VALIDATE_IP ) ?
 			$visitor_ip :

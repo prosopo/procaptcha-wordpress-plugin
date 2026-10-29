@@ -4,7 +4,7 @@ Tags: captcha, antispam, spam, gdpr, recaptcha
 Requires at least: 5.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.23.0
+Stable tag: 1.24.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,15 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.24.0 (2026-10-29) =
+* Fix: the visitor's IP address is no longer sent for verification by default. Version 1.23.0 sent it, which turned on IP matching and could reject real visitors on sites behind Cloudflare or another proxy. IP matching is now the "Visitor IP matching" setting on the General tab, off by default, with a choice of where the IP comes from: Cloudflare, another proxy (X-Forwarded-For) or a direct connection. The `prosopo/procaptcha/visitor_ip` filter now receives the IP from that setting (empty when off) and REMOTE_ADDR
+* Fix: forms that submit without reloading the page get a fresh captcha after each submission, as a solved captcha can be verified only once. Previously, resubmitting after another field failed validation was rejected. Covers Contact Form 7, WPForms, Fluent Forms, Formidable Forms, Ninja Forms, Elementor Pro, Everest Forms, JetFormBuilder, User Registration, Beaver Builder, WooCommerce checkout and the Blocksy newsletter form
+* Fix: User Registration login forms with the "AJAX login" option on now send the captcha token, so logins are no longer rejected
+* Fix: Spectra forms send their own captcha token when a page has several Spectra forms, or a Spectra hidden field before the captcha
+* Fix: a widget error, such as a failed background request to Prosopo, no longer clears a token the visitor already has from JavaScript-driven forms
+* Feature: public JavaScript events - `prosopo-procaptcha:filled` (with the token) and `prosopo-procaptcha:cleared` are dispatched on the widget, and dispatching `prosopo-procaptcha:reset` on a form resets its captcha
+* Feature: failed verifications are written to the debug log when WP_DEBUG is on, with the API's status and reason, and the new `prosopo/procaptcha/verification_result` action receives every verification response, including the score
 
 = 1.23.0 (2026-10-29) =
 * Fix: when a solved captcha expires, errors or is reset, the token is now cleared from Ninja Forms, WooCommerce block checkout, Beaver Builder and other JavaScript-driven forms, so visitors are asked to solve it again instead of seeing a failed submission

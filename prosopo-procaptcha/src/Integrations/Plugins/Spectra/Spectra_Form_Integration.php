@@ -67,9 +67,10 @@ final class Spectra_Form_Integration extends Widget_Integration_Base {
 				Widget_Settings::ELEMENT_ATTRIBUTES      => array(
 					'style' => 'margin: 0 0 20px',
 				),
+				// No id="hidden" (as Spectra's own hidden field has): Spectra reads that one
+				// via getElementById(), so only the first such field on the page is sent.
 				Widget_Settings::HIDDEN_INPUT_ATTRIBUTES => array(
 					'class' => 'uagb-forms-hidden-input',
-					'id'    => 'hidden',
 					'name'  => $this->stub_form_input_name,
 				),
 				Widget_Settings::IS_DESIRED_ON_GUESTS    => true,
@@ -78,9 +79,16 @@ final class Spectra_Form_Integration extends Widget_Integration_Base {
 			)
 		);
 
+		// Spectra sends each form field under the text of the element whose id is the field's name
+		// (its field labels), reading the value from the submitted form itself, so it works with several forms per page.
+		$field_label = sprintf(
+			'<span id="%1$s" hidden>%1$s</span>',
+			esc_attr( $this->stub_form_input_name )
+		);
+
 		return $this->spectra_form->replace_input_in_form(
 			$this->stub_form_input_name,
-			$widget_element,
+			$widget_element . $field_label,
 			$form_content
 		);
 	}

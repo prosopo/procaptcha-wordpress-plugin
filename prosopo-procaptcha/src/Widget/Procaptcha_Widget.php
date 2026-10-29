@@ -267,14 +267,33 @@ class Procaptcha_Widget implements Widget {
 	}
 
 	/**
-	 * Sent to the verification API to improve bot detection.
-	 * REMOTE_ADDR is used as it can't be spoofed; sites behind a proxy (e.g. Cloudflare)
-	 * can supply the real visitor IP via the filter.
+	 * Opt-in (Visitor IP matching setting): when sent, the verification API requires the token
+	 * to be solved from the same IP, which rejects real visitors if the wrong IP is sent,
+	 * e.g. the proxy's address on sites behind Cloudflare.
 	 */
 	protected function get_visitor_ip(): string {
 		$remote_addr = Query_Arguments::get_non_action_string( 'REMOTE_ADDR', Query_Arguments::SERVER );
 
-		$visitor_ip = apply_filters( 'prosopo/procaptcha/visitor_ip', $remote_addr );
+		switch ( $this->procaptcha_settings->get_visitor_ip_source() ) {
+			case Procaptcha_Settings::VISITOR_IP_CLOUDFLARE:
+				$visitor_ip = Query_Arguments::get_non_action_string( 'HTTP_CF_CONNECTING_IP', Query_Arguments::SERVER );
+				break;
+			case Procaptcha_Settings::VISITOR_IP_X_FORWARDED_FOR:
+				$forwarded_for = Query_Arguments::get_non_action_string( 'HTTP_X_FORWARDED_FOR', Query_Arguments::SERVER );
+				// The first address is the client, the rest are proxies.
+				$visitor_ip = trim( explode( ',', $forwarded_for )[0] );
+				break;
+			case Procaptcha_Settings::VISITOR_IP_REMOTE_ADDR:
+				$visitor_ip = $remote_addr;
+				break;
+			default:
+				$visitor_ip = '';
+				break;
+		}
+
+		// Overrides the IP sent for matching, return an empty string to send none.
+		// Receives the IP from the Visitor IP matching setting (empty when it's off) and REMOTE_ADDR.
+		$visitor_ip = apply_filters( 'prosopo/procaptcha/visitor_ip', $visitor_ip, $remote_addr );
 
 		return is_string( $visitor_ip ) && false !== filter_var( $visitor_ip, FILTER_VALIDATE_IP ) ?
 			$visitor_ip :

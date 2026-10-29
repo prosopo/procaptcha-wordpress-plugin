@@ -4,7 +4,7 @@ Tags: captcha, antispam, spam, gdpr, recaptcha
 Requires at least: 5.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.24.0
+Stable tag: 1.24.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,8 +154,11 @@ Absolutely! The plugin has a [public GitHub repository](https://github.com/proso
 
 == Changelog ==
 
+= 1.24.1 (2026-10-29) =
+* Fix: the "Visitor IP matching" setting explains that it only has an effect when IP validation is turned on for the site key in the Prosopo portal (Professional plan and above), and its first option is now just "Off"
+
 = 1.24.0 (2026-10-29) =
-* Fix: the visitor's IP address is no longer sent for verification by default. Version 1.23.0 sent it, which turned on IP matching and could reject real visitors on sites behind Cloudflare or another proxy. IP matching is now the "Visitor IP matching" setting on the General tab, off by default, with a choice of where the IP comes from: Cloudflare, another proxy (X-Forwarded-For) or a direct connection. The `prosopo/procaptcha/visitor_ip` filter now receives the IP from that setting (empty when off) and REMOTE_ADDR
+* Fix: the visitor's IP address is no longer sent for verification by default. Version 1.23.0 sent the server's REMOTE_ADDR, which on sites behind Cloudflare or another proxy is the proxy's address; on sites with IP validation turned on in the Prosopo portal (Professional plan and above) that could reject real visitors. Sending the IP is now the "Visitor IP matching" setting on the General tab, off by default, with a choice of where the IP comes from: Cloudflare, another proxy (X-Forwarded-For) or a direct connection. The `prosopo/procaptcha/visitor_ip` filter now receives the IP from that setting (empty when off) and REMOTE_ADDR
 * Fix: forms that submit without reloading the page get a fresh captcha after each submission, as a solved captcha can be verified only once. Previously, resubmitting after another field failed validation was rejected. Covers Contact Form 7, WPForms, Fluent Forms, Formidable Forms, Ninja Forms, Elementor Pro, Everest Forms, JetFormBuilder, User Registration, Beaver Builder, WooCommerce checkout and the Blocksy newsletter form
 * Fix: User Registration login forms with the "AJAX login" option on now send the captcha token, so logins are no longer rejected
 * Fix: Spectra forms send their own captcha token when a page has several Spectra forms, or a Spectra hidden field before the captcha

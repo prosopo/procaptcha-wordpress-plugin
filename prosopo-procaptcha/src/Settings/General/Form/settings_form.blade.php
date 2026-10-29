@@ -38,6 +38,10 @@
                     @break
             @endswitch
         </div>
+
+        @if ('' !== string($input, 'description'))
+            <p class="-mt-3 mb-0 text-xs text-gray">{{ string($input, 'description') }}</p>
+        @endif
     @endforeach
 
     @if ('' !== $checkboxes_title)

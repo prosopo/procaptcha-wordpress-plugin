@@ -22,6 +22,7 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 	const THEME                     = 'theme';
 	const WIDGET_LANGUAGE           = 'widget_language';
 	const IS_ENABLED_FOR_AUTHORIZED = 'is_enabled_for_authorized';
+	const VISITOR_IP_MATCHING       = 'visitor_ip_matching';
 
 	const LANGUAGE_SITE    = 'site';
 	const LANGUAGE_VISITOR = 'visitor';
@@ -89,6 +90,20 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 		return ! $is_enabled_for_authorized;
 	}
 
+	public function get_visitor_ip_source(): string {
+		$source = string( $this->get_settings(), self::VISITOR_IP_MATCHING );
+
+		$sources = array(
+			self::VISITOR_IP_CLOUDFLARE,
+			self::VISITOR_IP_X_FORWARDED_FOR,
+			self::VISITOR_IP_REMOTE_ADDR,
+		);
+
+		return in_array( $source, $sources, true ) ?
+			$source :
+			'';
+	}
+
 	protected function get_option_name(): string {
 		// For back compatibility.
 		return self::OPTION_BASE;
@@ -96,10 +111,11 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 
 	protected function get_string_settings(): array {
 		return array(
-			self::SECRET_KEY      => __( 'Your Secret Key:', 'prosopo-procaptcha' ),
-			self::SITE_KEY        => __( 'Your Site Key:', 'prosopo-procaptcha' ),
-			self::THEME           => __( 'Theme:', 'prosopo-procaptcha' ),
-			self::WIDGET_LANGUAGE => __( 'Language:', 'prosopo-procaptcha' ),
+			self::SECRET_KEY          => __( 'Your Secret Key:', 'prosopo-procaptcha' ),
+			self::SITE_KEY            => __( 'Your Site Key:', 'prosopo-procaptcha' ),
+			self::THEME               => __( 'Theme:', 'prosopo-procaptcha' ),
+			self::VISITOR_IP_MATCHING => __( 'Visitor IP matching:', 'prosopo-procaptcha' ),
+			self::WIDGET_LANGUAGE     => __( 'Language:', 'prosopo-procaptcha' ),
 		);
 	}
 
@@ -111,18 +127,27 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 
 	protected function get_default_values(): array {
 		return array(
-			self::THEME           => 'light',
-			self::WIDGET_LANGUAGE => self::LANGUAGE_SITE,
+			self::THEME               => 'light',
+			// Off, as most sites are behind a proxy such as Cloudflare: matching the wrong IP rejects real visitors.
+			self::VISITOR_IP_MATCHING => self::VISITOR_IP_OFF,
+			self::WIDGET_LANGUAGE     => self::LANGUAGE_SITE,
 		);
 	}
 
 	protected function get_select_inputs(): array {
 		return array(
-			self::THEME           => array(
+			self::THEME               => array(
 				'dark'  => __( 'Dark', 'prosopo-procaptcha' ),
 				'light' => __( 'Light', 'prosopo-procaptcha' ),
 			),
-			self::WIDGET_LANGUAGE => array(
+			// phpcs:ignore SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys.IncorrectKeyOrder -- Off first, as it's the default.
+			self::VISITOR_IP_MATCHING => array(
+				self::VISITOR_IP_OFF             => __( 'Off (recommended)', 'prosopo-procaptcha' ),
+				self::VISITOR_IP_CLOUDFLARE      => __( 'On - site is behind Cloudflare', 'prosopo-procaptcha' ),
+				self::VISITOR_IP_REMOTE_ADDR     => __( 'On - visitors connect directly (REMOTE_ADDR)', 'prosopo-procaptcha' ),
+				self::VISITOR_IP_X_FORWARDED_FOR => __( 'On - site is behind another proxy (X-Forwarded-For)', 'prosopo-procaptcha' ),
+			),
+			self::WIDGET_LANGUAGE     => array(
 				self::LANGUAGE_SITE    => __( 'Same as the site', 'prosopo-procaptcha' ),
 				self::LANGUAGE_VISITOR => __( "Visitor's browser language", 'prosopo-procaptcha' ),
 			),

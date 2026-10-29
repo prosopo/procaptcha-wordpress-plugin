@@ -4,6 +4,7 @@ import type Logger from "../../utils/logger/logger.js";
 import FormIntegrationComponent from "#integrations/procaptcha/formIntegrationComponent.js";
 import WidgetIntegrationComponent from "#integrations/procaptcha/widgetIntegrationComponent.js";
 import { resetWidgetsAfterAjaxSubmissions } from "#integrations/procaptcha/ajaxFormsReset.js";
+import { addTokenToUserRegistrationAjaxLogin } from "#integrations/plugins/user-registration/userRegistrationAjaxLogin.js";
 
 const integrationConnector = createIntegrationConnector();
 
@@ -40,3 +41,7 @@ integrationConnector.connectIntegration(formIntegration);
 integrationConnector.connectIntegration(widgetIntegration);
 
 resetWidgetsAfterAjaxSubmissions();
+
+if ("function" === typeof window.jQuery) {
+	addTokenToUserRegistrationAjaxLogin(window.jQuery);
+}

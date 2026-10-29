@@ -2,19 +2,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Prosopo ProCaptcha 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prosopo-procaptcha\n"
-"POT-Creation-Date: 2026-10-27T13:57:59+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-27T13:57:59+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: \n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: prosopo-procaptcha\n"
 
 #. Plugin Name of the plugin
-#: prosopo-procaptcha.php src/Widget/Procaptcha_Widget.php:77
+#: prosopo-procaptcha.php
+#: src/Widget/Procaptcha_Widget.php:77
 msgid "Prosopo Procaptcha"
 msgstr "Prosopo Procaptcha"
 
@@ -111,49 +112,49 @@ msgstr "Nota: os plugins inativos são excluídos, mesmo que sejam compatíveis.
 msgid "Your favourite plugin is not listed? %1$s Start a thread %2$s in our support forum and we will consider adding the new integration."
 msgstr "O seu plugin preferido não está na lista? %1$s Abra um tópico %2$s no nosso fórum de suporte e iremos considerar a nova integração."
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:30
+#: src/Settings/General/Tab/General_Settings_Tab.php:31
 msgid "General"
 msgstr "Geral"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:99
+#: src/Settings/General/Tab/General_Settings_Tab.php:114
 msgid "Your Secret Key:"
 msgstr "Sua chave secreta:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:100
+#: src/Settings/General/Tab/General_Settings_Tab.php:115
 msgid "Your Site Key:"
 msgstr "Sua chave do site:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:101
+#: src/Settings/General/Tab/General_Settings_Tab.php:116
 msgid "Theme:"
 msgstr "Tema:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:102
+#: src/Settings/General/Tab/General_Settings_Tab.php:118
 msgid "Language:"
 msgstr "Idioma:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:108
+#: src/Settings/General/Tab/General_Settings_Tab.php:124
 msgid "Require from authorized users:"
 msgstr "Exigir de usuários autorizados:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:122
+#: src/Settings/General/Tab/General_Settings_Tab.php:140
 #: src/Widget/Procaptcha_Widget.php:55
 msgid "Dark"
 msgstr "Escuro"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:123
+#: src/Settings/General/Tab/General_Settings_Tab.php:141
 #: src/Widget/Procaptcha_Widget.php:56
 msgid "Light"
 msgstr "Claro"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:126
+#: src/Settings/General/Tab/General_Settings_Tab.php:151
 msgid "Same as the site"
 msgstr "Igual ao site"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:127
+#: src/Settings/General/Tab/General_Settings_Tab.php:152
 msgid "Visitor's browser language"
 msgstr "Idioma do navegador do visitante"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:137
+#: src/Settings/General/Tab/General_Settings_Tab.php:162
 msgid "Behavior"
 msgstr "Comportamento"
 
@@ -494,3 +495,23 @@ msgstr "Acordo de tratamento de dados"
 #: src/Settings/Statistics/statistics_settings.blade.php:34
 msgid "Please setup your keys to see the statistics."
 msgstr "Configure suas chaves para ver as estatísticas."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:117
+msgid "Visitor IP matching:"
+msgstr "Correspondência do IP do visitante:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:145
+msgid "Off (recommended)"
+msgstr "Desativado (recomendado)"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:146
+msgid "On - site is behind Cloudflare"
+msgstr "Ativado – o site está atrás do Cloudflare"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:147
+msgid "On - visitors connect directly (REMOTE_ADDR)"
+msgstr "Ativado – os visitantes ligam-se diretamente (REMOTE_ADDR)"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:148
+msgid "On - site is behind another proxy (X-Forwarded-For)"
+msgstr "Ativado – o site está atrás de outro proxy (X-Forwarded-For)"

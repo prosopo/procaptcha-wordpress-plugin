@@ -141,6 +141,17 @@ const bindJQueryEvents = ($: JQueryStatic): void => {
 		"user_registration_frontend_after_ajax_complete",
 		(_event, _response, _type, $form) => requestReset($form),
 	);
+	// AJAX login: passes the submit button. On success the page redirects.
+	$document.on("user_registration_after_login_failed", (_event, $button) =>
+		requestReset(
+			null !== $button &&
+				"object" === typeof $button &&
+				"closest" in $button &&
+				"function" === typeof $button.closest
+				? $button.closest("form")
+				: null,
+		),
+	);
 
 	$(document.body).on("checkout_error", () =>
 		requestReset(document.querySelector("form.checkout")),

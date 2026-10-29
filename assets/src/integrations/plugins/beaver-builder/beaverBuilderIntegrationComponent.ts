@@ -105,6 +105,10 @@ const createTokenValueResolver = (
 		}
 	});
 
+	element.addEventListener("_prosopo-procaptcha__cleared", () => {
+		tokenEventValue = "";
+	});
+
 	return () => {
 		const tokenInput = element.querySelector(`input[name=${inputName}]`);
 

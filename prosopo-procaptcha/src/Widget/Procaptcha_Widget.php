@@ -188,15 +188,21 @@ class Procaptcha_Widget implements Widget {
 	protected function verify_token( string $token ): bool {
 		$secret_key = $this->procaptcha_settings->get_secret_key();
 
+		$request_body = array(
+			'secret' => $secret_key,
+			'token'  => $token,
+		);
+
+		$visitor_ip = $this->get_visitor_ip();
+
+		if ( '' !== $visitor_ip ) {
+			$request_body['ip'] = $visitor_ip;
+		}
+
 		$response = wp_remote_post(
 			self::API_URL,
 			array(
-				'body'    => (string) wp_json_encode(
-					array(
-						'secret' => $secret_key,
-						'token'  => $token,
-					)
-				),
+				'body'    => (string) wp_json_encode( $request_body ),
 				'headers' => array(
 					'Content-Type' => 'application/json',
 				),
@@ -222,5 +228,20 @@ class Procaptcha_Widget implements Widget {
 			array();
 
 		return bool( $body, 'verified' );
+	}
+
+	/**
+	 * Sent to the verification API to improve bot detection.
+	 * REMOTE_ADDR is used as it can't be spoofed; sites behind a proxy (e.g. Cloudflare)
+	 * can supply the real visitor IP via the filter.
+	 */
+	protected function get_visitor_ip(): string {
+		$remote_addr = Query_Arguments::get_non_action_string( 'REMOTE_ADDR', Query_Arguments::SERVER );
+
+		$visitor_ip = apply_filters( 'prosopo/procaptcha/visitor_ip', $remote_addr );
+
+		return is_string( $visitor_ip ) && false !== filter_var( $visitor_ip, FILTER_VALIDATE_IP ) ?
+			$visitor_ip :
+			'';
 	}
 }

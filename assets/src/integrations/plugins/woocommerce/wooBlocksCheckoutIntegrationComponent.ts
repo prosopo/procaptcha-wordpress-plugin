@@ -33,6 +33,10 @@ class WooBlocksCheckoutIntegrationComponent implements WebComponent {
 				this.updateInputValue((event as CustomEvent).detail.token);
 			},
 		);
+		// back to the stub, so the server rejects the expired token with a clear message.
+		form?.addEventListener("_prosopo-procaptcha__cleared", () => {
+			this.updateInputValue("default");
+		});
 	}
 
 	protected updateInputValue(token: string): void {

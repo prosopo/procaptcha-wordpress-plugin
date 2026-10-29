@@ -4,7 +4,7 @@ Tags: captcha, antispam, spam, gdpr, recaptcha
 Requires at least: 5.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.22.0
+Stable tag: 1.23.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,12 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.23.0 (2026-10-29) =
+* Fix: when a solved captcha expires, errors or is reset, the token is now cleared from Ninja Forms, WooCommerce block checkout, Beaver Builder and other JavaScript-driven forms, so visitors are asked to solve it again instead of seeing a failed submission
+* Fix: pages with several captchas keep each widget's token in its own form after a reset
+* Feature: the visitor's IP address is sent with the verification request, improving bot detection. Sites behind a proxy can supply the real IP with the new `prosopo/procaptcha/visitor_ip` filter
+* Fix: a `callback` set through the `prosopo/procaptcha/captcha_attributes` filter now runs; previously the plugin's own callback replaced it
 
 = 1.22.0 (2026-10-27) =
 * Feature: settings pages restyled in Prosopo's colours

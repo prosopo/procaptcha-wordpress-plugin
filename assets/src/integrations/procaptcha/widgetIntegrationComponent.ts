@@ -4,7 +4,7 @@ import type Logger from "../../utils/logger/logger.js";
 declare global {
 	interface Window {
 		procaptcha: {
-			render: (element: HTMLElement, args: object) => () => void;
+			render: (element: HTMLElement, args: object) => unknown;
 		};
 		procaptchaWpAttributes: object;
 	}
@@ -77,7 +77,7 @@ class WidgetIntegrationComponent implements WebComponent {
 	}
 
 	protected getProcaptchaServiceCallback():
-		| ((element: HTMLElement, args: object) => () => void)
+		| ((element: HTMLElement, args: object) => unknown)
 		| null {
 		if (
 			false === window.hasOwnProperty("procaptcha") ||
@@ -95,18 +95,103 @@ class WidgetIntegrationComponent implements WebComponent {
 	}
 
 	protected getCaptchaAttributes(origin: HTMLElement): object {
-		const globalAttributes =
+		const globalAttributes: Record<string, unknown> =
 			true === window.hasOwnProperty("procaptchaWpAttributes") &&
 			"object" === typeof window["procaptchaWpAttributes"]
-				? window["procaptchaWpAttributes"]
+				? (window["procaptchaWpAttributes"] as Record<string, unknown>)
 				: {};
 
-		return Object.assign(globalAttributes, {
-			callback: this.updateRelatedFormOnSuccessfulValidation.bind(
-				this,
-				origin,
+		const clearToken = this.clearRelatedFormToken.bind(this, origin);
+
+		// Copy, so each widget keeps its own callbacks: the widget stores the options and reuses them on reset.
+		return {
+			...globalAttributes,
+			callback: this.chainCallback(
+				this.updateRelatedFormOnSuccessfulValidation.bind(this, origin),
+				globalAttributes["callback"],
 			),
-		});
+			"expired-callback": this.chainCallback(
+				clearToken,
+				globalAttributes["expired-callback"],
+			),
+			"error-callback": this.chainCallback(
+				clearToken,
+				globalAttributes["error-callback"],
+			),
+			"reset-callback": this.chainCallback(
+				clearToken,
+				globalAttributes["reset-callback"],
+			),
+		};
+	}
+
+	/**
+	 * Keeps callbacks set via the 'prosopo/procaptcha/captcha_attributes' filter working:
+	 * those are global function names, as PHP can't pass functions.
+	 */
+	protected chainCallback<Args extends unknown[]>(
+		pluginCallback: (...args: Args) => void,
+		userCallback: unknown,
+	): (...args: Args) => void {
+		return (...args: Args) => {
+			pluginCallback(...args);
+
+			const userFunction = this.resolveUserCallback(userCallback);
+
+			if (null !== userFunction) {
+				userFunction(...args);
+			}
+		};
+	}
+
+	protected resolveUserCallback(
+		userCallback: unknown,
+	): ((...args: unknown[]) => unknown) | null {
+		if ("function" === typeof userCallback) {
+			return userCallback as (...args: unknown[]) => unknown;
+		}
+
+		if ("string" !== typeof userCallback || "" === userCallback) {
+			return null;
+		}
+
+		const name = userCallback.replace(/^window\./, "");
+		const windowCallback = (window as unknown as Record<string, unknown>)[
+			name
+		];
+
+		if ("function" !== typeof windowCallback) {
+			this.logger.warning("User callback is not a function", {
+				name: name,
+			});
+
+			return null;
+		}
+
+		return windowCallback as (...args: unknown[]) => unknown;
+	}
+
+	/**
+	 * Called when the token expires, the widget errors or is reset:
+	 * the Procaptcha's JS removes its own input, but the custom one must be cleared manually,
+	 * otherwise JS-based forms keep submitting a token that the server will reject.
+	 */
+	public clearRelatedFormToken(origin: HTMLElement): void {
+		const form = origin.closest("form");
+		const customInputForToken = this.getCustomInputForToken(origin, form);
+
+		this.logger.debug("Token cleared");
+
+		if (null !== customInputForToken && "" !== customInputForToken.value) {
+			this.setInputValue(customInputForToken, "");
+		}
+
+		// allow third-party listen to this event.
+		origin.dispatchEvent(
+			new CustomEvent("_prosopo-procaptcha__cleared", {
+				bubbles: true,
+			}),
+		);
 	}
 
 	protected dispatchFilledEvent(origin: HTMLElement, token: string): void {

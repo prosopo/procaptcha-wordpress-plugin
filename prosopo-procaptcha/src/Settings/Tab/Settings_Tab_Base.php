@@ -84,6 +84,7 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 		$bool_settings   = $this->get_bool_settings();
 		$select_inputs   = $this->get_select_inputs();
 		$password_inputs = $this->get_password_inputs();
+		$descriptions    = $this->get_input_descriptions();
 		$inputs          = array();
 		$checkboxes      = array();
 
@@ -96,6 +97,10 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 				'type'  => 'text',
 				'value' => string( $this->validated_fields, $field_name ),
 			);
+
+			if ( key_exists( $field_name, $descriptions ) ) {
+				$input['description'] = $descriptions[ $field_name ];
+			}
 
 			if ( key_exists( $field_name, $select_inputs ) ) {
 				$input['options'] = $select_inputs[ $field_name ];
@@ -170,6 +175,13 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 	 * @return array<string,array<string,string>> fieldName => [itemValue => itemLabel]
 	 */
 	protected function get_select_inputs(): array {
+		return array();
+	}
+
+	/**
+	 * @return array<string,string> fieldName => help text shown under the field
+	 */
+	protected function get_input_descriptions(): array {
 		return array();
 	}
 

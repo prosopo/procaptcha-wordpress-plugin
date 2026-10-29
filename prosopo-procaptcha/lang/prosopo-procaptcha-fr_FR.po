@@ -154,7 +154,7 @@ msgstr "Identique au site"
 msgid "Visitor's browser language"
 msgstr "Langue du navigateur du visiteur"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:162
+#: src/Settings/General/Tab/General_Settings_Tab.php:168
 msgid "Behavior"
 msgstr "Comportement"
 
@@ -415,7 +415,7 @@ msgstr "Sans friction"
 msgid "Pow"
 msgstr "Pow"
 
-#: src/Settings/General/Form/settings_form.blade.php:72
+#: src/Settings/General/Form/settings_form.blade.php:76
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -500,10 +500,6 @@ msgstr "Veuillez configurer vos clés pour voir les statistiques."
 msgid "Visitor IP matching:"
 msgstr "Correspondance de l'IP du visiteur :"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:145
-msgid "Off (recommended)"
-msgstr "Désactivé (recommandé)"
-
 #: src/Settings/General/Tab/General_Settings_Tab.php:146
 msgid "On - site is behind Cloudflare"
 msgstr "Activé – le site est derrière Cloudflare"
@@ -515,3 +511,11 @@ msgstr "Activé – les visiteurs se connectent directement (REMOTE_ADDR)"
 #: src/Settings/General/Tab/General_Settings_Tab.php:148
 msgid "On - site is behind another proxy (X-Forwarded-For)"
 msgstr "Activé – le site est derrière un autre proxy (X-Forwarded-For)"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:145
+msgid "Off"
+msgstr "Désactivé"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:159
+msgid "Only has an effect when IP validation is turned on for your site key in the Prosopo portal (Professional plan and above). Pick where your server sees the visitor's real IP: the wrong source makes IP validation reject real visitors."
+msgstr "N'a d'effet que si la validation d'IP est activée pour votre clé de site dans le portail Prosopo (offre Professional et supérieures). Choisissez où votre serveur voit l'IP réelle du visiteur : avec la mauvaise source, la validation d'IP rejette de vrais visiteurs."

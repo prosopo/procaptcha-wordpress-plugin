@@ -87,6 +87,8 @@ JavaScript-related:
 2. `yarn [settings/integrations]:dev` - starts Vite dev server
 3. `yarn lint:[check/fix]` - runs ESLint static code analyses
 4. `yarn prettier:[check/fix]` - runs Prettier formatter
+5. `yarn typecheck` - type-checks the TypeScript sources with `tsc`
+6. `yarn test` - runs the Vitest unit tests (`*.test.ts` beside the code they cover)
 
 PHP-related:
 

@@ -1,4 +1,5 @@
 name: Clone Private Repository
+description: "Clone a private repository needed by the end-to-end tests"
 
 inputs:
   private_folder:

@@ -1,4 +1,5 @@
 name: Setup E2E Packages
+description: "Configure hosts, TLS and Nginx for the end-to-end test site"
 
 runs:
   using: "composite"

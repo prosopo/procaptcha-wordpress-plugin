@@ -1,4 +1,5 @@
 name: Prepare E2E Workflow
+description: "Move the site into place and start WordPress for the end-to-end tests"
 
 runs:
   using: "composite"

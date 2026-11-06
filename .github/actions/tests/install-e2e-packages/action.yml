@@ -1,4 +1,5 @@
 name: Install E2E Packages
+description: "Install the end-to-end test packages"
 
 runs:
   using: "composite"

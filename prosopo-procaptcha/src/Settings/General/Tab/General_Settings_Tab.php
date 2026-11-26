@@ -103,8 +103,23 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 	}
 
 	public function get_tab_js_data(): array {
+		$palette_fields = array();
+
+		foreach ( self::PALETTE_COLORS as $palette_key => $setting_name ) {
+			$palette_fields[] = array(
+				'field' => $setting_name,
+				'key'   => $palette_key,
+			);
+		}
+
 		return array(
 			'accountApiEndpoint' => Procaptcha_Plugin::ACCOUNT_API_ENDPOINT_URL,
+			'appearanceFields'   => array(
+				'font'  => self::FONT,
+				'shape' => self::SHAPE,
+				'theme' => self::THEME,
+			),
+			'paletteFields'      => $palette_fields,
 			'secretKey'          => $this->get_secret_key(),
 			'siteKey'            => $this->get_site_key(),
 		);

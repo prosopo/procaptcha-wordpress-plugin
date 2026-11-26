@@ -34,6 +34,10 @@ class Statistics_Settings_Tab extends Settings_Tab_Base {
 		return 'statistics';
 	}
 
+	public function has_form(): bool {
+		return false;
+	}
+
 	public function make_tab_component( ModelFactoryInterface $factory, Widget $widget ): TemplateModelInterface {
 		return $factory->createModel(
 			Statistics_Settings::class,

@@ -151,6 +151,10 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 		return '';
 	}
 
+	public function has_form(): bool {
+		return true;
+	}
+
 	public function get_style_asset(): string {
 		return '';
 	}

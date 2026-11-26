@@ -3,7 +3,7 @@
 @use('function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\arr')
 @use('function Io\Prosopo\Procaptcha\Vendors\WPLake\Typed\bool')
 
-<form action="" method="post" class="flex flex-col gap-5 max-w-sm w-full" autocomplete="off">
+<form id="prosopo-procaptcha-settings-form" action="" method="post" class="flex flex-col gap-5 max-w-sm w-full" autocomplete="off">
     <input type="hidden" name="_wpnonce" value="{{ $nonce }}">
     <input type="hidden" name="{{ Settings_Page::TAB_NAME }}" value="{{ $tab_name }}">
 
@@ -82,12 +82,5 @@
             </div>
         </label>
     @endforeach
-
-    <br>
-
-    <input class="py-2 px-4 bg-pink text-white font-semibold rounded transition cursor-pointer border-0
-    hover:bg-pink-dark" type="submit"
-           name="prosopo-captcha__submit"
-           value="{{ __('Save','prosopo-procaptcha') }}">
 
 </form>

@@ -18,6 +18,10 @@ const settingsConfig: UserConfig = {
 	build: {
 		rollupOptions: {
 			input: {
+				"form/settings-form": path.resolve(
+					__dirname,
+					"./form/settings-form.ts",
+				),
 				"general/general-settings": path.resolve(
 					__dirname,
 					"./general/general-settings.ts",

@@ -24,6 +24,11 @@ interface Settings_Tab {
 
 	public function make_tab_component( ModelFactoryInterface $factory, Widget $widget ): TemplateModelInterface;
 
+	/**
+	 * Whether the tab renders the settings form, which the page's Save button submits.
+	 */
+	public function has_form(): bool;
+
 	public function get_tab_script_asset(): string;
 
 	public function get_style_asset(): string;

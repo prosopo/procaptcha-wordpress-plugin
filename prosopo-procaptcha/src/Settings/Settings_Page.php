@@ -132,6 +132,7 @@ final class Settings_Page implements Hookable {
 				}
 
 				$settings->is_just_saved = $is_just_saved;
+				$settings->has_form      = $tab->has_form();
 				$settings->tabs          = $tabs;
 				$settings->current_tab   = $current_tab;
 				$settings->tab_content   = $tab->make_tab_component( $this->component_creator, $this->widget );
@@ -191,6 +192,10 @@ final class Settings_Page implements Hookable {
 				'prosopoProcaptchaWpSettings',
 				$tab->get_tab_js_data()
 			);
+		}
+
+		if ( $tab->has_form() ) {
+			$this->assets_loader->load_script_asset( 'settings/form/settings-form.min.js' );
 		}
 	}
 

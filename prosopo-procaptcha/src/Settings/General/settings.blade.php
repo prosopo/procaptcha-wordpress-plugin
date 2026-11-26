@@ -52,11 +52,25 @@
                 @endforeach
             </ul>
 
-            @if ($is_just_saved)
-                <div class="mt-7 text-success-dark font-medium">
-                    {{ __( 'Settings successfully saved.', 'prosopo-procaptcha' ) }}
-                </div>
-            @endif
+            <div class="mt-7 flex items-center justify-end gap-5 min-h-10">
+                @if ($is_just_saved)
+                    <p class="m-0 mr-auto text-success-dark font-medium" data-settings-saved>
+                        {{ __( 'Settings successfully saved.', 'prosopo-procaptcha' ) }}
+                    </p>
+                @endif
+
+                <p class="m-0 text-warning-dark font-medium" data-settings-unsaved hidden>
+                    {{ __( 'You have unsaved changes. They only take effect on your site once you save.', 'prosopo-procaptcha' ) }}
+                </p>
+
+                @if ($has_form)
+                    <input class="py-2 px-8 bg-pink text-white font-semibold rounded transition cursor-pointer border-0
+                    hover:bg-pink-dark" type="submit"
+                           form="prosopo-procaptcha-settings-form"
+                           name="prosopo-captcha__submit"
+                           value="{{ __('Save','prosopo-procaptcha') }}">
+                @endif
+            </div>
 
             <div class="mt-7 flex gap-12">
                 {!! $tab_content !!}

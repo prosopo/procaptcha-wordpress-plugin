@@ -51,7 +51,7 @@ const connectColorField = (field: HTMLElement): void => {
 
 	clear?.addEventListener("click", () => {
 		value.value = "";
-		showValue();
+		value.dispatchEvent(new Event("input", { bubbles: true }));
 	});
 
 	showValue();

@@ -1,4 +1,5 @@
 @theme {
+	--breakpoint-3xl: 137.5rem;
 	/* Prosopo brand, as on prosopo.io. `blue` keeps its name because every tab,
 	   link and focus ring already uses it. */
 	--color-blue: #4e439f;

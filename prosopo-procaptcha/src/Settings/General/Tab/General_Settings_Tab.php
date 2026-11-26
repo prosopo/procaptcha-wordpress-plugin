@@ -307,7 +307,26 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 		$this->validated_fields[ self::FONT ] = self::sanitize_font( string( $this->validated_fields, self::FONT ) );
 	}
 
-	protected function get_checkboxes_title(): string {
-		return __( 'Behavior', 'prosopo-procaptcha' );
+	protected function get_field_groups(): array {
+		return array(
+			array(
+				'column'      => 1,
+				'description' => __( 'The keys for this site, from the Prosopo portal.', 'prosopo-procaptcha' ),
+				'fields'      => array( self::SITE_KEY, self::SECRET_KEY ),
+				'title'       => __( 'Connection', 'prosopo-procaptcha' ),
+			),
+			array(
+				'column'      => 1,
+				'description' => '',
+				'fields'      => array( self::VISITOR_IP_MATCHING, self::WIDGET_LANGUAGE, self::IS_ENABLED_FOR_AUTHORIZED ),
+				'title'       => __( 'Behavior', 'prosopo-procaptcha' ),
+			),
+			array(
+				'column'      => 2,
+				'description' => __( 'Match the widget to your site. The preview updates as you change these.', 'prosopo-procaptcha' ),
+				'fields'      => array_merge( array( self::THEME, self::SHAPE, self::FONT ), array_values( self::PALETTE_COLORS ) ),
+				'title'       => __( 'Appearance', 'prosopo-procaptcha' ),
+			),
+		);
 	}
 }

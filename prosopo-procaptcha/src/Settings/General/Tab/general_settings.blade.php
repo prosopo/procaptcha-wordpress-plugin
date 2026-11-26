@@ -1,6 +1,7 @@
+<div class="grid gap-6 items-start xl:grid-cols-[minmax(0,37rem)_22rem] 2xl:grid-cols-[minmax(0,75rem)_22rem] 3xl:grid-cols-[minmax(0,108rem)_26rem]">
 {!! $form !!}
 
-<general-procaptcha-settings class="flex flex-col gap-5 ml-12 max-w-96">
+<general-procaptcha-settings class="flex flex-col gap-5 min-w-0 xl:sticky xl:top-28">
     @if (! $has_keys)
         <div class="flex flex-col gap-3 rounded-lg p-5 bg-navy text-white">
             <p class="m-0 text-base font-semibold text-white">
@@ -23,16 +24,21 @@
         </div>
     @endif
 
-    <p class="m-0 text-sm">
-        {{ __('Preview: if the credentials are valid, you should be able to complete the captcha below:', 'prosopo-procaptcha') }}
-    </p>
+    <section class="flex flex-col gap-3 rounded-lg p-5 bg-white border border-solid border-gray-light">
+        <div>
+            <h2 class="m-0 text-base font-semibold text-navy">{{ __( 'Preview', 'prosopo-procaptcha' ) }}</h2>
+            <p class="m-0 mt-1 text-xs text-gray">
+                {{ __('Shows your changes before you save. With valid keys, you can complete the captcha here.', 'prosopo-procaptcha') }}
+            </p>
+        </div>
 
-    {{--dummy form to avoid "form not found" console error from the procaptcha script, confusing users--}}
-    <form class="dummy">
-        {!! $widget_preview !!}
-    </form>
+        {{--dummy form to avoid "form not found" console error from the procaptcha script, confusing users--}}
+        <form class="dummy">
+            {!! $widget_preview !!}
+        </form>
+    </section>
 
-    <div class="flex flex-col gap-3 rounded-lg p-5 bg-white">
+    <div class="flex flex-col gap-3 rounded-lg p-5 bg-white border border-solid border-gray-light">
         <p class="m-0 text-base font-semibold text-navy">
             {{ __( 'What protects your forms', 'prosopo-procaptcha' ) }}
         </p>
@@ -64,3 +70,4 @@
         {!! $tier_upgrade_banner !!}
     </div>
 </general-procaptcha-settings>
+</div>

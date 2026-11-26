@@ -134,15 +134,14 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 			);
 		}
 
+		$columns = $this->arrange_field_groups( $inputs, $checkboxes );
+
 		return $factory->createModel(
 			Settings_Form::class,
-			function ( Settings_Form $settings_form ) use ( $inputs, $checkboxes ) {
-				$settings_form->nonce            = wp_create_nonce( Settings_Page::FORM_NONCE );
-				$settings_form->tab_name         = $this->get_tab_name();
-				$settings_form->inputs           = $inputs;
-				$settings_form->checkboxes       = $checkboxes;
-				$settings_form->inputs_title     = $this->get_inputs_title();
-				$settings_form->checkboxes_title = $this->get_checkboxes_title();
+			function ( Settings_Form $settings_form ) use ( $columns ) {
+				$settings_form->nonce    = wp_create_nonce( Settings_Page::FORM_NONCE );
+				$settings_form->tab_name = $this->get_tab_name();
+				$settings_form->columns  = $columns;
 			}
 		);
 	}
@@ -230,6 +229,78 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 
 	protected function get_inputs_title(): string {
 		return '';
+	}
+
+	/**
+	 * The titled cards the form is split into, and the column each one sits in.
+	 * Empty means a single untitled card with every field.
+	 *
+	 * @return array<int,array{title:string,description:string,column:int,fields:string[]}>
+	 */
+	protected function get_field_groups(): array {
+		return array();
+	}
+
+	/**
+	 * @param array<int,array<string,mixed>> $inputs
+	 * @param array<int,array<string,mixed>> $checkboxes
+	 *
+	 * @return array<int,array<int,array<string,mixed>>> columns, each a list of cards
+	 */
+	protected function arrange_field_groups( array $inputs, array $checkboxes ): array {
+		$field_groups = $this->get_field_groups();
+
+		if ( array() === $field_groups ) {
+			return array(
+				array(
+					array(
+						'checkboxes'       => $checkboxes,
+						'checkboxes_title' => $this->get_checkboxes_title(),
+						'description'      => '',
+						'inputs'           => $inputs,
+						'inputs_title'     => $this->get_inputs_title(),
+						'title'            => '',
+					),
+				),
+			);
+		}
+
+		$all_fields     = array_merge( array_column( $inputs, 'name' ), array_column( $checkboxes, 'name' ) );
+		$grouped_fields = array_merge( ...array_column( $field_groups, 'fields' ) );
+
+		// A field left out of every group still gets a card, rather than silently dropping out of the form.
+		$field_groups[] = array(
+			'column'      => 1,
+			'description' => '',
+			'fields'      => array_values( array_diff( $all_fields, $grouped_fields ) ),
+			'title'       => '',
+		);
+
+		$columns = array();
+
+		foreach ( $field_groups as $field_group ) {
+			$is_in_group = fn ( array $field ): bool => in_array( string( $field, 'name' ), $field_group['fields'], true );
+
+			$group_inputs     = array_values( array_filter( $inputs, $is_in_group ) );
+			$group_checkboxes = array_values( array_filter( $checkboxes, $is_in_group ) );
+
+			if ( array() === $group_inputs && array() === $group_checkboxes ) {
+				continue;
+			}
+
+			$columns[ $field_group['column'] ][] = array(
+				'checkboxes'       => $group_checkboxes,
+				'checkboxes_title' => '',
+				'description'      => $field_group['description'],
+				'inputs'           => $group_inputs,
+				'inputs_title'     => '',
+				'title'            => $field_group['title'],
+			);
+		}
+
+		ksort( $columns );
+
+		return array_values( $columns );
 	}
 
 	protected function get_checkboxes_title(): string {

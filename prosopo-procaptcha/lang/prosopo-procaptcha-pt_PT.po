@@ -94,67 +94,67 @@ msgid "Protect the register form:"
 msgstr "Proteger o formulário de registro:"
 
 #: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:49
-#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:68
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:72
 msgid "Active Integrations"
 msgstr "Integrações ativas"
 
-#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:70
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:74
 msgid "The Procaptcha plugin automatically detects compatible plugins on your site and enables their integrations. Click any item below to open a corresponding Docs page."
 msgstr "O plugin Procaptcha deteta automaticamente os plugins compatíveis no seu site e ativa as respetivas integrações. Clique num item para abrir a página de documentação correspondente."
 
-#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:75
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:79
 msgid "Note: Inactive plugins, even if compatible, are excluded."
 msgstr "Nota: os plugins inativos são excluídos, mesmo que sejam compatíveis."
 
 #. translators: %1$s: opening link tag, %2$s: closing link tag.
-#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:80
+#: src/Settings/General/Active_Integrations/Active_Integrations_Tab.php:84
 #, php-format
 msgid "Your favourite plugin is not listed? %1$s Start a thread %2$s in our support forum and we will consider adding the new integration."
 msgstr "O seu plugin preferido não está na lista? %1$s Abra um tópico %2$s no nosso fórum de suporte e iremos considerar a nova integração."
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:31
+#: src/Settings/General/Tab/General_Settings_Tab.php:78
 msgid "General"
 msgstr "Geral"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:114
+#: src/Settings/General/Tab/General_Settings_Tab.php:204
 msgid "Your Secret Key:"
 msgstr "Sua chave secreta:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:115
+#: src/Settings/General/Tab/General_Settings_Tab.php:205
 msgid "Your Site Key:"
 msgstr "Sua chave do site:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:116
+#: src/Settings/General/Tab/General_Settings_Tab.php:206
 msgid "Theme:"
 msgstr "Tema:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:118
+#: src/Settings/General/Tab/General_Settings_Tab.php:217
 msgid "Language:"
 msgstr "Idioma:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:124
+#: src/Settings/General/Tab/General_Settings_Tab.php:223
 msgid "Require from authorized users:"
 msgstr "Exigir de usuários autorizados:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:140
+#: src/Settings/General/Tab/General_Settings_Tab.php:244
 #: src/Widget/Procaptcha_Widget.php:55
 msgid "Dark"
 msgstr "Escuro"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:141
+#: src/Settings/General/Tab/General_Settings_Tab.php:245
 #: src/Widget/Procaptcha_Widget.php:56
 msgid "Light"
 msgstr "Claro"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:151
+#: src/Settings/General/Tab/General_Settings_Tab.php:255
 msgid "Same as the site"
 msgstr "Igual ao site"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:152
+#: src/Settings/General/Tab/General_Settings_Tab.php:256
 msgid "Visitor's browser language"
 msgstr "Idioma do navegador do visitante"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:168
+#: src/Settings/General/Tab/General_Settings_Tab.php:322
 msgid "Behavior"
 msgstr "Comportamento"
 
@@ -190,15 +190,15 @@ msgstr "Suporte por email e Discord, 99,9% de disponibilidade"
 msgid "Start a 30-day free trial"
 msgstr "Experimente grátis durante 30 dias"
 
-#: src/Settings/Settings_Page.php:144
+#: src/Settings/Settings_Page.php:145
 msgid "Procaptcha Settings"
 msgstr "Configurações do Procaptcha"
 
-#: src/Settings/Settings_Page.php:145
+#: src/Settings/Settings_Page.php:146
 msgid "Procaptcha"
 msgstr "Procaptcha"
 
-#: src/Settings/Settings_Page.php:168
+#: src/Settings/Settings_Page.php:169
 msgid "Settings"
 msgstr "Configurações"
 
@@ -206,200 +206,200 @@ msgstr "Configurações"
 msgid "Statistics"
 msgstr "Estatísticas"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:62
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:66
 msgid "Open the Portal"
 msgstr "Abrir o portal"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:63
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:67
 msgid "Usage and settings for your site key. Manage your account and site settings in the Prosopo portal."
 msgstr "Utilização e definições da sua chave do site. Gira a sua conta e as definições do site no portal Prosopo."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:64
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:68
 msgid "Your Site Key"
 msgstr "A sua chave do site"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:69
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:73
 msgid "Change in the portal"
 msgstr "Alterar no portal"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:70
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:74
 msgid "Your plan lets you choose the challenge type for this site key in the Prosopo portal."
 msgstr "O seu plano permite escolher o tipo de desafio desta chave do site no portal Prosopo."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:71
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:75
 msgid "Procaptcha shows a challenge only to visitors who look like bots, and picks a Proof of Work, image or jigsaw puzzle challenge for them. Choosing a single challenge type is part of the Professional plan."
 msgstr "O Procaptcha só mostra um desafio aos visitantes que parecem bots e escolhe para eles um desafio Proof of Work, de imagem ou de puzzle. Escolher um único tipo de desafio faz parte do plano Professional."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:72
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:76
 msgid "Challenge type:"
 msgstr "Tipo de desafio:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:73
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:77
 msgid "Your Challenges"
 msgstr "Os seus desafios"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:75
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:79
 msgid "Audio"
 msgstr "Áudio"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:76
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:80
 msgid "Frictionless (challenge only when needed)"
 msgstr "Frictionless (desafio apenas quando necessário)"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:77
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:81
 msgid "Icon order"
 msgstr "Ordem dos ícones"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:78
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:82
 #: src/Widget/Procaptcha_Widget.php:66
 msgid "Image"
 msgstr "Imagem"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:79
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:83
 msgid "Proof of Work"
 msgstr "Prova de trabalho"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:80
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:84
 msgid "Jigsaw puzzle"
 msgstr "Puzzle"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:84
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:88
 msgid "out of {total} visits checked this month"
 msgstr "de {total} visitas verificadas este mês"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:85
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:89
 msgid "Bots stopped this month"
 msgstr "Bots travados este mês"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:86
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:90
 msgid "Checked by your server"
 msgstr "Verificados pelo seu servidor"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:87
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:91
 msgid "On track for about {forecast} of {limit} by the end of the month."
 msgstr "Ao ritmo atual, cerca de {forecast} de {limit} até ao fim do mês."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:88
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:92
 msgid "On track for about {forecast} by the end of the month, over your limit of {limit}."
 msgstr "Ao ritmo atual, cerca de {forecast} até ao fim do mês, acima do seu limite de {limit}."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:89
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
 msgid "Requests this month"
 msgstr "Pedidos este mês"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:90
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
 msgid "{used} of {limit} requests used"
 msgstr "{used} de {limit} pedidos usados"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:91
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:95
 msgid "Day"
 msgstr "Dia"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:92
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:96
 msgid "Hide the table"
 msgstr "Ocultar a tabela"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:93
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:97
 msgid "{percent}% of visitors passed the invisible check without a challenge."
 msgstr "{percent}% dos visitantes passaram a verificação invisível sem desafio."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:94
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
 msgid "Visitors who saw nothing to solve"
 msgstr "Visitantes sem nada para resolver"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:95
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
 msgid "Requests"
 msgstr "Pedidos"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:96
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
 msgid "Challenges served"
 msgstr "Desafios apresentados"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:97
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
 msgid "Your server checks {percent}% of solved captchas."
 msgstr "O seu servidor verifica {percent}% dos captchas resolvidos."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:98
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
 msgid "Setup check"
 msgstr "Verificação da configuração"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:99
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:103
 msgid "Only {percent}% of solved captchas were checked by your server. A form may be accepting submissions without verifying the Procaptcha token, which lets bots skip it."
 msgstr "Apenas {percent}% dos captchas resolvidos foram verificados pelo seu servidor. Um formulário pode estar a aceitar envios sem verificar o token do Procaptcha, o que permite aos bots contorná-lo."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:100
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:104
 msgid "How verification works"
 msgstr "Como funciona a verificação"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:101
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:105
 msgid "Show as a table"
 msgstr "Mostrar como tabela"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:102
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:106
 msgid "Solved by visitors"
 msgstr "Resolvidos pelos visitantes"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:103
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:107
 msgid "Total"
 msgstr "Total"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:109
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:113
 msgid "Your statistics could not be loaded. Check that the Site Key and Secret Key on the General tab are correct and saved, then try again."
 msgstr "Não foi possível carregar as suas estatísticas. Verifique se a chave do site e a chave secreta no separador Geral estão corretas e guardadas e tente novamente."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:110
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:114
 msgid "Successfully loaded at"
 msgstr "Carregado com sucesso em"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:111
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:115
 msgid "Loading, please wait."
 msgstr "Carregando, por favor aguarde."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:112
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:116
 msgid "Refresh now"
 msgstr "Atualizar agora"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:113
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:117
 msgid "Try again"
 msgstr "Tentar novamente"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:116
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:120
 msgid "View traffic analytics"
 msgstr "Ver a análise de tráfego"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:117
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:121
 msgid "Traffic analytics are included on every plan. See the charts in the Prosopo portal."
 msgstr "A análise de tráfego está incluída em todos os planos. Consulte os gráficos no portal Prosopo."
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:118
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:122
 msgid "Traffic Analytics"
 msgstr "Análise de tráfego"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:121
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:125
 msgid "Audio:"
 msgstr "Áudio:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:122
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:126
 msgid "Icon order:"
 msgstr "Ordem dos ícones:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:123
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:127
 msgid "Image:"
 msgstr "Imagem:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:124
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:128
 msgid "Proof of Work:"
 msgstr "Prova de trabalho:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:125
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:129
 msgid "Jigsaw puzzle:"
 msgstr "Puzzle:"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:126
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:130
 msgid "Monthly Usage"
 msgstr "Uso mensal"
 
-#: src/Settings/Statistics/Statistics_Settings_Tab.php:127
+#: src/Settings/Statistics/Statistics_Settings_Tab.php:131
 msgid "Total Verification Requests:"
 msgstr "Total de solicitações de verificação:"
 
@@ -414,10 +414,6 @@ msgstr "Sem fricção"
 #: src/Widget/Procaptcha_Widget.php:67
 msgid "Pow"
 msgstr "Pow"
-
-#: src/Settings/General/Form/settings_form.blade.php:76
-msgid "Save"
-msgstr "Salvar"
 
 #: src/Settings/General/settings.blade.php:18
 msgid "Procaptcha for WordPress"
@@ -439,56 +435,48 @@ msgstr "Site"
 msgid "Prosopo portal"
 msgstr "Portal Prosopo"
 
-#: src/Settings/General/settings.blade.php:65
-msgid "Settings successfully saved."
-msgstr "Configurações salvas com sucesso."
-
-#: src/Settings/General/Tab/general_settings.blade.php:8
-#: src/Settings/General/Tab/general_settings.blade.php:19
+#: src/Settings/General/Tab/general_settings.blade.php:9
+#: src/Settings/General/Tab/general_settings.blade.php:20
 msgid "Get your free site key"
 msgstr "Obtenha a sua chave do site gratuita"
 
-#: src/Settings/General/Tab/general_settings.blade.php:12
+#: src/Settings/General/Tab/general_settings.blade.php:13
 msgid "Sign up for a free Prosopo account."
 msgstr "Crie uma conta Prosopo gratuita."
 
-#: src/Settings/General/Tab/general_settings.blade.php:13
+#: src/Settings/General/Tab/general_settings.blade.php:14
 msgid "Copy your Site Key and Secret Key from the Prosopo portal."
 msgstr "Copie a chave do site e a chave secreta a partir do portal Prosopo."
 
-#: src/Settings/General/Tab/general_settings.blade.php:14
+#: src/Settings/General/Tab/general_settings.blade.php:15
 msgid "Paste them here, save, and turn on the forms you want to protect."
 msgstr "Cole-as aqui, guarde e ative os formulários que pretende proteger."
 
-#: src/Settings/General/Tab/general_settings.blade.php:23
+#: src/Settings/General/Tab/general_settings.blade.php:24
 msgid "Free for 10,000 requests a month. No credit card."
 msgstr "Grátis até 10 000 pedidos por mês. Sem cartão de crédito."
 
-#: src/Settings/General/Tab/general_settings.blade.php:30
-msgid "Preview: if the credentials are valid, you should be able to complete the captcha below:"
-msgstr "Pré-visualização: se as credenciais forem válidas, você deverá conseguir completar o captcha abaixo:"
-
-#: src/Settings/General/Tab/general_settings.blade.php:42
+#: src/Settings/General/Tab/general_settings.blade.php:48
 msgid "What protects your forms"
 msgstr "O que protege os seus formulários"
 
-#: src/Settings/General/Tab/general_settings.blade.php:48
+#: src/Settings/General/Tab/general_settings.blade.php:54
 msgid "An invisible check: most visitors see nothing to solve, and only visitors who look like bots get a challenge."
 msgstr "Uma verificação invisível: a maioria dos visitantes não tem nada para resolver e só quem parece um bot recebe um desafio."
 
-#: src/Settings/General/Tab/general_settings.blade.php:52
+#: src/Settings/General/Tab/general_settings.blade.php:58
 msgid "A hidden honeypot trap, and blocking of known abusive networks."
 msgstr "Uma armadilha honeypot oculta e o bloqueio de redes abusivas conhecidas."
 
-#: src/Settings/General/Tab/general_settings.blade.php:56
+#: src/Settings/General/Tab/general_settings.blade.php:62
 msgid "No cookies and no tracking."
 msgstr "Sem cookies e sem rastreio."
 
-#: src/Settings/General/Tab/general_settings.blade.php:60
+#: src/Settings/General/Tab/general_settings.blade.php:66
 msgid "All included on the free plan."
 msgstr "Tudo incluído no plano gratuito."
 
-#: src/Settings/General/Tab/general_settings.blade.php:64
+#: src/Settings/General/Tab/general_settings.blade.php:70
 msgid "Data processing agreement"
 msgstr "Acordo de tratamento de dados"
 
@@ -496,26 +484,155 @@ msgstr "Acordo de tratamento de dados"
 msgid "Please setup your keys to see the statistics."
 msgstr "Configure suas chaves para ver as estatísticas."
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:117
+#: src/Settings/General/Tab/General_Settings_Tab.php:216
 msgid "Visitor IP matching:"
 msgstr "Correspondência do IP do visitante:"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:146
+#: src/Settings/General/Tab/General_Settings_Tab.php:250
 msgid "On - site is behind Cloudflare"
 msgstr "Ativado – o site está atrás do Cloudflare"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:147
+#: src/Settings/General/Tab/General_Settings_Tab.php:251
 msgid "On - visitors connect directly (REMOTE_ADDR)"
 msgstr "Ativado – os visitantes ligam-se diretamente (REMOTE_ADDR)"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:148
+#: src/Settings/General/Tab/General_Settings_Tab.php:252
 msgid "On - site is behind another proxy (X-Forwarded-For)"
 msgstr "Ativado – o site está atrás de outro proxy (X-Forwarded-For)"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:145
+#: src/Settings/General/Tab/General_Settings_Tab.php:249
 msgid "Off"
 msgstr "Desativado"
 
-#: src/Settings/General/Tab/General_Settings_Tab.php:159
+#: src/Settings/General/Tab/General_Settings_Tab.php:272
 msgid "Only has an effect when IP validation is turned on for your site key in the Prosopo portal (Professional plan and above). Pick where your server sees the visitor's real IP: the wrong source makes IP validation reject real visitors."
 msgstr "Só tem efeito quando a validação de IP está ativada para a sua chave do site no portal Prosopo (plano Professional e superiores). Escolha onde o seu servidor vê o IP real do visitante: com a fonte errada, a validação de IP rejeita visitantes reais."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:207
+msgid "Corners:"
+msgstr "Cantos:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:208
+msgid "Font:"
+msgstr "Tipo de letra:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:209
+msgid "Primary color:"
+msgstr "Cor principal:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:210
+msgid "Surface color:"
+msgstr "Cor da superfície:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:211
+msgid "Background color:"
+msgstr "Cor de fundo:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:212
+msgid "Text color:"
+msgstr "Cor do texto:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:213
+msgid "Secondary text color:"
+msgstr "Cor do texto secundário:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:214
+msgid "Border color:"
+msgstr "Cor do contorno:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:215
+msgid "Error color:"
+msgstr "Cor de erro:"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:240
+msgid "Rounded"
+msgstr "Arredondados"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:241
+msgid "Square"
+msgstr "Retos"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:263
+msgid "A CSS font-family list, such as \"Inter\", Arial, sans-serif. The font must already be loaded on your pages. Only letters, digits, spaces, commas, quotes and hyphens are allowed. Leave empty for the default font."
+msgstr "Uma lista de tipos de letra CSS, como \"Inter\", Arial, sans-serif. O tipo de letra já tem de estar carregado nas suas páginas. Só são permitidos letras, algarismos, espaços, vírgulas, aspas e hífenes. Deixe vazio para usar o tipo de letra predefinido."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:264
+msgid "The challenge dialog."
+msgstr "A janela do desafio."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:265
+msgid "The widget outline and image tiles."
+msgstr "O contorno do widget e os mosaicos de imagem."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:266
+msgid "Error messages."
+msgstr "Mensagens de erro."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:267
+msgid "The ticked checkbox, buttons, focus rings and selected images. Setting just this color is usually enough, as the other shades are worked out from it. Pick a color or type a hex code, such as #1a73e8. Default keeps the theme color."
+msgstr "A caixa marcada, os botões, os contornos de foco e as imagens selecionadas. Normalmente basta definir só esta cor, porque os outros tons são calculados a partir dela. Escolha uma cor ou escreva um código hexadecimal, como #1a73e8. Predefinido mantém a cor do tema."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:268
+msgid "The widget and challenge panels."
+msgstr "O widget e os painéis do desafio."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:269
+msgid "Labels and headings."
+msgstr "Etiquetas e títulos."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:270
+msgid "Hints under the challenge prompt."
+msgstr "Indicações por baixo do enunciado do desafio."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:271
+msgid "The corners of the widget, buttons and image tiles."
+msgstr "Os cantos do widget, dos botões e dos mosaicos de imagem."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:294
+#: src/Settings/General/Form/settings_form.blade.php:73
+msgid "Default"
+msgstr "Predefinido"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:314
+msgid "The keys for this site, from the Prosopo portal."
+msgstr "As chaves deste site, do portal Prosopo."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:316
+msgid "Connection"
+msgstr "Ligação"
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:326
+msgid "Match the widget to your site. The preview updates as you change these."
+msgstr "Adapte o widget ao seu site. A pré-visualização atualiza-se à medida que altera estas opções."
+
+#: src/Settings/General/Tab/General_Settings_Tab.php:328
+msgid "Appearance"
+msgstr "Aparência"
+
+#: src/Settings/General/settings.blade.php:69
+msgid "Settings saved."
+msgstr "Definições guardadas."
+
+#: src/Settings/General/settings.blade.php:75
+msgid "Unsaved changes. Save to apply them to your site."
+msgstr "Alterações por guardar. Guarde para as aplicar ao seu site."
+
+#: src/Settings/General/settings.blade.php:78
+msgid "Unsaved changes."
+msgstr "Alterações por guardar."
+
+#: src/Settings/General/settings.blade.php:80
+msgid "Save to apply them to your site."
+msgstr "Guarde para as aplicar ao seu site."
+
+#: src/Settings/General/settings.blade.php:89
+msgid "Save changes"
+msgstr "Guardar alterações"
+
+#: src/Settings/General/Tab/general_settings.blade.php:32
+msgid "Preview"
+msgstr "Pré-visualização"
+
+#: src/Settings/General/Tab/general_settings.blade.php:34
+msgid "Shows your changes before you save. With valid keys, you can complete the captcha here."
+msgstr "Mostra as suas alterações antes de guardar. Com chaves válidas, pode concluir o captcha aqui."

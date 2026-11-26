@@ -19,6 +19,23 @@ interface Procaptcha_Settings {
 	public function get_theme(): string;
 
 	/**
+	 * Widget corners: 'rounded' or 'square'.
+	 */
+	public function get_shape(): string;
+
+	/**
+	 * CSS font-family list for the widget, or empty for the default font.
+	 */
+	public function get_font(): string;
+
+	/**
+	 * Widget palette colors that are set (palette key => hex color), the rest keep the theme default.
+	 *
+	 * @return array<string,string>
+	 */
+	public function get_palette(): array;
+
+	/**
 	 * Empty when the widget should follow the visitor's browser.
 	 */
 	public function get_language(): string;

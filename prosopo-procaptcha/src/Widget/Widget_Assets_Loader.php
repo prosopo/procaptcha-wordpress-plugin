@@ -121,9 +121,22 @@ final class Widget_Assets_Loader implements Hookable {
 	protected function load_widget_script(): void {
 		// The challenge type is set per site key in the Prosopo portal; the widget ignores a captchaType attribute.
 		$widget_attributes = array(
+			'shape'   => $this->procaptcha_settings->get_shape(),
 			'siteKey' => $this->procaptcha_settings->get_site_key(),
 			'theme'   => $this->procaptcha_settings->get_theme(),
 		);
+
+		$palette = $this->procaptcha_settings->get_palette();
+
+		if ( array() !== $palette ) {
+			$widget_attributes['palette'] = $palette;
+		}
+
+		$font = $this->procaptcha_settings->get_font();
+
+		if ( '' !== $font ) {
+			$widget_attributes['font'] = $font;
+		}
 
 		$language = $this->procaptcha_settings->get_language();
 

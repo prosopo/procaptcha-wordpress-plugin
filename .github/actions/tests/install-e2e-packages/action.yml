@@ -25,12 +25,20 @@ runs:
       run: sudo apt-get update && sudo apt-get install -y libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
       shell: bash
 
+    # Pinned: Chrome 158 rejects the "*" origin Cypress 13 uses to reset storage between specs ("* is not a valid URL").
     - name: Install Chrome
+      id: setup-chrome
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: 157
+        install-dependencies: true
+
+    # Cypress looks for google-chrome and google-chrome-stable on the PATH; the runner image ships a newer Chrome under both.
+    - name: Use the pinned Chrome
       run: |
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+        sudo ln -sf "${{ steps.setup-chrome.outputs.chrome-path }}" /usr/bin/google-chrome
+        sudo ln -sf "${{ steps.setup-chrome.outputs.chrome-path }}" /usr/bin/google-chrome-stable
+        google-chrome --version
       shell: bash
 
     # used in the tasks/install-wordpress-with-plugins.yml

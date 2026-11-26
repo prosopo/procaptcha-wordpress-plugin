@@ -1,4 +1,5 @@
 import Collection from "#settings/statistics/collection.js";
+import type { AppearanceFields } from "./livePreview.js";
 
 declare global {
 	interface Window {
@@ -29,6 +30,27 @@ class GeneralSettingsConfig {
 
 	public getAccountApiEndpoint(): string {
 		return this.data.getString("accountApiEndpoint");
+	}
+
+	public getAppearanceFields(): AppearanceFields {
+		const fields = this.data.getSubCollection("appearanceFields");
+
+		return {
+			theme: fields.getString("theme"),
+			shape: fields.getString("shape"),
+			font: fields.getString("font"),
+			palette: this.data.getArray("paletteFields").flatMap((item) => {
+				if ("object" !== typeof item || null === item) {
+					return [];
+				}
+
+				const entry = new Collection(item as Record<string, unknown>);
+				const key = entry.getString("key");
+				const field = entry.getString("field");
+
+				return "" !== key && "" !== field ? [{ key, field }] : [];
+			}),
+		};
 	}
 }
 

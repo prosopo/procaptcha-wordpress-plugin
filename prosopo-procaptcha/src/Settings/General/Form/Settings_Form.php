@@ -12,13 +12,9 @@ class Settings_Form extends BaseTemplateModel {
 	public string $nonce;
 	public string $tab_name;
 	/**
-	 * @var array<int,mixed>
+	 * Columns of cards, each card holding a title, description, inputs and checkboxes.
+	 *
+	 * @var array<int,array<int,array<string,mixed>>>
 	 */
-	public array $inputs;
-	/**
-	 * @var array<int,mixed>
-	 */
-	public array $checkboxes;
-	public string $inputs_title;
-	public string $checkboxes_title;
+	public array $columns;
 }

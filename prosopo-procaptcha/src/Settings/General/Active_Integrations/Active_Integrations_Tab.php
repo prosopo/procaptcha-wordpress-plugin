@@ -53,6 +53,10 @@ final class Active_Integrations_Tab extends Settings_Tab_Base {
 		return 'active-integrations';
 	}
 
+	public function has_form(): bool {
+		return false;
+	}
+
 	public function make_tab_component( ModelFactoryInterface $factory, Widget $widget ): TemplateModelInterface {
 		return $factory->createModel(
 			Active_Integrations_List::class,

@@ -103,8 +103,23 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 	}
 
 	public function get_tab_js_data(): array {
+		$palette_fields = array();
+
+		foreach ( self::PALETTE_COLORS as $palette_key => $setting_name ) {
+			$palette_fields[] = array(
+				'field' => $setting_name,
+				'key'   => $palette_key,
+			);
+		}
+
 		return array(
 			'accountApiEndpoint' => Procaptcha_Plugin::ACCOUNT_API_ENDPOINT_URL,
+			'appearanceFields'   => array(
+				'font'  => self::FONT,
+				'shape' => self::SHAPE,
+				'theme' => self::THEME,
+			),
+			'paletteFields'      => $palette_fields,
 			'secretKey'          => $this->get_secret_key(),
 			'siteKey'            => $this->get_site_key(),
 		);
@@ -249,7 +264,7 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 			self::PALETTE_BACKGROUND     => __( 'The challenge dialog.', 'prosopo-procaptcha' ),
 			self::PALETTE_BORDER         => __( 'The widget outline and image tiles.', 'prosopo-procaptcha' ),
 			self::PALETTE_ERROR          => __( 'Error messages.', 'prosopo-procaptcha' ),
-			self::PALETTE_PRIMARY        => __( 'The ticked checkbox, buttons, focus rings and selected images. Setting just this color is usually enough, as the other shades are worked out from it. Colors are hex codes, such as #1a73e8; leave a color empty to keep the theme default.', 'prosopo-procaptcha' ),
+			self::PALETTE_PRIMARY        => __( 'The ticked checkbox, buttons, focus rings and selected images. Setting just this color is usually enough, as the other shades are worked out from it. Pick a color or type a hex code, such as #1a73e8. Default keeps the theme color.', 'prosopo-procaptcha' ),
 			self::PALETTE_SURFACE        => __( 'The widget and challenge panels.', 'prosopo-procaptcha' ),
 			self::PALETTE_TEXT           => __( 'Labels and headings.', 'prosopo-procaptcha' ),
 			self::PALETTE_TEXT_SECONDARY => __( 'Hints under the challenge prompt.', 'prosopo-procaptcha' ),
@@ -260,6 +275,10 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 
 	protected function get_password_inputs(): array {
 		return array( self::SECRET_KEY );
+	}
+
+	protected function get_color_inputs(): array {
+		return array_values( self::PALETTE_COLORS );
 	}
 
 	protected function get_optional_inputs(): array {
@@ -288,7 +307,26 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 		$this->validated_fields[ self::FONT ] = self::sanitize_font( string( $this->validated_fields, self::FONT ) );
 	}
 
-	protected function get_checkboxes_title(): string {
-		return __( 'Behavior', 'prosopo-procaptcha' );
+	protected function get_field_groups(): array {
+		return array(
+			array(
+				'column'      => 1,
+				'description' => __( 'The keys for this site, from the Prosopo portal.', 'prosopo-procaptcha' ),
+				'fields'      => array( self::SITE_KEY, self::SECRET_KEY ),
+				'title'       => __( 'Connection', 'prosopo-procaptcha' ),
+			),
+			array(
+				'column'      => 1,
+				'description' => '',
+				'fields'      => array( self::VISITOR_IP_MATCHING, self::WIDGET_LANGUAGE, self::IS_ENABLED_FOR_AUTHORIZED ),
+				'title'       => __( 'Behavior', 'prosopo-procaptcha' ),
+			),
+			array(
+				'column'      => 2,
+				'description' => __( 'Match the widget to your site. The preview updates as you change these.', 'prosopo-procaptcha' ),
+				'fields'      => array_merge( array( self::THEME, self::SHAPE, self::FONT ), array_values( self::PALETTE_COLORS ) ),
+				'title'       => __( 'Appearance', 'prosopo-procaptcha' ),
+			),
+		);
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Prosopo Procaptcha
  * Description: Free, GDPR-compliant CAPTCHA that stops spam bots on WordPress core forms and 21 form plugins, page builders and themes. No cookies.
- * Version: 1.24.1
+ * Version: 1.25.0
  * Author: Prosopo Team
  * Author URI: https://prosopo.io/
  * License: GPLv2 or later

@@ -4,7 +4,7 @@ Tags: captcha, antispam, spam, gdpr, recaptcha
 Requires at least: 5.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.24.1
+Stable tag: 1.25.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,7 @@ Free, GDPR-compliant CAPTCHA that stops spam bots on WordPress core forms and 21
 * **Free tier** - 10,000 requests a month free. See [pricing](https://prosopo.io/pricing/) for higher limits.
 * **Honeypot and abusive networks** - A hidden honeypot trap and blocking of known abusive networks are included on the free plan.
 * **Statistics** - See your monthly captcha counts and traffic without leaving WordPress.
+* **Matches your site** - Choose the widget's colours, square or rounded corners and font, and preview them live before you save.
 
 == Why Use Procaptcha in WordPress? ==
 
@@ -129,7 +130,7 @@ More integrations coming soon!
 
 == Screenshots ==
 
-1. Add your keys, and choose the widget theme and language.
+1. Add your keys, and match the widget to your site with your own colours, corners and font, previewed live.
 2. Turn on protection for the WordPress login, registration, password and comment forms.
 3. See which of your form plugins Procaptcha protects.
 4. See bots stopped, requests per day and a setup check without leaving WordPress.
@@ -153,6 +154,12 @@ Please start a thread in the [support forum](https://wordpress.org/support/plugi
 Absolutely! The plugin has a [public GitHub repository](https://github.com/prosopo/procaptcha-wordpress-plugin), and we would be excited to have your contribution 🤝
 
 == Changelog ==
+
+= 1.25.0 (2026-11-26) =
+* Feature: match the widget to your site from the General tab - choose its colours (primary, surface, dialog background, text, secondary text, border and error), square or rounded corners, and font. Setting only the primary colour is usually enough, as the widget works out the other shades from it
+* Feature: colours are picked with a colour picker, and the preview widget updates as you change them, before you save
+* Feature: the General settings are grouped into Connection, Behavior and Appearance cards laid out across the width of the page, with the preview next to the Appearance card
+* Feature: the Save button sits in the tab bar and stays in view while you scroll, with a notice when you have unsaved changes
 
 = 1.24.1 (2026-10-29) =
 * Fix: the "Visitor IP matching" setting explains that it only has an effect when IP validation is turned on for the site key in the Prosopo portal (Professional plan and above), and its first option is now just "Off"

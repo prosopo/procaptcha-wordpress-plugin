@@ -15,20 +15,38 @@
 
     @foreach ($inputs as $input)
         <div class="flex items-center justify-between gap-5">
-            <p class="text-sm">{{ string($input, 'label') }}</p>
+            <p class="text-sm min-w-0">{{ string($input, 'label') }}</p>
 
             @switch(string($input, 'type'))
                 @case('text')
                 @case('password')
                     <input name="{{ string($input, 'name') }}" type="{{ string($input, 'type') }}"
                            @if (! bool($input, 'is_optional')) required @endif
-                           class="bg-white w-64 py-1.5 px-3 border border-solid border-gray rounded transition shadow-none outline-none
+                           class="bg-white w-64 shrink-0 py-1.5 px-3 border border-solid border-gray rounded transition shadow-none outline-none
                            focus:border-blue focus:ring-2 focus:ring-blue/20"
                            placeholder="{{ string($input, 'placeholder') }}" value="{{ string($input, 'value') }}">
                     @break
+                @case('color')
+                    <div class="flex items-center gap-2 w-64 shrink-0" data-color-field>
+                        <label class="relative w-9 h-9 shrink-0 rounded border border-solid border-gray overflow-hidden cursor-pointer
+                        bg-[repeating-linear-gradient(45deg,#fff_0_4px,#e5e7eb_4px_8px)]">
+                            <span class="absolute inset-0" data-color-swatch
+                                  style="background-color: {{ string($input, 'value') }}"></span>
+                            <input type="color" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                   aria-label="{{ string($input, 'label') }}" data-color-picker>
+                        </label>
+                        <input name="{{ string($input, 'name') }}" type="text"
+                               class="bg-white flex-1 min-w-0 py-1.5 px-3 border border-solid border-gray rounded transition shadow-none outline-none font-mono
+                               focus:border-blue focus:ring-2 focus:ring-blue/20"
+                               placeholder="{{ string($input, 'placeholder') }}" value="{{ string($input, 'value') }}"
+                               data-color-value>
+                        <button type="button" class="bg-transparent border-0 p-0 text-xs text-gray cursor-pointer underline hover:text-blue"
+                                data-color-clear>{{ __('Default', 'prosopo-procaptcha') }}</button>
+                    </div>
+                    @break
                 @case('select')
                     <select name="{{ string($input,'name') }}"
-                            class="bg-white w-64 py-1.5 px-3 border border-solid border-gray rounded shadow-none outline-none
+                            class="bg-white w-64 shrink-0 py-1.5 px-3 border border-solid border-gray rounded shadow-none outline-none
                             focus:border-blue">
                         @foreach(arr($input, 'options') as $value => $label)
                             <option value="{{ $value }}" @selected($value === string($input,'value'))>

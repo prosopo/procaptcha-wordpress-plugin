@@ -249,7 +249,7 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 			self::PALETTE_BACKGROUND     => __( 'The challenge dialog.', 'prosopo-procaptcha' ),
 			self::PALETTE_BORDER         => __( 'The widget outline and image tiles.', 'prosopo-procaptcha' ),
 			self::PALETTE_ERROR          => __( 'Error messages.', 'prosopo-procaptcha' ),
-			self::PALETTE_PRIMARY        => __( 'The ticked checkbox, buttons, focus rings and selected images. Setting just this color is usually enough, as the other shades are worked out from it. Colors are hex codes, such as #1a73e8; leave a color empty to keep the theme default.', 'prosopo-procaptcha' ),
+			self::PALETTE_PRIMARY        => __( 'The ticked checkbox, buttons, focus rings and selected images. Setting just this color is usually enough, as the other shades are worked out from it. Pick a color or type a hex code, such as #1a73e8. Default keeps the theme color.', 'prosopo-procaptcha' ),
 			self::PALETTE_SURFACE        => __( 'The widget and challenge panels.', 'prosopo-procaptcha' ),
 			self::PALETTE_TEXT           => __( 'Labels and headings.', 'prosopo-procaptcha' ),
 			self::PALETTE_TEXT_SECONDARY => __( 'Hints under the challenge prompt.', 'prosopo-procaptcha' ),
@@ -260,6 +260,10 @@ final class General_Settings_Tab extends Settings_Tab_Base implements Procaptcha
 
 	protected function get_password_inputs(): array {
 		return array( self::SECRET_KEY );
+	}
+
+	protected function get_color_inputs(): array {
+		return array_values( self::PALETTE_COLORS );
 	}
 
 	protected function get_optional_inputs(): array {

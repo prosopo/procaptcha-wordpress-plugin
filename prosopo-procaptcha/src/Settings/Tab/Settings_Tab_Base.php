@@ -84,6 +84,7 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 		$bool_settings   = $this->get_bool_settings();
 		$select_inputs   = $this->get_select_inputs();
 		$password_inputs = $this->get_password_inputs();
+		$color_inputs    = $this->get_color_inputs();
 		$descriptions    = $this->get_input_descriptions();
 		$optional_inputs = $this->get_optional_inputs();
 		$placeholders    = $this->get_input_placeholders();
@@ -115,6 +116,10 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 
 			if ( in_array( $field_name, $password_inputs, true ) ) {
 				$input['type'] = 'password';
+			}
+
+			if ( in_array( $field_name, $color_inputs, true ) ) {
+				$input['type'] = 'color';
 			}
 
 			$inputs[] = $input;
@@ -195,6 +200,13 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 	 * @return string[]
 	 */
 	protected function get_password_inputs(): array {
+		return array();
+	}
+
+	/**
+	 * @return string[] hex color inputs, shown with a color picker
+	 */
+	protected function get_color_inputs(): array {
 		return array();
 	}
 

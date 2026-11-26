@@ -18,7 +18,8 @@ jobs:
         run: bash tools/check-code-quality.sh
 
   run-e2e-tests:
-    runs-on: ubuntu-latest
+    # ubuntu-latest is now 26.04, which has no apt-key (used to install Chrome).
+    runs-on: ubuntu-24.04
 
     services:
       mysql:

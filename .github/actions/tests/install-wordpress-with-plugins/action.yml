@@ -1,4 +1,5 @@
 name: Install WordPress with Plugins
+description: "Install WordPress with the plugins the end-to-end tests need"
 
 inputs:
   paid_plugins_dir:

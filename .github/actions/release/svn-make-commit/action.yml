@@ -1,4 +1,5 @@
 name: SVN Make Commit
+description: "Commit and tag the staged plugin release in WordPress.org SVN"
 
 inputs:
   username:

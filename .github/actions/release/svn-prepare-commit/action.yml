@@ -1,4 +1,5 @@
 name: SVN Prepare Commit
+description: "Stage the built plugin into the WordPress.org SVN working copy"
 
 outputs:
   release_tag:

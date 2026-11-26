@@ -17,6 +17,7 @@ class Settings extends BaseTemplateModel {
 	 */
 	public array $style_asset_urls;
 	public bool $is_just_saved;
+	public bool $has_form;
 	/**
 	 * @var array<int,mixed>
 	 */

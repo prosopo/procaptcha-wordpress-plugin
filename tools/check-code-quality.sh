@@ -52,9 +52,29 @@ checkJsPrettier(){
   return $?
 }
 
+checkJsTypes(){
+  local parentPath="$1"
+
+  cd "$parentPath"/../assets || { echo "Failed to change directory to assets"; return 1; }
+
+  yarn typecheck
+
+  return $?
+}
+
+checkJsVitest(){
+  local parentPath="$1"
+
+  cd "$parentPath"/../assets || { echo "Failed to change directory to assets"; return 1; }
+
+  yarn test
+
+  return $?
+}
+
 detectCurrentType(){
   local type=$1
-  local valid_types=("phpstan" "codesniffer" "codebeautifer" "pest" "eslint" "prettier")
+  local valid_types=("phpstan" "codesniffer" "codebeautifer" "pest" "eslint" "prettier" "tsc" "vitest")
 
    for valid_type in "${valid_types[@]}"; do
       if [ "$type" == "$valid_type" ]; then
@@ -93,6 +113,8 @@ runChecks(){
    ["pest"]="checkPhpPest"
    ["eslint"]="checkJsEslint"
    ["prettier"]="checkJsPrettier"
+   ["tsc"]="checkJsTypes"
+   ["vitest"]="checkJsVitest"
  )
 
  for tool in "${!checksList[@]}"; do

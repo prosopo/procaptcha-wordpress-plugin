@@ -10,6 +10,7 @@ declare global {
 		procaptcha: {
 			render: (element: HTMLElement, args: object) => unknown;
 			reset?: (widgetId?: string) => unknown;
+			remove?: (widgetId?: string) => unknown;
 		};
 		procaptchaWpAttributes: object;
 	}

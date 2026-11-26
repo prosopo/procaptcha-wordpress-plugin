@@ -1,4 +1,5 @@
 name: Initial Setup
+description: "Install Node.js, PHP and Composer, then build the plugin assets"
 
 runs:
   using: "composite"

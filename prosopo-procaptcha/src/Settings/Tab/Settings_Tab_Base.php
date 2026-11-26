@@ -84,7 +84,10 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 		$bool_settings   = $this->get_bool_settings();
 		$select_inputs   = $this->get_select_inputs();
 		$password_inputs = $this->get_password_inputs();
+		$color_inputs    = $this->get_color_inputs();
 		$descriptions    = $this->get_input_descriptions();
+		$optional_inputs = $this->get_optional_inputs();
+		$placeholders    = $this->get_input_placeholders();
 		$inputs          = array();
 		$checkboxes      = array();
 
@@ -92,10 +95,14 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 
 		foreach ( $string_settings as $field_name => $field_label ) {
 			$input = array(
-				'label' => $field_label,
-				'name'  => $field_name,
-				'type'  => 'text',
-				'value' => string( $this->validated_fields, $field_name ),
+				'is_optional' => in_array( $field_name, $optional_inputs, true ),
+				'label'       => $field_label,
+				'name'        => $field_name,
+				'placeholder' => key_exists( $field_name, $placeholders ) ?
+					$placeholders[ $field_name ] :
+					$field_label,
+				'type'        => 'text',
+				'value'       => string( $this->validated_fields, $field_name ),
 			);
 
 			if ( key_exists( $field_name, $descriptions ) ) {
@@ -111,6 +118,10 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 				$input['type'] = 'password';
 			}
 
+			if ( in_array( $field_name, $color_inputs, true ) ) {
+				$input['type'] = 'color';
+			}
+
 			$inputs[] = $input;
 		}
 
@@ -123,21 +134,24 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 			);
 		}
 
+		$columns = $this->arrange_field_groups( $inputs, $checkboxes );
+
 		return $factory->createModel(
 			Settings_Form::class,
-			function ( Settings_Form $settings_form ) use ( $inputs, $checkboxes ) {
-				$settings_form->nonce            = wp_create_nonce( Settings_Page::FORM_NONCE );
-				$settings_form->tab_name         = $this->get_tab_name();
-				$settings_form->inputs           = $inputs;
-				$settings_form->checkboxes       = $checkboxes;
-				$settings_form->inputs_title     = $this->get_inputs_title();
-				$settings_form->checkboxes_title = $this->get_checkboxes_title();
+			function ( Settings_Form $settings_form ) use ( $columns ) {
+				$settings_form->nonce    = wp_create_nonce( Settings_Page::FORM_NONCE );
+				$settings_form->tab_name = $this->get_tab_name();
+				$settings_form->columns  = $columns;
 			}
 		);
 	}
 
 	public function get_tab_script_asset(): string {
 		return '';
+	}
+
+	public function has_form(): bool {
+		return true;
 	}
 
 	public function get_style_asset(): string {
@@ -192,8 +206,103 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 		return array();
 	}
 
+	/**
+	 * @return string[] hex color inputs, shown with a color picker
+	 */
+	protected function get_color_inputs(): array {
+		return array();
+	}
+
+	/**
+	 * @return string[] text inputs that may be left empty
+	 */
+	protected function get_optional_inputs(): array {
+		return array();
+	}
+
+	/**
+	 * @return array<string,string> fieldName => placeholder, the label is used when missing
+	 */
+	protected function get_input_placeholders(): array {
+		return array();
+	}
+
 	protected function get_inputs_title(): string {
 		return '';
+	}
+
+	/**
+	 * The titled cards the form is split into, and the column each one sits in.
+	 * Empty means a single untitled card with every field, laid out in as many columns as fit.
+	 *
+	 * @return array<int,array{title:string,description:string,column:int,fields:string[]}>
+	 */
+	protected function get_field_groups(): array {
+		return array();
+	}
+
+	/**
+	 * @param array<int,array<string,mixed>> $inputs
+	 * @param array<int,array<string,mixed>> $checkboxes
+	 *
+	 * @return array<int,array<int,array<string,mixed>>> columns, each a list of cards
+	 */
+	protected function arrange_field_groups( array $inputs, array $checkboxes ): array {
+		$field_groups = $this->get_field_groups();
+
+		if ( array() === $field_groups ) {
+			return array(
+				array(
+					array(
+						'checkboxes'       => $checkboxes,
+						'checkboxes_title' => $this->get_checkboxes_title(),
+						'description'      => '',
+						'inputs'           => $inputs,
+						'inputs_title'     => $this->get_inputs_title(),
+						'is_spread'        => true,
+						'title'            => '',
+					),
+				),
+			);
+		}
+
+		$all_fields     = array_merge( array_column( $inputs, 'name' ), array_column( $checkboxes, 'name' ) );
+		$grouped_fields = array_merge( ...array_column( $field_groups, 'fields' ) );
+
+		// A field left out of every group still gets a card, rather than silently dropping out of the form.
+		$field_groups[] = array(
+			'column'      => 1,
+			'description' => '',
+			'fields'      => array_values( array_diff( $all_fields, $grouped_fields ) ),
+			'title'       => '',
+		);
+
+		$columns = array();
+
+		foreach ( $field_groups as $field_group ) {
+			$is_in_group = fn ( array $field ): bool => in_array( string( $field, 'name' ), $field_group['fields'], true );
+
+			$group_inputs     = array_values( array_filter( $inputs, $is_in_group ) );
+			$group_checkboxes = array_values( array_filter( $checkboxes, $is_in_group ) );
+
+			if ( array() === $group_inputs && array() === $group_checkboxes ) {
+				continue;
+			}
+
+			$columns[ $field_group['column'] ][] = array(
+				'checkboxes'       => $group_checkboxes,
+				'checkboxes_title' => '',
+				'description'      => $field_group['description'],
+				'inputs'           => $group_inputs,
+				'inputs_title'     => '',
+				'is_spread'        => false,
+				'title'            => $field_group['title'],
+			);
+		}
+
+		ksort( $columns );
+
+		return array_values( $columns );
 	}
 
 	protected function get_checkboxes_title(): string {

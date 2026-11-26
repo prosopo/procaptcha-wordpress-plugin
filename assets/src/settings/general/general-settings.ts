@@ -47,6 +47,7 @@ class GeneralSettings {
 		const generalSettingsWebComponent = new GeneralSettingsWebComponent(
 			this.apiUser,
 			this.accountApiResolver,
+			this.config.getAppearanceFields(),
 		);
 
 		this.webComponentRegistrar.registerWebComponent(

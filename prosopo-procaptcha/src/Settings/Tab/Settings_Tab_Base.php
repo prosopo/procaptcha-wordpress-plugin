@@ -85,6 +85,8 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 		$select_inputs   = $this->get_select_inputs();
 		$password_inputs = $this->get_password_inputs();
 		$descriptions    = $this->get_input_descriptions();
+		$optional_inputs = $this->get_optional_inputs();
+		$placeholders    = $this->get_input_placeholders();
 		$inputs          = array();
 		$checkboxes      = array();
 
@@ -92,10 +94,14 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 
 		foreach ( $string_settings as $field_name => $field_label ) {
 			$input = array(
-				'label' => $field_label,
-				'name'  => $field_name,
-				'type'  => 'text',
-				'value' => string( $this->validated_fields, $field_name ),
+				'is_optional' => in_array( $field_name, $optional_inputs, true ),
+				'label'       => $field_label,
+				'name'        => $field_name,
+				'placeholder' => key_exists( $field_name, $placeholders ) ?
+					$placeholders[ $field_name ] :
+					$field_label,
+				'type'        => 'text',
+				'value'       => string( $this->validated_fields, $field_name ),
 			);
 
 			if ( key_exists( $field_name, $descriptions ) ) {
@@ -189,6 +195,20 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 	 * @return string[]
 	 */
 	protected function get_password_inputs(): array {
+		return array();
+	}
+
+	/**
+	 * @return string[] text inputs that may be left empty
+	 */
+	protected function get_optional_inputs(): array {
+		return array();
+	}
+
+	/**
+	 * @return array<string,string> fieldName => placeholder, the label is used when missing
+	 */
+	protected function get_input_placeholders(): array {
 		return array();
 	}
 

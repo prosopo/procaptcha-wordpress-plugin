@@ -20,10 +20,11 @@
             @switch(string($input, 'type'))
                 @case('text')
                 @case('password')
-                    <input name="{{ string($input, 'name') }}" type="{{ string($input, 'type') }}" required
+                    <input name="{{ string($input, 'name') }}" type="{{ string($input, 'type') }}"
+                           @if (! bool($input, 'is_optional')) required @endif
                            class="bg-white w-64 py-1.5 px-3 border border-solid border-gray rounded transition shadow-none outline-none
                            focus:border-blue focus:ring-2 focus:ring-blue/20"
-                           placeholder="{{ string($input, 'label') }}" value="{{ string($input, 'value') }}">
+                           placeholder="{{ string($input, 'placeholder') }}" value="{{ string($input, 'value') }}">
                     @break
                 @case('select')
                     <select name="{{ string($input,'name') }}"

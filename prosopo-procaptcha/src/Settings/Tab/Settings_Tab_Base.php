@@ -233,7 +233,7 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 
 	/**
 	 * The titled cards the form is split into, and the column each one sits in.
-	 * Empty means a single untitled card with every field.
+	 * Empty means a single untitled card with every field, laid out in as many columns as fit.
 	 *
 	 * @return array<int,array{title:string,description:string,column:int,fields:string[]}>
 	 */
@@ -259,6 +259,7 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 						'description'      => '',
 						'inputs'           => $inputs,
 						'inputs_title'     => $this->get_inputs_title(),
+						'is_spread'        => true,
 						'title'            => '',
 					),
 				),
@@ -294,6 +295,7 @@ abstract class Settings_Tab_Base implements Settings_Tab {
 				'description'      => $field_group['description'],
 				'inputs'           => $group_inputs,
 				'inputs_title'     => '',
+				'is_spread'        => false,
 				'title'            => $field_group['title'],
 			);
 		}

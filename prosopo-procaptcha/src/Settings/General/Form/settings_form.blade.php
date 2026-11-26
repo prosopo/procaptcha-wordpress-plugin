@@ -5,9 +5,8 @@
 
 <form id="prosopo-procaptcha-settings-form" action="" method="post" autocomplete="off"
         @class([
-            'grid gap-6 items-start min-w-0',
-            'w-full 2xl:grid-cols-2' => count($columns) > 1,
-            'w-[37rem] max-w-full' => 1 === count($columns),
+            'w-full grid gap-6 items-start min-w-0',
+            '2xl:grid-cols-2' => count($columns) > 1,
         ])>
     <input type="hidden" name="_wpnonce" value="{{ $nonce }}">
     <input type="hidden" name="{{ Settings_Page::TAB_NAME }}" value="{{ $tab_name }}">
@@ -30,6 +29,11 @@
                         <p class="m-0">{{ string($group, 'inputs_title') }}</p>
                     @endif
 
+                    @if (bool($group, 'is_spread'))
+                        <div class="grid gap-x-12 gap-y-5 grid-cols-[repeat(auto-fill,minmax(min(100%,30rem),1fr))]">
+                    @else
+                        <div class="flex flex-col gap-5">
+                    @endif
                     @foreach (arr($group, 'inputs') as $input)
                         <div class="grid grid-cols-[9rem_minmax(0,1fr)] 3xl:grid-cols-[11rem_minmax(0,1fr)] gap-x-4 gap-y-1.5 items-center">
                             <label for="prosopo-procaptcha-field-{{ string($input, 'name') }}" class="text-sm">
@@ -84,11 +88,17 @@
                             @endif
                         </div>
                     @endforeach
+                    </div>
 
                     @if ('' !== string($group, 'checkboxes_title'))
                         <p class="m-0 font-bold text-sm">{{ string($group, 'checkboxes_title') }}</p>
                     @endif
 
+                    @if (bool($group, 'is_spread'))
+                        <div class="grid gap-x-12 gap-y-5 grid-cols-[repeat(auto-fill,minmax(min(100%,22rem),1fr))]">
+                    @else
+                        <div class="flex flex-col gap-5">
+                    @endif
                     @foreach (arr($group, 'checkboxes') as $checkbox)
                         <label class="flex items-center justify-between gap-5">
                             <span class="text-sm">{{ string($checkbox, 'label') }}</span>
@@ -102,6 +112,7 @@
                             </div>
                         </label>
                     @endforeach
+                    </div>
                 </section>
             @endforeach
         </div>

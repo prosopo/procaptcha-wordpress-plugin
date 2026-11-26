@@ -1,4 +1,4 @@
-<div class="grid gap-6 items-start xl:grid-cols-[minmax(0,37rem)_22rem] 2xl:grid-cols-[minmax(0,75rem)_22rem] 3xl:grid-cols-[minmax(0,108rem)_26rem]">
+<div class="w-full grid gap-6 items-start xl:grid-cols-[minmax(0,1fr)_22rem] 3xl:grid-cols-[minmax(0,1fr)_26rem]">
 {!! $form !!}
 
 <general-procaptcha-settings class="flex flex-col gap-5 min-w-0 xl:sticky xl:top-28">

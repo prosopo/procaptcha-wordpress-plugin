@@ -37,35 +37,38 @@
                 </nav>
             </div>
 
-            <ul class="flex leading-none mt-0 mb-5 -mx-5 bg-white border-0 border-b border-solid border-gray-light">
-                @foreach ($tabs as $tab)
-                    <li class="m-0">
-                        <a href="{{ string($tab, 'url') }}"
-                                @class([
-                                    'block font-medium tracking-wide py-5 px-8 no-underline border-0 border-b-2 border-solid transition hover:text-blue-dark focus:shadow-none',
-                                    'text-navy border-pink' => bool($tab, 'is_active'),
-                                    'text-blue border-transparent'=> false === bool($tab, 'is_active'),
-                                ])>
-                            {{ string($tab, 'title') }}
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+            {{-- The page's actions share the tab bar, which stays in view while the form scrolls. --}}
+            <div class="sticky top-8 z-10 flex flex-wrap items-center gap-x-5 -mx-5 pr-5 mb-7 bg-white border-0 border-b border-solid border-gray-light">
+                <ul class="flex leading-none m-0">
+                    @foreach ($tabs as $tab)
+                        <li class="m-0">
+                            <a href="{{ string($tab, 'url') }}"
+                                    @class([
+                                        'block font-medium tracking-wide py-5 px-8 no-underline border-0 border-b-2 border-solid transition hover:text-blue-dark focus:shadow-none',
+                                        'text-navy border-pink' => bool($tab, 'is_active'),
+                                        'text-blue border-transparent'=> false === bool($tab, 'is_active'),
+                                    ])>
+                                {{ string($tab, 'title') }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
 
-            {{-- Sized to the tab's content, so the bar and its Save button line up with what they save. --}}
-            <div class="w-fit max-w-full">
-                <div class="sticky top-8 z-10 flex items-center justify-end gap-5 min-h-16 py-3 mb-7
-                border-0 border-b border-solid border-gray-light bg-[#f0f0f1]">
+                <div class="ml-auto flex items-center gap-4 py-2">
                     @if ($is_just_saved)
-                        <p class="m-0 mr-auto flex items-center gap-1.5 text-success-dark font-medium" data-settings-saved>
+                        <p class="m-0 flex items-center gap-1.5 text-success-dark font-medium" data-settings-saved>
                             <span class="icon-[material-symbols--check-circle-outline] w-5 h-5 shrink-0"></span>
                             {{ __( 'Settings saved.', 'prosopo-procaptcha' ) }}
                         </p>
                     @endif
 
-                    <p class="m-0 mr-auto flex items-center gap-1.5 text-warning-dark font-medium" data-settings-unsaved hidden>
+                    <p class="m-0 flex items-center gap-1.5 text-warning-dark font-medium" data-settings-unsaved hidden
+                       title="{{ __( 'Unsaved changes. Save to apply them to your site.', 'prosopo-procaptcha' ) }}">
                         <span class="icon-[material-symbols--edit-outline] w-5 h-5 shrink-0"></span>
-                        {{ __( 'Unsaved changes. They take effect on your site once you save.', 'prosopo-procaptcha' ) }}
+                        <span>
+                            {{ __( 'Unsaved changes.', 'prosopo-procaptcha' ) }}
+                            <span class="hidden 2xl:inline">{{ __( 'Save to apply them to your site.', 'prosopo-procaptcha' ) }}</span>
+                        </span>
                     </p>
 
                     @if ($has_form)
@@ -76,10 +79,10 @@
                                value="{{ __('Save changes','prosopo-procaptcha') }}">
                     @endif
                 </div>
+            </div>
 
-                <div class="flex gap-12">
-                    {!! $tab_content !!}
-                </div>
+            <div class="flex gap-12">
+                {!! $tab_content !!}
             </div>
         </div>
     </template>
